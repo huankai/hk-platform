@@ -1,0 +1,24 @@
+server:
+  port: 8771
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: hk-gateway-zuul
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://192.168.1.76:8761/eureka
+zuul:
+  routes:
+    hk-emi:
+      path: /emi/**
+
+    hk-pms:
+      path: /pms/**
+
+
