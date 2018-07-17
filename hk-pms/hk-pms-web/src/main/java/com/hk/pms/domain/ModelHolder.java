@@ -42,7 +42,7 @@ public class ModelHolder {
         private String orgIcon;
 
         @Column(name = "responsible_id")
-        private SysUser responsibleId;
+        private String responsibleId;
     }
 
     @Data

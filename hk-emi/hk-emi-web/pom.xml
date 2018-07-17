@@ -16,6 +16,10 @@
 
         <dependency>
             <groupId>com.hk</groupId>
+            <artifactId>hk-commons-poi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
             <artifactId>hk-core-data-jpa</artifactId>
         </dependency>
         <dependency>
@@ -25,6 +29,19 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <dependency>
@@ -49,10 +66,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-commons-poi</artifactId>
         </dependency>
     </dependencies>
 
