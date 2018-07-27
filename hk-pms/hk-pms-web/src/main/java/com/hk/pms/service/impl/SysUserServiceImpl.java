@@ -2,13 +2,15 @@ package com.hk.pms.service.impl;
 
 
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysUser;
 import com.hk.pms.repository.SysUserRepository;
 import com.hk.pms.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author: kevin
@@ -30,12 +32,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
      * @return
      */
     @Override
-    protected BaseDao<SysUser, String> getBaseDao() {
+    protected BaseRepository<SysUser, String> getBaseRepository() {
         return sysUserRepository;
     }
 
     @Override
-    public SysUser findByLoginUsername(String username) {
+    public Optional<SysUser> findByLoginUsername(String username) {
         return sysUserRepository.findByUserName(username);
     }
 

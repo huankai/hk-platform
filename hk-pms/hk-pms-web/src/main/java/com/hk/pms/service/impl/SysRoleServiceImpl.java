@@ -2,7 +2,7 @@ package com.hk.pms.service.impl;
 
 
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysRole;
 import com.hk.pms.repository.SysRoleRepository;
@@ -42,7 +42,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole, String> impleme
      * @return
      */
     @Override
-    protected BaseDao<SysRole, String> getBaseDao() {
+    protected BaseRepository<SysRole, String> getBaseRepository() {
         return sysRoleRepository;
     }
 

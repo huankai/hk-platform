@@ -1,7 +1,7 @@
 package com.hk.emi.service.impl;
 
 
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.emi.domain.BaseCode;
 import com.hk.emi.repository.BaseCodeRepostory;
@@ -26,7 +26,7 @@ public class BaseCodeServiceImpl extends BaseServiceImpl<BaseCode, String> imple
     }
 
     @Override
-    protected BaseDao<BaseCode, String> getBaseDao() {
+    protected BaseRepository<BaseCode, String> getBaseRepository() {
         return baseCodeRepostory;
     }
 }

@@ -16,6 +16,7 @@ public class UserController extends BaseController {
 
     @RequestMapping(path = "/user")
     public UserPrincipal getUserPrincipal() {
-        return getPrincipal();
+//        return getPrincipal();
+        return null;
     }
 }

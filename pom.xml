@@ -7,6 +7,12 @@
     <version>2.0.0.RELEASE</version>
     <packaging>pom</packaging>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
+
     <modules>
         <module>hk-sso</module>
         <module>hk-gateway-zuul</module>
@@ -27,4 +33,54 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <!-- 注意体会插件配置的顺序，这正体现了一个maven的运行流程 -->
+            <plugins>
+                <!-- Maven Clean Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <configuration>
+                        <skip>false</skip> <!-- 忽略clean [mvn clean -Dmaven.clean.skip=true] -->
+                        <failOnError>false</failOnError> <!-- clean时忽略错误 [mvn clean -Dmaven.clean.failOnError=false] -->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>auto-clean</id>
+                            <phase>clean</phase> <!-- clean生命周期clean阶段 -->
+                            <goals>
+                                <goal>clean</goal> <!-- 执行clean插件的clean目标 -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- compiler插件, 设定JDK版本 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.5.1</version>
+                    <configuration>
+                        <source>${java.version}</source> <!-- 源代码使用的jdk版本 -->
+                        <target>${java.version}</target> <!-- 构建后生成class文件jdk版本 -->
+                        <encoding>${project.build.sourceEncoding}</encoding> <!-- 构建使用的编码 -->
+                    </configuration>
+                </plugin>
+
+                <!-- 运行Maven 单元测试 -->
+                <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.20.1</version> </plugin> -->
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.0.2</version>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

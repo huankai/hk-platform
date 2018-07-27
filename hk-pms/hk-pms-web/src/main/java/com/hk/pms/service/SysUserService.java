@@ -1,9 +1,11 @@
 package com.hk.pms.service;
 
 
-import com.hk.commons.util.AssertUtils;
+import com.hk.core.exception.ServiceException;
 import com.hk.core.service.BaseService;
 import com.hk.pms.domain.SysUser;
+
+import java.util.Optional;
 
 /**
  * @author: kevin
@@ -17,7 +19,7 @@ public interface SysUserService extends BaseService<SysUser, String> {
      * @param username 用户名
      * @return
      */
-    SysUser findByLoginUsername(String username);
+    Optional<SysUser> findByLoginUsername(String username);
 
     /**
      * 判断用户名是否存在
@@ -25,7 +27,7 @@ public interface SysUserService extends BaseService<SysUser, String> {
      * @param username 登陆用户名
      */
     default void existsByLoginUsername(String username) {
-        AssertUtils.isTrue(findByLoginUsername(username) == null, "username [" + username + "] is exists");
+        findByLoginUsername(username).orElseThrow(() -> new ServiceException("username [" + username + "] is exists"));
     }
 
     /**

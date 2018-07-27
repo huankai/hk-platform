@@ -13,7 +13,6 @@
     </parent>
 
     <dependencies>
-
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-commons-poi</artifactId>
@@ -22,10 +21,21 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-core-data-jpa</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-authentication-security</artifactId>
+        </dependency>
+        
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-web</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -57,6 +67,21 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-oauth2</artifactId>
+        </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.cloud</groupId>-->
+        <!--<artifactId>spring-cloud-starter-consul-discovery</artifactId>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>

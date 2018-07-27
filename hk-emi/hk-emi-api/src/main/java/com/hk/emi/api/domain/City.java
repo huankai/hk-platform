@@ -29,11 +29,6 @@ public class City implements Serializable {
     private Byte cityType;
 
     /**
-     * 类型中文
-     */
-    private String cityTypeChinease;
-
-    /**
      * 全称
      */
     private String fullName;

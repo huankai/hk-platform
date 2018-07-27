@@ -11,10 +11,10 @@ spring:
     generate-ddl: false
     properties:
       hibernate:
-      #        hbm2ddl:
-      #         auto: upload
-         enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
-         dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+      # hbm2ddl:
+      # auto: upload
+        enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
 
   datasource:
     name: druid
@@ -40,32 +40,50 @@ spring:
       - stat
       - wall
       - log4j2
+#################################################################### consul
+#  cloud:
+#    consul:
+#      port: 8500
+#      host: 192.168.64.128
+#      discovery:
+#        service-name: ${spring.application.name}
+
+#################################################################### redis
+  redis:
+#    password: 1234567
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 0ms
+    jedis:
+      pool:
+        max-wait: -1ms
+        max-idle: 100
+        max-active: 1000
+        min-idle: 100
+  cache:
+    type: redis
 #      connect-properties:
 #        druid.stat.mergeSql: true
 #        druid.stat.slowSqlMillis: 5000
 
-################################################################### redis
-redis:
-  host: 192.168.64.128
-  port: 6379
-  pool:
-    max-active: 1000
-    max-idle: 100
-    min-idle: 1
-    max-wait: -1
-  database: 0
-  password: 1234567
-  timeout: 0
-cache:
-  type: redis
 
-################################################################### eureka
+#################################################################### eureka
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+
+
+################################################################### oauth2
+security:
+  oauth2:
+    resource:
+      id: ${spring.application.name}
+      user-info-uri: http://127.0.0.1:8080/auth/user
+      prefer-token-info: false
 
 ################################################################### logging
 logging:

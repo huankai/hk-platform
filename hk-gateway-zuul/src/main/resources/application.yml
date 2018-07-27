@@ -26,18 +26,18 @@ zuul:
       sensitiveHeaders: "*"
 
     hk-sso-server:
-      path: /sso/**
+      path: /oauth/**
       sensitiveHeaders: "*"
 
-security:
-  oauth2:
-    client:
-      access-token-uri: http://127.0.0.1:${server.port}/sso/oauth/token
-      user-authorization-uri: http://127.0.0.1:${server.port}/sso/oauth/authorize
-      client-id: browser
-    resource:
-      user-info-uri: http://127.0.0.1:${server.port}/sso/user
-      prefer-token-info: false
+#security:
+#  oauth2:
+#    client:
+#      access-token-uri: http://127.0.0.1:${server.port}/sso/oauth/token
+#      user-authorization-uri: http://127.0.0.1:${server.port}/sso/oauth/authorize
+#      client-id: browser
+#    resource:
+#      user-info-uri: http://127.0.0.1:${server.port}/sso/user
+#      prefer-token-info: false
 
 logging:
   level:

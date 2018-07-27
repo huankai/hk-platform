@@ -1,7 +1,7 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysDeptRole;
 import com.hk.pms.repository.SysDeptRoleRepository;
@@ -29,7 +29,7 @@ public class SysDeptRoleServiceImpl extends BaseServiceImpl<SysDeptRole, String>
      * @return
      */
     @Override
-    protected BaseDao<SysDeptRole, String> getBaseDao() {
+    protected BaseRepository<SysDeptRole, String> getBaseRepository() {
         return sysDeptRoleRepository;
     }
 

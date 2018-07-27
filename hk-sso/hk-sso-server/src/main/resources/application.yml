@@ -43,7 +43,7 @@ spring:
 #      connect-properties:
 #        druid.stat.mergeSql: true
   redis:
-    host: 192.168.64.128
+    host: 192.168.1.76
     port: 6379
     jedis:
       pool:
@@ -52,7 +52,7 @@ spring:
         min-idle: 1
         max-wait: 0ms
     database: 0
-    password: 1234567
+#    password: 1234567
     timeout: 0ms
   cache:
     type: redis
@@ -64,7 +64,9 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka
 logging:
   level:
+    root: debug
     org.springframework.web: debug
+
 
 
 

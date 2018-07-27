@@ -4,10 +4,14 @@ import com.hk.commons.util.ByteConstants;
 import com.hk.core.data.jpa.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 
 /**
@@ -26,10 +30,13 @@ public class City extends AbstractAuditable {
      * 行政代码
      */
     @Column(name = "code")
+    @NotBlank(message = "")
+    @Length(max = 20, message = "")
     private String code;
 
 
     @Column(name = "parent_id")
+    @NotBlank(message = "")
     private String parentId;
 
     /**
@@ -46,6 +53,8 @@ public class City extends AbstractAuditable {
      * @see CityType
      */
     @Column(name = "city_type")
+    @NotNull
+    @Range(max = 6)
     private Byte cityType;
 
     /**

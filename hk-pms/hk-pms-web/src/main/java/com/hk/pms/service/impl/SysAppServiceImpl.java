@@ -4,7 +4,7 @@ package com.hk.pms.service.impl;
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
 import com.hk.core.cache.service.EnableCacheServiceImpl;
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.repository.SysAppRepository;
 import com.hk.pms.service.SysAppService;
@@ -28,7 +28,7 @@ public class SysAppServiceImpl extends EnableCacheServiceImpl<SysApp, String> im
     }
 
     @Override
-    protected BaseDao<SysApp, String> getBaseDao() {
+    protected BaseRepository<SysApp, String> getBaseRepository() {
         return sysAppRepository;
     }
 
@@ -57,7 +57,7 @@ public class SysAppServiceImpl extends EnableCacheServiceImpl<SysApp, String> im
     private void updateStatus(String appId, Byte status) {
         findOne(appId).ifPresent(app -> {
             app.setAppStatus(status);
-            getCurrentProxy().insertOrUpdate(app);
+            getCurrentProxy().updateById(app);
         });
     }
 }

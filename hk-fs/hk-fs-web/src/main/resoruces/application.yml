@@ -13,3 +13,14 @@ eureka:
   client:
     service-url:
       defaultZone: http://192.168.1.76:8761/eureka
+security:
+  oauth2:
+    client:
+      client-id: fs
+      client-secret: fs
+      user-authorization-uri: http://localhost:3000/oauth/authorize
+      access-token-uri: http://localhost:3000/oauth/token
+      scope: server
+    resource:
+      jwt:
+        key-uri: http://localhost:3000/oauth/token_key

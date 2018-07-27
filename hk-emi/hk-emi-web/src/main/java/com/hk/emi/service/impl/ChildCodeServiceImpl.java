@@ -1,9 +1,8 @@
 package com.hk.emi.service.impl;
 
 
-import com.google.common.collect.Lists;
 import com.hk.commons.util.ArrayUtils;
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.emi.domain.ChildCode;
 import com.hk.emi.repository.ChildCodeRepostory;
@@ -29,7 +28,7 @@ public class ChildCodeServiceImpl extends BaseServiceImpl<ChildCode, String> imp
     }
 
     @Override
-    protected BaseDao<ChildCode, String> getBaseDao() {
+    protected BaseRepository<ChildCode, String> getBaseRepository() {
         return childCodeRepostory;
     }
 
@@ -42,9 +41,12 @@ public class ChildCodeServiceImpl extends BaseServiceImpl<ChildCode, String> imp
      */
     @Override
     public List<ChildCode> findByBaseCodeIngoreChildCodes(String baseCodeId, String... ingoreChildCodes) {
-        List<ChildCode> childCodeList = Lists.newArrayList();
+        List<ChildCode> childCodeList = childCodeRepostory.findByBaseCodeIdOrderByChildCodeAsc(baseCodeId);
         if (ArrayUtils.isNotEmpty(ingoreChildCodes)) {
-            childCodeList = childCodeList.stream().filter(item -> ArrayUtils.noContains(ingoreChildCodes, item)).collect(Collectors.toList());
+            childCodeList = childCodeList
+                    .stream()
+                    .filter(item -> ArrayUtils.noContains(ingoreChildCodes, item))
+                    .collect(Collectors.toList());
         }
         return childCodeList;
     }

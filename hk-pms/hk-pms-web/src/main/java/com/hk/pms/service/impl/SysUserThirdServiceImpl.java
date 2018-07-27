@@ -1,7 +1,7 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysUserThird;
 import com.hk.pms.repository.SysUserThirdRepository;
@@ -29,7 +29,7 @@ public class SysUserThirdServiceImpl extends BaseServiceImpl<SysUserThird, Strin
      * @return
      */
     @Override
-    protected BaseDao<SysUserThird, String> getBaseDao() {
+    protected BaseRepository<SysUserThird, String> getBaseRepository() {
         return sysUserThirdRepository;
     }
 }

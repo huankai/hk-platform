@@ -1,6 +1,5 @@
 package com.hk.sso.server.endpoint;
 
-import com.hk.core.web.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.oauth2.provider.endpoint.FrameworkEndpoint;
@@ -22,9 +21,9 @@ public class RevokeTokenEndpoint {
 
     @DeleteMapping("/oauth/token")
     @ResponseBody
-    public JsonResult revokeToken(@RequestParam("access_token") String access_token) {
+    public String revokeToken(@RequestParam("access_token") String access_token) {
         boolean revokeToken = consumerTokenServices.revokeToken(access_token);
         String message = revokeToken ? "注销成功" : "注销失败";
-        return new JsonResult(revokeToken, message);
+        return message;
     }
 }

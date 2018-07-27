@@ -1,7 +1,7 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysPermission;
 import com.hk.pms.repository.SysPermissionRepository;
@@ -39,7 +39,7 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission, Str
      * @return
      */
     @Override
-    protected BaseDao<SysPermission, String> getBaseDao() {
+    protected BaseRepository<SysPermission, String> getBaseRepository() {
         return sysPermissionRepository;
     }
 

@@ -8,7 +8,7 @@ import com.hk.commons.poi.excel.read.SimpleSaxReadExcel;
 import com.hk.commons.util.BeanUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.cache.service.EnableCacheServiceImpl;
-import com.hk.core.data.commons.dao.BaseDao;
+import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.emi.domain.City;
 import com.hk.emi.repository.CityRepository;
 import com.hk.emi.service.CityService;
@@ -39,7 +39,7 @@ public class CityServiceImpl extends EnableCacheServiceImpl<City, String> implem
     }
 
     @Override
-    protected BaseDao<City, String> getBaseDao() {
+    protected BaseRepository<City, String> getBaseRepository() {
         return cityRepository;
     }
 
