@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hk.sso.server.mappers.SysPermissionMapper">
+
+    <select id="findByAppIdAndRoleIds" parameterType="string" resultType="com.hk.sso.server.entity.SysPermission">
+        SELECT t1.* FROM sys_permission t1 JOIN sys_role_permission t2 ON t1.id = t2.permission_id
+        <where>
+            t1.app_id = #{appId}
+            AND
+            t2.role_id IN
+            <foreach collection="roleIdSet" item="roleId" separator="," open="(" close=")">
+                #{roleId}
+            </foreach>
+        </where>
+    </select>
+</mapper>

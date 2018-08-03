@@ -42,30 +42,48 @@ spring:
       - log4j2
 #      connect-properties:
 #        druid.stat.mergeSql: true
-  redis:
-    host: 192.168.1.76
-    port: 6379
-    jedis:
-      pool:
-        max-active: 1000
-        max-idle: 100
-        min-idle: 1
-        max-wait: 0ms
-    database: 0
-#    password: 1234567
-    timeout: 0ms
-  cache:
-    type: redis
+#  redis:
+#    host: 192.168.1.76
+#    port: 6379
+#    jedis:
+#      pool:
+#        max-active: 1000
+#        max-idle: 100
+#        min-idle: 1
+#        max-wait: 0ms
+#    database: 0
+##    password: 1234567
+#    timeout: 0ms
+#  cache:
+#    type: redis
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+
+mybatis:
+  mapper-locations: classpath:mybatis/mappers/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+
+pagehelper:
+  reasonable: false
+  support-methods-arguments: true
+  params: count=countSql
+
 logging:
   level:
-    root: debug
-    org.springframework.web: debug
+    root: error
+    org.springframework.security.oauth2.provider.endpoint.FrameworkEndpointHandlerMapping: debug
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
+    org.springframework.jdbc.core.JdbcTemplate: debug
+    org.springframework.jdbc.core.StatementCreatorUtils: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: debug
+    com.hk.sso: debug
 
 
 

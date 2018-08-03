@@ -181,6 +181,9 @@ public class ModelHolder {
         @Column(name = "org_id")
         private String orgId;
 
+        @Column(name = "account")
+        private String account;
+
         @Column(name = "phone")
         private String phone;
 

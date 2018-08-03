@@ -1,16 +1,16 @@
 package com.hk.pms.service.impl;
 
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysPermission;
 import com.hk.pms.repository.SysPermissionRepository;
 import com.hk.pms.service.SysPermissionService;
-import com.hk.pms.service.SysRoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author: kevin
@@ -21,16 +21,9 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission, Str
 
     private final SysPermissionRepository sysPermissionRepository;
 
-    private SysRoleService roleService;
-
     @Autowired
     public SysPermissionServiceImpl(SysPermissionRepository sysPermissionRepository) {
         this.sysPermissionRepository = sysPermissionRepository;
-    }
-
-    @Autowired
-    public void setRoleService(SysRoleService roleService) {
-        this.roleService = roleService;
     }
 
     /**

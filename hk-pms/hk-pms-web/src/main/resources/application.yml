@@ -2,6 +2,9 @@ server:
   port: 8773
   servlet:
     context-path: /
+    session:
+      cookie:
+        name: UISESSION
 
 spring:
   messages:
@@ -49,20 +52,20 @@ spring:
 #        druid.stat.slowSqlMillis: 5000
 
 ################################################################### redis
-  redis:
-    host: 192.168.64.128
-    port: 6379
-    database: 0
-    password: 1234567
-    timeout: 0ms
-    jedis:
-      pool:
-        max-active: 1000
-        max-idle: 100
-        min-idle: 1
-        max-wait: -1ms
-  cache:
-    type: redis
+#  redis:
+#    host: 192.168.64.128
+#    port: 6379
+#    database: 0
+#    password: 1234567
+#    timeout: 0ms
+#    jedis:
+#      pool:
+#        max-active: 1000
+#        max-idle: 100
+#        min-idle: 1
+#        max-wait: -1ms
+#  cache:
+#    type: redis
 
 
 ################################################################### eureka
@@ -76,13 +79,25 @@ eureka:
 ################################################################### logging
 logging:
   level:
-    root: debug
+    root: error
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
     org.springframework.jdbc.core.StatementCreatorUtils: debug
     org.hibernate.SQL: debug
+    org.springframework: debug
     org.hibernate.type.descriptor.sql.BasicBinder: debug
     com.hk.pms: debug
+security:
+  oauth2:
+    client:
+      client-id: 4028c08162b9340f0162b93427c40000
+      client-secret: 4028c08162b9340f0162b93427c40000
+      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
+      access-token-uri: http://127.0.0.1:8080/oauth/token
+    resource:
+      jwt:
+        key-uri: http://127.0.0.1:8080/oauth/token_key
+
 
 
 

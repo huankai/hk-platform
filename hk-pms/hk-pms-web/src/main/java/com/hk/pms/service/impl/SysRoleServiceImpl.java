@@ -1,18 +1,18 @@
 package com.hk.pms.service.impl;
 
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.stereotype.Service;
+
 import com.hk.commons.util.ByteConstants;
 import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysRole;
 import com.hk.pms.repository.SysRoleRepository;
 import com.hk.pms.service.SysRoleService;
-import com.hk.pms.service.SysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author: kevin
@@ -23,13 +23,6 @@ import java.util.List;
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRole, String> implements SysRoleService {
 
     private final SysRoleRepository sysRoleRepository;
-
-    private SysUserService userService;
-
-    @Autowired
-    public void setUserService(SysUserService userService) {
-        this.userService = userService;
-    }
 
     @Autowired
     public SysRoleServiceImpl(SysRoleRepository sysRoleRepository) {

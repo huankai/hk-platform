@@ -1,8 +1,11 @@
 package com.hk.pms.service.impl;
 
 
+import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
+import com.hk.commons.util.StringUtils;
 import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.exception.ServiceException;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysUser;
 import com.hk.pms.repository.SysUserRepository;
@@ -38,7 +41,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
 
     @Override
     public Optional<SysUser> findByLoginUsername(String username) {
-        return sysUserRepository.findByUserName(username);
+        Optional<SysUser> optionalUser = sysUserRepository.findByAccount(username);
+        if (!optionalUser.isPresent()) {
+            optionalUser = sysUserRepository.findByPhone(username);
+            if (!optionalUser.isPresent()) {
+                optionalUser = sysUserRepository.findByEmail(username);
+            }
+        }
+        return optionalUser;
     }
 
     @Override
@@ -60,13 +70,49 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
 
     @Override
     protected SysUser saveBefore(SysUser entity) {
-        if (null == entity.getUserStatus()) {
-            entity.setUserStatus(ByteConstants.ONE);
-        }
-        if (null == entity.getIsProtect()) {
+        AssertUtils.notNull(entity.getUserType(), "用户类型不能为空！");
+        if (entity.getIsProtect() == null) {
             entity.setIsProtect(Boolean.FALSE);
         }
-        return super.saveBefore(entity);
+        Optional<SysUser> optionalUser = sysUserRepository.findByAccount(entity.getAccount());
+        if (optionalUser.isPresent()) {
+            if (ByteConstants.ONE.equals(entity.getUserStatus())) {
+                throw new ServiceException("用户账号已注册:" + entity.getAccount());
+            } else {
+                SysUser sysUser = optionalUser.get();
+                entity.setId(sysUser.getId());
+                entity.setUserStatus(ByteConstants.ONE);
+                return entity;
+            }
+
+        }
+        if (StringUtils.isNotEmpty(entity.getPhone())) {
+            optionalUser = sysUserRepository.findByPhone(entity.getPhone());
+            if (optionalUser.isPresent()) {
+                if (ByteConstants.ONE.equals(entity.getUserStatus())) {
+                    throw new ServiceException("手机号已注册:" + entity.getPhone());
+                } else {
+                    SysUser sysUser = optionalUser.get();
+                    entity.setId(sysUser.getId());
+                    entity.setUserStatus(ByteConstants.ONE);
+                    return entity;
+                }
+            }
+        }
+        if (StringUtils.isNotEmpty(entity.getEmail())) {
+            optionalUser = sysUserRepository.findByEmail(entity.getEmail());
+            if (optionalUser.isPresent()) {
+                if (ByteConstants.ONE.equals(entity.getUserStatus())) {
+                    throw new ServiceException("邮箱号已注册:" + entity.getEmail());
+                } else {
+                    SysUser sysUser = optionalUser.get();
+                    entity.setId(sysUser.getId());
+                    entity.setUserStatus(ByteConstants.ONE);
+                    return entity;
+                }
+            }
+        }
+        return entity;
     }
 
 }

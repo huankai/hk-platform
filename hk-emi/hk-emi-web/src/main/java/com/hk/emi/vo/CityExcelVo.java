@@ -1,15 +1,18 @@
 package com.hk.emi.vo;
 
-import com.hk.commons.poi.excel.annotations.ReadExcel;
-import com.hk.commons.poi.excel.annotations.WriteExcel;
-import com.hk.commons.util.StringUtils;
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
+import java.io.Serializable;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
+import com.hk.commons.poi.excel.annotations.ReadExcel;
+import com.hk.commons.poi.excel.annotations.WriteExcel;
+import com.hk.commons.util.StringUtils;
+
+import lombok.Data;
 
 /**
  * 城市导入Vo
@@ -18,6 +21,7 @@ import java.io.Serializable;
  * @date 2018-04-13 16:34
  */
 @Data
+@SuppressWarnings("serial")
 public class CityExcelVo implements Serializable {
 
     /**

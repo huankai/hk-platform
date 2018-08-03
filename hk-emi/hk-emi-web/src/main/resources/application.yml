@@ -2,6 +2,9 @@ server:
   port: 8772
   servlet:
     context-path: /
+    session:
+      cookie:
+        name: UISESSION
 
 spring:
   application:
@@ -36,7 +39,7 @@ spring:
       test-on-return: false
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
-      filter-class-names:
+      filters:
       - stat
       - wall
       - log4j2
@@ -80,10 +83,14 @@ eureka:
 ################################################################### oauth2
 security:
   oauth2:
+    client:
+      client-id: 4028c0816371a097016371a38d5a0000
+      client-secret: 4028c0816371a097016371a38d5a0000
+      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
+      access-token-uri: http://127.0.0.1:8080/oauth/token
     resource:
-      id: ${spring.application.name}
-      user-info-uri: http://127.0.0.1:8080/auth/user
-      prefer-token-info: false
+      jwt:
+        key-uri: http://127.0.0.1:8080/oauth/token_key
 
 ################################################################### logging
 logging:
