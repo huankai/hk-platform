@@ -1,10 +1,10 @@
 package com.hk.pms.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author: kevin
@@ -14,5 +14,6 @@ import javax.persistence.Table;
 @Table(name = "sys_org")
 @Data
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("serial")
 public class SysOrg extends ModelHolder.SysOrgBase {
 }

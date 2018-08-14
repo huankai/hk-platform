@@ -19,5 +19,4 @@ public class SSOServerApplication {
         SpringApplication.run(SSOServerApplication.class, args);
     }
 
-
 }

@@ -1,0 +1,105 @@
+server:
+  port: 8776
+  servlet:
+    context-path: /
+
+spring:
+  messages:
+    basename: org/springframework/security/messages,com/hk/core/i18n/messages,messages
+    encoding: utf-8
+    cache-duration: -1ms
+  application:
+    name: hk-app
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+      #        hbm2ddl:
+      #         auto: upload
+         enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+         dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+
+  datasource:
+    name: druid
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    username: root
+    password: root
+    druid:
+      initial-size: 1
+      min-idle: 1
+      max-active: 20
+      max-wait: 6000
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x' FROM DUAL
+      test-on-borrow: true
+      test-while-idle: true
+      test-on-return: false
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      filters:
+      - stat
+      - wall
+      - log4j2
+#      connect-properties:
+#        druid.stat.mergeSql: true
+#        druid.stat.slowSqlMillis: 5000
+
+################################################################### redis
+#  redis:
+#    host: 192.168.64.128
+#    port: 6379
+#    database: 0
+#    password: 1234567
+#    timeout: 0ms
+#    jedis:
+#      pool:
+#        max-active: 1000
+#        max-idle: 100
+#        min-idle: 1
+#        max-wait: -1ms
+#  cache:
+#    type: redis
+
+
+################################################################### eureka
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+################################################################### logging
+logging:
+  level:
+    root: error
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
+    org.springframework.jdbc.core.JdbcTemplate: debug
+    org.springframework.jdbc.core.StatementCreatorUtils: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: debug
+    com.hk.pms: debug
+security:
+  oauth2:
+    client:
+      client-id: 4028c08162b9340f0162b93427c40000
+      client-secret: 4028c08162b9340f0162b93427c40000
+      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
+      access-token-uri: http://127.0.0.1:8080/oauth/token
+    resource:
+      jwt:
+        key-uri: http://127.0.0.1:8080/oauth/token_key
+
+
+
+
+
+
+
+
+
+

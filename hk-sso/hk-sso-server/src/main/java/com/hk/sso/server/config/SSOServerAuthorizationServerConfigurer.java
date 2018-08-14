@@ -1,18 +1,21 @@
 package com.hk.sso.server.config;
 
 import com.hk.sso.server.enhancer.SSOJwtTokenEnhancer;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
-import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -26,38 +29,52 @@ import java.util.List;
 /**
  * @author: kevin
  * @date 2018-07-16 10:53
+ * @see org.springframework.boot.autoconfigure.security.oauth2.authserver.OAuth2AuthorizationServerConfiguration
  */
 @Configuration
 @EnableAuthorizationServer
+@EnableConfigurationProperties(AuthorizationServerProperties.class)
 public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
+
+    private AuthorizationServerProperties authorizationServerProperties;
 
     /**
      * 认证管理器
      */
-    @Autowired
     private AuthenticationManager authenticationManager;
 
-//    /**
-//     * redis 连接
-//     */
-//    @Autowired
-//    private RedisConnectionFactory connectionFactory;
-
-//
-//    /**
-//     * redis token 存储
-//     *
-//     * @return
-//     */
-//    @Bean
-//    @ConditionalOnMissingBean(TokenStore.class)
-//    public TokenStore tokenStore() {
-//        return new RedisTokenStore(connectionFactory);
-//    }
-//
-//
-    @Autowired
     private DataSource dataSource;
+
+    private PasswordEncoder passwordEncoder;
+
+    public SSOServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
+                                                  ObjectProvider<AuthenticationManager> authenticationManager,
+                                                  DataSource dataSource, PasswordEncoder passwordEncoder) {
+        this.authorizationServerProperties = authorizationServerProperties;
+        this.authenticationManager = authenticationManager.getIfAvailable();
+        this.dataSource = dataSource;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    // /**
+    // * redis 连接
+    // */
+    // @Autowired
+    // private RedisConnectionFactory connectionFactory;
+
+    //
+    // /**
+    // * redis token 存储
+    // *
+    // * @return
+    // */
+    // @Bean
+    // @ConditionalOnMissingBean(TokenStore.class)
+    // public TokenStore tokenStore() {
+    // return new RedisTokenStore(connectionFactory);
+    // }
+    //
+    //
 
     /**
      * 配置Client 信息
@@ -68,28 +85,23 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.withClientDetails(new JdbcClientDetailsService(dataSource));
-//        clients.jdbc(dataSource).clients(new JdbcClientDetailsService(dataSource));
-//        clients.inMemory()
-//                .withClient("client1")
-//                .scopes("all")
-//                .secret("{noop}secretClient1")
-//                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
-//                .and()
-//                .withClient("client2")
-//                .secret("{noop}secretClient2")
-//                .scopes("all")
-//                .authorizedGrantTypes("password", "authorization_code", "refresh_token");
     }
-
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
-        security
-                .allowFormAuthenticationForClients()
-                .tokenKeyAccess("isAuthenticated()");//授权表达式,要访问tokenKey 时需要身份验证.
+        security.passwordEncoder(passwordEncoder)
+                .allowFormAuthenticationForClients();//允许客户端使用 POST : http://localhost:8080/oauth/token?grant_type=password&client_id=client2&client_secret=secretClient2&username=18820132014&password=123456 方式获取 access_token
+        if (StringUtils.isNotEmpty(authorizationServerProperties.getTokenKeyAccess())) {
+            security.tokenKeyAccess(authorizationServerProperties.getTokenKeyAccess());
+        }
+        if (StringUtils.isNotEmpty(authorizationServerProperties.getCheckTokenAccess())) {
+            security.checkTokenAccess(authorizationServerProperties.getCheckTokenAccess());
+        }
+        if (StringUtils.isNotEmpty(authorizationServerProperties.getRealm())) {
+            security.realm(authorizationServerProperties.getRealm());
+        }
     }
 
-    //
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         JwtAccessTokenConverter jwtAccessTokenConverter = accessTokenConverter();
@@ -98,33 +110,36 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
         enhancers.add(ssoJwtTokenEnhancer);
         enhancers.add(jwtAccessTokenConverter);
         tokenEnhancerChain.setTokenEnhancers(enhancers);
-        endpoints
-                .authenticationManager(authenticationManager)
+        endpoints.authenticationManager(authenticationManager)
                 .accessTokenConverter(jwtAccessTokenConverter)
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenStore(tokenStore());
     }
-
 
     /**
      * 使用JWT
      *
      * @return
      */
-    @Bean
-    @ConditionalOnMissingBean(TokenStore.class)
     public TokenStore tokenStore() {
         return new JwtTokenStore(accessTokenConverter());
     }
 
-    @Bean
-    @ConditionalOnMissingBean(AccessTokenConverter.class)
-    public JwtAccessTokenConverter accessTokenConverter() {
-        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("ssoTest"); //配置签名token
-        return jwtAccessTokenConverter;
-    }
-
     @Autowired
     private SSOJwtTokenEnhancer ssoJwtTokenEnhancer;
+
+    /**
+     * 這個Bean 一定要注解 ，
+     * 如果不注入，spring oauth 不会注入 /oauth/token_key （org.springframework.security.oauth2.provider.endpoint.TokenKeyEndpoint 这个端点）
+     *
+     * @return
+     * @see org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerEndpointsConfiguration.TokenKeyEndpointRegistrar
+     */
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+         jwtAccessTokenConverter.setSigningKey("ssoTest"); // 配置签名token,使用随机生成
+        return new JwtAccessTokenConverter();
+    }
+
 }

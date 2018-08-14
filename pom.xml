@@ -20,11 +20,12 @@
         <module>hk-pms</module>
         <module>hk-emi</module>
         <module>hk-fs</module>
+        <module>hk-app</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
+        	<dependency>
                 <groupId>com.hk</groupId>
                 <artifactId>hk-core-spring-boot-dependencies</artifactId>
                 <version>${project.version}</version>

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2018-08-03 17:53:31
+Date: 2018-08-14 16:56:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,15 +30,18 @@ CREATE TABLE `oauth_client_details` (
   `access_token_validity` int(10) DEFAULT NULL,
   `refresh_token_validity` int(10) DEFAULT NULL,
   `additional_information` varchar(255) DEFAULT NULL,
-  `autoapprove` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`client_id`)
+  `autoapprove` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`client_id`),
+  CONSTRAINT `client_id` FOREIGN KEY (`client_id`) REFERENCES `sys_app` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oauth_client_details
 -- ----------------------------
-INSERT INTO `oauth_client_details` VALUES ('4028c08162b9340f0162b93427c40000', '{noop}4028c08162b9340f0162b93427c40000', null, 'all', 'password,authorization_code,refresh_token', null, null, null, null, null, null);
-INSERT INTO `oauth_client_details` VALUES ('4028c0816371a097016371a38d5a0000', '{noop}4028c0816371a097016371a38d5a0000', null, 'all', 'password,authorization_code,refresh_token', null, null, null, null, null, null);
+INSERT INTO `oauth_client_details` VALUES ('4028c08162b9340f0162b93427c40000', '{noop}4028c08162b9340f0162b93427c40000', null, 'all', 'authorization_code,refresh_token', null, null, '7200', '604800', null, 'true');
+INSERT INTO `oauth_client_details` VALUES ('4028c0816371a097016371a38d5a0000', '{noop}4028c0816371a097016371a38d5a0000', null, 'all', 'authorization_code,refresh_token', null, null, '7200', '604800', null, 'true');
+INSERT INTO `oauth_client_details` VALUES ('4028c0816371a097016371a38d650001', '(noop)4028c0816371a097016371a38d650001', null, 'all', 'authorization_code,refresh_token', null, null, '7200', '604800', null, 'true');
+INSERT INTO `oauth_client_details` VALUES ('4028c0816371a097016371a38d650002', '{noop}4028c0816371a097016371a38d650001', null, 'all', 'password,refresh_token', null, null, '7200', '604800', null, 'true');
 
 -- ----------------------------
 -- Table structure for persistent_logins
@@ -80,11 +83,10 @@ CREATE TABLE `sys_app` (
 -- ----------------------------
 -- Records of sys_app
 -- ----------------------------
-INSERT INTO `sys_app` VALUES ('4028c08162b9340f0162b93427c40000', 'hk-pms', '权限管理系统', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-04-12 17:33:46', '4028c08162bda8ce0162bda8df6a0000', '2018-04-12 17:33:46');
-INSERT INTO `sys_app` VALUES ('4028c08162d29e1f0162d29e30a00000', 'hk-weixin-example', '微信测试系统', null, '127.0.0.1', 'b.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-04-17 16:00:05', '4028c08162bda8ce0162bda8df6a0000', '2018-04-17 16:00:05');
-INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d5a0000', 'HK_EMI', '字典管理系统', null, '127.0.0.1', 'a.png', '80', '0', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');
-INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d650001', 'Code1', 'Name1', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');
-INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d650002', 'Code2', 'Name2', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');
+INSERT INTO `sys_app` VALUES ('4028c08162b9340f0162b93427c40000', 'HK-PMS', '权限管理系统', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-04-12 17:33:46', '4028c08162bda8ce0162bda8df6a0000', '2018-04-12 17:33:46');
+INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d5a0000', 'HK_EMI', '字典管理系统', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');
+INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d650001', 'HK-FS', '文件管理系统', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');
+INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d650002', 'HK-WEICHAT-TEST', '微信公账号测试', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');
 INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d660003', 'Code3', 'Name3', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');
 INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d660004', 'Code4', 'Name4', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');
 INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d670005', 'Code5', 'Name5', null, '127.0.0.1', 'a.png', '80', '1', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34', '4028c08162bda8ce0162bda8df6a0000', '2018-05-18 13:05:34');

@@ -1,10 +1,10 @@
 package com.hk.pms.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * App Entity
@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "sys_app")
+@SuppressWarnings("serial")
 public class SysApp extends ModelHolder.SysAppBase {
 
 

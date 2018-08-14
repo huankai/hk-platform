@@ -1,13 +1,15 @@
 package com.hk.sso.server.entity;
 
-import com.hk.core.data.jpa.domain.AbstractUUIDPersistable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.time.LocalDate;
+
+import com.hk.core.data.jpa.domain.AbstractUUIDPersistable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author: kevin
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "sys_user")
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("serial")
 public class SysUser extends AbstractUUIDPersistable {
 
     @Column(name = "dept_id")

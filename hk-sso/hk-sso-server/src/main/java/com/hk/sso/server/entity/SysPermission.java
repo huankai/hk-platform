@@ -1,12 +1,13 @@
 package com.hk.sso.server.entity;
 
-import com.hk.core.data.jpa.domain.AbstractUUIDPersistable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import com.hk.core.data.jpa.domain.AbstractUUIDPersistable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author: kevin
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 @Data
 @Table(name = "sys_permission")
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("serial")
 public class SysPermission extends AbstractUUIDPersistable {
 
     @Column(name = "parent_id")

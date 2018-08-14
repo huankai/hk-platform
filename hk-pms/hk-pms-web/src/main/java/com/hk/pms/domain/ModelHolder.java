@@ -16,9 +16,10 @@ import java.time.LocalDate;
  * @author: kevin
  * @date 2018-04-12 11:25
  */
+@SuppressWarnings("serial")
 public class ModelHolder {
 
-    @Data
+	@Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
     public static class SysOrgBase extends AbstractAuditable {
@@ -209,7 +210,7 @@ public class ModelHolder {
         private String iconPath;
 
         @Column(name = "birth")
-        private LocalDate brith;
+        private LocalDate birth;
 
         @Column(name = "user_status")
         private Byte userStatus;

@@ -10,9 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @author: kevin
  * @date 2018-07-25 09:44
  */
+@Order(10)
 @Configuration
 @EnableWebSecurity
-@Order(10)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override

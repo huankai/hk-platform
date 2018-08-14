@@ -1,10 +1,10 @@
 package com.hk.pms.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author: kevin
@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "sys_dept_role")
+@SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = false)
 public class SysDeptRole extends ModelHolder.SysDeptRoleBase {
 

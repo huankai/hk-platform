@@ -4,9 +4,13 @@ server:
     context-path: /
     session:
       cookie:
-        name: UISESSION
+        name: EMSESSION
 
 spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
   application:
     name: hk-emi
   jpa:
@@ -28,21 +32,31 @@ spring:
     password: root
     druid:
       initial-size: 1
-      min-idle: 1
       max-active: 20
+      min-idle: 1
       max-wait: 6000
       time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 'x' FROM DUAL
       test-on-borrow: true
-      test-while-idle: true
       test-on-return: false
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
-      filters:
-      - stat
-      - wall
-      - log4j2
+      filters: stat,wall,log4j2
+      filter:
+        stat:
+          slow-sql-millis: 5000
+      connection-properties: druid.stat.mergeSql=true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        # 禁用HTML页面上的“Reset All”功能
+        reset-enable: false
+        allow: 127.0.0.1
+        login-username: druidAdmin
+        login-password: druidAdmin@%*
+      web-stat-filter:
+        enabled: true
+        url-pattern: /**
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
 #################################################################### consul
 #  cloud:
 #    consul:
@@ -95,9 +109,11 @@ security:
 ################################################################### logging
 logging:
   level:
-    root: info
+    root: error
+    org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
     org.springframework.jdbc.core.StatementCreatorUtils: debug
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: debug
+    com.hk: debug
