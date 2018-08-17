@@ -1,7 +1,7 @@
-package com.hk.sso.server.config;
+package com.hk.app.config;
 
-import com.hk.core.web.JsonResult;
-import com.hk.core.web.Webs;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpEntity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -11,15 +11,28 @@ import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEn
 import org.springframework.security.oauth2.provider.error.OAuth2ExceptionRenderer;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import javax.servlet.http.HttpServletResponse;
+import com.hk.core.web.JsonResult;
+import com.hk.core.web.Webs;
 
 /**
  * @author: kevin
- * @date 2018-08-13 09:25
+ * @date 2018-08-17 13:24
  */
 @Configuration
 @EnableResourceServer
 public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigurerAdapter {
-
-
+	
+	@Override
+	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+		OAuth2AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
+		authenticationEntryPoint.setExceptionRenderer(new OAuth2ExceptionRenderer() {
+			
+			@Override
+			public void handleHttpEntityResponse(HttpEntity<?> responseEntity, ServletWebRequest webRequest) throws Exception {
+				Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED, JsonResult.badRueqest("用户未认证！"));
+			}
+		});
+		resources.authenticationEntryPoint(authenticationEntryPoint);
+	}
+	
 }
