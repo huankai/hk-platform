@@ -1,15 +1,17 @@
 package com.hk.fs.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hk.commons.util.StringUtils;
+import com.hk.core.data.jpa.domain.AbstractAuditable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 文件分享
@@ -21,6 +23,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "file_share")
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("serial")
 public class FileShare extends AbstractAuditable {
 
     /**

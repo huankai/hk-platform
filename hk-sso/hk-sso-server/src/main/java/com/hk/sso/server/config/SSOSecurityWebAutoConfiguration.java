@@ -84,43 +84,17 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .loginProcessingUrl(browser.getLoginProcessingUrl())
 
                 .and()
-                .authorizeRequests().anyRequest().authenticated();
-
+                .authorizeRequests()
+                .antMatchers(browser.getLoginUrl()).permitAll() // 登陆 请求地址不需要认证可以访问，需要配置在这里
+                .anyRequest().authenticated();
 
     }
 
-
-//    @Override
-//    public void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .formLogin().loginPage(browser.getLoginUrl())
-//                .usernameParameter(browser.getUsernameParameter())
-//                .passwordParameter(browser.getPasswordParameter())
-//
-//                .and()
-//                .authorizeRequests().anyRequest().authenticated();
-////        http.csrf().disable()
-////                .formLogin()
-////                .loginPage(browser.getLoginUrl()) // 如果使用自定义登陆页面，不能禁用匿名用户，会出现循环重定向
-////                .usernameParameter(browser.getUsernameParameter())
-////                .passwordParameter(browser.getPasswordParameter());
-////        AuthenticationProperties.SMSProperties sms = properties.getSms();
-////        if (sms.isEnabled()) {
-////            /**
-////             如果开启短信验证功能,需要将发送验证码的接口配置为任意可以访问.
-////             {@link com.hk.sso.server.rest.SMSValidateCodeController}
-////
-////             */
-////            http.apply(new SmsAuthenticationSecurityConfiguration(sms, userDetailsService))
-////                    .and().apply(new ValidateCodeSecurityConfiguration(sms, processor, null))
-////                    .and().authorizeRequests().antMatchers("/code/sms").permitAll();
-////        }
-////        http.authorizeRequests().anyRequest().permitAll();
-//    }
-
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/sms/sender", "/oauth/logout", "/favicon.ico").antMatchers(HttpMethod.GET, properties.getBrowser().getLoginUrl());
+        web.ignoring().antMatchers("/static/**", "/sms/sender", "/oauth/logout", "/favicon.ico");
+        // loginUrl 配置在这里会有个问题，就是在登陆后再访问 /login 地址时，还是会跳转到登陆页，因为配置在这里的地址不会走Spring Security 的任意 Filter.
+        // .antMatchers(HttpMethod.GET, properties.getBrowser().getLoginUrl());
     }
 
     /**

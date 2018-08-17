@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -90,7 +91,8 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) {
         security.passwordEncoder(passwordEncoder)
-                .allowFormAuthenticationForClients();//允许客户端使用 POST : http://localhost:8080/oauth/token?grant_type=password&client_id=client2&client_secret=secretClient2&username=18820132014&password=123456 方式获取 access_token
+                //允许客户端使用 POST : http://localhost:8080/oauth/token?grant_type=password&client_id=client2&client_secret=secretClient2&username=18820132014&password=123456 方式获取 access_token
+                .allowFormAuthenticationForClients();
         if (StringUtils.isNotEmpty(authorizationServerProperties.getTokenKeyAccess())) {
             security.tokenKeyAccess(authorizationServerProperties.getTokenKeyAccess());
         }
@@ -106,11 +108,14 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         JwtAccessTokenConverter jwtAccessTokenConverter = accessTokenConverter();
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+
         List<TokenEnhancer> enhancers = new ArrayList<>();
-        enhancers.add(ssoJwtTokenEnhancer);
+        enhancers.add(ssoJwtTokenEnhancer); //注意 顺序
         enhancers.add(jwtAccessTokenConverter);
+
         tokenEnhancerChain.setTokenEnhancers(enhancers);
         endpoints.authenticationManager(authenticationManager)
+                .exceptionTranslator(new DefaultWebResponseExceptionTranslator())
                 .accessTokenConverter(jwtAccessTokenConverter)
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenStore(tokenStore());
@@ -138,8 +143,8 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-         jwtAccessTokenConverter.setSigningKey("ssoTest"); // 配置签名token,使用随机生成
-        return new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setSigningKey("8d1f6ddf6ef341deb6ff654e93179d6c"); // 配置签名token,先随便写个值
+        return jwtAccessTokenConverter;
     }
 
 }

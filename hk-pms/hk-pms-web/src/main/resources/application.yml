@@ -4,8 +4,8 @@ server:
     context-path: /
     session:
       cookie:
-        name: PSESSION
-spring:
+        name: PMSSESSOION
+spring: 
   servlet:
     multipart:
       enabled: false # 禁用文件上传功能
@@ -103,12 +103,13 @@ security:
     resource:
       jwt:
         key-uri: http://127.0.0.1:8080/oauth/token_key
-
+    sso:
+      default-failure-url: /error
 hk:
   authentication:
     browser:
       logout-url: /logout
-      logout-success-url: http://127.0.0.1:8080/oauth/logout
+      logout-success-url: http://127.0.0.1:8080/oauth/logout?redirect_url=http://127.0.0.1:8773/index
 ######################################################### logging 配置
 logging:
   level:

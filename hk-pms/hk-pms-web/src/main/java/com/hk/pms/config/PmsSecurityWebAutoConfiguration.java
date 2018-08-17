@@ -1,21 +1,23 @@
 package com.hk.pms.config;
 
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2SsoProperties;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.client.OAuth2RestOperations;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+
+import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 
 /**
- * <p>
- * Order 注解配置值：如果配置了 {@link EnableAuthorizationServer } 注解，此值需要小于3,如果没有配置 这个注解 ，此值需要大于3
- * </p>
- *
  * @author: kevin
  * @date 2018-08-13 10:17
  */
@@ -26,14 +28,20 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     private AuthenticationProperties properties;
 
-    public PmsSecurityWebAutoConfiguration(AuthenticationProperties properties) {
+    private ApplicationContext applicationContext;
+
+    public PmsSecurityWebAutoConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {
         this.properties = properties;
+        this.applicationContext = applicationContext;
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
         http
+                .apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))))
+
+                .and()
                 .csrf().disable()
                 .logout()
                 .invalidateHttpSession(true)
@@ -41,13 +49,28 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .logoutUrl(browser.getLogoutUrl())
                 .logoutSuccessUrl(browser.getLogoutSuccessUrl())
 
-                .and()
-                .authorizeRequests().anyRequest().authenticated();
+                .and().authorizeRequests().anyRequest().authenticated();
+    }
+
+
+    private OAuth2ClientAuthenticationProcessingFilter oauth2SsoFilter(OAuth2SsoProperties ssoProperties) {
+        OAuth2RestOperations restTemplate = this.applicationContext.getBean(UserInfoRestTemplateFactory.class).getUserInfoRestTemplate();
+        ResourceServerTokenServices tokenServices = this.applicationContext.getBean(ResourceServerTokenServices.class);
+        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(ssoProperties.getLoginPath());
+        SimpleUrlAuthenticationFailureHandler authenticationFailureHandler = new SimpleUrlAuthenticationFailureHandler();
+        authenticationFailureHandler.setAllowSessionCreation(properties.isAllowSessionCreation());
+        authenticationFailureHandler.setDefaultFailureUrl(properties.getDefaultFailureUrl());
+        authenticationFailureHandler.setUseForward(properties.isForwardToDestination());
+        filter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        filter.setRestTemplate(restTemplate);
+        filter.setTokenServices(tokenServices);
+        filter.setApplicationEventPublisher(this.applicationContext);
+        return filter;
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/favicon.ico");
+        web.ignoring().antMatchers("/static/**", "/favicon.ico", properties.getDefaultFailureUrl());
     }
 
 }

@@ -1,12 +1,13 @@
 package com.hk.fs.entity;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import com.hk.core.data.jpa.domain.AbstractAuditable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author: kevin
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "file_info")
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("serial")
 public class FileInfo extends AbstractAuditable {
 
     /**

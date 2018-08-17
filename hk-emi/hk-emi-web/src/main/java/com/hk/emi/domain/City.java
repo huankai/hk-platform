@@ -1,18 +1,21 @@
 package com.hk.emi.domain;
 
-import com.hk.commons.util.ByteConstants;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
+import java.util.Arrays;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Arrays;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
+
+import com.hk.commons.util.ByteConstants;
+import com.hk.core.data.jpa.domain.AbstractAuditable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 城市表
@@ -23,6 +26,7 @@ import java.util.Arrays;
 @Data
 @Entity
 @Table(name = "sys_city")
+@SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
 public class City extends AbstractAuditable {
 

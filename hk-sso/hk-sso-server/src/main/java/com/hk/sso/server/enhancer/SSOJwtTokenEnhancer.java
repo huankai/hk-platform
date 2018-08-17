@@ -18,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.BadClientCredentialsException;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
@@ -55,7 +58,8 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         if (CollectionUtils.isEmpty(additionalInformation)) {
             SysApp sysApp = sysAppService.findOne(clientId).orElseThrow(() -> new ServiceException("当前APP应用不存在"));
             if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
-                throw new AuthenticationServiceException("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");
+                // 注意，这里要返回 400的异常状态码，如果不是，客户端很难获取到异常的详细信息
+                throw new OAuth2Exception("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");
             }
             info.put("clientApp", new ClientAppInfo(sysApp.getId(), sysApp.getAppCode(), sysApp.getAppName(), sysApp.getAppIcon()));
         }

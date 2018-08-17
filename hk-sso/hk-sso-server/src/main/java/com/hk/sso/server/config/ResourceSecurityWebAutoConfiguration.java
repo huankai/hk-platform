@@ -1,8 +1,8 @@
 package com.hk.sso.server.config;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 /**
  * @author: kevin
@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  */
 @Configuration
 @EnableResourceServer
-public class ResourceSecurityWebAutoConfiguration {
-
+public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigurerAdapter {
 
 }

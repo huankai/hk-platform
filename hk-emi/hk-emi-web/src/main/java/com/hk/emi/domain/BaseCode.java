@@ -1,14 +1,16 @@
 package com.hk.emi.domain;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+
+import org.hibernate.validator.constraints.Length;
+
+import com.hk.core.data.jpa.domain.AbstractAuditable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 字典
@@ -20,6 +22,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Table(name = "sys_base_code")
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("serial")
 public class BaseCode extends AbstractAuditable {
 
     /**
