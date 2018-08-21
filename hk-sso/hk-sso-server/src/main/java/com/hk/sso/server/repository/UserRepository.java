@@ -13,19 +13,19 @@ public interface UserRepository extends StringRepository<SysUser> {
 
     /**
      * @param account 登陆名
-     * @return
+     * @return SysUser
      */
     Optional<SysUser> findByAccount(String account);
 
     /**
-     * @param phone
-     * @return
+     * @param phone 手机号
+     * @return SysUser
      */
     Optional<SysUser> findByPhone(String phone);
 
     /**
-     * @param email
-     * @return
+     * @param email 邮箱号
+     * @return SysUser
      */
     Optional<SysUser> findByEmail(String email);
 }

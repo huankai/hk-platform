@@ -1,33 +1,26 @@
 package com.hk.emi.rest;
 
-import java.io.IOException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.hk.core.page.QueryModel;
-import com.hk.core.page.QueryPage;
 import com.hk.core.web.JsonResult;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * @author: kevin
  * @date 2018-07-17 16:49
  */
 @RestController
-@RequestMapping(path = "citys")
+@RequestMapping(path = "city")
 public class CityController {
 
     private final CityService cityService;
@@ -43,10 +36,9 @@ public class CityController {
      * @param query query
      * @return JsonResult
      */
-    @PostMapping(path = "list")
+    @PostMapping
     public JsonResult list(@RequestBody QueryModel<City> query) {
-        QueryPage<City> pageResult = cityService.queryForPage(query);
-        return JsonResult.success(pageResult);
+        return JsonResult.success(cityService.queryForPage(query));
     }
 
     /**
@@ -92,10 +84,7 @@ public class CityController {
      */
     @PostMapping(path = "save")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult saveOrUpdate(@RequestBody City city, Errors errors) {
-        if (errors.hasErrors()) {
-            return JsonResult.badRueqest(errors.getFieldError().getDefaultMessage());
-        }
+    public JsonResult saveOrUpdate(@Validated @RequestBody City city) {
         cityService.insertOrUpdate(city);
         return JsonResult.success();
     }
@@ -106,7 +95,7 @@ public class CityController {
      * @param multipartFile multipartFile
      * @return JsonResult
      */
-    @PostMapping("excelImport")
+    @PostMapping("excel/import")
     @PreAuthorize("hasRole('admin')")
     public JsonResult excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         cityService.importExcel(multipartFile.getInputStream());
@@ -119,10 +108,10 @@ public class CityController {
      * @param city city
      * @return ResponseEntity
      */
-    @GetMapping("excelExport")
+    @GetMapping("excel/export")
     @PreAuthorize("hasRole('admin')")
-    public ResponseEntity<byte[]> excelExport(City city) {
-        byte[] excelData = cityService.exportExcelData(city);
-        return ResponseEntity.ok(excelData);
+    public ResponseEntity<InputStreamResource> excelExport(City city) {
+        InputStream inputStream = cityService.exportExcelData(city);
+        return ResponseEntity.ok(new InputStreamResource(inputStream));
     }
 }

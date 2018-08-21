@@ -18,7 +18,7 @@ public interface ChildCodeService extends BaseService<ChildCode, String> {
      * @return
      */
     default List<ChildCode> findByBaseCodeId(String baseCodeId) {
-        return findByBaseCodeIngoreChildCodes(baseCodeId);
+        return findByBaseCodeIgnoreChildCodes(baseCodeId);
     }
 
     /**
@@ -28,6 +28,6 @@ public interface ChildCodeService extends BaseService<ChildCode, String> {
      * @param childCodes 要忽略的子节点名称
      * @return
      */
-    List<ChildCode> findByBaseCodeIngoreChildCodes(String baseCodeId, String... childCodes);
+    List<ChildCode> findByBaseCodeIgnoreChildCodes(String baseCodeId, String... childCodes);
 
 }

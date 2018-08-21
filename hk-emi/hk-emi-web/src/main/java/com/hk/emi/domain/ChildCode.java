@@ -27,25 +27,25 @@ import lombok.EqualsAndHashCode;
 public class ChildCode extends AbstractAuditable {
 
     @Column(name = "base_code_id")
-    @NotEmpty(message = "")
+    @NotEmpty
     private String baseCodeId;
 
     @Column(name = "child_code")
-    @NotBlank(message = "")
-    @Length(max = 20, message = "")
+    @NotBlank
+    @Length(max = 20)
     private String childCode;
 
     @Column(name = "code_name")
-    @NotBlank(message = "")
-    @Length(max = 20, message = "")
+    @NotBlank
+    @Length(max = 20)
     private String codeName;
 
     /**
      * 只能是0和1两个值
      */
     @Column(name = "state")
-    @NotNull(message = "")
-    @Range(max = 1, message = "")
+    @NotNull
+    @Range(max = 1)
     private Byte state;
 
     @Column(name = "description")

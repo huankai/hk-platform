@@ -1,16 +1,10 @@
 package com.hk.sso.server.config;
 
-import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
-import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
-import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +12,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
+import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
+import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
+import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
 
 
 /**

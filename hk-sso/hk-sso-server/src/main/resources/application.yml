@@ -73,21 +73,21 @@ spring:
         enabled: true
         url-pattern: /**
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
-######################################################### redis 配置
-#  redis:
-#    host: 192.168.1.76
-#    port: 6379
-#    jedis:
-#      pool:
-#        max-active: 1000
-#        max-idle: 100
-#        min-idle: 1
-#        max-wait: 0ms
-#    database: 0
-##    password: 1234567
-#    timeout: 0ms
-#  cache:
-#    type: redis
+################################################################### redis
+  redis:
+    password: 1234567
+    host: 192.168.64.128
+    port: 6379
+    database: 1
+    timeout: 5000ms
+    lettuce:
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+  cache:
+    type: redis
 ######################################################### eureka 配置
 eureka:
   instance:

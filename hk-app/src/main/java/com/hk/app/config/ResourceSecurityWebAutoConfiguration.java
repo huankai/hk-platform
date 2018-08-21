@@ -23,15 +23,10 @@ import com.hk.core.web.Webs;
 public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigurerAdapter {
 	
 	@Override
-	public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+	public void configure(ResourceServerSecurityConfigurer resources) {
 		OAuth2AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
-		authenticationEntryPoint.setExceptionRenderer(new OAuth2ExceptionRenderer() {
-			
-			@Override
-			public void handleHttpEntityResponse(HttpEntity<?> responseEntity, ServletWebRequest webRequest) throws Exception {
-				Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED, JsonResult.badRueqest("用户未认证！"));
-			}
-		});
+		authenticationEntryPoint.setExceptionRenderer((responseEntity, webRequest) ->
+				Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED, JsonResult.badRueqest("用户未认证！")));
 		resources.authenticationEntryPoint(authenticationEntryPoint);
 	}
 	

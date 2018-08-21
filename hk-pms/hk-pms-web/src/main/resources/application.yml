@@ -66,22 +66,20 @@ spring:
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
 
 ################################################################### redis
-#  redis:
-#    host: 192.168.64.128
-#    port: 6379
-#    database: 0
-#    password: 1234567
-#    timeout: 0ms
-#    jedis:
-#      pool:
-#        max-active: 1000
-#        max-idle: 100
-#        min-idle: 1
-#        max-wait: -1ms
-#  cache:
-#    type: redis
-
-
+  redis:
+    password: 1234567
+    host: 192.168.64.128
+    port: 6379
+    database: 1
+    timeout: 5000ms
+    lettuce:
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+  cache:
+    type: redis
 
 ################################################################### eureka
 eureka:

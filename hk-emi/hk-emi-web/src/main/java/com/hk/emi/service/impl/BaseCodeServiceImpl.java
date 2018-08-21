@@ -1,14 +1,18 @@
 package com.hk.emi.service.impl;
 
 
+import com.hk.commons.util.StringUtils;
+import com.hk.core.cache.service.EnableCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.exception.ServiceException;
 import com.hk.emi.domain.BaseCode;
-import com.hk.emi.repository.BaseCodeRepostory;
+import com.hk.emi.repository.BaseCodeRepository;
 import com.hk.emi.service.BaseCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author: kevin
@@ -16,17 +20,30 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @CacheConfig(cacheNames = {"BaseCode"})
-public class BaseCodeServiceImpl extends BaseServiceImpl<BaseCode, String> implements BaseCodeService {
+public class BaseCodeServiceImpl extends EnableCacheServiceImpl<BaseCode, String> implements BaseCodeService {
 
-    private final BaseCodeRepostory baseCodeRepostory;
+    private final BaseCodeRepository baseCodeRepository;
 
     @Autowired
-    public BaseCodeServiceImpl(BaseCodeRepostory baseCodeRepostory) {
-        this.baseCodeRepostory = baseCodeRepostory;
+    public BaseCodeServiceImpl(BaseCodeRepository baseCodeRepository) {
+        this.baseCodeRepository = baseCodeRepository;
     }
 
     @Override
     protected BaseRepository<BaseCode, String> getBaseRepository() {
-        return baseCodeRepostory;
+        return baseCodeRepository;
+    }
+
+    @Override
+    protected BaseCode saveBefore(BaseCode entity) throws ServiceException {
+        Optional<BaseCode> optional = findByBaseCode(entity.getBaseCode());
+        if (optional.isPresent() && StringUtils.notEquals(optional.get().getId(), entity.getId())) {
+            throw new ServiceException("已存在的编码：" + entity.getBaseCode());
+        }
+        return entity;
+    }
+
+    public Optional<BaseCode> findByBaseCode(String baseCode) {
+        return baseCodeRepository.findByBaseCode(baseCode);
     }
 }

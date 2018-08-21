@@ -19,6 +19,7 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Collections;
@@ -95,7 +96,7 @@ public class CityServiceImpl extends EnableCacheServiceImpl<City, String> implem
     }
 
     @Override
-    public byte[] exportExcelData(City city) {
+    public InputStream exportExcelData(City city) {
 //        List<CityExcelVo> cityList = cityRepository.findExportExcelData(city);
 //        WriteParam<CityExcelVo> param = WriteParam.<CityExcelVo>builder()
 //                .beanClazz(CityExcelVo.class)
@@ -104,6 +105,6 @@ public class CityServiceImpl extends EnableCacheServiceImpl<City, String> implem
 //        WriteableExcel<CityExcelVo> writeableExcel = new XSSFWriteableExcel<>();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //        writeableExcel.write(param, baos);
-        return baos.toByteArray();
+        return new ByteArrayInputStream(baos.toByteArray());
     }
 }

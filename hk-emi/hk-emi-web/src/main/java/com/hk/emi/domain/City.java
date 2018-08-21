@@ -34,13 +34,13 @@ public class City extends AbstractAuditable {
      * 行政代码
      */
     @Column(name = "code")
-    @NotBlank(message = "")
-    @Length(max = 20, message = "")
+    @NotBlank
+    @Length(max = 20)
     private String code;
 
 
     @Column(name = "parent_id")
-    @NotBlank(message = "")
+    @NotBlank
     private String parentId;
 
     /**
@@ -125,7 +125,7 @@ public class City extends AbstractAuditable {
         return Arrays.stream(values)
                 .filter(item -> item.cityType.equals(cityType))
                 .findFirst()
-                .orElseThrow(() -> new IllegalStateException("Parameters that can not be identified.paramter value :" + cityType))
+                .orElseThrow(() -> new IllegalStateException("Parameters that can not be identified.parameter value :" + cityType))
                 .value;
     }
 

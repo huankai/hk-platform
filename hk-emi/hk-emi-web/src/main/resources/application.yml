@@ -48,7 +48,7 @@ spring:
       filter:
         stat:
           slow-sql-millis: 5000
-      connection-properties: druid.stat.mergeSql=true
+      connection-properties: druid.stat.mergeSql=true,druid.stat.slowSqlMillis=5000
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
@@ -71,23 +71,19 @@ spring:
 
 #################################################################### redis
   redis:
-#    password: 1234567
-    host: 127.0.0.1
+    password: 1234567
+    host: 192.168.64.128
     port: 6379
     database: 0
-    timeout: 0ms
-    jedis:
+    timeout: 5000ms
+    lettuce:
       pool:
+        max-active: 8
+        min-idle: 0
+        max-idle: 8
         max-wait: -1ms
-        max-idle: 100
-        max-active: 1000
-        min-idle: 100
   cache:
     type: redis
-#      connect-properties:
-#        druid.stat.mergeSql: true
-#        druid.stat.slowSqlMillis: 5000
-
 
 #################################################################### eureka
 eureka:
@@ -109,12 +105,16 @@ security:
     resource:
       jwt:
         key-uri: http://127.0.0.1:8080/oauth/token_key
-
+hk:
+  authentication:
+    browser:
+      logout-url: /logout
+      logout-success-url: http://127.0.0.1:8080/oauth/logout?redirect_url=http://127.0.0.1:8772/index
 ################################################################### logging
 logging:
   level:
     root: error
-    org.springframework.security: debug
+    org.springframework: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
     org.springframework.jdbc.core.StatementCreatorUtils: debug

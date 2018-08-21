@@ -2,12 +2,13 @@ package com.hk.emi.service.impl;
 
 
 import com.hk.commons.util.ArrayUtils;
+import com.hk.core.cache.service.EnableCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.emi.domain.ChildCode;
 import com.hk.emi.repository.ChildCodeRepostory;
 import com.hk.emi.service.ChildCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,8 @@ import java.util.stream.Collectors;
  * @date 2018年1月24日下午1:44:55
  */
 @Service
-public class ChildCodeServiceImpl extends BaseServiceImpl<ChildCode, String> implements ChildCodeService {
+@CacheConfig(cacheNames = "ChildCode")
+public class ChildCodeServiceImpl extends EnableCacheServiceImpl<ChildCode, String> implements ChildCodeService {
 
     private final ChildCodeRepostory childCodeRepostory;
 
@@ -36,16 +38,16 @@ public class ChildCodeServiceImpl extends BaseServiceImpl<ChildCode, String> imp
      * 查询子字典，并忽略指定的Code
      *
      * @param baseCodeId       baseCodeId
-     * @param ingoreChildCodes 忽略的编号
-     * @return
+     * @param ignoreChildCodes 忽略的编号
+     * @return childCodeList
      */
     @Override
-    public List<ChildCode> findByBaseCodeIngoreChildCodes(String baseCodeId, String... ingoreChildCodes) {
+    public List<ChildCode> findByBaseCodeIgnoreChildCodes(String baseCodeId, String... ignoreChildCodes) {
         List<ChildCode> childCodeList = childCodeRepostory.findByBaseCodeIdOrderByChildCodeAsc(baseCodeId);
-        if (ArrayUtils.isNotEmpty(ingoreChildCodes)) {
+        if (ArrayUtils.isNotEmpty(ignoreChildCodes)) {
             childCodeList = childCodeList
                     .stream()
-                    .filter(item -> ArrayUtils.noContains(ingoreChildCodes, item))
+                    .filter(item -> ArrayUtils.noContains(ignoreChildCodes, item))
                     .collect(Collectors.toList());
         }
         return childCodeList;

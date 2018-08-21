@@ -29,16 +29,16 @@ public class BaseCode extends AbstractAuditable {
      *
      */
     @Column(name = "base_code")
-    @NotBlank(message = "")
-    @Length(max = 20, message = "")
+    @NotBlank
+    @Length(max = 20)
     private String baseCode;
 
     /**
      *
      */
     @Column(name = "code_name")
-    @NotBlank(message = "")
-    @Length(max = 20, message = "")
+    @NotBlank
+    @Length(max = 20)
     private String codeName;
 
     /**

@@ -35,5 +35,5 @@ public interface CityService extends BaseService<City, String> {
      * @param city
      * @return
      */
-    byte[] exportExcelData(City city);
+    InputStream exportExcelData(City city);
 }
