@@ -72,6 +72,7 @@ CREATE TABLE `sys_app` (
   `app_icon` varchar(100) NOT NULL COMMENT 'icon图标',
   `app_port` smallint(5) NOT NULL COMMENT '端口号',
   `app_status` tinyint(1) NOT NULL COMMENT '状态(1:启用,2:禁用)',
+  `local_app` tinyint(1) NOT NULL COMMENT '是否本地app',
   `created_by` char(32) NOT NULL,
   `created_date` datetime NOT NULL,
   `last_modified_by` char(32) NOT NULL,
