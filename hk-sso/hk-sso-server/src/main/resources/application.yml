@@ -4,6 +4,8 @@ server:
     context-path: /
 
 spring:
+  main:
+    banner-mode: 'off'
   servlet:
     multipart:
       enabled: false # 禁用文件上传功能
@@ -76,10 +78,10 @@ spring:
 ################################################################### redis
   redis:
     password: 1234567
-    host: 192.168.64.128
+    host: 192.168.1.76
     port: 6379
-    database: 1
-    timeout: 5000ms
+    database: 2
+    timeout: 3000ms
     lettuce:
       pool:
         max-active: 8
@@ -91,7 +93,8 @@ spring:
 ######################################################### eureka 配置
 eureka:
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
+    hostname: peer1
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
@@ -114,6 +117,8 @@ security:
   oauth2:
     authorization:
       token-key-access: "isAuthenticated()"
+      check-token-access: "isAuthenticated()"
+
 hk:
   authentication:
     browser:

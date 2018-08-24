@@ -1,6 +1,6 @@
 package com.hk.pms.config;
 
-import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
+import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2SsoProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateFactory;
@@ -14,8 +14,6 @@ import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 
 /**
  * @author: kevin
@@ -35,14 +33,17 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
         this.applicationContext = applicationContext;
     }
 
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
         http
-                .apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))))
+//                .apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))))
+//
+//                .and()
 
-                .and()
                 .csrf().disable()
+                .formLogin().disable()
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)

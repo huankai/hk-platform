@@ -6,14 +6,22 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
-    hostname: localhost
+    hostname: 127.0.0.1
   client:
     register-with-eureka: false
     fetch-registry: false
     service-url:
       defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
 
+spring:
+  main:
+    banner-mode: 'off'
+
 logging:
   level:
-    root: info
+    root: error
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: info
+    org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping: info
+    org.springframework.cloud.netflix.eureka.serviceregistry.EurekaAutoServiceRegistration: info
+    com.hk.discover.eureka: debug
 

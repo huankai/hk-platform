@@ -19,4 +19,6 @@ public class IndexController {
         modelMap.put("user", SecurityContextUtils.getPrincipal());
         return "index";
     }
+
+
 }

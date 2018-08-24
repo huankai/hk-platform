@@ -6,7 +6,8 @@ server:
 spring:
   application:
     name: hk-gateway-zuul
-
+  aop:
+    proxy-target-class: true
 eureka:
   instance:
     prefer-ip-address: true
@@ -26,18 +27,9 @@ zuul:
       sensitiveHeaders: "*"
 
     hk-sso-server:
-      path: /oauth/**
+      path: /oauth2/**
       sensitiveHeaders: "*"
-
-#security:
-#  oauth2:
-#    client:
-#      access-token-uri: http://127.0.0.1:${server.port}/sso/oauth/token
-#      user-authorization-uri: http://127.0.0.1:${server.port}/sso/oauth/authorize
-#      client-id: browser
-#    resource:
-#      user-info-uri: http://127.0.0.1:${server.port}/sso/user
-#      prefer-token-info: false
+  sensitive-headers:
 
 logging:
   level:

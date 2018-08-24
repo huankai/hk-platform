@@ -1,9 +1,8 @@
-package com.hk.sso.server.rest;
+package com.hk.sso.server.endpoint;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,9 +24,7 @@ public class SSOWhitelabelApprovalEndpoint {
 
     @RequestMapping("/oauth/confirm_access")
     public void getAccessConfirmation(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        LOGGER.debug("model:{}", model);
-        String url = ServletUriComponentsBuilder.fromContextPath(request).build().getPath() + "/oauth/authorize?user_oauth_approval=true";
-        response.sendRedirect(url);
+
     }
 
 

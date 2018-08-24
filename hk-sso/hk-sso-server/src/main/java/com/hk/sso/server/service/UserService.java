@@ -18,4 +18,6 @@ public interface UserService extends BaseService<SysUser, String> {
      * @return
      */
     Optional<SysUser> findByLoginName(String loginName);
+
+    void resetPassword(String userId, String newPass);
 }

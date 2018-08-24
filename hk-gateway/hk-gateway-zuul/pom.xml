@@ -9,7 +9,7 @@
 
     <parent>
         <groupId>com.hk</groupId>
-        <artifactId>hk-platform</artifactId>
+        <artifactId>hk-gateway</artifactId>
         <version>2.0.0.RELEASE</version>
     </parent>
 
@@ -22,15 +22,6 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
 
         <dependency>

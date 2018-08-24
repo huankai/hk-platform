@@ -6,6 +6,7 @@ import com.hk.sso.server.entity.SysUser;
 import com.hk.sso.server.repository.UserRepository;
 import com.hk.sso.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -42,15 +43,22 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser, String> implements
         return optionalUser;
     }
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Override
+    public void resetPassword(String userId, String newPass) {
+        SysUser user = new SysUser();
+        user.setId(userId);
+        user.setPassword(passwordEncoder.encode(newPass));
+        updateByIdSelective(user);
+    }
+
     @Override
     public SysUser updateById(SysUser sysUser) {
         throw new UnsupportedOperationException("不支持的操作！");
     }
 
-    @Override
-    public SysUser updateByIdSelective(SysUser sysUser) {
-        throw new UnsupportedOperationException("不支持的操作！");
-    }
 
     @Override
     public SysUser insert(SysUser sysUser) {

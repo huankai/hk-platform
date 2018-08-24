@@ -2,10 +2,6 @@ server:
   port: 8772
   servlet:
     context-path: /
-    session:
-      cookie:
-        name: EMSESSION
-
 spring:
   mvc:
     throw-exception-if-no-handler-found: true
@@ -72,10 +68,10 @@ spring:
 #################################################################### redis
   redis:
     password: 1234567
-    host: 192.168.64.128
+    host: 127.0.0.1
     port: 6379
     database: 0
-    timeout: 5000ms
+    timeout: 3000ms
     lettuce:
       pool:
         max-active: 8
@@ -100,8 +96,8 @@ security:
     client:
       client-id: 4028c0816371a097016371a38d5a0000
       client-secret: 4028c0816371a097016371a38d5a0000
-      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
       access-token-uri: http://127.0.0.1:8080/oauth/token
+      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
     resource:
       jwt:
         key-uri: http://127.0.0.1:8080/oauth/token_key

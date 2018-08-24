@@ -2,10 +2,7 @@ server:
   port: 8773
   servlet:
     context-path: /
-    session:
-      cookie:
-        name: PMSSESSOION
-spring: 
+spring:
   servlet:
     multipart:
       enabled: false # 禁用文件上传功能
@@ -68,10 +65,10 @@ spring:
 ################################################################### redis
   redis:
     password: 1234567
-    host: 192.168.64.128
+    host: 127.0.0.1
     port: 6379
-    database: 1
-    timeout: 5000ms
+    database: 2
+    timeout: 3000ms
     lettuce:
       pool:
         max-active: 8
@@ -84,7 +81,8 @@ spring:
 ################################################################### eureka
 eureka:
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
+    hostname: peer2
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
@@ -96,13 +94,12 @@ security:
     client:
       client-id: 4028c08162b9340f0162b93427c40000
       client-secret: 4028c08162b9340f0162b93427c40000
-      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
       access-token-uri: http://127.0.0.1:8080/oauth/token
+      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
     resource:
       jwt:
         key-uri: http://127.0.0.1:8080/oauth/token_key
-    sso:
-      default-failure-url: /error
+
 hk:
   authentication:
     browser:

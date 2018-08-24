@@ -52,7 +52,7 @@ public class SsoDefaultWebResponseExceptionTranslator implements WebResponseExce
             return handleOAuth2Exception(new SsoDefaultWebResponseExceptionTranslator.MethodNotAllowed(ase.getMessage(), ase));
         }
 
-        return handleOAuth2Exception(new SsoDefaultWebResponseExceptionTranslator.ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
+        return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
 
     }
 

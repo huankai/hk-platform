@@ -1,8 +1,8 @@
 package com.hk.sso.server.rest;
 
 import com.hk.core.authentication.api.SecurityContextUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
-    @Autowired
-    private Environment environment;
+    /**
+     * @see AuthenticationProperties.SMSProperties#enabled
+     */
+    @Value("${hk.authentication.sms.enabled:false}")
+    private boolean smsEnabled;
 
     /**
      * 登陆
@@ -30,8 +33,6 @@ public class LoginController {
         if (SecurityContextUtils.isAuthenticated()) {
             return "redirect:/";
         }
-        // 是否开启短信登陆功能
-        boolean smsEnabled = Boolean.valueOf(environment.getProperty("hk.authentication.sms.enabled", "false"));
         modelMap.put("smsEnabled", smsEnabled);
         return "login";
     }
