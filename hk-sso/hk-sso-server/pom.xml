@@ -12,7 +12,16 @@
         <version>2.0.0.RELEASE</version>
     </parent>
 
+    <properties>
+        <weixin.java.version>2.9.0</weixin.java.version>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>${weixin.java.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
@@ -32,6 +41,10 @@
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-authentication-security-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-authentication-weixin-mp</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>

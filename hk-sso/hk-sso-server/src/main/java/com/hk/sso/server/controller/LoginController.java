@@ -1,4 +1,4 @@
-package com.hk.sso.server.rest;
+package com.hk.sso.server.controller;
 
 import com.hk.core.authentication.api.SecurityContextUtils;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;

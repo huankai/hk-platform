@@ -1,4 +1,4 @@
-package com.hk.sso.server.rest;
+package com.hk.sso.server.controller;
 
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
 import com.hk.core.web.JsonResult;

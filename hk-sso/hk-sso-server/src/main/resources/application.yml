@@ -5,7 +5,7 @@ server:
     session:
       cookie:
         name: USESSION
-
+##########################################################
 spring:
   main:
     banner-mode: 'off'
@@ -14,8 +14,6 @@ spring:
       enabled: false # 禁用文件上传功能
   mvc:
     throw-exception-if-no-handler-found: true
-  resources:
-    add-mappings: false
   application:
     name: hk-sso-server
 ######################################################### 国际化配置
@@ -140,6 +138,18 @@ hk:
       phone-parameter: phone
       post-only: true
       phone-login-uri: /mobile/login
+
+######################################################### 微信配置
+wechat:
+  mp:
+    app-id: wx72303d4d8b1f0d00
+    secret: 19175e5d7111969a1dcc86048d338f86
+    token: hk9060
+  qrcode:
+    callback-url: /wechat/callback
+    call-host: http://brd82g.natappfree.cc
+    state: 3d6be0a4685d839573b04816624a415e
+
 
 ######################################################### logging 配置
 logging:

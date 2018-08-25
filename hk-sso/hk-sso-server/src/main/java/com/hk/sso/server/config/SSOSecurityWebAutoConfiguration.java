@@ -5,8 +5,12 @@ import com.hk.core.autoconfigure.authentication.security.AuthenticationPropertie
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
 import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
+import com.hk.core.autoconfigure.weixin.authentication.qrcode.WechatQrcodeAuthenticationSecurityConfigurer;
+import com.hk.weixin.qrcode.WechatQrCodeConfig;
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -26,9 +30,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Order(1)
 @Configuration
 @EnableWebSecurity
+@EnableConfigurationProperties(value = {WechatQrCodeConfig.class,AuthenticationProperties.class})
 public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties authenticationProperties;
+
+    @Autowired
+    private WechatQrCodeConfig qrCodeConfig;
 
     /**
      * 手机号验证 Bean,在没有开启手机号验证时,不会注入该Bean
@@ -59,13 +67,15 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     @Autowired
     private UserDetailsService userDetailsService;
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
+
+    @Autowired
+    private WxMpService wxMpService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -76,33 +86,24 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                     .apply(new SmsAuthenticationSecurityConfiguration(sms, userDetailsService))
                     .and().apply(new ValidateCodeSecurityConfiguration(sms, processor, null));
         }
-//        DefaultSecurityFilterChain defaultSecurityFilterChain = http.objectPostProcessor(new ObjectPostProcessor<SecurityContextPersistenceFilter>() {
-//            @Override
-//            public <O extends SecurityContextPersistenceFilter> O postProcess(O object) {
-//                return null;
-//            }
-//        });
+        http.apply(new WechatQrcodeAuthenticationSecurityConfigurer(wxMpService, qrCodeConfig));
         http
                 .csrf().disable()
 
-                //.getConfigurer(SecurityContextPersistenceFilter.class)
-//                .addFilterAfter(null,SecurityContextPersistenceFilter.class)
-
                 .formLogin()
-                .loginPage(browser.getLoginUrl()).permitAll()
+                .loginPage(browser.getLoginUrl()).permitAll() // 登陆 请求地址不需要认证可以访问，配置在这里
                 .usernameParameter(browser.getUsernameParameter())
                 .passwordParameter(browser.getPasswordParameter())
                 .loginProcessingUrl(browser.getLoginProcessingUrl())
 
                 .and()
                 .authorizeRequests()
-//                .antMatchers(browser.getLoginUrl()).permitAll() // 登陆 请求地址不需要认证可以访问，需要配置在这里
                 .anyRequest().authenticated();
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/sms/sender", "/oauth/logout", "/favicon.ico");
+        web.ignoring().antMatchers("/resources/**", "/sms/sender","/wechat/**", "/oauth/logout", "/favicon.ico");
     }
 
     /**

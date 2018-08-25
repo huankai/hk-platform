@@ -5,6 +5,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>LOGIN PAGE</title>
 </head>
+<style type="text/css">
+    .error-info {
+        color: red;
+    }
+
+    .weixin-icon {
+        width: 24px;
+        height: 23px;
+        display: block;
+        background: url("/resources/images/icon24_appwx_logo.png");
+        margin: 0 auto;
+        position: absolute;
+        left: 55px;
+    }
+</style>
 <body>
 <!-- 登陆失败信息: @see org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler#saveException -->
 <div th:if="${session.SPRING_SECURITY_LAST_EXCEPTION}" style="color:red;"
@@ -38,5 +53,14 @@
     </form>
 </div>
 
+<div>
+    <h1>微信扫码登陆</h1>
+    <div style="height: 32px;margin-top: 10px;">
+        <a th:href="@{/wechat/login}">
+            <b class="weixin-icon"></b>
+            <span style="margin-left: 75px">微信</span>
+        </a>
+    </div>
+</div>
 </body>
 </html>
