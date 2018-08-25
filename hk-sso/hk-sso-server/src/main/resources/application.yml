@@ -2,6 +2,9 @@ server:
   port: 8080
   servlet:
     context-path: /
+    session:
+      cookie:
+        name: USESSION
 
 spring:
   main:
@@ -78,7 +81,7 @@ spring:
 ################################################################### redis
   redis:
     password: 1234567
-    host: 192.168.1.76
+    host: 127.0..0.1
     port: 6379
     database: 2
     timeout: 3000ms
@@ -94,7 +97,7 @@ spring:
 eureka:
   instance:
     prefer-ip-address: false
-    hostname: peer1
+    hostname: 127.0.0.1
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka

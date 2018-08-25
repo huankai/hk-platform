@@ -2,6 +2,9 @@ server:
   port: 8773
   servlet:
     context-path: /
+    session:
+      cookie:
+        name: USESSION
 spring:
   servlet:
     multipart:
@@ -82,13 +85,21 @@ spring:
 eureka:
   instance:
     prefer-ip-address: false
-    hostname: peer2
+    hostname: 127.0.0.1
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
-
 ################################################################### security oauth2
+# 特别注意：
+#  1.这里配置的url如果是 127.0.0.1，登陆成功后访问sso 认证服务器时也只能以这个ip地址访问，不能用 localhost，
+#    除非你配置的是localhost,否则，在访问认证服务器的时候，sso会让你重新登陆，具体原因未查明，但经过测试结果是这样的
+#    这句话的意思就是：
+#     如下面的 access-token-url  和 user-authorization-uri 配置的ip 是127.0.0.1,
+#     在登陆成功后，也只能是 http://127.0.0.1:8080来访问认证服务器，如果用 http://localhost:8080来访问认证服务器， 认证服务器会让你登陆。
+#  2. 以本项目中的 pms 与 emi 举例，如果 pms 中配置的是 127.0.0.1 ,而 emi 中配置的是 localhost,
+#     如果 pms通过认证， 在访问emi时，也需要再登陆一次，即不会实现单点,
+#     通过浏览器查看cookie可知，使用 127.0.0.1  和  localhost 访问的时候， 浏览器带上的cookie信息是不一样的
 security:
   oauth2:
     client:

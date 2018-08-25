@@ -1,12 +1,16 @@
 package com.hk.sso.server.enhancer;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
+import com.hk.commons.util.ByteConstants;
+import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.JsonUtils;
+import com.hk.core.authentication.api.ClientAppInfo;
+import com.hk.core.authentication.api.UserPrincipal;
+import com.hk.sso.server.entity.SysApp;
+import com.hk.sso.server.entity.SysPermission;
+import com.hk.sso.server.entity.SysRole;
+import com.hk.sso.server.service.RoleService;
+import com.hk.sso.server.service.SysAppService;
+import com.hk.sso.server.service.SysPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +21,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
 
-import com.hk.commons.util.ByteConstants;
-import com.hk.commons.util.CollectionUtils;
-import com.hk.commons.util.JsonUtils;
-import com.hk.core.authentication.api.ClientAppInfo;
-import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.exception.ServiceException;
-import com.hk.sso.server.entity.SysApp;
-import com.hk.sso.server.entity.SysPermission;
-import com.hk.sso.server.entity.SysRole;
-import com.hk.sso.server.service.RoleService;
-import com.hk.sso.server.service.SysAppService;
-import com.hk.sso.server.service.SysPermissionService;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 返回用户附加信息
@@ -57,7 +51,7 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();
         Map<String, Object> info = new HashMap<>();
-        SysApp sysApp = sysAppService.findOne(clientId).orElseThrow(() -> new ServiceException("当前APP应用不存在"));
+        SysApp sysApp = sysAppService.findOne(clientId).orElseThrow(() -> new OAuth2Exception("当前APP应用不存在"));
         if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
             // 注意，这里要返回 400的异常状态码，如果不是，客户端很难获取到异常的详细信息
             throw new OAuth2Exception("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");
