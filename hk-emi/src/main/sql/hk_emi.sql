@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2018-08-14 16:56:15
+Date: 2018-08-27 08:55:03
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,6 +35,7 @@ CREATE TABLE `sys_base_code` (
 -- ----------------------------
 -- Records of sys_base_code
 -- ----------------------------
+INSERT INTO `sys_base_code` VALUES ('4028c081655a3a5a01655a3acd160000', 'RDXBE', '人的性别', '人的性别描述', '4028c08162bda8ce0162bda8df6a0000', '2018-08-21 10:05:28', '4028c08162bda8ce0162bda8df6a0000', '2018-08-21 10:06:31');
 
 -- ----------------------------
 -- Table structure for sys_child_code

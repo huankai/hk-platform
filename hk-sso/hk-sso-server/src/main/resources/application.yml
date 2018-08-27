@@ -1,10 +1,10 @@
 server:
-  port: 8080
+  port: 8086
   servlet:
     context-path: /
     session:
       cookie:
-        name: USESSION
+        name: AUTH_JSESSION
 ##########################################################
 spring:
   main:
@@ -142,12 +142,12 @@ hk:
 ######################################################### 微信配置
 wechat:
   mp:
-    app-id: wx72303d4d8b1f0d00
-    secret: 19175e5d7111969a1dcc86048d338f86
-    token: hk9060
+    app-id: wx72303d4d8b1f0d00   #微信网页二维码登陆需要在微信开放平台申请账号并审核，公众平台的app-id无效
+    secret: 19175e5d7111969a1dcc86048d338f866
+#    token: hk9060   #此token对于微信网页二微码登陆无效
   qrcode:
     callback-url: /wechat/callback
-    call-host: http://brd82g.natappfree.cc
+    call-host: http://sqn62q.natappfree.cc
     state: 3d6be0a4685d839573b04816624a415e
 
 

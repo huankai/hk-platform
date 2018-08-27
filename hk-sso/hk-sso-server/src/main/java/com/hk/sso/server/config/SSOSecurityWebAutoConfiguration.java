@@ -30,7 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Order(1)
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(value = {WechatQrCodeConfig.class,AuthenticationProperties.class})
+@EnableConfigurationProperties(value = {WechatQrCodeConfig.class, AuthenticationProperties.class})
 public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties authenticationProperties;
@@ -103,7 +103,7 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**", "/sms/sender","/wechat/**", "/oauth/logout", "/favicon.ico");
+        web.ignoring().antMatchers("/resources/**", "/sms/sender", "/wechat/login", "/oauth/logout", "/favicon.ico");
     }
 
     /**
