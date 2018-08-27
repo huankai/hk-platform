@@ -1,6 +1,6 @@
 package com.hk.sso.server.config;
 
-import com.hk.core.authentication.oauth2.LocalUserAuthenticationConverter;
+import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
 import com.hk.core.authentication.security.UserDetailClientService;
 import com.hk.core.web.JsonResult;
 import com.hk.core.web.Webs;
