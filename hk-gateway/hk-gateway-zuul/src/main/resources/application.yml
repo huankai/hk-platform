@@ -8,12 +8,14 @@ spring:
     name: hk-gateway-zuul
   aop:
     proxy-target-class: true
+################################################################## eureka配置
 eureka:
   instance:
     prefer-ip-address: true
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+################################################################## zuul 配置
 zuul:
   add-proxy-headers: true
   routes:
@@ -28,12 +30,15 @@ zuul:
     hk-sso-server:
       path: /oauth2/**
       sensitiveHeaders: "*"
-  sensitive-headers:
 
+################################################################## ribbon configuration
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 60000
+
+################################################################## logging configuration
 logging:
   level:
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
-ribbon:
-  ConnectTimeout: 3000
-  ReadTimeout: 60000
+    org.springframework.cloud.netflix.zuul: debug

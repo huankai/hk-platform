@@ -89,12 +89,27 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .csrf().disable()
 
                 .formLogin()
+
                 .loginPage(browser.getLoginUrl()).permitAll() // 登陆 请求地址不需要认证可以访问，配置在这里
                 .usernameParameter(browser.getUsernameParameter())
                 .passwordParameter(browser.getPasswordParameter())
                 .loginProcessingUrl(browser.getLoginProcessingUrl())
-
                 .and()
+                // 使用 zuul登陆地址
+//                .addObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>() {
+//                    @Override
+//                    public <O extends LoginUrlAuthenticationEntryPoint> O postProcess(O object) {
+//                        LoginUrlAuthenticationEntryPoint entryPoint = new LoginUrlAuthenticationEntryPoint(object.getLoginFormUrl()) {
+//                            @Override
+//                            protected String buildRedirectUrlToLoginPage(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) {
+//                                return "http://127.0.0.1:8771/oauth2/login";
+//                            }
+//                        };
+//                        return (O) entryPoint;
+//                    }
+//                });
+
+
                 .authorizeRequests()
                 .anyRequest().authenticated();
     }

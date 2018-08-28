@@ -1,6 +1,8 @@
 package com.hk.emi.config;
 
+import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
+import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Configuration;
@@ -24,16 +26,16 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     private AuthenticationProperties properties;
 
-//    private ApplicationContext applicationContext;
-
-    public EMISecurityWebAutoConfiguration(AuthenticationProperties properties/*, ApplicationContext applicationContext*/) {
+    public EMISecurityWebAutoConfiguration(AuthenticationProperties properties) {
         this.properties = properties;
-//        this.applicationContext = applicationContext;
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
+        if (StringUtils.isNotEmpty(browser.getGateWayHost())) {
+            http.requestCache().requestCache(new GateWayHttpSessionRequestCache(browser.getGateWayHost()));
+        }
         http
                 .csrf().disable()
                 .logout()
@@ -44,27 +46,8 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
                 .and()
                 .requestMatcher(NoBearerMatcher.INSTANCE)
-//                .antMatcher(ssoProperties.getLoginPath())
                 .authorizeRequests().anyRequest().authenticated();
     }
-
-
-//    @Bean
-//    @Primary
-//    public OAuth2ClientAuthenticationProcessingFilter oauth2SsoFilter(OAuth2SsoProperties ssoProperties) {
-//        OAuth2RestOperations restTemplate = this.applicationContext.getBean(UserInfoRestTemplateFactory.class).getUserInfoRestTemplate();
-//        ResourceServerTokenServices tokenServices = this.applicationContext.getBean(ResourceServerTokenServices.class);
-//        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(ssoProperties.getLoginPath());
-//        SimpleUrlAuthenticationFailureHandler authenticationFailureHandler = new SimpleUrlAuthenticationFailureHandler();
-//        authenticationFailureHandler.setAllowSessionCreation(properties.isAllowSessionCreation());
-//        authenticationFailureHandler.setDefaultFailureUrl(properties.getDefaultFailureUrl());
-//        authenticationFailureHandler.setUseForward(properties.isForwardToDestination());
-//        filter.setAuthenticationFailureHandler(authenticationFailureHandler);
-//        filter.setRestTemplate(restTemplate);
-//        filter.setTokenServices(tokenServices);
-//        filter.setApplicationEventPublisher(this.applicationContext);
-//        return filter;
-//    }
 
     @Override
     public void configure(WebSecurity web) {

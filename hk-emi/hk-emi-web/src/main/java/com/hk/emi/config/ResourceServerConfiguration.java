@@ -17,39 +17,4 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @EnableResourceServer
 public class ResourceServerConfiguration {
 
-//    private AuthenticationProperties properties;
-//
-//    private ApplicationContext applicationContext;
-//
-//    public ResourceServerConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {
-//        this.properties = properties;
-//        this.applicationContext = applicationContext;
-//    }
-//
-//    @Override
-//    public void configure(HttpSecurity http) throws Exception {
-//        AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
-//
-//        OAuth2RestOperations restTemplate = this.applicationContext
-//                .getBean(UserInfoRestTemplateFactory.class).getUserInfoRestTemplate();
-//        OAuth2SsoProperties ssoProperties = applicationContext.getBean(OAuth2SsoProperties.class);
-//        ResourceServerTokenServices tokenServices = this.applicationContext.getBean(ResourceServerTokenServices.class);
-//        OAuth2ClientAuthenticationProcessingFilter filter = new OAuth2ClientAuthenticationProcessingFilter(ssoProperties.getLoginPath());
-//        filter.setRestTemplate(restTemplate);
-//        filter.setTokenServices(tokenServices);
-//        filter.setApplicationEventPublisher(this.applicationContext);
-//        http.addFilterBefore(filter, AbstractPreAuthenticatedProcessingFilter.class);
-//        http
-//                .csrf().disable()
-//                .logout()
-//                .invalidateHttpSession(true)
-//                .clearAuthentication(true)
-//                .logoutUrl(browser.getLogoutUrl())
-//                .logoutSuccessUrl(browser.getLogoutSuccessUrl())
-//
-//                .and()
-//                .authorizeRequests().antMatchers("/static/**", "/favicon.ico", properties.getDefaultFailureUrl()).permitAll()
-//                .anyRequest().authenticated();
-//    }
-
 }

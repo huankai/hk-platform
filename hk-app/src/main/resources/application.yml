@@ -9,7 +9,7 @@ spring:
     add-mappings: false
   messages:
     basename: org/springframework/security/messages,com/hk/core/i18n/messages,messages
-    encoding: utf-8
+    encoding: UTF-8
     cache-duration: -1ms
   application:
     name: hk-app
@@ -75,8 +75,6 @@ spring:
   cache:
     type: redis
 
-
-
 ################################################################### eureka
 eureka:
   instance:
@@ -84,7 +82,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
-
 
 ################################################################### security oauth2
 security:

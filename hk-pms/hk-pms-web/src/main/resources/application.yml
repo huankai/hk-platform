@@ -105,17 +105,22 @@ security:
     client:
       client-id: 4028c08162b9340f0162b93427c40000
       client-secret: 4028c08162b9340f0162b93427c40000
-      access-token-uri: http://127.0.0.1:8086/oauth/token
-      user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
+      access-token-uri: http://127.0.0.1:8771/oauth2/oauth/token
+      user-authorization-uri: http://127.0.0.1:8771/oauth2/oauth/authorize
+      use-current-uri: false
+      pre-established-redirect-uri: http://127.0.0.1:8771/pms/login
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8086/oauth/token_key
+        key-uri: http://127.0.0.1:8771/oauth2/oauth/token_key
+    sso:
+      login-path: /login
 
 hk:
   authentication:
     browser:
       logout-url: /logout
-      logout-success-url: http://127.0.0.1:8086/oauth/logout?redirect_url=http://127.0.0.1:8773/index
+      logout-success-url: http://127.0.0.1:8771/oauth2/oauth/logout?redirect_url=http://127.0.0.1:8771/pms/index
+      gate-way-host: http://127.0.0.1:8771/pms
 ######################################################### logging 配置
 logging:
   level:

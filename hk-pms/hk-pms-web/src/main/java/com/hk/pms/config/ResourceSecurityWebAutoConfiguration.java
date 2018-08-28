@@ -2,6 +2,7 @@ package com.hk.pms.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
+import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 
 /**
  * 配置这个的原因是feign使用 在每个微服务调用时也需要认证，
@@ -15,7 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  */
 @Configuration
 @EnableResourceServer
-public class ResourceSecurityWebAutoConfiguration {
+public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigurerAdapter {
 
 
 }

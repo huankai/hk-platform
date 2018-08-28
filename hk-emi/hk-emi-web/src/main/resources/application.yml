@@ -109,16 +109,17 @@ security:
     client:
       client-id: 4028c0816371a097016371a38d5a0000
       client-secret: 4028c0816371a097016371a38d5a0000
-      access-token-uri: http://127.0.0.1:8086/oauth/token
-      user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
+      access-token-uri: http://127.0.0.1:8771/oauth2/oauth/token
+      user-authorization-uri: http://127.0.0.1:8771/oauth2/oauth/authorize
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8086/oauth/token_key
+        key-uri: http://127.0.0.1:8771/oauth2/oauth/token_key
 hk:
   authentication:
     browser:
       logout-url: /logout
-      logout-success-url: http://127.0.0.1:8086/oauth/logout?redirect_url=http://127.0.0.1:8772/index
+      logout-success-url: http://127.0.0.1:8771/oauth2/oauth/logout?redirect_url=http://127.0.0.1:8771/emi/index
+      gate-way-host: http://127.0.0.1:8771/emi
 ################################################################### logging
 logging:
   level:
