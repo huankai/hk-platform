@@ -1,9 +1,10 @@
-package com.hk.emi.rest;
+package com.hk.emi.controller;
 
 import com.hk.core.page.QueryModel;
 import com.hk.core.web.JsonResult;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
+import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ import java.io.InputStream;
  */
 @RestController
 @RequestMapping(path = "city")
-public class CityController {
+public class CityController extends BaseController {
 
     private final CityService cityService;
 

@@ -21,7 +21,8 @@
 
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-commons-util</artifactId>
+            <artifactId>hk-emi-commons</artifactId>
+            <version>${project.version}</version>
         </dependency>
 
         <dependency>

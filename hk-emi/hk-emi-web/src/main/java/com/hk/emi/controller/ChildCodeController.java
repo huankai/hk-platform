@@ -1,9 +1,10 @@
-package com.hk.emi.rest;
+package com.hk.emi.controller;
 
 import com.hk.core.page.QueryModel;
 import com.hk.core.web.JsonResult;
-import com.hk.emi.domain.BaseCode;
-import com.hk.emi.service.BaseCodeService;
+import com.hk.emi.domain.ChildCode;
+import com.hk.emi.service.ChildCodeService;
+import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -14,14 +15,14 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018-08-20 11:01
  */
 @RestController
-@RequestMapping("baseCode")
-public class BaseCodeController {
+@RequestMapping("childCode")
+public class ChildCodeController extends BaseController {
 
-    private final BaseCodeService baseCodeService;
+    private final ChildCodeService childCodeService;
 
     @Autowired
-    public BaseCodeController(BaseCodeService baseCodeService) {
-        this.baseCodeService = baseCodeService;
+    public ChildCodeController(ChildCodeService childCodeService) {
+        this.childCodeService = childCodeService;
     }
 
     /**
@@ -31,8 +32,8 @@ public class BaseCodeController {
      * @return JsonResult
      */
     @PostMapping
-    public JsonResult list(@RequestBody QueryModel<BaseCode> query) {
-        return JsonResult.success(baseCodeService.queryForPage(query));
+    public JsonResult list(@RequestBody QueryModel<ChildCode> query) {
+        return JsonResult.success(childCodeService.queryForPage(query));
     }
 
     /**
@@ -43,9 +44,9 @@ public class BaseCodeController {
      */
     @GetMapping(path = "{id}")
     public JsonResult get(@PathVariable String id) {
-        BaseCode baseCode = baseCodeService.getOne(id);
-        return JsonResult.success(baseCode);
+        return JsonResult.success(childCodeService.getOne(id));
     }
+
 
     /**
      * Delete By Id
@@ -53,23 +54,23 @@ public class BaseCodeController {
      * @param id id
      * @return JsonResult
      */
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "{id")
     @PreAuthorize("hasRole('admin')")
     public JsonResult deleteById(@PathVariable String id) {
-        baseCodeService.deleteById(id);
+        childCodeService.deleteById(id);
         return JsonResult.success();
     }
 
     /**
      * Save Or Update
      *
-     * @param baseCode baseCode
+     * @param childCode childCode
      * @return JsonResult
      */
     @PostMapping(path = "save")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult saveOrUpdate(@Validated @RequestBody BaseCode baseCode) {
-        baseCodeService.insertOrUpdate(baseCode);
+    public JsonResult saveOrUpdate(@Validated @RequestBody ChildCode childCode) {
+        childCodeService.insertOrUpdate(childCode);
         return JsonResult.success();
     }
 }

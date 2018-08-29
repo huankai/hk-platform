@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
@@ -19,10 +20,10 @@ import java.time.LocalDate;
 @SuppressWarnings("serial")
 public class ModelHolder {
 
-	@Data
+    @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysOrgBase extends AbstractAuditable {
+    static class SysOrgBase extends AbstractAuditable {
 
         @Column(name = "org_code")
         @NotBlank
@@ -49,7 +50,7 @@ public class ModelHolder {
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysOrgDeptBase extends AbstractAuditable {
+    static class SysOrgDeptBase extends AbstractAuditable {
 
         @Column(name = "org_id")
         private String orgId;
@@ -71,7 +72,56 @@ public class ModelHolder {
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysPermissionBase extends AbstractAuditable {
+    static class SysPermissionResourceBase extends AbstractUUIDPersistable {
+
+        @Column(name = "permission_id")
+        private String permissionId;
+
+        @Column(name = "resource_id")
+        private String resourceId;
+
+    }
+
+    @Data
+    @MappedSuperclass
+    @EqualsAndHashCode(callSuper = true)
+    static class SysResourceBase extends AbstractAuditable {
+
+        @Column(name = "parent_id")
+        private String parentId;
+
+        @Column(name = "app_id")
+        private String appId;
+
+        @Column(name = "resource_name")
+        private String resourceName;
+
+        @Column(name = "resource_uri")
+        private String resourceUri;
+
+        @Column(name = "target")
+        private String target;
+
+        @Column(name = "ordered")
+        private Byte ordered;
+
+        @Column(name = "resource_type")
+        private Byte resourceType;
+
+        @Column(name = "state")
+        private Byte state;
+
+        @Column(name = "icon")
+        private String icon;
+
+        @Column(name = "remark")
+        private String remark;
+    }
+
+    @Data
+    @MappedSuperclass
+    @EqualsAndHashCode(callSuper = true)
+    static class SysPermissionBase extends AbstractAuditable {
 
         @Column(name = "app_id")
         private String appId;
@@ -82,9 +132,6 @@ public class ModelHolder {
         @Column(name = "permission_name")
         private String permissionName;
 
-        @Column(name = "url")
-        private String url;
-
         @Column(name = "description")
         @Length(max = 200)
         private String description;
@@ -93,7 +140,7 @@ public class ModelHolder {
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysUserRoleBase extends AbstractUUIDPersistable {
+    static class SysUserRoleBase extends AbstractUUIDPersistable {
 
         @Column(name = "user_id")
         private String userId;
@@ -106,7 +153,7 @@ public class ModelHolder {
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysDeptRoleBase extends AbstractUUIDPersistable {
+    static class SysDeptRoleBase extends AbstractUUIDPersistable {
 
         @Column(name = "dept_id")
         private String deptId;
@@ -118,28 +165,33 @@ public class ModelHolder {
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysUserThirdBase extends AbstractAuditable {
+    static class SysUserThirdBase extends AbstractAuditable {
 
-        @Column(name = "user_id")
+        @Column(name = "user_id", nullable = false)
+        @NotBlank
         private String userId;
 
-        @Column(name = "user_third_name")
+        @Column(name = "user_third_name", nullable = false)
+        @NotBlank
+        @Length(max = 50)
         private String userThirdName;
 
-        @Column(name = "open_id")
+        @Column(name = "open_id", nullable = false)
+        @NotBlank
         private String openId;
 
         @Column(name = "icon_url")
         private String iconUrl;
 
-        @Column(name = "account_type")
+        @Column(name = "account_type", nullable = false)
+        @NotNull
         private Byte accountType;
     }
 
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysRoleBase extends AbstractAuditable {
+    static class SysRoleBase extends AbstractAuditable {
 
         @Column(name = "app_id")
         private String appId;
@@ -161,9 +213,9 @@ public class ModelHolder {
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysRolePermissionBase extends AbstractUUIDPersistable {
+    static class SysRolePermissionBase extends AbstractUUIDPersistable {
 
-        @Column(name = "rolg_id")
+        @Column(name = "role_id")
         private String roleId;
 
         @Column(name = "permission_id")
@@ -174,13 +226,13 @@ public class ModelHolder {
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysUserBase extends AbstractAuditable {
-
-        @Column(name = "dept_id")
-        private String deptId;
+    static class SysUserBase extends AbstractAuditable {
 
         @Column(name = "org_id")
         private String orgId;
+
+        @Column(name = "dept_id")
+        private String deptId;
 
         @Column(name = "account")
         private String account;
@@ -212,6 +264,12 @@ public class ModelHolder {
         @Column(name = "birth")
         private LocalDate birth;
 
+        @Column(name = "province_id")
+        private String provinceId;
+
+        @Column(name = "city_id")
+        private String cityId;
+
         @Column(name = "user_status")
         private Byte userStatus;
     }
@@ -220,7 +278,7 @@ public class ModelHolder {
     @Data
     @MappedSuperclass
     @EqualsAndHashCode(callSuper = true)
-    public static class SysAppBase extends AbstractAuditable {
+    static class SysAppBase extends AbstractAuditable {
 
         @Column(name = "app_name")
         private String appName;

@@ -2,6 +2,7 @@ package com.hk.emi.api;
 
 import com.hk.emi.domain.ChildCode;
 import com.hk.emi.service.ChildCodeService;
+import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/code")
-public class CodeRestController {
+public class CodeRestController extends BaseController {
 
     @Autowired
     private ChildCodeService childCodeService;

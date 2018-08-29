@@ -3,6 +3,8 @@ package com.hk.pms.repository;
 
 import com.hk.core.data.jpa.repository.StringRepository;
 import com.hk.pms.domain.SysUser;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 

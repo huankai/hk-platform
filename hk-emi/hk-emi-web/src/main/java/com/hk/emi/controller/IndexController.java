@@ -1,7 +1,7 @@
-package com.hk.emi.rest;
+package com.hk.emi.controller;
 
-import com.hk.core.authentication.api.SecurityContextUtils;
 import com.hk.core.web.JsonResult;
+import com.hk.platform.commons.web.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018-08-14 16:19
  */
 @RestController
-public class IndexController {
+public class IndexController extends BaseController {
 
     @GetMapping({"/", "/index"})
     public JsonResult index() {
-        return JsonResult.success(SecurityContextUtils.getPrincipal());
+        return JsonResult.success(getUserPrincipal());
     }
 }

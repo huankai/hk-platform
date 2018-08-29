@@ -15,6 +15,7 @@
 
     <modules>
         <module>hk-emi-api</module>
+        <module>hk-emi-commons</module>
         <module>hk-emi-web</module>
     </modules>
 

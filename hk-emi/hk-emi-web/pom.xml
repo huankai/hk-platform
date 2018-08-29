@@ -37,6 +37,12 @@
 
         <dependency>
             <groupId>com.hk</groupId>
+            <artifactId>hk-emi-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
         </dependency>
         <dependency>

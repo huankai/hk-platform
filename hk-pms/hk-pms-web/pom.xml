@@ -28,7 +28,18 @@
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-mybatis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hk</groupId>
             <artifactId>hk-emi-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-pms-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -91,7 +102,6 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
     </dependencies>
-
 
     <build>
         <plugins>

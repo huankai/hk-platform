@@ -2,9 +2,11 @@ package com.hk.sso.server.enhancer;
 
 import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.EnumDisplayUtils;
 import com.hk.commons.util.JsonUtils;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.api.UserPrincipal;
+import com.hk.platform.commons.enums.SexEnum;
 import com.hk.sso.server.entity.SysApp;
 import com.hk.sso.server.entity.SysPermission;
 import com.hk.sso.server.entity.SysRole;
@@ -56,17 +58,21 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
             // 注意，这里要返回 400的异常状态码，如果不是，客户端很难获取到异常的详细信息
             throw new OAuth2Exception("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");
         }
+        info.put("userId", principal.getUserId());
+        info.put("iconPath", principal.getIconPath());
+        info.put("realName", principal.getRealName());
         if (!ByteConstants.ONE.equals(sysApp.getLocalApp())) {
+            Map<String, Object> infoMap = new HashMap<>(additionalInformation);
+            infoMap.putAll(info);
+            defaultOAuth2AccessToken.setAdditionalInformation(infoMap);
             return defaultOAuth2AccessToken;
         }
         info.put("clientApp", new ClientAppInfo(sysApp.getId(), sysApp.getAppCode(), sysApp.getAppName(), sysApp.getAppIcon()));
-        info.put("userId", principal.getUserId());
         info.put("account", principal.getAccount());
         info.put("email", principal.getEmail());
-        info.put("iconPath", principal.getIconPath());
-        info.put("realName", principal.getRealName());
         info.put("phone", principal.getPhone());
         info.put("sex", principal.getSex());
+        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex(), false));
         info.put("userType", principal.getUserType());
         info.put("isProtect", principal.isProtectUser());
         boolean debugEnabled = LOGGER.isDebugEnabled();

@@ -1,18 +1,21 @@
 package com.hk.pms.service.impl;
 
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.stereotype.Service;
-
 import com.hk.commons.util.ByteConstants;
 import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.pms.domain.SysRole;
+import com.hk.pms.mappers.SysRoleMapper;
 import com.hk.pms.repository.SysRoleRepository;
 import com.hk.pms.service.SysRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author: kevin
@@ -23,6 +26,9 @@ import com.hk.pms.service.SysRoleService;
 public class SysRoleServiceImpl extends BaseServiceImpl<SysRole, String> implements SysRoleService {
 
     private final SysRoleRepository sysRoleRepository;
+
+    @Autowired
+    private SysRoleMapper roleMapper;
 
     @Autowired
     public SysRoleServiceImpl(SysRoleRepository sysRoleRepository) {
@@ -40,22 +46,21 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole, String> impleme
     }
 
     @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("appId", ExampleMatcher.GenericPropertyMatchers.exact())
+                .withMatcher("roleStatus", ExampleMatcher.GenericPropertyMatchers.exact())
+                .withMatcher("roleCode", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("roleName", ExampleMatcher.GenericPropertyMatchers.contains());
+    }
+
+    @Override
     public List<SysRole> getRoleList(String userId, String appId) {
-//        SysUser user = userService.getOne(userId);
-//        Set<SysRole> deptRoleSet = user.getOrgDept().getRoleSet();
-//        List<SysRole> deptRoleList = deptRoleSet.stream()
-//                .filter(item -> ByteConstants.ZERO.equals(item.getRoleStatus())
-//                        && StringUtils.notEquals(item.getApp().getId(), appId))
-//                .collect(Collectors.toList());
-//        Set<SysRole> roleSet = user.getRoleSet();
-//        List<SysRole> roleList = roleSet.stream()
-//                .filter(item -> ByteConstants.ZERO.equals(item.getRoleStatus())
-//                        && StringUtils.notEquals(item.getApp().getId(), appId))
-//                .collect(Collectors.toList());
-//        roleList.addAll(deptRoleList);
-//        return Lists.newArrayList(roleSet);
-        // TODO :
-        throw new RuntimeException("未实现...");
+        List<SysRole> roleList = roleMapper.getRoleList(userId, appId);
+        List<SysRole> deptRoleList = roleMapper.getUserDeptRoleList(userId, appId);
+        Set<String> idSet = roleList.stream().map(SysRole::getId).collect(Collectors.toSet());
+        roleList.addAll(deptRoleList.stream().filter(item -> idSet.contains(item.getId())).collect(Collectors.toList()));
+        return roleList;
     }
 
     @Override

@@ -5,6 +5,7 @@ server:
     session:
       cookie:
         name: AUTH_JSESSION
+        http-only: true
 ##########################################################
 spring:
   main:

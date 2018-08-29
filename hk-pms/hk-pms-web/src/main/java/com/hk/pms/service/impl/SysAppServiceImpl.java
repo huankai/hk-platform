@@ -10,7 +10,10 @@ import com.hk.pms.repository.SysAppRepository;
 import com.hk.pms.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 /**
  * @author: kevin
@@ -27,6 +30,16 @@ public class SysAppServiceImpl extends EnableCacheServiceImpl<SysApp, String> im
         this.sysAppRepository = sysAppRepository;
     }
 
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("appStatus", ExampleMatcher.GenericPropertyMatchers.exact())
+                .withMatcher("localApp", ExampleMatcher.GenericPropertyMatchers.exact())
+                .withMatcher("appCode", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("appName", ExampleMatcher.GenericPropertyMatchers.contains());
+    }
+
     @Override
     protected BaseRepository<SysApp, String> getBaseRepository() {
         return sysAppRepository;
@@ -39,7 +52,7 @@ public class SysAppServiceImpl extends EnableCacheServiceImpl<SysApp, String> im
      * @return
      */
     @Override
-    public SysApp findByAppCode(String appCode) {
+    public Optional<SysApp> findByAppCode(String appCode) {
         AssertUtils.notBlank(appCode);
         return sysAppRepository.findByAppCode(appCode);
     }

@@ -4,6 +4,10 @@ import com.hk.core.page.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.pms.api.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collection;
 import java.util.List;
@@ -14,6 +18,7 @@ import java.util.Optional;
  * @date 2018-08-13 20:16
  */
 @FeignClient("HK-PMS")
+@RequestMapping("/api/user")
 public interface UserFeignClient {
 
     /**
@@ -32,7 +37,8 @@ public interface UserFeignClient {
      * @param userId userId
      * @return userId
      */
-    Optional<User> findByUserId(String userId);
+    @GetMapping("{id}")
+    Optional<User> findByUserId(@PathVariable("id") String userId);
 
     /**
      * @param account account
@@ -60,7 +66,8 @@ public interface UserFeignClient {
     /**
      * @param userId userId
      */
-    void deleteById(String userId);
+    @DeleteMapping("{id}")
+    void deleteById(@PathVariable("id") String userId);
 
     /**
      * @param userIds userIds

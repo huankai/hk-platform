@@ -15,13 +15,14 @@
     </properties>
 
     <modules>
+        <module>hk-app</module>
         <module>hk-sso</module>
         <module>hk-gateway</module>
         <module>hk-discovery</module>
         <module>hk-pms</module>
         <module>hk-emi</module>
         <module>hk-fs</module>
-        <module>hk-app</module>
+        <module>hk-platform-business</module>
     </modules>
 
     <dependencyManagement>
