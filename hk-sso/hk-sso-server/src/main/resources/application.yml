@@ -3,6 +3,7 @@ server:
   servlet:
     context-path: /
     session:
+      timeout: 30ms
       cookie:
         name: AUTH_JSESSION
         http-only: true

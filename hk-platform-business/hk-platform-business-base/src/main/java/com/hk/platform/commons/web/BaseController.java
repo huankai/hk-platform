@@ -18,7 +18,7 @@ public abstract class BaseController {
     @Autowired
     private SecurityContext securityContext;
 
-    protected final UserPrincipal getUserPrincipal() {
+    protected final UserPrincipal getPrincipal() {
         return securityContext.getPrincipal();
     }
 

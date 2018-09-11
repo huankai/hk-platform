@@ -1,6 +1,6 @@
 package com.hk.pms.service;
 
-import com.hk.commons.util.ArrayUtils;
+import com.hk.commons.util.ByteConstants;
 import com.hk.core.service.BaseService;
 import com.hk.pms.commons.tree.ResourceTree;
 import com.hk.pms.domain.SysResource;
@@ -14,13 +14,19 @@ import java.util.List;
  */
 public interface SysResourceService extends BaseService<SysResource, String> {
 
-    default List<ResourceTree> findByPermissionIds(String... permissionIds) {
-        return findByPermissionIds(ArrayUtils.asList(permissionIds));
-    }
-
     List<ResourceTree> findByPermissionIds(Collection<String> permissions);
 
-    void disable(String id);
+    default void disable(String id) {
+        findOne(id).ifPresent(item -> {
+            item.setState(ByteConstants.ZERO);
+            updateById(item);
+        });
+    }
 
-    void enable(String id);
+    default void enable(String id) {
+        findOne(id).ifPresent(item -> {
+            item.setState(ByteConstants.ONE);
+            updateById(item);
+        });
+    }
 }

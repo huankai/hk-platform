@@ -37,7 +37,7 @@ public class CityController extends BaseController {
      * @param query query
      * @return JsonResult
      */
-    @PostMapping
+    @PostMapping(path = "list")
     public JsonResult list(@RequestBody QueryModel<City> query) {
         return JsonResult.success(cityService.queryForPage(query));
     }
@@ -83,7 +83,7 @@ public class CityController extends BaseController {
      * @param city city
      * @return JsonResult
      */
-    @PostMapping(path = "save")
+    @PostMapping
     @PreAuthorize("hasRole('admin')")
     public JsonResult saveOrUpdate(@Validated @RequestBody City city) {
         cityService.insertOrUpdate(city);

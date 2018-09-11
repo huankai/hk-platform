@@ -33,7 +33,7 @@ public class ResourceRestController extends BaseController {
      * 返回用户指定 app的菜单资源
      *
      * @param appId appId
-     * @return sysResourceList
+     * @return {@link ResourceTree}
      */
     @GetMapping("{appId}")
     public List<ResourceTree> myResourceTreeList(@PathVariable String appId) {

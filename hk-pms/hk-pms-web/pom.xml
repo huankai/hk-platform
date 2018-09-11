@@ -30,10 +30,9 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-core-data-mybatis</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-emi-api</artifactId>
+            <artifactId>hk-platform-business-emi</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -100,6 +99,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

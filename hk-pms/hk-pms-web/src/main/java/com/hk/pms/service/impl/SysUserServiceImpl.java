@@ -127,7 +127,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
     }
 
     private void checkOldPassword(SysUser user, String oldPassword) {
-        // TODO 未实现
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new ServiceException("原密码可能不正确！");
+        }
     }
 
     @Override
@@ -154,6 +156,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
         findOne(userId).ifPresent(user -> {
             user.setUserStatus(userStatus);
             insertOrUpdate(user);
+            logger.info("用户[{}]状态已更新,更新后的状态为：{}", userId, userStatus);
         });
     }
 
@@ -174,8 +177,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
                 entity.setUserStatus(ByteConstants.ONE);
                 return entity;
             }
-
         }
+
         if (StringUtils.isNotEmpty(entity.getPhone())) {
             optionalUser = sysUserRepository.findByPhone(entity.getPhone());
             if (optionalUser.isPresent()) {
@@ -189,6 +192,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
                 }
             }
         }
+
         if (StringUtils.isNotEmpty(entity.getEmail())) {
             optionalUser = sysUserRepository.findByEmail(entity.getEmail());
             if (optionalUser.isPresent()) {
@@ -202,11 +206,9 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
                 }
             }
         }
+
         if (entity.isNew()) {//只有新用户才创建密码
-            String password = entity.getPassword();
-            if (StringUtils.isEmpty(entity.getPassword())) {
-                password = entity.getAccount();
-            }
+            String password = StringUtils.isEmpty(entity.getPassword()) ? entity.getAccount() : entity.getPassword();
             entity.setPassword(passwordEncoder.encode(password));
         }
         return entity;

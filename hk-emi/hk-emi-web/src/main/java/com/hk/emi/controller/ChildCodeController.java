@@ -31,7 +31,7 @@ public class ChildCodeController extends BaseController {
      * @param query query
      * @return JsonResult
      */
-    @PostMapping
+    @PostMapping(path = "/list")
     public JsonResult list(@RequestBody QueryModel<ChildCode> query) {
         return JsonResult.success(childCodeService.queryForPage(query));
     }
@@ -46,7 +46,6 @@ public class ChildCodeController extends BaseController {
     public JsonResult get(@PathVariable String id) {
         return JsonResult.success(childCodeService.getOne(id));
     }
-
 
     /**
      * Delete By Id
@@ -67,7 +66,7 @@ public class ChildCodeController extends BaseController {
      * @param childCode childCode
      * @return JsonResult
      */
-    @PostMapping(path = "save")
+    @PostMapping
     @PreAuthorize("hasRole('admin')")
     public JsonResult saveOrUpdate(@Validated @RequestBody ChildCode childCode) {
         childCodeService.insertOrUpdate(childCode);

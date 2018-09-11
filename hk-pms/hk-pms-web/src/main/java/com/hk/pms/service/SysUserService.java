@@ -26,21 +26,29 @@ public interface SysUserService extends BaseService<SysUser, String> {
      *
      * @param username 登陆用户名
      */
-    default void existsByLoginUsername(String username) {
+    default boolean existsByLoginUsername(String username) {
+        return findByLoginUsername(username).isPresent();
+    }
+
+    /**
+     * @param username username
+     * @throws ServiceException
+     */
+    default void checkByLoginUsername(String username) throws ServiceException {
         findByLoginUsername(username).orElseThrow(() -> new ServiceException("用户名 [" + username + "] 已存在"));
     }
 
     /**
      * 禁用用户
      *
-     * @param userId
+     * @param userId userId
      */
     void disable(String userId);
 
     /**
      * 启用用户
      *
-     * @param userId
+     * @param userId userId
      */
     void enable(String userId);
 

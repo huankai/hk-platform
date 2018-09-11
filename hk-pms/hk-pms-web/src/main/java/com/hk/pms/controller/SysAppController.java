@@ -58,6 +58,7 @@ public class SysAppController extends BaseController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('admin')")
     public JsonResult saveOrUpdate(@Validated @RequestBody SysApp app) {
         appService.insertOrUpdate(app);
         return JsonResult.success();

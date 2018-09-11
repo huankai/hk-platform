@@ -1,8 +1,8 @@
 package com.hk.emi.api.domain;
 
-import java.io.Serializable;
-
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * City
@@ -12,7 +12,7 @@ import lombok.Data;
  */
 @Data
 @SuppressWarnings("serial")
-public class City implements Serializable {
+public final class City implements Serializable {
 
     /**
      * id

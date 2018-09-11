@@ -9,6 +9,7 @@ import com.hk.commons.util.BeanUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.cache.service.EnableCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.exception.ServiceException;
 import com.hk.emi.domain.City;
 import com.hk.emi.repository.CityRepository;
 import com.hk.emi.service.CityService;
@@ -17,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -53,11 +53,19 @@ public class CityServiceImpl extends EnableCacheServiceImpl<City, String> implem
                 .withMatcher("fullName", ExampleMatcher.GenericPropertyMatchers.contains());
     }
 
+    @Override
+    protected City saveBefore(City entity) throws ServiceException {
+        if (StringUtils.isEmpty(entity.getParentId())) {
+            entity.setParentId(entity.getId());
+        }
+        return entity;
+    }
+
     /**
      * 查询下级City
      *
-     * @param parentId
-     * @return
+     * @param parentId parentId
+     * @return List<City>
      */
     @Override
     public List<City> findChildList(String parentId) {
@@ -70,7 +78,6 @@ public class CityServiceImpl extends EnableCacheServiceImpl<City, String> implem
      * @param in excel文件
      */
     @Override
-    @Transactional
     public void importExcel(InputStream in) {
         ReadParam<CityExcelVo> readableParam = ReadParam.<CityExcelVo>builder()
                 .beanClazz(CityExcelVo.class)
@@ -103,6 +110,7 @@ public class CityServiceImpl extends EnableCacheServiceImpl<City, String> implem
 //                .data(cityList)
 //                .build();
 //        WriteableExcel<CityExcelVo> writeableExcel = new XSSFWriteableExcel<>();
+        List<CityExcelVo> list = cityRepository.findExportExcelData(city);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //        writeableExcel.write(param, baos);
         return new ByteArrayInputStream(baos.toByteArray());

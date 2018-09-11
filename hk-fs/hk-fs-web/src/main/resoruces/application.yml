@@ -7,6 +7,8 @@ server:
         name: FSESSION
 
 spring:
+  main:
+    banner-mode: 'off'
   messages:
     basename: org/springframework/security/messages,com/hk/core/i18n/messages,messages
     encoding: utf-8

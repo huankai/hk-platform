@@ -3,6 +3,7 @@ package com.hk.pms.commons.tree;
 import com.hk.platform.commons.tree.TreeNode;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author: kevin
@@ -10,6 +11,7 @@ import lombok.Data;
  */
 @Data
 @Builder
+@EqualsAndHashCode(callSuper = true)
 public class ResourceTree extends TreeNode {
 
     private String resourceUri;

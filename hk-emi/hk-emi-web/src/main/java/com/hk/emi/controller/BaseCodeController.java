@@ -1,6 +1,7 @@
 package com.hk.emi.controller;
 
 import com.hk.core.page.QueryModel;
+import com.hk.core.query.Order;
 import com.hk.core.web.JsonResult;
 import com.hk.emi.domain.BaseCode;
 import com.hk.emi.service.BaseCodeService;
@@ -31,9 +32,14 @@ public class BaseCodeController extends BaseController {
      * @param query query
      * @return JsonResult
      */
-    @PostMapping
+    @PostMapping(path = "list")
     public JsonResult list(@RequestBody QueryModel<BaseCode> query) {
         return JsonResult.success(baseCodeService.queryForPage(query));
+    }
+
+    @GetMapping(path = "all")
+    public JsonResult findAll() {
+        return JsonResult.success(baseCodeService.findAll(Order.asc("baseCode")));
     }
 
     /**
@@ -67,7 +73,7 @@ public class BaseCodeController extends BaseController {
      * @param baseCode baseCode
      * @return JsonResult
      */
-    @PostMapping(path = "save")
+    @PostMapping
     @PreAuthorize("hasRole('admin')")
     public JsonResult saveOrUpdate(@Validated @RequestBody BaseCode baseCode) {
         baseCodeService.insertOrUpdate(baseCode);

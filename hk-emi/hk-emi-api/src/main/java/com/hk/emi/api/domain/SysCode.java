@@ -1,8 +1,8 @@
 package com.hk.emi.api.domain;
 
-import java.io.Serializable;
-
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @author: kevin
@@ -10,11 +10,13 @@ import lombok.Data;
  */
 @Data
 @SuppressWarnings("serial")
-public class SysCode implements Serializable {
+public final class SysCode implements Serializable {
 
     private String id;
 
-    private String code;
+    private String childCode;
+
+    private Byte codeValue;
 
     private String codeName;
 

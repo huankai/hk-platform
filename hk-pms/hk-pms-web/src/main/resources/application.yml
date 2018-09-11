@@ -7,6 +7,8 @@ server:
         name: PMS_JSESSION
         http-only: true
 spring:
+  main:
+    banner-mode: 'off'
   servlet:
     multipart:
       enabled: false # 禁用文件上传功能
@@ -134,6 +136,15 @@ hk:
       logout-url: /logout
       logout-success-url: http://127.0.0.1:8771/oauth2/oauth/logout?redirect_url=http://127.0.0.1:8771/pms/index
       gate-way-host: http://127.0.0.1:8771/pms
+#      permit-all-matchers:
+#        - method: GET
+#          uris:
+#            - /api/**
+#          permission: admin
+#        - method: GET
+#          uris:
+#            - /aaaa/**
+#          permission: admin
     default-failure-url: http://127.0.0.1:8771/pms/error  #使用了gateway这里写上gateway访问的路径，如果是前后端分离项目，可以不需要这样写
 ######################################################### logging 配置
 logging:

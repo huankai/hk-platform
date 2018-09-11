@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * 测试
+ *
  * @author: kevin
  * @date 2018-07-30 12:53
  */
 @RestController
+@Deprecated
 public class SysTestController extends BaseController {
 
     @Autowired

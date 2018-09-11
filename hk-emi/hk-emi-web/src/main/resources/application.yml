@@ -7,6 +7,8 @@ server:
         name: EMI_JSESSION
         http-only: true
 spring:
+  main:
+    banner-mode: 'off'
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
@@ -125,7 +127,7 @@ hk:
 logging:
   level:
     root: error
-    org.springframework: debug
+    org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
     org.springframework.jdbc.core.StatementCreatorUtils: debug

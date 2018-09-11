@@ -1,18 +1,16 @@
 package com.hk.emi.vo;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
-
 import com.hk.commons.poi.excel.annotations.ReadExcel;
 import com.hk.commons.poi.excel.annotations.WriteExcel;
 import com.hk.commons.util.StringUtils;
-
+import com.hk.commons.validator.constraints.EnumDict;
+import com.hk.emi.domain.City;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 城市导入Vo
@@ -64,12 +62,10 @@ public class CityExcelVo implements Serializable {
 
     /**
      * 城市类型
-     *
-     * @see com.hk.emi.domain.City.CityType
      */
     @ReadExcel(start = 5)
     @NotNull
-    @Range(min = 1, max = 6, message = "")
+    @EnumDict(codeId = City.CITY_TYPE_DICT_ID)
     private Byte cityType;
 
     /**

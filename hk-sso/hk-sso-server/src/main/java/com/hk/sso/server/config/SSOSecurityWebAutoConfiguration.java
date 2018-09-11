@@ -19,6 +19,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -94,6 +95,11 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .usernameParameter(browser.getUsernameParameter())
                 .passwordParameter(browser.getPasswordParameter())
                 .loginProcessingUrl(browser.getLoginProcessingUrl())
+
+                .and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                .enableSessionUrlRewriting(false)
                 .and()
                 // 使用 zuul登陆地址
 //                .addObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>() {

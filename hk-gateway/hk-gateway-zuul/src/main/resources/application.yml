@@ -4,6 +4,8 @@ server:
     context-path: /
 
 spring:
+  main:
+    banner-mode: 'off'
   application:
     name: hk-gateway-zuul
   aop:

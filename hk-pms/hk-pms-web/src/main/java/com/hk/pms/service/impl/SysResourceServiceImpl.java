@@ -53,7 +53,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource, String>
 
     @Override
     public List<ResourceTree> findByPermissionIds(Collection<String> permissions) {
-        if (CollectionUtils.isEmpty(permissions) && !getUserPrincipal().isAdministrator()) {
+        if (CollectionUtils.isEmpty(permissions) && !getPrincipal().isAdministrator()) {
             return Collections.emptyList();
         }
         List<SysResource> allResourceList = resourceMapper.findByPermissionIds(permissions);
@@ -68,22 +68,6 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource, String>
             result.add(resourceTree);
         });
         return result;
-    }
-
-    @Override
-    public void disable(String id) {
-        findOne(id).ifPresent(item -> {
-            item.setState(ByteConstants.ZERO);
-            updateById(item);
-        });
-    }
-
-    @Override
-    public void enable(String id) {
-        findOne(id).ifPresent(item -> {
-            item.setState(ByteConstants.ONE);
-            updateById(item);
-        });
     }
 
     @Override

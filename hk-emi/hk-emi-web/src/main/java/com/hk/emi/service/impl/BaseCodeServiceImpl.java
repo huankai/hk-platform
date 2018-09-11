@@ -10,6 +10,7 @@ import com.hk.emi.repository.BaseCodeRepository;
 import com.hk.emi.service.BaseCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -27,6 +28,13 @@ public class BaseCodeServiceImpl extends EnableCacheServiceImpl<BaseCode, String
     @Autowired
     public BaseCodeServiceImpl(BaseCodeRepository baseCodeRepository) {
         this.baseCodeRepository = baseCodeRepository;
+    }
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("baseCode", ExampleMatcher.GenericPropertyMatcher::contains)
+                .withMatcher("codeName", ExampleMatcher.GenericPropertyMatcher::contains);
     }
 
     @Override

@@ -14,6 +14,6 @@ public class IndexController extends BaseController {
 
     @GetMapping({"/", "/index"})
     public JsonResult index() {
-        return JsonResult.success(getUserPrincipal());
+        return JsonResult.success(getPrincipal());
     }
 }

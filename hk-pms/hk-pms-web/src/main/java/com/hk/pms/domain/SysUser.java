@@ -1,10 +1,11 @@
 package com.hk.pms.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+import com.hk.business.utils.DictCodeUtils;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author: kevin
@@ -16,4 +17,8 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class SysUser extends ModelHolder.SysUserBase {
+
+    public String getUserStatusChinese() {
+        return DictCodeUtils.getChildName(USER_STATUS_DICT_BASE_ID, getUserStatus());
+    }
 }

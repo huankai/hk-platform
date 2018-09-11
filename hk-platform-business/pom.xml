@@ -15,6 +15,7 @@
 
     <modules>
         <module>hk-platform-business-base</module>
+        <module>hk-platform-business-emi</module>
     </modules>
 
 </project>

@@ -1,5 +1,6 @@
 package com.hk.pms.controller;
 
+import com.hk.commons.util.StringUtils;
 import com.hk.core.page.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.core.web.JsonResult;
@@ -68,12 +69,16 @@ public class SysUserController extends BaseController {
      *
      * @param oldPassword 原密码
      * @param newPassword 新密码
+     * @param newPassword 新密码2
      * @return jsonResult
      */
     @PostMapping("reset_password")
-    public JsonResult resetPassword(@RequestParam String oldPassword, @RequestParam String newPassword) {
-        userService.resetPassword(getUserPrincipal().getUserId(), oldPassword, newPassword);
-        return JsonResult.success();
+    public JsonResult resetPassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String newPassword2) {
+        if (StringUtils.notEquals(newPassword, newPassword2)) {
+            return JsonResult.badRueqest("两次输入密码不一致");
+        }
+        userService.resetPassword(getPrincipal().getUserId(), oldPassword, newPassword);
+        return JsonResult.success("重设密码成功");
     }
 
 }
