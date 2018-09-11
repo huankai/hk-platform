@@ -8,6 +8,8 @@ hk-discovery:
 hk-emi:
 -- hk-emi-api: feign emi api接口定义
 
+-- hk-emi-commons: emi commons 包
+
 -- hk-emi-web: emi 字典管理系统
 
 hk-fs:
@@ -15,8 +17,16 @@ hk-fs:
 
 -- hk-fs-web: fs 文件管理系统
 
+hk-platform-business:
+
+hk-platform-business-base: 业务公用包
+
+hk-platform-business-emi:  业务公用emi包
+
 hk-pms:
 -- hk-pms-api: feign pms api接口定义
+
+-- hk-pms-commons: pms commons 包
 
 -- hk-pms-web: pms 统一用户与权限管理系统
 
