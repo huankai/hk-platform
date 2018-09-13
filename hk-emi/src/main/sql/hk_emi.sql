@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2018-08-27 08:55:03
+Date: 2018-09-13 17:17:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,7 +35,10 @@ CREATE TABLE `sys_base_code` (
 -- ----------------------------
 -- Records of sys_base_code
 -- ----------------------------
-INSERT INTO `sys_base_code` VALUES ('4028c081655a3a5a01655a3acd160000', 'RDXBE', '人的性别', '人的性别描述', '4028c08162bda8ce0162bda8df6a0000', '2018-08-21 10:05:28', '4028c08162bda8ce0162bda8df6a0000', '2018-08-21 10:06:31');
+INSERT INTO `sys_base_code` VALUES ('4028c081655a3a5a01655a3acd160000', 'CSLB', ' 城市类型', ' 城市类型', '4028c08162bda8ce0162bda8df6a0000', '2018-08-21 10:05:28', '4028c08162bda8ce0162bda8df6a0000', '2018-08-21 10:06:31');
+INSERT INTO `sys_base_code` VALUES ('4028c081655a3a5a01655a3acd160001', 'SFYX', '是否有效', '是否有效', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:57:34', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:57:37');
+INSERT INTO `sys_base_code` VALUES ('4028c081658f05b301658f0740970000', 'RDXB', '人的性别', '人的性别', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:09:02', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:09:02');
+INSERT INTO `sys_base_code` VALUES ('4028c081658f05b301658f0bf9b70005', 'YHZT', '用户状态', '用户状态', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:14:11', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:14:11');
 
 -- ----------------------------
 -- Table structure for sys_child_code
@@ -46,6 +49,7 @@ CREATE TABLE `sys_child_code` (
   `base_code_id` char(32) DEFAULT NULL,
   `child_code` varchar(20) NOT NULL,
   `code_name` varchar(50) NOT NULL,
+  `code_value` tinyint(1) NOT NULL,
   `state` tinyint(1) NOT NULL COMMENT '状态(0,不可用，1：可用)',
   `description` varchar(100) DEFAULT NULL,
   `created_by` char(32) NOT NULL,
@@ -60,6 +64,20 @@ CREATE TABLE `sys_child_code` (
 -- ----------------------------
 -- Records of sys_child_code
 -- ----------------------------
+INSERT INTO `sys_child_code` VALUES ('4028c081655a7a5a01615a3acd160000', '4028c081655a3a5a01655a3acd160000', 'CONTURY', ' 国家', '1', '1', ' 国家', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:50:06', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:50:10');
+INSERT INTO `sys_child_code` VALUES ('4028c081655a7a5a01615a3acd160001', '4028c081655a3a5a01655a3acd160000', 'PROVINCE', '省', '2', '1', '省', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:50:29', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:50:31');
+INSERT INTO `sys_child_code` VALUES ('4028c081655a7a5a01615a3acd160002', '4028c081655a3a5a01655a3acd160000', 'CITY', '市', '3', '1', '市', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:53:57', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:53:59');
+INSERT INTO `sys_child_code` VALUES ('4028c081655a7a5a01615a3acd160003', '4028c081655a3a5a01655a3acd160000', 'AREA', '区或县', '4', '1', '区或县', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:54:41', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:54:44');
+INSERT INTO `sys_child_code` VALUES ('4028c081655a7a5a01615a3acd160004', '4028c081655a3a5a01655a3acd160000', 'TOWN', '镇', '5', '1', '镇', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:55:07', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:55:10');
+INSERT INTO `sys_child_code` VALUES ('4028c081655a7a5a01615a3acd160005', '4028c081655a3a5a01655a3acd160000', 'VILLAGE', '村', '6', '1', '村', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:55:40', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 14:55:43');
+INSERT INTO `sys_child_code` VALUES ('4028c081655a7a5a01615a3acd160006', '4028c081655a3a5a01655a3acd160001', 'YES', '是', '1', '1', '是', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 15:30:46', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 15:30:43');
+INSERT INTO `sys_child_code` VALUES ('4028c081655a7a5a01615a3acd160007', '4028c081655a3a5a01655a3acd160001', 'NO', '否', '1', '1', '否', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 15:31:16', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 15:31:13');
+INSERT INTO `sys_child_code` VALUES ('4028c081658f05b301658f090ad50001', '4028c081658f05b301658f0740970000', 'MAN', '男', '1', '1', '男', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:10:59', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:10:59');
+INSERT INTO `sys_child_code` VALUES ('4028c081658f05b301658f0966c20002', '4028c081658f05b301658f0740970000', 'WOMAN', '女', '2', '1', '女', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:11:23', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:11:23');
+INSERT INTO `sys_child_code` VALUES ('4028c081658f05b301658f09bcb40003', '4028c081658f05b301658f0740970000', 'UNKNOWN', '未知', '9', '1', '未知', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:11:45', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:11:45');
+INSERT INTO `sys_child_code` VALUES ('4028c081658f05b301658f0c62e10006', '4028c081658f05b301658f0bf9b70005', 'ENABLE', '启用', '1', '1', '启用', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:14:38', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:14:38');
+INSERT INTO `sys_child_code` VALUES ('4028c081658f05b301658f0cc3b50007', '4028c081658f05b301658f0bf9b70005', 'DISABLE', '锁定', '2', '1', '锁定', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:15:03', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:15:03');
+INSERT INTO `sys_child_code` VALUES ('4028c081658f05b301658f0d44ed0008', '4028c081658f05b301658f0bf9b70005', 'DELETED', '已删除', '9', '1', '已删除', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:15:36', '4028c08162bda8ce0162bda8df6a0000', '2018-08-31 16:15:36');
 
 -- ----------------------------
 -- Table structure for sys_city
