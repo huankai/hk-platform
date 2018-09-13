@@ -40,24 +40,16 @@ public interface FileInfoService extends BaseService<FileInfo, String> {
      */
     static FileSizeUnit convertFileSize(long fileSize) {
         AssertUtils.isTrue(fileSize > 0, "文件大小不能小于0");
-        double convertFileSize;
-        String unit;
         if (fileSize < B_MAX_SIZE.longValue()) {
-            convertFileSize = Double.valueOf(String.valueOf(fileSize));
-            unit = B_UNIT;
+            return new FileSizeUnit(Double.valueOf(String.valueOf(fileSize)), B_UNIT);
         } else if (fileSize < KB_MAX_SIZE.longValue()) {
-            convertFileSize = new BigDecimal(fileSize).divide(B_MAX_SIZE, 2, BigDecimal.ROUND_DOWN).doubleValue();
-            unit = KB_UNIT;
+            return new FileSizeUnit(new BigDecimal(fileSize).divide(B_MAX_SIZE, 2, BigDecimal.ROUND_DOWN).doubleValue(), KB_UNIT);
         } else if (fileSize < MB_MAX_SIZE.longValue()) {
-            convertFileSize = new BigDecimal(fileSize).divide(KB_MAX_SIZE, 2, BigDecimal.ROUND_DOWN).doubleValue();
-            unit = MB_UNIT;
+            return new FileSizeUnit(new BigDecimal(fileSize).divide(KB_MAX_SIZE, 2, BigDecimal.ROUND_DOWN).doubleValue(), MB_UNIT);
         } else if (fileSize < GB_MAX_SIZE.longValue()) {
-            convertFileSize = new BigDecimal(fileSize).divide(MB_MAX_SIZE, 2, BigDecimal.ROUND_DOWN).doubleValue();
-            unit = GB_UNIT;
-        } else {
-            throw new IllegalArgumentException("文件过大！");
+            return new FileSizeUnit(new BigDecimal(fileSize).divide(MB_MAX_SIZE, 2, BigDecimal.ROUND_DOWN).doubleValue(), GB_UNIT);
         }
-        return new FileSizeUnit(convertFileSize, unit);
+        throw new IllegalArgumentException("文件过大！");
     }
 
     @AllArgsConstructor

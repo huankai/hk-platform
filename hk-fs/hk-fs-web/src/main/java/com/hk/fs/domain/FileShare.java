@@ -1,17 +1,15 @@
-package com.hk.fs.entity;
-
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+package com.hk.fs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.data.jpa.domain.AbstractAuditable;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 /**
  * 文件分享

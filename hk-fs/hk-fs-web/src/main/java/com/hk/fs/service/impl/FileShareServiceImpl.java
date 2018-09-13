@@ -2,7 +2,7 @@ package com.hk.fs.service.impl;
 
 import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
-import com.hk.fs.entity.FileShare;
+import com.hk.fs.domain.FileShare;
 import com.hk.fs.repository.FileShareRepository;
 import com.hk.fs.service.FileShareService;
 import org.springframework.beans.factory.annotation.Autowired;

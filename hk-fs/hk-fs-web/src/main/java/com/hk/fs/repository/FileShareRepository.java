@@ -1,7 +1,7 @@
 package com.hk.fs.repository;
 
 import com.hk.core.data.jpa.repository.StringRepository;
-import com.hk.fs.entity.FileShare;
+import com.hk.fs.domain.FileShare;
 
 /**
  * @author: kevin

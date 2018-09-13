@@ -1,7 +1,7 @@
 package com.hk.fs.service;
 
 import com.hk.core.service.BaseService;
-import com.hk.fs.entity.FileShare;
+import com.hk.fs.domain.FileShare;
 
 /**
  * @author: kevin
