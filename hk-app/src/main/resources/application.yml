@@ -2,11 +2,16 @@ server:
   port: 8776
   servlet:
     context-path: /
-
 spring:
+  main:
+    banner-mode: 'off'
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
   messages:
     basename: org/springframework/security/messages,com/hk/core/i18n/messages,messages
-    encoding: utf-8
+    encoding: UTF-8
     cache-duration: -1ms
   application:
     name: hk-app
@@ -17,7 +22,8 @@ spring:
       hibernate:
       #        hbm2ddl:
       #         auto: upload
-         enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+      # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+         enable_lazy_load_no_trans: true
          dialect: org.hibernate.dialect.MySQL57InnoDBDialect
 
   datasource:
@@ -29,41 +35,47 @@ spring:
     password: root
     druid:
       initial-size: 1
-      min-idle: 1
       max-active: 20
+      min-idle: 1
       max-wait: 6000
       time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 'x' FROM DUAL
       test-on-borrow: true
-      test-while-idle: true
       test-on-return: false
       pool-prepared-statements: true
       max-pool-prepared-statement-per-connection-size: 20
-      filters:
-      - stat
-      - wall
-      - log4j2
-#      connect-properties:
-#        druid.stat.mergeSql: true
-#        druid.stat.slowSqlMillis: 5000
+      filters: stat,wall,log4j2
+      filter:
+        stat:
+          slow-sql-millis: 5000
+      connection-properties: druid.stat.mergeSql=true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        # 禁用HTML页面上的“Reset All”功能
+        reset-enable: false
+        allow: 127.0.0.1
+        login-username: druidAdmin
+        login-password: druidAdmin@%*
+      web-stat-filter:
+        enabled: true
+        url-pattern: /**
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
 
 ################################################################### redis
-#  redis:
-#    host: 192.168.64.128
-#    port: 6379
-#    database: 0
-#    password: 1234567
-#    timeout: 0ms
-#    jedis:
-#      pool:
-#        max-active: 1000
-#        max-idle: 100
-#        min-idle: 1
-#        max-wait: -1ms
-#  cache:
-#    type: redis
-
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    password: 1234567
+    timeout: 2000ms
+    jedis:
+      pool:
+        max-active: 1000
+        max-idle: 100
+        min-idle: 1
+        max-wait: -1ms
+  cache:
+    type: redis
 
 ################################################################### eureka
 eureka:
@@ -73,31 +85,35 @@ eureka:
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
-################################################################### logging
+################################################################### security oauth2
+security:
+  oauth2:
+    client:
+      client-id: 4028c0816371a097016371a38d650002
+      client-secret: 4028c0816371a097016371a38d650001
+      user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
+      access-token-uri: http://127.0.0.1:8086/oauth/token
+    resource:
+      jwt:
+        key-uri: http://127.0.0.1:8086/oauth/token_key
+    sso:
+      default-failure-url: /error
+hk:
+  authentication:
+    browser:
+      logout-url: /logout
+      logout-success-url: http://127.0.0.1:8086/oauth/logout?redirect_url=http://127.0.0.1:8776/index
+######################################################### logging 配置
 logging:
   level:
     root: error
+    org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
     org.springframework.jdbc.core.StatementCreatorUtils: debug
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: debug
-    com.hk.pms: debug
-security:
-  oauth2:
-    client:
-      client-id: 4028c08162b9340f0162b93427c40000
-      client-secret: 4028c08162b9340f0162b93427c40000
-      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
-      access-token-uri: http://127.0.0.1:8080/oauth/token
-    resource:
-      jwt:
-        key-uri: http://127.0.0.1:8080/oauth/token_key
-
-
-
-
-
+    com.hk: debug
 
 
 

@@ -2,12 +2,15 @@ package com.hk.emi.service.impl;
 
 
 import com.hk.commons.util.ArrayUtils;
+import com.hk.commons.validator.DictService;
+import com.hk.core.cache.service.EnableCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.emi.domain.ChildCode;
-import com.hk.emi.repository.ChildCodeRepostory;
+import com.hk.emi.repository.ChildCodeRepository;
 import com.hk.emi.service.ChildCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,36 +21,57 @@ import java.util.stream.Collectors;
  * @date 2018年1月24日下午1:44:55
  */
 @Service
-public class ChildCodeServiceImpl extends BaseServiceImpl<ChildCode, String> implements ChildCodeService {
+@CacheConfig(cacheNames = "ChildCode")
+public class ChildCodeServiceImpl extends EnableCacheServiceImpl<ChildCode, String> implements ChildCodeService, DictService {
 
-    private final ChildCodeRepostory childCodeRepostory;
+    private final ChildCodeRepository childCodeRepository;
 
     @Autowired
-    public ChildCodeServiceImpl(ChildCodeRepostory childCodeRepostory) {
-        this.childCodeRepostory = childCodeRepostory;
+    public ChildCodeServiceImpl(ChildCodeRepository childCodeRepository) {
+        this.childCodeRepository = childCodeRepository;
     }
 
     @Override
     protected BaseRepository<ChildCode, String> getBaseRepository() {
-        return childCodeRepostory;
+        return childCodeRepository;
+    }
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("state", ExampleMatcher.GenericPropertyMatcher::exact)
+                .withMatcher("codeValue", ExampleMatcher.GenericPropertyMatcher::exact)
+                .withMatcher("childCode", ExampleMatcher.GenericPropertyMatcher::contains)
+                .withMatcher("codeName", ExampleMatcher.GenericPropertyMatcher::contains);
     }
 
     /**
      * 查询子字典，并忽略指定的Code
      *
      * @param baseCodeId       baseCodeId
-     * @param ingoreChildCodes 忽略的编号
-     * @return
+     * @param ignoreChildCodes 忽略的编号
+     * @return childCodeList
      */
     @Override
-    public List<ChildCode> findByBaseCodeIngoreChildCodes(String baseCodeId, String... ingoreChildCodes) {
-        List<ChildCode> childCodeList = childCodeRepostory.findByBaseCodeIdOrderByChildCodeAsc(baseCodeId);
-        if (ArrayUtils.isNotEmpty(ingoreChildCodes)) {
+    public List<ChildCode> findByBaseCodeIgnoreChildCodes(String baseCodeId, String... ignoreChildCodes) {
+        List<ChildCode> childCodeList = childCodeRepository.findByBaseCodeIdOrderByCodeValueAsc(baseCodeId);
+        if (ArrayUtils.isNotEmpty(ignoreChildCodes)) {
             childCodeList = childCodeList
                     .stream()
-                    .filter(item -> ArrayUtils.noContains(ingoreChildCodes, item))
+                    .filter(item -> ArrayUtils.noContains(ignoreChildCodes, item))
                     .collect(Collectors.toList());
         }
         return childCodeList;
+    }
+
+    @Override
+    public List<Byte> getDictValueListByCodeId(String codeId) {
+        List<ChildCode> list = findByBaseCodeIgnoreChildCodes(codeId);
+        return list.stream().map(ChildCode::getCodeValue).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getCodeName(String baseCodeId, byte value) {
+        return childCodeRepository.findByBaseCodeIdAndCodeValue(baseCodeId, value);
     }
 }

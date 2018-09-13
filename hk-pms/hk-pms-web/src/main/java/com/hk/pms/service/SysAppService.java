@@ -4,6 +4,8 @@ package com.hk.pms.service;
 import com.hk.core.service.BaseService;
 import com.hk.pms.domain.SysApp;
 
+import java.util.Optional;
+
 /**
  * @author: kevin
  * @date 2018-04-12 11:25
@@ -16,7 +18,7 @@ public interface SysAppService extends BaseService<SysApp, String> {
      * @param appCode appCode
      * @return
      */
-    SysApp findByAppCode(String appCode);
+    Optional<SysApp> findByAppCode(String appCode);
 
     void disable(String id);
 

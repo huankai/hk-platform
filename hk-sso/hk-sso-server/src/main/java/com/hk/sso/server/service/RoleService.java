@@ -11,6 +11,5 @@ import java.util.List;
  */
 public interface RoleService extends BaseService<SysRole, String> {
 
-
     List<SysRole> findRoleByAppIdAndUserId(String appId, String userId);
 }

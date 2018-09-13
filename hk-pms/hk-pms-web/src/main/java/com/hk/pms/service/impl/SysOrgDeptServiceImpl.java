@@ -7,6 +7,7 @@ import com.hk.pms.domain.SysOrgDept;
 import com.hk.pms.repository.SysOrgDeptRepository;
 import com.hk.pms.service.SysOrgDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,6 +22,12 @@ public class SysOrgDeptServiceImpl extends BaseServiceImpl<SysOrgDept, String> i
     @Autowired
     public SysOrgDeptServiceImpl(SysOrgDeptRepository sysOrgDeptRepository) {
         this.sysOrgDeptRepository = sysOrgDeptRepository;
+    }
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("deptName", ExampleMatcher.GenericPropertyMatchers.contains());
     }
 
     /**

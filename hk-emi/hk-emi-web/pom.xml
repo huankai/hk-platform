@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-emi</artifactId>
-        <version>2.0.0.RELEASE</version>
+        <version>2.0.2.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -34,11 +34,23 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-core-spring-boot-autoconfigure</artifactId>
         </dependency>
-        
+
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-emi-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-mybatis</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-web</artifactId>
@@ -48,7 +60,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>mysql</groupId>
@@ -62,6 +73,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
         </dependency>
 
         <dependency>
@@ -91,6 +107,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hk.pms.mappers.SysResourceMapper">
+
+    <resultMap id="resourceTreeMap" type="com.hk.pms.domain.SysResource">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="resource_name" property="resourceName"/>
+        <result column="resource_type" property="resourceType"/>
+        <result column="resource_uri" property="resourceUri"/>
+        <result column="icon" property="icon"/>
+        <result column="target" property="target"/>
+    </resultMap>
+
+    <select id="findByPermissionIds" parameterType="list" resultMap="resourceTreeMap">
+        SELECT
+        t2.id,
+        t2.parent_id,
+        t2.resource_type,
+        t2.resource_name,
+        t2.resource_uri,
+        t2.icon,
+        t2.target
+        FROM sys_permission_resource t1
+        RIGHT JOIN sys_resource t2 ON t1.resource_id = t2.id
+        <where>
+            <if test="true">t2.state = 1</if>
+            <if test="collection != null &amp;&amp; collection.size gt 0">
+                t1.permission_id IN
+                <foreach collection="collection" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+
+            </if>
+        </where>
+        ORDER BY t2.ordered ASC
+    </select>
+</mapper>

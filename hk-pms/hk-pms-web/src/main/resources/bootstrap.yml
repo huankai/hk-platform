@@ -1,0 +1,11 @@
+server:
+  port: 8773
+
+spring:
+  application:
+    name: hk-pms
+  cloud:
+    config:
+      label: master
+      profile: dev
+      uri: http://127.0.0.1:8770

@@ -5,10 +5,12 @@ import com.google.common.collect.Maps;
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.SecurityContextUtils;
+import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.core.service.BaseService;
 import com.hk.pms.domain.SysPermission;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,7 +35,8 @@ public interface SysPermissionService extends BaseService<SysPermission, String>
      * @return
      */
     default List<SysPermission> getCurrentUserPermissionList(String appId) {
-        return getPermissionList(SecurityContextUtils.getPrincipal().getUserId(), appId);
+        UserPrincipal principal = SecurityContextUtils.getPrincipal();
+        return principal.isAdministrator() ? Collections.emptyList() : getPermissionList(principal.getUserId(), appId);
     }
 
     /**

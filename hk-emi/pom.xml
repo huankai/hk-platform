@@ -10,11 +10,12 @@
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-platform</artifactId>
-        <version>2.0.0.RELEASE</version>
+        <version>2.0.2.RELEASE</version>
     </parent>
 
     <modules>
         <module>hk-emi-api</module>
+        <module>hk-emi-commons</module>
         <module>hk-emi-web</module>
     </modules>
 

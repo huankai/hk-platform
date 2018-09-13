@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hk.pms.mappers.SysPermissionMapper">
+
+    <select id="getPermissionListByRoleIds" parameterType="list" resultType="com.hk.pms.domain.SysPermission">
+        SELECT
+        t2.id,
+        t2.app_id,
+        t2.permission_code,
+        t2.permission_name,
+        t2.description,
+        t2.created_by,
+        t2.created_date,
+        t2.last_modified_by,
+        t2.last_modified_date
+        FROM sys_role_permission t1
+        JOIN sys_permission t2 ON t1.permission_id = t2.id
+        <where>
+            <if test="collection != null &amp;&amp; collection.size gt 0">
+                t1.role_id IN
+                <foreach collection="collection" open="(" close=")" item="item" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>

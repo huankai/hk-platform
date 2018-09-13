@@ -1,11 +1,11 @@
-/**
- *
- */
 package com.hk.emi.service;
 
+import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.core.service.BaseService;
 import com.hk.emi.domain.City;
+import com.hk.emi.vo.CityExcelVo;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 
@@ -27,7 +27,7 @@ public interface CityService extends BaseService<City, String> {
      *
      * @param excelInput excel文件
      */
-    void importExcel(InputStream excelInput);
+    List<ErrorLog<CityExcelVo>> importExcel(InputStream excelInput);
 
     /**
      * 根据条件查询生成Excel Byte

@@ -1,0 +1,11 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: hk-sso-server
+  cloud:
+    config:
+      label: master
+      profile: dev
+      uri: http://127.0.0.1:8770

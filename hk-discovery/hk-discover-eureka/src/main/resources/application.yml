@@ -6,14 +6,22 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
-    hostname: localhost
+    hostname: 127.0.0.1
   client:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+
+spring:
+  main:
+    banner-mode: 'off'
+  security:
+    user:
+      name: root  #配置登陆用户名
+      password: root123  # 配置登陆密码
 
 logging:
   level:
-    root: info
+    root: off
 

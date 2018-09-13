@@ -56,7 +56,7 @@ public class SysUser extends AbstractUUIDPersistable {
     private String iconPath;
 
     @Column(name = "birth")
-    private LocalDate brith;
+    private LocalDate birth;
 
     @Column(name = "user_status")
     private Byte userStatus;

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hk.pms.mappers.SysRoleMapper">
+
+    <select id="getRoleList" parameterType="string" resultType="com.hk.pms.domain.SysRole">
+        SELECT
+            t2.id,
+            t2.app_id,
+            t2.role_name,
+            t2.role_code,
+            t2.role_status,
+            t2.description,
+            t2.created_by,
+            t2.created_date,
+            t2.last_modified_by,
+            t2.last_modified_date
+        FROM sys_user_role t1
+            JOIN sys_role t2 ON t1.role_id = t2.id
+        WHERE t1.user_id = #{userId} AND t2.app_id = #{appId} AND t2.role_status = 1
+    </select>
+
+    <select id="getUserDeptRoleList" parameterType="string" resultType="com.hk.pms.domain.SysRole">
+        SELECT
+            t3.id,
+            t3.app_id,
+            t3.role_name,
+            t3.role_code,
+            t3.role_status,
+            t3.description,
+            t3.created_by,
+            t3.created_date,
+            t3.last_modified_by,
+            t3.last_modified_date
+        FROM sys_user t1
+            JOIN sys_dept_role t2 ON t1.dept_id = t2.dept_id
+            JOIN sys_role t3 ON t2.role_id = t3.id
+        WHERE t1.id = #{userId} AND t3.app_id = #{appId} AND t3.role_status = 1
+    </select>
+</mapper>

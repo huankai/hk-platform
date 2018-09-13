@@ -2,6 +2,7 @@ package com.hk.emi.api;
 
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
+import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/city")
-public class CityRestController {
+public class CityRestController extends BaseController {
 
     @Autowired
     private CityService cityService;

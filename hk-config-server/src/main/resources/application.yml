@@ -1,0 +1,11 @@
+server:
+  port: 8770
+spring:
+  cloud:
+    config:
+      server:
+        default-application-name: hk-config-server
+        git:
+          uri: https://github.com/huankai/hk-config.git
+          search-paths: platform-config
+          default-label: master

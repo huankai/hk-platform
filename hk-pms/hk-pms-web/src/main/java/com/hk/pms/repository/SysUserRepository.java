@@ -14,19 +14,19 @@ public interface SysUserRepository extends StringRepository<SysUser> {
 
     /**
      * @param account 登陆名
-     * @return
+     * @return SysUser
      */
     Optional<SysUser> findByAccount(String account);
 
     /**
-     * @param phone
-     * @return
+     * @param phone phone
+     * @return SysUser
      */
     Optional<SysUser> findByPhone(String phone);
 
     /**
-     * @param email
-     * @return
+     * @param email email
+     * @return SysUser
      */
     Optional<SysUser> findByEmail(String email);
 }

@@ -1,0 +1,11 @@
+server:
+  port: 8775
+
+spring:
+  application:
+    name: hk-fs
+  cloud:
+    config:
+      label: master
+      profile: dev
+      uri: http://127.0.0.1:8770

@@ -2,10 +2,11 @@ package com.hk.sso.server.enhancer;
 
 import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.EnumDisplayUtils;
 import com.hk.commons.util.JsonUtils;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.exception.ServiceException;
+import com.hk.platform.commons.enums.SexEnum;
 import com.hk.sso.server.entity.SysApp;
 import com.hk.sso.server.entity.SysPermission;
 import com.hk.sso.server.entity.SysRole;
@@ -15,9 +16,9 @@ import com.hk.sso.server.service.SysPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
@@ -52,20 +53,26 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();
         Map<String, Object> info = new HashMap<>();
-        if (CollectionUtils.isEmpty(additionalInformation)) {
-            SysApp sysApp = sysAppService.findOne(clientId).orElseThrow(() -> new ServiceException("当前APP应用不存在"));
-            if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
-                throw new AuthenticationServiceException("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");
-            }
-            info.put("clientApp", new ClientAppInfo(sysApp.getId(), sysApp.getAppCode(), sysApp.getAppName(), sysApp.getAppIcon()));
+        SysApp sysApp = sysAppService.findOne(clientId).orElseThrow(() -> new OAuth2Exception("当前APP应用不存在"));
+        if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
+            // 注意，这里要返回 400的异常状态码，如果不是，客户端很难获取到异常的详细信息
+            throw new OAuth2Exception("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");
         }
         info.put("userId", principal.getUserId());
-        info.put("account", principal.getAccount());
-        info.put("email", principal.getEmail());
         info.put("iconPath", principal.getIconPath());
         info.put("realName", principal.getRealName());
+        if (!ByteConstants.ONE.equals(sysApp.getLocalApp())) {
+            Map<String, Object> infoMap = new HashMap<>(additionalInformation);
+            infoMap.putAll(info);
+            defaultOAuth2AccessToken.setAdditionalInformation(infoMap);
+            return defaultOAuth2AccessToken;
+        }
+        info.put("clientApp", new ClientAppInfo(sysApp.getId(), sysApp.getAppCode(), sysApp.getAppName(), sysApp.getAppIcon()));
+        info.put("account", principal.getAccount());
+        info.put("email", principal.getEmail());
         info.put("phone", principal.getPhone());
         info.put("sex", principal.getSex());
+        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex(), false));
         info.put("userType", principal.getUserType());
         info.put("isProtect", principal.isProtectUser());
         boolean debugEnabled = LOGGER.isDebugEnabled();
@@ -95,7 +102,7 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         }
         Map<String, Object> infoMap = new HashMap<>(additionalInformation);
         infoMap.putAll(info);
-        ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(infoMap);
+        defaultOAuth2AccessToken.setAdditionalInformation(infoMap);
         return accessToken;
     }
 }
