@@ -2,6 +2,7 @@ package com.hk.emi.controller;
 
 import com.hk.core.page.QueryModel;
 import com.hk.core.web.JsonResult;
+import com.hk.core.web.Webs;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
 import com.hk.platform.commons.web.BaseController;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author: kevin
@@ -112,7 +112,6 @@ public class CityController extends BaseController {
     @GetMapping("excel/export")
     @PreAuthorize("hasRole('admin')")
     public ResponseEntity<InputStreamResource> excelExport(City city) {
-        InputStream inputStream = cityService.exportExcelData(city);
-        return ResponseEntity.ok(new InputStreamResource(inputStream));
+        return Webs.toDownloadResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
     }
 }

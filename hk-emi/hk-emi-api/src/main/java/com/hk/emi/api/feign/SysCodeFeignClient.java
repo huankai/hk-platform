@@ -40,5 +40,5 @@ public interface SysCodeFeignClient {
      * @return List<String>
      */
     @GetMapping("/childnames")
-    List<String> childCodeNameList(@RequestParam("parentId") String parentId, @RequestParam("code_values") Byte... codeValues);
+    List<String> childCodeNameList(@RequestParam("parentId") String parentId, @RequestParam("code_values") byte... codeValues);
 }

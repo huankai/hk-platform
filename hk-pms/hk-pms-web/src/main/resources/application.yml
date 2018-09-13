@@ -4,7 +4,7 @@ server:
     context-path: /
     session:
       cookie:
-        name: PMS_JSESSION
+        name: pms_jsession
         http-only: true
 spring:
   main:
@@ -91,7 +91,7 @@ eureka:
     hostname: 127.0.0.1
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
 ######################################################### mybatis 配置
 mybatis:
   mapper-locations: classpath:mybatis/mappers/*.xml

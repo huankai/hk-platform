@@ -75,7 +75,7 @@ public class SysUserController extends BaseController {
     @PostMapping("reset_password")
     public JsonResult resetPassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String newPassword2) {
         if (StringUtils.notEquals(newPassword, newPassword2)) {
-            return JsonResult.badRueqest("两次输入密码不一致");
+            return JsonResult.badRequest("两次输入密码不一致");
         }
         userService.resetPassword(getPrincipal().getUserId(), oldPassword, newPassword);
         return JsonResult.success("重设密码成功");

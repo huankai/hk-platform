@@ -4,11 +4,19 @@ server:
     context-path: /
     session:
       cookie:
-        name: FSESSION
-
+        name: fs_jsession
+        http-only: true
 spring:
   main:
     banner-mode: 'off'
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+  mvc:
+    throw-exception-if-no-handler-found: true
+  resources:
+    add-mappings: false
   messages:
     basename: org/springframework/security/messages,com/hk/core/i18n/messages,messages
     encoding: utf-8
@@ -63,31 +71,43 @@ spring:
 
 ################################################################### redis
 #  redis:
-#    host: 192.168.64.128
-#    port: 6379
-#    database: 0
 #    password: 1234567
-#    timeout: 0ms
-#    jedis:
+#    host: 127.0.0.1
+#    port: 6379
+#    database: 2
+#    timeout: 3000ms
+#    lettuce:
 #      pool:
-#        max-active: 1000
-#        max-idle: 100
-#        min-idle: 1
+#        max-active: 8
+#        min-idle: 0
+#        max-idle: 8
 #        max-wait: -1ms
 #  cache:
 #    type: redis
 
-
 ################################################################### eureka
 eureka:
   instance:
-    prefer-ip-address: true
+    prefer-ip-address: false
+    hostname: 127.0.0.1
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
 
+################################################################### fdfs 配置
+fdfs:
+  connect-timeout: 1000
+  so-timeout: 10000
+  thumb-image: # 缩略图生成参数
+    height: 150
+    width: 150
+  tracker-list:
+    - 192.168.64.128:22122
+  pool:
+    max-total: 100 # 从池中借出的对象的最大数目
+    max-wait-millis: 100 # 获取连接时的最大等待毫秒数100
 ################################################################### security oauth2
-#特别注意：
+# 特别注意：
 #  1.这里配置的url如果是 127.0.0.1，登陆成功后访问sso 认证服务器时也只能以这个ip地址访问，不能用 localhost，
 #    除非你配置的是localhost,否则，在访问认证服务器的时候，sso会让你重新登陆，具体原因未查明，但经过测试结果是这样的
 #    这句话的意思就是：
@@ -101,11 +121,34 @@ security:
     client:
       client-id: 4028c0816371a097016371a38d650001
       client-secret: 4028c0816371a097016371a38d650001
-      user-authorization-uri: http://127.0.0.1:8080/oauth/authorize
-      access-token-uri: http://127.0.0.1:8080/oauth/token
+      access-token-uri: http://127.0.0.1:8771/oauth2/oauth/token
+      user-authorization-uri: http://127.0.0.1:8771/oauth2/oauth/authorize
+#      use-current-uri: false
+#      pre-established-redirect-uri: http://127.0.0.1:8771/pms/login
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8080/oauth/token_key
+        key-uri: http://127.0.0.1:8771/oauth2/oauth/token_key
+    sso:
+      login-path: /login
+
+hk:
+  fs:
+    file-url: http://192.168.64.128:8888
+  authentication:
+    browser:
+      logout-url: /logout
+      logout-success-url: http://127.0.0.1:8771/oauth2/oauth/logout?redirect_url=http://127.0.0.1:8771/pms/index
+      gate-way-host: http://127.0.0.1:8771/fs
+#      permit-all-matchers:
+#        - method: GET
+#          uris:
+#            - /api/**
+#          permission: admin
+#        - method: GET
+#          uris:
+#            - /aaaa/**
+#          permission: admin
+    default-failure-url: http://127.0.0.1:8771/fs/error  #使用了gateway这里写上gateway访问的路径，如果是前后端分离项目，可以不需要这样写
 ######################################################### logging 配置
 logging:
   level:
@@ -117,11 +160,6 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: debug
     com.hk: debug
-
-
-
-
-
 
 
 

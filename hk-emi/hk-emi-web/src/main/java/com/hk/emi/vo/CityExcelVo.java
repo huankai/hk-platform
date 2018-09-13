@@ -9,6 +9,7 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -33,8 +34,8 @@ public class CityExcelVo implements Serializable {
      */
     @ReadExcel(start = 1)
     @WriteExcel(index = 0, value = "行政代码")
-    @NotBlank(message = "")
-    @Length(max = 20, message = "")
+    @NotEmpty
+    @Length(max = 20)
     private String code;
 
     /**
@@ -42,8 +43,8 @@ public class CityExcelVo implements Serializable {
      */
     @ReadExcel(start = 2)
     @WriteExcel(index = 1, value = "全称")
-    @NotBlank(message = "")
-    @Length(max = 50, message = "")
+    @NotEmpty
+    @Length(max = 50)
     private String fullName;
 
     /**

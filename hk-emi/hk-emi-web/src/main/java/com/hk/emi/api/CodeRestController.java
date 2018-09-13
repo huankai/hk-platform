@@ -23,8 +23,12 @@ public class CodeRestController extends BaseController {
 
     private static final String UN_KNOWN = "UNKNOWN";
 
+    private final ChildCodeService childCodeService;
+
     @Autowired
-    private ChildCodeService childCodeService;
+    public CodeRestController(ChildCodeService childCodeService) {
+        this.childCodeService = childCodeService;
+    }
 
     /**
      * 查询子级
@@ -33,26 +37,29 @@ public class CodeRestController extends BaseController {
      * @param ignores  ignores
      * @return {@link ChildCode }
      */
-    @GetMapping("child")
+    @GetMapping(path = "child")
     public List<ChildCode> findChildList(@RequestParam("parentId") String parentId,
                                          @RequestParam(required = false, value = "ignore") String[] ignores) {
         return childCodeService.findByBaseCodeIgnoreChildCodes(parentId, ignores);
     }
 
     /**
-     * 查询名称，会根据codeValues参数值排序，如果不存在，该 List对应的 index为 {@value UN_KNOWN}
+     * 查询名称，会根据codeValues参数值排序，
+     * 如果不存在，该 List对应的 index为 {@value UN_KNOWN}
      *
      * @param parentId   parentId
      * @param codeValues codeValues
      * @return {@link String}
      */
-    @GetMapping("childnames")
+    @GetMapping(path = "childnames")
     public List<String> childNameList(@RequestParam("parentId") String parentId,
                                       @RequestParam(value = "code_values") byte[] codeValues) {
         List<ChildCode> childCodes = childCodeService.findByBaseCodeIgnoreChildCodes(parentId);
         List<String> childNameList = new ArrayList<>(codeValues.length);
         for (byte codeValue : codeValues) {
-            Optional<ChildCode> childCodeOptional = childCodes.stream().filter(item -> item.getCodeValue() == codeValue).findFirst();
+            Optional<ChildCode> childCodeOptional = childCodes.stream()
+                    .filter(item -> item.getCodeValue() == codeValue)
+                    .findFirst();
             if (childCodeOptional.isPresent()) {
                 childNameList.add(childCodeOptional.get().getCodeName());
             } else {

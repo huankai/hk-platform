@@ -3,7 +3,6 @@ package com.hk.emi.repository;
 
 import com.hk.core.data.jpa.repository.StringRepository;
 import com.hk.emi.domain.City;
-import com.hk.emi.repository.custom.CustomCityRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -11,7 +10,7 @@ import java.util.List;
 /**
  * @author: kevin
  */
-public interface CityRepository extends StringRepository<City>, CustomCityRepository {
+public interface CityRepository extends StringRepository<City> {
 
     /**
      * 查询下级

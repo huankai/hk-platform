@@ -45,6 +45,12 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-mybatis</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-web</artifactId>
@@ -54,7 +60,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>mysql</groupId>

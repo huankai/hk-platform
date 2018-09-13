@@ -5,7 +5,7 @@ server:
     session:
       timeout: 30ms
       cookie:
-        name: AUTH_JSESSION
+        name: auth_jsession
         http-only: true
 ##########################################################
 spring:
@@ -100,7 +100,7 @@ eureka:
     hostname: 127.0.0.1
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
 
 ######################################################### mybatis 配置
 mybatis:

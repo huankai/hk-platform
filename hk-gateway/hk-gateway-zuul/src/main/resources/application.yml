@@ -16,7 +16,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
 ################################################################## zuul 配置
 zuul:
   add-proxy-headers: true
@@ -24,7 +24,9 @@ zuul:
     hk-emi:
       path: /emi/**
       sensitiveHeaders: "*"
-
+    hk-fs:
+        path: /fs/**
+        sensitiveHeaders: "*"
     hk-pms:
       path: /pms/**
       sensitiveHeaders: "*"

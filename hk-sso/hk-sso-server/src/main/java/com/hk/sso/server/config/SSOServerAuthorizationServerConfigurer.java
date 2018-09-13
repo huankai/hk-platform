@@ -112,7 +112,7 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
                     public <O extends ClientCredentialsTokenEndpointFilter> O postProcess(O endpointFilter) {
                         OAuth2AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
                         authenticationEntryPoint
-                                .setExceptionRenderer((responseEntity, webRequest) -> Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED, JsonResult.badRueqest("认证失败！")));
+                                .setExceptionRenderer((responseEntity, webRequest) -> Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED, JsonResult.badRequest("认证失败！")));
                         endpointFilter.setAuthenticationEntryPoint(authenticationEntryPoint);
                         return endpointFilter;
                     }

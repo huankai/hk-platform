@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hk.emi.mappers.CityExcelVoMapper">
+
+    <select id="findExportList" parameterType="com.hk.emi.domain.City" resultType="com.hk.emi.vo.CityExcelVo">
+        SELECT code,full_name,short_name,post_office FROM sys_city
+        <where>
+            <if test="code != null &amp;&amp; code != ''">code = #{code}</if>
+            <if test="cityType != null">city_type = #{cityType}</if>
+            <if test="fullName != null &amp;&amp; full_name != ''">full_name = #{fullName}</if>
+        </where>
+
+    </select>
+</mapper>

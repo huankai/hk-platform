@@ -4,7 +4,7 @@ server:
     context-path: /
     session:
       cookie:
-        name: EMI_JSESSION
+        name: emi_jsession
         http-only: true
 spring:
   main:
@@ -94,8 +94,20 @@ eureka:
     hostname: 127.0.0.1
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
 
+######################################################### mybatis 配置
+mybatis:
+  mapper-locations: classpath:mybatis/mappers/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+
+######################################################### mybatis pageHelper 配置
+pagehelper:
+  reasonable: false
+  support-methods-arguments: true
+  params: count=countSql
 
 ################################################################### oauth2
 #特别注意：

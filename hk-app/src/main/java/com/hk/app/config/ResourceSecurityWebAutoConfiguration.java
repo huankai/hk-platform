@@ -36,7 +36,7 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
     public void configure(ResourceServerSecurityConfigurer resources) {
         OAuth2AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
         authenticationEntryPoint.setExceptionRenderer((responseEntity, webRequest) ->
-                Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED, JsonResult.badRueqest("用户未认证！")));
+                Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED, JsonResult.badRequest("用户未认证！")));
         resources.authenticationEntryPoint(authenticationEntryPoint);
     }
 

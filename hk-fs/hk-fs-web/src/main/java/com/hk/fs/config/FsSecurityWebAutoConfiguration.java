@@ -1,4 +1,4 @@
-package com.hk.emi.config;
+package com.hk.fs.config;
 
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
@@ -35,13 +35,13 @@ import java.util.Set;
 @Order(1)
 @Configuration
 @EnableOAuth2Sso
-public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
+public class FsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties properties;
 
     private ApplicationContext applicationContext;
 
-    public EMISecurityWebAutoConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {
+    public FsSecurityWebAutoConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {
         this.properties = properties;
         this.applicationContext = applicationContext;
     }
