@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-platform</artifactId>
-        <version>2.0.1.RELEASE</version>
+        <version>2.0.2.RELEASE</version>
     </parent>
 
     <dependencies>

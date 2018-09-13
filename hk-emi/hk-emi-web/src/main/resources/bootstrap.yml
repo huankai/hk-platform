@@ -1,0 +1,11 @@
+server:
+  port: 8772
+
+spring:
+  application:
+    name: hk-emi
+  cloud:
+    config:
+      label: master
+      profile: dev
+      uri: http://127.0.0.1:8770

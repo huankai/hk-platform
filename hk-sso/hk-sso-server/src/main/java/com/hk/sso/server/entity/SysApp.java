@@ -20,7 +20,6 @@ import lombok.EqualsAndHashCode;
 @SuppressWarnings("serial")
 public class SysApp extends AbstractUUIDPersistable {
 
-
     @Column(name = "app_code")
     private String appCode;
 

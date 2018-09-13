@@ -4,24 +4,29 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hk-pms-commons</artifactId>
+    <artifactId>hk-config-server</artifactId>
     <packaging>jar</packaging>
 
     <parent>
+        <artifactId>hk-platform</artifactId>
         <groupId>com.hk</groupId>
-        <artifactId>hk-pms</artifactId>
         <version>2.0.2.RELEASE</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-config-server</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-platform-business-base</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 
