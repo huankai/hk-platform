@@ -6,7 +6,7 @@ import com.hk.pms.domain.SysRolePermission;
 
 /**
  * @author: kevin
- * @date 2018-04-12 16:56
+ * @date: 2018-04-12 16:56
  */
 public interface SysRolePermissionService extends BaseService<SysRolePermission, String> {
 

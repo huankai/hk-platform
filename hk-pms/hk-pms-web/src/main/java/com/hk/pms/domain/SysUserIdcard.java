@@ -10,7 +10,7 @@ import javax.persistence.Table;
  * 用户身份证信息实体
  *
  * @author: kevin
- * @date 2018-08-31 11:40
+ * @date: 2018-08-31 11:40
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

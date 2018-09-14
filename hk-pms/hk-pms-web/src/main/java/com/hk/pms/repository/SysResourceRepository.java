@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2018-08-28 16:37
+ * @date: 2018-08-28 16:37
  */
 public interface SysResourceRepository extends StringRepository<SysResource> {
 

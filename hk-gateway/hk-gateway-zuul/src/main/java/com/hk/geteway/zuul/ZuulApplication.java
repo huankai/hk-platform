@@ -9,7 +9,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
  * Zuul
  *
  * @author: kevin
- * @date 2018-07-13 11:56
+ * @date: 2018-07-13 11:56
  */
 @EnableZuulProxy
 @EnableDiscoveryClient

@@ -19,7 +19,7 @@ import java.time.LocalDate;
 
 /**
  * @author: kevin
- * @date 2018-04-12 11:25
+ * @date: 2018-04-12 11:25
  */
 @SuppressWarnings("serial")
 public class ModelHolder {

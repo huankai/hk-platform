@@ -1,6 +1,7 @@
 package com.hk.sso.server.config;
 
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
+import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
@@ -14,7 +15,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.access.expression.AbstractSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -117,7 +120,12 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
 
                 .authorizeRequests()
-                .anyRequest().authenticated();
+                .withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
+                    @Override
+                    public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
+                        return (O) new AdminAccessWebSecurityExpressionHandler();
+                    }
+                }).anyRequest().authenticated();
     }
 
     @Override

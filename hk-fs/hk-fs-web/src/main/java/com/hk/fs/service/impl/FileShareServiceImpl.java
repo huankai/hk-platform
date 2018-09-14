@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author: kevin
- * @date 2018-08-08 17:46
+ * @date: 2018-08-08 17:46
  */
 @Service
 public class FileShareServiceImpl extends BaseServiceImpl<FileShare, String> implements FileShareService {

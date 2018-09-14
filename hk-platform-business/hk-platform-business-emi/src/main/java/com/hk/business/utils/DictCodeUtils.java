@@ -5,7 +5,7 @@ import com.hk.commons.validator.DictService;
 
 /**
  * @author: kevin
- * @date 2018-09-04 09:17
+ * @date: 2018-09-04 09:17
  */
 public abstract class DictCodeUtils {
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author: kevin
- * @date 2018-08-03 08:57
+ * @date: 2018-08-03 08:57
  */
 @Service
 @CacheConfig(cacheNames = "SysApp")

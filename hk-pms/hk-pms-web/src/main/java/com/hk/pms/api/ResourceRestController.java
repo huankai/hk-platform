@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author: kevin
- * @date 2018-08-28 16:53
+ * @date: 2018-08-28 16:53
  */
 @RestController
 @RequestMapping("/api/resource")

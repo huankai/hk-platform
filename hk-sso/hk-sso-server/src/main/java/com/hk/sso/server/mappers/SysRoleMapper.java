@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2018-08-02 14:27
+ * @date: 2018-08-02 14:27
  */
 @Mapper
 public interface SysRoleMapper {

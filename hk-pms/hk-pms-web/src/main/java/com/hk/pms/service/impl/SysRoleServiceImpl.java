@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author: kevin
- * @date 2018-04-12 16:59
+ * @date: 2018-04-12 16:59
  */
 @Service
 @CacheConfig(cacheNames = {"SYS_ROLE"})

@@ -6,7 +6,7 @@ import com.hk.pms.domain.SysUserRole;
 
 /**
  * @author: kevin
- * @date 2018-04-12 17:02
+ * @date: 2018-04-12 17:02
  */
 public interface SysUserRoleService extends BaseService<SysUserRole,String> {
 

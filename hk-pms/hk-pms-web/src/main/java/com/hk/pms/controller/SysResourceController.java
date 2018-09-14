@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: kevin
- * @date 2018-08-29 15:36
+ * @date: 2018-08-29 15:36
  */
 @RestController
 @RequestMapping("/menu")

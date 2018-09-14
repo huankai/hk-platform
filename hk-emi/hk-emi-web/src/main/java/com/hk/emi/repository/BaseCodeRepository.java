@@ -8,7 +8,7 @@ import java.util.Optional;
 
 /**
  * @author: kevin
- * @date 2017年12月1日下午2:20:48
+ * @date: 2017年12月1日下午2:20:48
  */
 public interface BaseCodeRepository extends StringRepository<BaseCode> {
 

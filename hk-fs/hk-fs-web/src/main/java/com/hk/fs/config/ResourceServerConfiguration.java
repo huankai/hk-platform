@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
  * 如果不配置，feign将不能调用其它微服务
  *
  * @author: kevin
- * @date 2018-08-21 11:04
+ * @date: 2018-08-21 11:04
  * @see com.hk.core.autoconfigure.authentication.security.oauth2.Oauth2FeignAutoConfiguration#oAuth2FeignRequestInterceptor
  */
 @Configuration

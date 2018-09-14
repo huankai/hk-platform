@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * 字典
  *
  * @author: kevin
- * @date 2017-11-29 16:27
+ * @date: 2017-11-29 16:27
  */
 @Data
 @Entity

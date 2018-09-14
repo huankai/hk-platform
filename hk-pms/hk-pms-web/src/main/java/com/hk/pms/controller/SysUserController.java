@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: kevin
- * @date 2018-08-28 17:24
+ * @date: 2018-08-28 17:24
  */
 @RestController
 @RequestMapping("/users")

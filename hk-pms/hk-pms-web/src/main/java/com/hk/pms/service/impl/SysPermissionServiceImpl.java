@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author: kevin
- * @date 2018-04-12 16:53
+ * @date: 2018-04-12 16:53
  */
 @Service
 public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission, String> implements SysPermissionService {

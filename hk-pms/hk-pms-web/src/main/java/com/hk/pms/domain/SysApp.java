@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * App Entity
  *
  * @author: kevin
- * @date 2018-04-12 11:24
+ * @date: 2018-04-12 11:24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

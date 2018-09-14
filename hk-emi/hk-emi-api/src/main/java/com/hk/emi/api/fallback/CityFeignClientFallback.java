@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2018-08-31 16:34
+ * @date: 2018-08-31 16:34
  */
 @Component
 public class CityFeignClientFallback implements CityFeignClient {

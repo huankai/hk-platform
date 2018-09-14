@@ -9,7 +9,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
  * SSO Start
  *
  * @author: kevin
- * @date 2018-07-13 11:50
+ * @date: 2018-07-13 11:50
  */
 @SpringBootApplication
 @EnableEurekaClient

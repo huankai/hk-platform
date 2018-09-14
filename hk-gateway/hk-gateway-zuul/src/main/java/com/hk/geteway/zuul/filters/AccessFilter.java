@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * 如果请求头不包含 Authorization参数值，直接拦截不再路由
  *
  * @author: kevin
- * @date 2018-07-25 09:45
+ * @date: 2018-07-25 09:45
  */
 public class AccessFilter extends ZuulFilter {
 

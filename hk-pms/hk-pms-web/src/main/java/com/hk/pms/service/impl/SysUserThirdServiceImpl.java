@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author: kevin
- * @date 2018-04-12 17:03
+ * @date: 2018-04-12 17:03
  */
 @Service
 public class SysUserThirdServiceImpl extends BaseServiceImpl<SysUserThird, String> implements SysUserThirdService {

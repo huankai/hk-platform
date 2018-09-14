@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2017年12月1日下午2:20:44
+ * @date: 2017年12月1日下午2:20:44
  */
 public interface ChildCodeRepository extends StringRepository<ChildCode> {
 

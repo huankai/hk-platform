@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 /**
  * @author: kevin
- * @date 2018-08-28 16:35
+ * @date: 2018-08-28 16:35
  */
 @Data
 @Entity

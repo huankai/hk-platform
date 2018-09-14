@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 用户Controller
  *
  * @author: kevin
- * @date 2018-08-21 13:31
+ * @date: 2018-08-21 13:31
  */
 @RestController
 public class UserInfoController {

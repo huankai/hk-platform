@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2018-07-13 15:27
+ * @date: 2018-07-13 15:27
  */
 @FeignClient(name = "hk-emi", fallback = CityFeignClientFallback.class)
 @RequestMapping("/api/city")

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /**
  * @author: kevin
- * @date 2018-07-25 08:49
+ * @date: 2018-07-25 08:49
  */
 public interface UserRepository extends StringRepository<SysUser> {
 

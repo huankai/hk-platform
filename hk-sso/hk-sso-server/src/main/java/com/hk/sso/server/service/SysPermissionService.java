@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  * @author: kevin
- * @date 2018-08-03 08:58
+ * @date: 2018-08-03 08:58
  */
 public interface SysPermissionService extends BaseService<SysPermission, String> {
 

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 /**
  * @author: kevin
- * @date 2018-08-08 17:59
+ * @date: 2018-08-08 17:59
  */
 @RestController
 @RequestMapping("/file")

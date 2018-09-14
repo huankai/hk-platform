@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author: kevin
- * @date 2018-07-13 15:30
+ * @date: 2018-07-13 15:30
  */
 @Data
 @SuppressWarnings("serial")

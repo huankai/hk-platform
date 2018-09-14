@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * @author: kevin
- * @date 2018-07-25 08:45
+ * @date: 2018-07-25 08:45
  */
 @Data
 @Entity

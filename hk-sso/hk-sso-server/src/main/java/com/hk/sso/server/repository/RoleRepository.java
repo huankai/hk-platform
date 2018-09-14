@@ -5,7 +5,7 @@ import com.hk.sso.server.entity.SysRole;
 
 /**
  * @author: kevin
- * @date 2018-08-03 08:54
+ * @date: 2018-08-03 08:54
  */
 public interface RoleRepository extends StringRepository<SysRole> {
 }

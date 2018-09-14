@@ -5,7 +5,7 @@ import org.springframework.security.oauth2.common.exceptions.UnsupportedGrantTyp
 
 /**
  * @author: kevin
- * @date 2018-08-20 08:44
+ * @date: 2018-08-20 08:44
  */
 @JsonSerialize(using = SsoOAuth2ExceptionJackson2Serializer.class)
 public class SsoUnsupportedGrantTypeException extends UnsupportedGrantTypeException {

@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author: kevin
- * @date 2017-11-29 17:11
+ * @date: 2017-11-29 17:11
  */
 @Data
 @Entity

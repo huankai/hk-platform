@@ -16,4 +16,7 @@ public interface FileFeign {
 
     @GetMapping("{id}")
     FileInfo get(@PathVariable("id") String id);
+
+    @GetMapping("server-url")
+    String getFileServerUrl();
 }

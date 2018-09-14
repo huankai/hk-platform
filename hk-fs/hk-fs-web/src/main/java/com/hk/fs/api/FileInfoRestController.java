@@ -1,5 +1,6 @@
 package com.hk.fs.api;
 
+import com.hk.fs.config.FileServer;
 import com.hk.fs.domain.FileInfo;
 import com.hk.fs.service.FileInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,16 @@ public class FileInfoRestController {
     @Autowired
     private FileInfoService fileInfoService;
 
+    @Autowired
+    private FileServer fileServer;
+
     @GetMapping("{id}")
     public FileInfo get(@PathVariable String id) {
         return fileInfoService.getOne(id);
+    }
+
+    @GetMapping("/server-url")
+    public String getServerUrl() {
+        return fileServer.getFileUrl();
     }
 }

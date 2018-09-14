@@ -9,7 +9,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * FS Start
  *
  * @author: kevin
- * @date 2018-07-13 14:48
+ * @date: 2018-07-13 14:48
  */
 @SpringCloudApplication
 public class FSApplication {

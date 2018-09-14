@@ -6,6 +6,8 @@ import com.hk.core.web.Webs;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
 import com.hk.platform.commons.web.BaseController;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +20,9 @@ import java.io.IOException;
 
 /**
  * @author: kevin
- * @date 2018-07-17 16:49
+ * @date: 2018-07-17 16:49
  */
+@Api(description = "城市管理")
 @RestController
 @RequestMapping(path = "city")
 public class CityController extends BaseController {
@@ -37,7 +40,7 @@ public class CityController extends BaseController {
      * @param query query
      * @return JsonResult
      */
-    @PostMapping(path = "list")
+    @PostMapping(path = "/list")
     public JsonResult list(@RequestBody QueryModel<City> query) {
         return JsonResult.success(cityService.queryForPage(query));
     }
@@ -70,7 +73,7 @@ public class CityController extends BaseController {
      * @param id id
      * @return JsonResult
      */
-    @DeleteMapping(path = "{id")
+    @DeleteMapping(path = "{id}")
     @PreAuthorize("hasRole('admin')")
     public JsonResult deleteById(@PathVariable String id) {
         cityService.deleteById(id);

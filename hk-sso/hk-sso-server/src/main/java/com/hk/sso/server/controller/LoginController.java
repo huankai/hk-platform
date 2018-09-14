@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * Login
  *
  * @author kally
- * @date 2018年8月6日上午9:28:03
+ * @date: 2018年8月6日上午9:28:03
  */
 @Controller
 public class LoginController {

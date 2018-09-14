@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2018-08-08 17:45
+ * @date: 2018-08-08 17:45
  */
 public interface FileInfoRepository extends StringRepository<FileInfo> {
 

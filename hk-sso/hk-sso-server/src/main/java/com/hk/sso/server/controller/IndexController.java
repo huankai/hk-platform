@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * 首页
  *
  * @author: kevin
- * @date 2018-08-06 10:38
+ * @date: 2018-08-06 10:38
  */
 @Controller
 public class IndexController {

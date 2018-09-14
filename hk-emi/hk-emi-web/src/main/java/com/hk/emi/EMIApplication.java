@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * EMI Start
  *
  * @author: kevin
- * @date 2018-07-13 14:06
+ * @date: 2018-07-13 14:06
  */
 @SpringCloudApplication
 public class EMIApplication {

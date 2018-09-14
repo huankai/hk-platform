@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 /**
  * @author: kevin
- * @date 2018-08-08 17:46
+ * @date: 2018-08-08 17:46
  */
 public interface FileInfoService extends BaseService<FileInfo, String> {
 

@@ -4,7 +4,7 @@ import com.hk.commons.annotations.EnumDisplay;
 
 /**
  * @author: kevin
- * @date 2018-08-29 16:42
+ * @date: 2018-08-29 16:42
  */
 public enum SexEnum {
 

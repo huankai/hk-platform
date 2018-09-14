@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author: kevin
- * @date 2018-6-1 21:00
+ * @date: 2018-6-1 21:00
  */
 public abstract class BaseController {
 

@@ -14,6 +14,15 @@
     </parent>
 
     <dependencies>
+        <!-- 注意，此包要放在前面，因为依赖了 guava包，
+           其它包也许也依赖了 guava包，如果版本不一样，在启动时会报错，
+           swagger 需要的 guava版本是 20.0
+       -->
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-swagger-ui</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-data-jpa</artifactId>
@@ -109,6 +118,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

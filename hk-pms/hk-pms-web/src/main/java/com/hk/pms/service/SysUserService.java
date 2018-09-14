@@ -9,7 +9,7 @@ import java.util.Optional;
 
 /**
  * @author: kevin
- * @date 2018-04-12 17:00
+ * @date: 2018-04-12 17:00
  */
 public interface SysUserService extends BaseService<SysUser, String> {
 

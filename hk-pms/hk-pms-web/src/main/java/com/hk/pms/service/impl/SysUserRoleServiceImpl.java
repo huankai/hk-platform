@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author: kevin
- * @date 2018-04-12 17:02
+ * @date: 2018-04-12 17:02
  */
 @Service
 public class SysUserRoleServiceImpl extends BaseServiceImpl<SysUserRole,String> implements SysUserRoleService {

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2018-08-28 16:40
+ * @date: 2018-08-28 16:40
  */
 public interface SysResourceService extends BaseService<SysResource, String> {
 

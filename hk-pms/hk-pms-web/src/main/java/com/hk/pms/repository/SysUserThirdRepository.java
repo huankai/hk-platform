@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 /**
  * @author: kevin
- * @date 2018-04-12 16:43
+ * @date: 2018-04-12 16:43
  */
 public interface SysUserThirdRepository extends StringRepository<SysUserThird> {
 

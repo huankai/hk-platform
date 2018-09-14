@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author: kevin
- * @date 2018-08-08 17:31
+ * @date: 2018-08-08 17:31
  */
 @Data
 @Entity

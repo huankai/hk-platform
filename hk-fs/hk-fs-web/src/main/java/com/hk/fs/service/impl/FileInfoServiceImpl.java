@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2018-08-08 17:46
+ * @date: 2018-08-08 17:46
  */
 @Service
 public class FileInfoServiceImpl extends BaseServiceImpl<FileInfo, String> implements FileInfoService {

@@ -16,7 +16,7 @@ import java.io.IOException;
  * 退出
  *
  * @author: kevin
- * @date 2018-07-31 14:44
+ * @date: 2018-07-31 14:44
  */
 @RestController
 public class LogoutController {

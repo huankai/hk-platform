@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * @author: kevin
- * @date 2018-08-29 08:50
+ * @date: 2018-08-29 08:50
  */
 @Data
 public class TreeNode implements Serializable {

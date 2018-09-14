@@ -6,6 +6,7 @@ import com.hk.core.web.JsonResult;
 import com.hk.emi.domain.BaseCode;
 import com.hk.emi.service.BaseCodeService;
 import com.hk.platform.commons.web.BaseController;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * @author: kevin
- * @date 2018-08-20 11:01
+ * @date: 2018-08-20 11:01
  */
+@Api(description = "父级字典管理")
 @RestController
 @RequestMapping("baseCode")
 public class BaseCodeController extends BaseController {

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author: kevin
- * @date 2018-04-12 16:50
+ * @date: 2018-04-12 16:50
  */
 @Service
 public class SysOrgDeptServiceImpl extends BaseServiceImpl<SysOrgDept, String> implements SysOrgDeptService {

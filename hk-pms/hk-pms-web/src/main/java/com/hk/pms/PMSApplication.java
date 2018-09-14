@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * PMS Start
  *
  * @author: kevin
- * @date 2018-07-13 14:20
+ * @date: 2018-07-13 14:20
  */
 @SpringCloudApplication
 @EnableFeignClients(basePackages = "com.hk")
