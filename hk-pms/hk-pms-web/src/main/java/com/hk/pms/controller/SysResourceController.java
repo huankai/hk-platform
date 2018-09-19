@@ -27,19 +27,19 @@ public class SysResourceController extends BaseController {
     }
 
     @PostMapping("/list")
-    public JsonResult userPage(@RequestBody QueryModel<SysResource> query) {
+    public JsonResult<QueryPage<SysResource>> userPage(@RequestBody QueryModel<SysResource> query) {
         QueryPage<SysResource> page = resourceService.queryForPage(query);
         return JsonResult.success(page);
     }
 
     @GetMapping
-    public JsonResult get(@RequestParam String id) {
+    public JsonResult<SysResource> get(@RequestParam String id) {
         return JsonResult.success(resourceService.getOne(id));
     }
 
     @DeleteMapping
     @PreAuthorize("hasRole('admin')")
-    public JsonResult delete(@RequestParam String id) {
+    public JsonResult<Void> delete(@RequestParam String id) {
         resourceService.deleteById(id);
         return JsonResult.success();
     }
@@ -53,14 +53,14 @@ public class SysResourceController extends BaseController {
 
     @PostMapping("/enabled")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult enabled(@RequestParam String id) {
+    public JsonResult<Void> enabled(@RequestParam String id) {
         resourceService.enable(id);
         return JsonResult.success();
     }
 
     @PostMapping
     @PreAuthorize("hasRole('admin')")
-    public JsonResult saveOrUpdate(@Validated @RequestBody SysResource resource) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysResource resource) {
         resourceService.insertOrUpdate(resource);
         return JsonResult.success();
     }

@@ -28,38 +28,38 @@ public class SysUserController extends BaseController {
     }
 
     @PostMapping("/list")
-    public JsonResult userPage(@RequestBody QueryModel<SysUser> query) {
+    public JsonResult<QueryPage<SysUser>> userPage(@RequestBody QueryModel<SysUser> query) {
         QueryPage<SysUser> page = userService.queryForPage(query);
         return JsonResult.success(page);
     }
 
     @GetMapping
-    public JsonResult get(@RequestParam String id) {
+    public JsonResult<SysUser> get(@RequestParam String id) {
         return JsonResult.success(userService.getOne(id));
     }
 
     @DeleteMapping
-    public JsonResult delete(@RequestParam String id) {
+    public JsonResult<Void> delete(@RequestParam String id) {
         userService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping("/disabled")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult disabled(@RequestParam String id) {
+    public JsonResult<Void> disabled(@RequestParam String id) {
         userService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping("/enabled")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult enabled(@RequestParam String id) {
+    public JsonResult<Void> enabled(@RequestParam String id) {
         userService.enable(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    public JsonResult saveOrUpdate(@Validated @RequestBody SysUser user) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysUser user) {
         userService.insertOrUpdate(user);
         return JsonResult.success();
     }
@@ -73,7 +73,7 @@ public class SysUserController extends BaseController {
      * @return jsonResult
      */
     @PostMapping("reset_password")
-    public JsonResult resetPassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String newPassword2) {
+    public JsonResult<Void> resetPassword(@RequestParam String oldPassword, @RequestParam String newPassword, @RequestParam String newPassword2) {
         if (StringUtils.notEquals(newPassword, newPassword2)) {
             return JsonResult.badRequest("两次输入密码不一致");
         }

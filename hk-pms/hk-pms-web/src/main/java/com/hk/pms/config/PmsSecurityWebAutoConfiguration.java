@@ -29,6 +29,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.security.web.savedrequest.RequestCache;
@@ -89,12 +90,20 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .and()
                 .requestMatcher(NoBearerMatcher.INSTANCE);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
-                .withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
-                    @Override
-                    public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
-                        return (O) new AdminAccessWebSecurityExpressionHandler();// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
-                    }
-                });
+                .expressionHandler(new AdminAccessWebSecurityExpressionHandler()); // admin 角色的用户、admin权限、保护的用户拥有所有访问权限
+
+//                   也可以添加后置处理器来个性化设置， Spring Security 的配置在 ExpressionUrlAuthorizationConfigurer#getExpressionHandler
+//                .withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
+//                    @Override
+//                    public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
+//                        /**
+//                         * admin 角色的用户、admin权限、保护的用户拥有所有访问权限
+//                         * @see  WebExpressionVoter#expressionHandler
+//                         * @see
+//                         */
+//                        return (O) new AdminAccessWebSecurityExpressionHandler();
+//                    }
+//                });
         Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
         if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
             for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {

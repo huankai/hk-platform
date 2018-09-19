@@ -1,5 +1,6 @@
 package com.hk.fs.controller;
 
+import com.hk.commons.util.StringUtils;
 import com.hk.core.web.JsonResult;
 import com.hk.core.web.Webs;
 import com.hk.fs.domain.FileInfo;
@@ -30,41 +31,40 @@ public class FileInfoController {
     /**
      * 获取文件信息
      *
-     * @param id
-     * @return
+     * @param id id
+     * @return JsonResult
      */
     @GetMapping("{id}")
-    public JsonResult get(@PathVariable String id) {
-        FileInfo fileInfo = fileInfoService.getOne(id);
-        return JsonResult.success(fileInfo);
+    public JsonResult<FileInfo> get(@PathVariable String id) {
+        return JsonResult.success(fileInfoService.getOne(id));
     }
 
     /**
      * 文件上传
      *
-     * @param file
-     * @return
-     * @throws IOException
+     * @param file file
+     * @return JsonResult
+     * @throws IOException IOException
      */
     @PostMapping(path = "/upload")
-    public JsonResult upload(String group, @RequestParam("file") MultipartFile file) throws IOException {
+    public JsonResult<?> upload(String group, @RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             return JsonResult.badRequest("文件不能为空");
         }
         FileInfo fileInfo = fileInfoService.uploadFile(group, file.getInputStream(), file.getSize(), file.getOriginalFilename());
-        return new JsonResult(JsonResult.Status.SUCCESS, "文件上传成功", fileInfo.getId());
+        return new JsonResult<>(JsonResult.Status.SUCCESS, "文件上传成功", fileInfo.getId());
     }
 
     /**
      * 文件下载
      *
-     * @param id
-     * @return
+     * @param id id
+     * @return InputStreamResource
      */
     @GetMapping(path = "/down/{id}")
-    public ResponseEntity<InputStreamResource> downFile(@PathVariable String id) throws IOException {
+    public ResponseEntity<InputStreamResource> downFile(@PathVariable String id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
-        return Webs.toDownloadResponseEntity(fileInfo.getFileName(), fileInfo.getResource());
+        return Webs.toDownloadResponseEntity(fileInfo.getFileName(), StringUtils.createResource(fileInfo.getFullPath()));
     }
 
     /**
@@ -74,9 +74,9 @@ public class FileInfoController {
      * @return ResponseEntity
      */
     @GetMapping(path = "/view/{id}")
-    public ResponseEntity<InputStreamResource> viewImage(@PathVariable String id) throws IOException {
+    public ResponseEntity<InputStreamResource> viewImage(@PathVariable String id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
-        return Webs.toImageViewResponseEntity(fileInfo.getResource());
+        return Webs.toImageViewResponseEntity(StringUtils.createResource(fileInfo.getFullPath()));
     }
 
     /**
@@ -86,7 +86,7 @@ public class FileInfoController {
      * @return JsonResult
      */
     @DeleteMapping(path = "{id}")
-    public JsonResult deleteFile(@PathVariable String id) {
+    public JsonResult<Void> deleteFile(@PathVariable String id) {
         fileInfoService.deleteById(id);
         return JsonResult.success();
     }

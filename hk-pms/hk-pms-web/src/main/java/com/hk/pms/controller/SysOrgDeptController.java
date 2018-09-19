@@ -26,24 +26,24 @@ public class SysOrgDeptController extends BaseController {
     }
 
     @PostMapping("/list")
-    public JsonResult userPage(@RequestBody QueryModel<SysOrgDept> query) {
+    public JsonResult<QueryPage<SysOrgDept>> userPage(@RequestBody QueryModel<SysOrgDept> query) {
         QueryPage<SysOrgDept> page = orgDeptService.queryForPage(query);
         return JsonResult.success(page);
     }
 
     @GetMapping
-    public JsonResult get(@RequestParam String id) {
+    public JsonResult<SysOrgDept> get(@RequestParam String id) {
         return JsonResult.success(orgDeptService.getOne(id));
     }
 
     @DeleteMapping
-    public JsonResult delete(@RequestParam String id) {
+    public JsonResult<Void> delete(@RequestParam String id) {
         orgDeptService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    public JsonResult saveOrUpdate(@Validated @RequestBody SysOrgDept dept) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysOrgDept dept) {
         orgDeptService.insertOrUpdate(dept);
         return JsonResult.success();
     }

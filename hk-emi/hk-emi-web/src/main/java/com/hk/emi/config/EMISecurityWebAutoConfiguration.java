@@ -72,12 +72,14 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .and()
                 .requestMatcher(NoBearerMatcher.INSTANCE);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
-                .withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
+                .expressionHandler(new AdminAccessWebSecurityExpressionHandler());// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
+                /*.withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
                     @Override
                     public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
                         return (O) new AdminAccessWebSecurityExpressionHandler();// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
                     }
-                });
+                })*/
+        ;
         Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
         if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
             for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {

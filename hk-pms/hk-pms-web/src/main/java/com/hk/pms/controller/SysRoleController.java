@@ -27,38 +27,38 @@ public class SysRoleController extends BaseController {
     }
 
     @PostMapping("/list")
-    public JsonResult userPage(@RequestBody QueryModel<SysRole> query) {
+    public JsonResult<QueryPage<SysRole>> userPage(@RequestBody QueryModel<SysRole> query) {
         QueryPage<SysRole> page = roleService.queryForPage(query);
         return JsonResult.success(page);
     }
 
     @GetMapping
-    public JsonResult get(@RequestParam String id) {
+    public JsonResult<SysRole> get(@RequestParam String id) {
         return JsonResult.success(roleService.getOne(id));
     }
 
     @DeleteMapping
-    public JsonResult delete(@RequestParam String id) {
+    public JsonResult<Void> delete(@RequestParam String id) {
         roleService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping("/disabled")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult disabled(@RequestParam String id) {
+    public JsonResult<Void> disabled(@RequestParam String id) {
         roleService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping("/enabled")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult enabled(@RequestParam String id) {
+    public JsonResult<Void> enabled(@RequestParam String id) {
         roleService.enable(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    public JsonResult saveOrUpdate(@Validated @RequestBody SysRole role) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysRole role) {
         roleService.insertOrUpdate(role);
         return JsonResult.success();
     }

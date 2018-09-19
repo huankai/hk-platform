@@ -6,6 +6,7 @@ import com.hk.core.web.JsonResult;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysPermission;
 import com.hk.pms.service.SysPermissionService;
+import javafx.geometry.VPos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -29,26 +30,26 @@ public class SysPermissionController extends BaseController {
     }
 
     @PostMapping("/list")
-    public JsonResult userPage(@RequestBody QueryModel<SysPermission> query) {
+    public JsonResult<QueryPage<SysPermission>> userPage(@RequestBody QueryModel<SysPermission> query) {
         QueryPage<SysPermission> page = permissionService.queryForPage(query);
         return JsonResult.success(page);
     }
 
     @GetMapping
-    public JsonResult get(@RequestParam String id) {
+    public JsonResult<SysPermission> get(@RequestParam String id) {
         return JsonResult.success(permissionService.getOne(id));
     }
 
     @DeleteMapping
     @PreAuthorize("hasRole('admin')")
-    public JsonResult delete(@RequestParam String id) {
+    public JsonResult<Void> delete(@RequestParam String id) {
         permissionService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping
     @PreAuthorize("hasRole('admin')")
-    public JsonResult saveOrUpdate(@Validated @RequestBody SysPermission permission) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysPermission permission) {
         permissionService.insertOrUpdate(permission);
         return JsonResult.success();
     }

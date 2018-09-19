@@ -1,6 +1,7 @@
 package com.hk.emi.controller;
 
 import com.hk.core.page.QueryModel;
+import com.hk.core.page.QueryPage;
 import com.hk.core.query.Order;
 import com.hk.core.web.JsonResult;
 import com.hk.emi.domain.BaseCode;
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author: kevin
@@ -35,12 +38,12 @@ public class BaseCodeController extends BaseController {
      * @return JsonResult
      */
     @PostMapping(path = "list")
-    public JsonResult list(@RequestBody QueryModel<BaseCode> query) {
+    public JsonResult<QueryPage<BaseCode>> list(@RequestBody QueryModel<BaseCode> query) {
         return JsonResult.success(baseCodeService.queryForPage(query));
     }
 
     @GetMapping(path = "all")
-    public JsonResult findAll() {
+    public JsonResult<List<BaseCode>> findAll() {
         return JsonResult.success(baseCodeService.findAll(Order.asc("baseCode")));
     }
 
@@ -51,7 +54,7 @@ public class BaseCodeController extends BaseController {
      * @return JsonResult
      */
     @GetMapping(path = "{id}")
-    public JsonResult get(@PathVariable String id) {
+    public JsonResult<BaseCode> get(@PathVariable String id) {
         BaseCode baseCode = baseCodeService.getOne(id);
         return JsonResult.success(baseCode);
     }
@@ -64,7 +67,7 @@ public class BaseCodeController extends BaseController {
      */
     @DeleteMapping(path = "{id}")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult deleteById(@PathVariable String id) {
+    public JsonResult<Void> deleteById(@PathVariable String id) {
         baseCodeService.deleteById(id);
         return JsonResult.success();
     }
@@ -77,7 +80,7 @@ public class BaseCodeController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("hasRole('admin')")
-    public JsonResult saveOrUpdate(@Validated @RequestBody BaseCode baseCode) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody BaseCode baseCode) {
         baseCodeService.insertOrUpdate(baseCode);
         return JsonResult.success();
     }

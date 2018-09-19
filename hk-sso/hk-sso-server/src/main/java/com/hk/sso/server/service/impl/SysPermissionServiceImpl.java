@@ -4,7 +4,6 @@ import com.hk.commons.util.CollectionUtils;
 import com.hk.core.data.jpa.repository.BaseRepository;
 import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.sso.server.entity.SysPermission;
-import com.hk.sso.server.mappers.SysPermissionMapper;
 import com.hk.sso.server.repository.SysPermissionRepository;
 import com.hk.sso.server.service.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +21,14 @@ import java.util.Set;
 public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission, String> implements SysPermissionService {
 
     @Autowired
-    private SysPermissionMapper sysPermissionMapper;
-
-    @Autowired
     private SysPermissionRepository permissionRepository;
 
     @Override
     public List<SysPermission> findByAppIdAndRoleIds(String appId, Set<String> roleIds) {
-        if (CollectionUtils.isEmpty(roleIds)) {
+        if (CollectionUtils.isEmpty(roleIds)) {//必须不能为空
             return Collections.emptyList();
         }
-        return sysPermissionMapper.findByAppIdAndRoleIds(appId, roleIds);
+        return permissionRepository.findByAppIdAndRoleIds(appId, roleIds);
     }
 
     @Override

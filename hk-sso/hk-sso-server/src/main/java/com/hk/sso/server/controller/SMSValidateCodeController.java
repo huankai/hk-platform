@@ -30,7 +30,7 @@ public class SMSValidateCodeController {
      * @throws Exception
      */
     @GetMapping("/sms/sender")
-    public JsonResult createSmsCode(HttpServletRequest request) throws Exception {
+    public JsonResult<Void> createSmsCode(HttpServletRequest request) throws Exception {
         if (null == validateCodeProcessor) {
             throw new UnsupportedOperationException("系统未开启短信验证码登陆,请与管理员联系!");
         }

@@ -8,8 +8,6 @@ import com.hk.core.web.JsonResult;
 import com.hk.core.web.Webs;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.expression.AbstractSecurityExpressionHandler;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -47,12 +45,13 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
     public void configure(HttpSecurity http) throws Exception {
         AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
-                .withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
-                    @Override
-                    public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
-                        return (O) new AdminAccessWebSecurityExpressionHandler();// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
-                    }
-                });
+                .expressionHandler(new AdminAccessWebSecurityExpressionHandler());// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
+//                .withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
+//                    @Override
+//                    public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
+//                        return (O) new AdminAccessWebSecurityExpressionHandler();// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
+//                    }
+//                });
         Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
         if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
             for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
@@ -66,6 +65,5 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
             }
         }
         urlRegistry.anyRequest().authenticated();
-        http.authorizeRequests().anyRequest().authenticated();
     }
 }

@@ -15,9 +15,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.access.expression.AbstractSecurityExpressionHandler;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -119,13 +117,13 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 //                });
 
 
-                .authorizeRequests()
-                .withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
+                .authorizeRequests().expressionHandler(new AdminAccessWebSecurityExpressionHandler())// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
+                /*.withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
                     @Override
                     public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
                         return (O) new AdminAccessWebSecurityExpressionHandler();
                     }
-                }).anyRequest().authenticated();
+                })*/.anyRequest().authenticated();
     }
 
     @Override

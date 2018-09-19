@@ -27,39 +27,39 @@ public class SysAppController extends BaseController {
     }
 
     @PostMapping("/list")
-    public JsonResult userPage(@RequestBody QueryModel<SysApp> query) {
+    public JsonResult<QueryPage<SysApp>> userPage(@RequestBody QueryModel<SysApp> query) {
         QueryPage<SysApp> page = appService.queryForPage(query);
         return JsonResult.success(page);
     }
 
-    @GetMapping
-    public JsonResult get(@RequestParam String id) {
+    @GetMapping("{id}")
+    public JsonResult<SysApp> get(@PathVariable String id) {
         return JsonResult.success(appService.getOne(id));
     }
 
-    @DeleteMapping
-    public JsonResult delete(@RequestParam String id) {
+    @DeleteMapping("{id}")
+    public JsonResult<Void> delete(@PathVariable String id) {
         appService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping("/disabled")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult disabled(@RequestParam String id) {
+    public JsonResult<Void> disabled(@RequestParam String id) {
         appService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping("/enabled")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult enabled(@RequestParam String id) {
+    public JsonResult<Void> enabled(@RequestParam String id) {
         appService.enable(id);
         return JsonResult.success();
     }
 
     @PostMapping
     @PreAuthorize("hasRole('admin')")
-    public JsonResult saveOrUpdate(@Validated @RequestBody SysApp app) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysApp app) {
         appService.insertOrUpdate(app);
         return JsonResult.success();
     }

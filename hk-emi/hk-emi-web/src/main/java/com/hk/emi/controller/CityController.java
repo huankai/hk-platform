@@ -1,13 +1,13 @@
 package com.hk.emi.controller;
 
 import com.hk.core.page.QueryModel;
+import com.hk.core.page.QueryPage;
 import com.hk.core.web.JsonResult;
 import com.hk.core.web.Webs;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
 import com.hk.platform.commons.web.BaseController;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author: kevin
@@ -41,7 +42,7 @@ public class CityController extends BaseController {
      * @return JsonResult
      */
     @PostMapping(path = "/list")
-    public JsonResult list(@RequestBody QueryModel<City> query) {
+    public JsonResult<QueryPage<City>> list(@RequestBody QueryModel<City> query) {
         return JsonResult.success(cityService.queryForPage(query));
     }
 
@@ -52,8 +53,8 @@ public class CityController extends BaseController {
      * @return JsonResult
      */
     @GetMapping(path = "{id}")
-    public JsonResult get(@PathVariable String id) {
-        return JsonResult.success(cityService.findOne(id));
+    public JsonResult<City> get(@PathVariable String id) {
+        return JsonResult.success(cityService.getOne(id));
     }
 
     /**
@@ -63,7 +64,7 @@ public class CityController extends BaseController {
      * @return JsonResult
      */
     @GetMapping(path = "/child/{parentId}")
-    public JsonResult childList(@PathVariable String parentId) {
+    public JsonResult<List<City>> childList(@PathVariable String parentId) {
         return JsonResult.success(cityService.findChildList(parentId));
     }
 
@@ -75,7 +76,7 @@ public class CityController extends BaseController {
      */
     @DeleteMapping(path = "{id}")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult deleteById(@PathVariable String id) {
+    public JsonResult<Void> deleteById(@PathVariable String id) {
         cityService.deleteById(id);
         return JsonResult.success();
     }
@@ -88,7 +89,7 @@ public class CityController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("hasRole('admin')")
-    public JsonResult saveOrUpdate(@Validated @RequestBody City city) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody City city) {
         cityService.insertOrUpdate(city);
         return JsonResult.success();
     }
@@ -101,7 +102,7 @@ public class CityController extends BaseController {
      */
     @PostMapping("excel/import")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+    public JsonResult<Void> excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         cityService.importExcel(multipartFile.getInputStream());
         return JsonResult.success();
     }

@@ -28,7 +28,6 @@
             <artifactId>hk-core-data-jpa</artifactId>
         </dependency>
 
-
         <!--FastDfs Client-->
         <dependency>
             <groupId>com.github.tobato</groupId>

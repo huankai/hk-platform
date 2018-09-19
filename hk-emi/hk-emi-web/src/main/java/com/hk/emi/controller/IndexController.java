@@ -1,5 +1,6 @@
 package com.hk.emi.controller;
 
+import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.core.web.JsonResult;
 import com.hk.platform.commons.web.BaseController;
 import io.swagger.annotations.Api;
@@ -17,7 +18,7 @@ public class IndexController extends BaseController {
 
     @ApiOperation(value = "首页")
     @GetMapping({"/", "/index"})
-    public JsonResult index() {
+    public JsonResult<UserPrincipal> index() {
         return JsonResult.success(getPrincipal());
     }
 }

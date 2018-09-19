@@ -1,6 +1,7 @@
 package com.hk.emi.controller;
 
 import com.hk.core.page.QueryModel;
+import com.hk.core.page.QueryPage;
 import com.hk.core.web.JsonResult;
 import com.hk.emi.domain.ChildCode;
 import com.hk.emi.service.ChildCodeService;
@@ -34,7 +35,7 @@ public class ChildCodeController extends BaseController {
      * @return JsonResult
      */
     @PostMapping(path = "/list")
-    public JsonResult list(@RequestBody QueryModel<ChildCode> query) {
+    public JsonResult<QueryPage<ChildCode>> list(@RequestBody QueryModel<ChildCode> query) {
         return JsonResult.success(childCodeService.queryForPage(query));
     }
 
@@ -45,7 +46,7 @@ public class ChildCodeController extends BaseController {
      * @return JsonResult
      */
     @GetMapping(path = "{id}")
-    public JsonResult get(@PathVariable String id) {
+    public JsonResult<ChildCode> get(@PathVariable String id) {
         return JsonResult.success(childCodeService.getOne(id));
     }
 
@@ -57,7 +58,7 @@ public class ChildCodeController extends BaseController {
      */
     @DeleteMapping(path = "{id}")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult deleteById(@PathVariable String id) {
+    public JsonResult<Void> deleteById(@PathVariable String id) {
         childCodeService.deleteById(id);
         return JsonResult.success();
     }
@@ -70,7 +71,7 @@ public class ChildCodeController extends BaseController {
      */
     @PostMapping
     @PreAuthorize("hasRole('admin')")
-    public JsonResult saveOrUpdate(@Validated @RequestBody ChildCode childCode) {
+    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody ChildCode childCode) {
         childCodeService.insertOrUpdate(childCode);
         return JsonResult.success();
     }

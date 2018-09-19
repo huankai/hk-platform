@@ -31,7 +31,7 @@ public class LogoutController {
 
 
     @RequestMapping("/oauth/logout")
-    public JsonResult logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public JsonResult<Void> logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         new SecurityContextLogoutHandler().logout(request, response, null);
 //        String accessToken = extractToken(request);
 //        if (null != accessToken) {
