@@ -6,6 +6,6 @@ spring:
       server:
         default-application-name: hk-config-server
         git:
-          uri: https://github.com/huankai/hk-config.git
-          search-paths: platform-config
-          default-label: master
+          uri: https://github.com/huankai/hk-platform.git
+          search-paths: src/main/config
+          default-label: "2.0.3.RELEASE"
