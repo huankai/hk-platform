@@ -28,7 +28,7 @@ public class WechatQrCodeLoginController {
 	/**
 	 * 二维码登陆地址
 	 * 
-	 * @param response
+	 * @param response response
 	 * @throws IOException
 	 */
 	@GetMapping("/login")

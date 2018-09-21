@@ -38,16 +38,16 @@ public class SysOrgController extends BaseController {
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('org_admin')")
     public JsonResult<Void> delete(@RequestParam String id) {
         orgService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('admin')")
-    public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysOrg org) {
-        orgService.insertOrUpdate(org);
+    @PreAuthorize("hasRole('org_admin')")
+    public JsonResult<Void> update(@Validated @RequestBody SysOrg org) {
+        orgService.updateById(org);
         return JsonResult.success();
     }
 }

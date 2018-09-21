@@ -14,7 +14,7 @@
         width: 24px;
         height: 23px;
         display: block;
-        background: url("/resources/images/icon24_appwx_logo.png");
+        background-image: url("/resources/images/icon24_appwx_logo.png");
         margin: 0 auto;
         position: absolute;
         left: 55px;
@@ -49,7 +49,7 @@
             <input type="text" name="phoneCode" placeholder="请输入验证码"/>
             <a th:href="@{/sms/sender(phone=18820132014)}" target="_self">发送验证码</a>
         </div>
-        <input th:type="submit" value="登陆">
+        <input th:type="submit" th:value="登陆" />
     </form>
 </div>
 

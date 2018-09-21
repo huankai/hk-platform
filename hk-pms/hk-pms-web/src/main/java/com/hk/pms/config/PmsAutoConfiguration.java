@@ -1,8 +1,5 @@
 package com.hk.pms.config;
 
-import com.hk.core.data.jdbc.dialect.Dialect;
-import com.hk.core.data.jdbc.dialect.PostgreSqlDialect;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -12,13 +9,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class PmsAutoConfiguration {
 
-    /**
-     * 使用 postGre Database
-     *
-     * @return Dialect
-     */
-    @Bean
-    public Dialect dialect() {
-        return new PostgreSqlDialect();
-    }
+//    /**
+//     * 使用 postGre Database
+//     *
+//     * @return Dialect
+//     */
+//    @Bean
+//    public Dialect dialect() {
+//        return new PostgreSqlDialect();
+//    }
 }

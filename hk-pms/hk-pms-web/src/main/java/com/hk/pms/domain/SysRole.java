@@ -1,10 +1,15 @@
 package com.hk.pms.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+import com.hk.commons.validator.constraints.EnumByte;
+import com.hk.core.data.jpa.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * @author: kevin
@@ -15,5 +20,25 @@ import lombok.EqualsAndHashCode;
 @Table(name = "sys_role")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysRole extends ModelHolder.SysRoleBase {
+public class SysRole extends AbstractAuditable {
+
+    @NotEmpty
+    @Column(name = "app_id")
+    private String appId;
+
+    @NotEmpty
+    @Length(max = 30)
+    @Column(name = "role_name")
+    private String roleName;
+
+    @Length(max = 20)
+    @Column(name = "role_code")
+    private String roleCode;
+
+    @EnumByte(values = {0, 1})
+    @Column(name = "role_status")
+    private Byte roleStatus;
+
+    @Column(name = "description")
+    private String description;
 }

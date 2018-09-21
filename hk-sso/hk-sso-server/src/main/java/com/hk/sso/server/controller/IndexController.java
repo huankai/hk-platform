@@ -1,6 +1,6 @@
 package com.hk.sso.server.controller;
 
-import com.hk.core.authentication.api.SecurityContextUtils;
+import com.hk.platform.commons.web.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @date: 2018-08-06 10:38
  */
 @Controller
-public class IndexController {
+public class IndexController extends BaseController {
 
     @GetMapping(path = {"/", "/index"})
     public String index(ModelMap modelMap) {
-        modelMap.put("user", SecurityContextUtils.getPrincipal());
         return "index";
     }
 

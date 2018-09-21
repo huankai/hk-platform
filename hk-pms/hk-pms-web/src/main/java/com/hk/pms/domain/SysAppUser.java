@@ -7,24 +7,30 @@ import lombok.EqualsAndHashCode;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
 /**
+ * App 管理人员
+ *
  * @author: kevin
- * @date: 2018-04-12 16:33
+ * @date: 2018-09-20 14:18
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
-@Table(name = "sys_user_role")
-@EqualsAndHashCode(callSuper = true)
-@SuppressWarnings("serial")
-public class SysUserRole extends AbstractAuditable {
+@Table(name = "sys_app_user")
+public class SysAppUser extends AbstractAuditable {
 
-    @NotEmpty
+    /**
+     * App
+     */
+    @Column(name = "app_id", updatable = false)
+    private String appId;
+
+    /**
+     * 续期类型
+     */
     @Column(name = "user_id")
     private String userId;
 
-    @NotEmpty
-    @Column(name = "role_id")
-    private String roleId;
+
 }
