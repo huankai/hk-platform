@@ -6,8 +6,6 @@ server:
         name: emi_jsession
         http-only: true
 spring:
-  main:
-    banner-mode: 'off'
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
@@ -130,7 +128,7 @@ hk:
   authentication:
     browser:
       logout-url: /logout
-      logout-success-url: http://127.0.0.1:8771/oauth2/oauth/logout?redirect_url=http://127.0.0.1:8771/emi/index
+      logout-success-url: http://127.0.0.1:8771/oauth2/logout?redirect_url=http://127.0.0.1:8771/emi/index
       gate-way-host: http://127.0.0.1:8771/emi
 ################################################################### swagger 文档自动配置
   swagger:

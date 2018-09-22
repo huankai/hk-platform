@@ -3,8 +3,6 @@ server:
     context-path: /
 
 spring:
-  main:
-    banner-mode: 'off'
   aop:
     proxy-target-class: true
 ################################################################## eureka配置
