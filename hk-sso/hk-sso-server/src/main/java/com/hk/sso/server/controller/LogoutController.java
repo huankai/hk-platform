@@ -1,16 +1,8 @@
 package com.hk.sso.server.controller;
 
-import com.hk.commons.util.StringUtils;
-import com.hk.core.web.JsonResult;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * 退出
@@ -18,6 +10,7 @@ import java.io.IOException;
  * @author: kevin
  * @date: 2018-07-31 14:44
  */
+@Deprecated
 @RestController
 public class LogoutController {
 
@@ -29,27 +22,34 @@ public class LogoutController {
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
-
-    @RequestMapping("/oauth/logout")
-    public JsonResult<Void> logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        new SecurityContextLogoutHandler().logout(request, response, null);
-//        String accessToken = extractToken(request);
-//        if (null != accessToken) {
-//            consumerTokenServices.revokeToken(accessToken);
-//            SecurityContextHolder.clearContext();
+//    @Autowired
+//    @Qualifier("webSocketMessagePublish")
+//    private MessagePublish messagePublish;
+//
+//    @Autowired
+//    private SimpUserRegistry userRegistry;
+//
+//    @RequestMapping("/oauth/logout")
+//    public JsonResult<Void> logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+//        new SecurityContextLogoutHandler().logout(request, response, null);
+////        String accessToken = extractToken(request);
+////        if (null != accessToken) {
+////            consumerTokenServices.revokeToken(accessToken);
+////            SecurityContextHolder.clearContext();
+////        }
+//        messagePublish.send(null, "/queue/onlineuser", userRegistry.getUserCount());
+//        String redirectUrl = getRedirectUrl(request);
+//        if (StringUtils.isNotEmpty(redirectUrl)) {
+//            redirectStrategy.sendRedirect(request, response, redirectUrl);
+//            return null;
+//        } else {
+//            return JsonResult.success("退出成功");
 //        }
-        String redirectUrl = getRedirectUrl(request);
-        if (StringUtils.isNotEmpty(redirectUrl)) {
-            redirectStrategy.sendRedirect(request, response, redirectUrl);
-            return null;
-        } else {
-            return JsonResult.success("退出成功");
-        }
-    }
-
-    private String getRedirectUrl(HttpServletRequest request) {
-        return request.getParameter("redirect_url");
-    }
+//    }
+//
+//    private String getRedirectUrl(HttpServletRequest request) {
+//        return request.getParameter("redirect_url");
+//    }
 
 
 //    private String extractToken(HttpServletRequest request) {

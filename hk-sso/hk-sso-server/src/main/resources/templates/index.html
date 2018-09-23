@@ -6,59 +6,7 @@
     <title>首页</title>
 </head>
 <body>
-<h1>Hello，<span th:text="${currentUser.realName}"></span></h1>
-
-<a th:href="@{logout}">退出</a>
-
-<br />
-<form id="wiselyForm">
-    消息内容 ：<textarea rows="4" cols="60" name="text"></textarea>
-    <input type="submit"/>
-</form>
-
-<div id="output"></div>
+<h1>Hello，<span th:text="${currentUser.realName}"></span>
+</h1>
 </body>
-    <script th:src="@{resources/js/sockjs.min.js}"></script>
-    <script th:src="@{resources/js/stomp.min.js}"></script>
-    <script th:src="@{resources/js/jquery.js}"></script>
-    <script th:inline="javascript">
-        $('#wiselyForm').submit(function (e) {
-            e.preventDefault();
-            const text = $('#wiselyForm').find('textarea[name="text"]').val();
-            sendSpittle(text);
-        });
-        //链接endpoint名称为 "/endpointChat" 的endpoint。
-        const sock = new SockJS("/endpointChat");
-        const stomp = Stomp.over(sock);
-        stomp.connect({}, function (frame) {
-
-            /**  订阅了/user/queue/notifications 发送的消息,这里雨在控制器的 convertAndSendToUser 定义的地址保持一致, 
-             *  这里多用了一个/user,并且这个user 是必须的,使用user 才会发送消息到指定的用户。 
-             *  */
-            stomp.subscribe("/user/queue/notifications", handleNotification); //如果需要发送给指定的用户
-            // stomp.subscribe("/queue/notifications", handleNotification);
-        });
-
-
-        function handleNotification(message) {
-            $('#output').append("<b>Received: " + message.body + "</b><br/>")
-        }
-
-        function sendSpittle(text) {
-            stomp.send("/chat2", {}, JSON.stringify({'name': text}));//3
-            /*$.ajax({
-                url: "/chat",
-                data: {
-                    "message": text
-                },
-                success: function (rslt) {
-                    console.info(rslt);
-                }
-            });*/
-        }
-
-        $('#stop').click(function () {
-            sock.close()
-        });
-    </script>
 </html>

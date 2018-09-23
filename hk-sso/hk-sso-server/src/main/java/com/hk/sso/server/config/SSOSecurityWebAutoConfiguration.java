@@ -2,6 +2,7 @@ package com.hk.sso.server.config;
 
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
+import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
@@ -20,9 +21,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 
 /**
@@ -87,7 +90,7 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                     .and().apply(new ValidateCodeSecurityConfiguration(sms, processor, null));
         }
         http.apply(new WechatQrcodeAuthenticationSecurityConfigurer(wxMpService, qrCodeConfig));
-        http
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authenticated = http
                 .csrf().disable()
 
                 .formLogin()
@@ -101,6 +104,15 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .enableSessionUrlRewriting(false)
+                .maximumSessions(browser.getMaximumSessions())
+                .maxSessionsPreventsLogin(browser.isMaxSessionsPreventsLogin())
+                .and()
+                .and()
+                .logout().clearAuthentication(true)
+                .logoutUrl(browser.getLogoutUrl())
+                .invalidateHttpSession(true)
+                .addLogoutHandler(new SecurityContextLogoutHandler())
+                .addLogoutHandler(new RedirectLogoutHandler(browser.getLogoutUrl()))
                 .and()
                 // 使用 zuul登陆地址
 //                .addObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>() {

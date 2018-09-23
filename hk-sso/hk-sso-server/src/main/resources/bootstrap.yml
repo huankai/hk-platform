@@ -4,14 +4,11 @@ server:
 spring:
   application:
     name: hk-sso-server
+  main:
+    banner-mode: 'off'
   cloud:
     config:
       label: "2.0.3.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
-hk:
-  websocket:
-    endpoint: "/endpointChat"
-    simple-brokers: "/queue"
-
 

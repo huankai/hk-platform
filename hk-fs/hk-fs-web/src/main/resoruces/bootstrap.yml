@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: hk-fs
+  main:
+    banner-mode: 'off'
   cloud:
     config:
       label: "2.0.3.RELEASE"

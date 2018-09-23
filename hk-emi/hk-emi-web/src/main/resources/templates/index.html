@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>首页</title>
+</head>
+<body>
+<h1>Hello，<span th:text="${currentUser.realName}"></span>
+    ，用户Id，<span th:text="${currentUser.userId}"></span>
+</h1>
+<h1>在线用户数：<span th:id="onLineUser" th:text="0"></span> 人, <a th:href="@{/logout}">退出</a></h1>
+
+<br/>
+<form id="wiselyForm">
+    <div>
+        <label th:for="toUser">发送给 ：</label>
+        <input th:id="toUser" th:style="'width:30%'" th:value="${currentUser.userId}"/>
+    </div>
+    <div>
+        <label th:for="text">消息内容 ：</label>
+        <textarea th:id="text" rows="4" cols="60" name="text"></textarea>
+    </div>
+    <input type="submit" th:value="发送"/>
+    <input th:id="cleanMessage" type="button" th:value="清除"/>
+</form>
+<div id="output"></div>
+</body>
+<script src="http://127.0.0.1:8771/js/sockjs.min.js"></script>
+<script src="http://127.0.0.1:8771/js/stomp.min.js"></script>
+<script src="http://127.0.0.1:8771/js/jquery.js"></script>
+<script th:inline="javascript">
+    $('#wiselyForm').submit(function (e) {
+        e.preventDefault();
+        const text = $('#wiselyForm').find('textarea[name="text"]').val();
+        sendSpittle(text);
+    });
+    //链接endpoint名称为 "/endpointChat" 的endpoint。
+    const sock = new SockJS("/endpointChat");
+    const stomp = Stomp.over(sock);
+    //stomp.debug = null; // 关闭debug
+    stomp.heartbeat.outgoing = 5000;
+    stomp.heartbeat.incoming = 5000;
+    stomp.connect({}, function (frame) {
+
+        /**  订阅了/user/queue/notifications 发送的消息,这里要在控制器的 convertAndSendToUser 定义的地址保持一致, 
+         *  这里多用了一个/user,并且这个user 是必须的,使用user 才会发送消息到指定的用户。 
+         *  */
+        stomp.subscribe("/queue/onlineuser", handleOnlineuser); //订阅在线用户数
+        stomp.subscribe("/user/queue/notifications", handleNotification); //如果需要发送给指定的用户
+    });
+    function handleOnlineuser(message) {
+        //console.log(message);
+        $("#onLineUser").text(message.body);
+    }
+
+    sock.onclose = function (e) {
+        console.log(e);
+
+    };
+    sock.onerror = function (err) {
+        console.log("err..");
+        console.log(err);
+    }
+
+
+    function handleNotification(message) {
+        $('#output').append("<b>Received: " + message.body + "</b><br/>")
+    }
+
+    function sendSpittle(text) {
+        stomp.send("/chat", {}, JSON.stringify({'message': text, "toUser": $("#toUser").val()}));//3
+        /*$.ajax({
+            url: "/chat2",
+            data: {
+                "message": text,
+                "toUser":$("#toUser").val()
+            },
+            success: function (rslt) {
+                console.info(rslt);
+            }
+        });*/
+    }
+
+    $("#cleanMessage").click(function () {
+        $('#output').empty();
+    });
+    $('#stop').click(function () {
+        sock.close();
+    });
+</script>
+</html>

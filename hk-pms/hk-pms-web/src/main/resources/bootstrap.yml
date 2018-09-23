@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: hk-pms
+  main:
+    banner-mode: 'off'
   cloud:
     config:
       label: "2.0.3.RELEASE"

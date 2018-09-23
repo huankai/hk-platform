@@ -4,22 +4,22 @@ import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
-import com.hk.core.authentication.security.SecurityUserPrincipal;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
+import com.hk.message.api.OnLineUserMessage;
+import com.hk.message.api.subject.SimpleTopicMessageSubject;
+import com.hk.message.websocket.WebsocketMessager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2SsoProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.access.PermissionEvaluator;
-import org.springframework.security.access.expression.AbstractSecurityExpressionHandler;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.messaging.simp.user.SimpUserRegistry;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -27,9 +27,8 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
-import org.springframework.security.web.DefaultSecurityFilterChain;
-import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Set;
 
@@ -55,6 +54,14 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
         this.applicationContext = applicationContext;
     }
 
+    /************ ** websocket 在线用户消息推送 ***************/
+    @Autowired
+    @Qualifier("websocketMessager")
+    private WebsocketMessager messager;
+
+    @Autowired
+    private SimpUserRegistry userRegistry;
+
     @Override
     public void configure(HttpSecurity http) throws Exception {
         AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
@@ -68,7 +75,14 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .clearAuthentication(true)
                 .logoutUrl(browser.getLogoutUrl())
                 .logoutSuccessUrl(browser.getLogoutSuccessUrl())
-
+                .defaultLogoutSuccessHandlerFor((request, response, authentication) ->
+                                messager.publish(OnLineUserMessage
+                                        .builder()
+                                        .onLineUser(userRegistry.getUserCount())
+                                        .build())
+                                        .to(SimpleTopicMessageSubject.builder().topic("/queue/onlineuser").build())
+                                        .send(),
+                        new AntPathRequestMatcher(browser.getLogoutUrl())) // 在线用户统计websocket推送
                 .and()
                 .requestMatcher(NoBearerMatcher.INSTANCE);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
