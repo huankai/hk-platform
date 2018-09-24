@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.1.76
+Source Server         : localhost
 Source Server Version : 50715
-Source Host           : 192.168.1.76:3306
+Source Host           : localhost:3306
 Source Database       : hk_pms
 
 Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2018-09-21 17:55:57
+Date: 2018-09-23 22:19:18
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,7 +25,7 @@ CREATE TABLE `oauth_client_details` (
   `resource_ids` varchar(100) DEFAULT NULL,
   `scope` varchar(50) NOT NULL,
   `authorized_grant_types` varchar(100) NOT NULL,
-  `redirect_uri` varchar(50) DEFAULT NULL,
+  `web_server_redirect_uri` varchar(50) DEFAULT NULL,
   `authorities` varchar(100) DEFAULT NULL,
   `access_token_validity` int(10) NOT NULL,
   `refresh_token_validity` int(10) NOT NULL,
@@ -38,6 +38,7 @@ CREATE TABLE `oauth_client_details` (
 -- ----------------------------
 -- Records of oauth_client_details
 -- ----------------------------
+INSERT INTO `oauth_client_details` VALUES ('4028c0816371a097016371a38d5a0000', '{noop}4028c0816371a097016371a38d5a0000', null, 'all', 'authorization_code,refresh_token', null, null, '7200', '72000', null, 'true');
 
 -- ----------------------------
 -- Table structure for sys_app
@@ -64,6 +65,7 @@ CREATE TABLE `sys_app` (
 -- ----------------------------
 -- Records of sys_app
 -- ----------------------------
+INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d5a0000', 'HK_EMI', 'zhidian', 'localhost', 'a.png', '1', '2018-09-22', '2018-11-22', '1', '1', '2018-09-22 10:43:35', '1', '2018-09-22 10:43:42');
 
 -- ----------------------------
 -- Table structure for sys_app_apply
@@ -394,6 +396,7 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES ('4028c08162bda8ce0162bda8df6a0000', '402881e662ba5fff0162ba602bff0000', '4028c08162bda84d0162bda85d6b0000', '18820136090', '18820136090', '{bcrypt}$2a$10$Cl73dNsDXWV55uvHcLRNsu/LmvKdnCYAL50uOgcSn49AFopS3ZIaq', 'huankai@139.com', '系统管理员', '0', '1', '1', null, '2000-01-01', null, null, '1', '4028c08162bda8ce0162bda8df6a0000', '2018-09-21 14:50:53', '4028c08162bda8ce0162bda8df6a0000', '2018-09-21 14:50:56');
+INSERT INTO `sys_user` VALUES ('4028c08162bda8ce0162bda8df6a0001', '402881e662ba5fff0162ba602bff0000', '4028c08162bda84d0162bda85d6b0000', '18820132014', '18820132014', '{bcrypt}$2a$10$Cl73dNsDXWV55uvHcLRNsu/LmvKdnCYAL50uOgcSn49AFopS3ZIaq', '18820132014@139.com', 'haha', '0', '0', '1', null, '2018-09-21', null, null, '1', '4028c08162bda8ce0162bda8df6a0001', '2018-09-21 23:59:14', '4028c08162bda8ce0162bda8df6a0001', '2018-09-21 23:59:17');
 
 -- ----------------------------
 -- Table structure for sys_user_card

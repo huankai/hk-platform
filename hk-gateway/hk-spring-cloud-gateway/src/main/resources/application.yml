@@ -1,0 +1,25 @@
+server:
+  port: 8771
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+#      default-filters:
+
+      routes:
+        - id: hk-emi
+          uri: http://127.0.0.1:8772
+          predicates:
+            - Path=/emi
+        - id: hk-oauth2
+          uri: http://127.0.0.1:8086
+          predicates:
+            - Path=/oauth2
+logging:
+  level:
+    root: error
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG
