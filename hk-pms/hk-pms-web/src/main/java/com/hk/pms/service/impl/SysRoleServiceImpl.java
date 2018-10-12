@@ -2,11 +2,11 @@ package com.hk.pms.service.impl;
 
 
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.data.jpa.repository.JpaBaseRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.pms.domain.SysRole;
 import com.hk.pms.mappers.SysRoleMapper;
-import com.hk.pms.repository.SysRoleRepository;
+import com.hk.pms.repository.jpa.SysRoleRepository;
 import com.hk.pms.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = {"SYS_ROLE"})
-public class SysRoleServiceImpl extends BaseServiceImpl<SysRole, String> implements SysRoleService {
+public class SysRoleServiceImpl extends JpaServiceImpl<SysRole, String> implements SysRoleService {
 
     private final SysRoleRepository sysRoleRepository;
 
@@ -41,7 +41,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole, String> impleme
      * @return
      */
     @Override
-    protected BaseRepository<SysRole, String> getBaseRepository() {
+    protected JpaBaseRepository<SysRole, String> getBaseRepository() {
         return sysRoleRepository;
     }
 

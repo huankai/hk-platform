@@ -54,7 +54,7 @@ public class CityController extends BaseController {
      */
     @GetMapping(path = "{id}")
     public JsonResult<City> get(@PathVariable String id) {
-        return JsonResult.success(cityService.getOne(id));
+        return JsonResult.success(cityService.findById(id).orElse(null));
     }
 
     /**

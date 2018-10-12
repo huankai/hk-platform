@@ -39,7 +39,7 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
 
     @Override
     public ClientAppInfo getClientInfoById(String clientId) {
-        SysApp app = appService.findOne(clientId).orElseThrow(() -> new ServiceException("当前APP应用不存在"));
+        SysApp app = appService.findById(clientId).orElseThrow(() -> new ServiceException("当前APP应用不存在"));
         return new ClientAppInfo(app.getId(), app.getAppCode(), app.getAppName(), app.getAppIcon());
     }
 }

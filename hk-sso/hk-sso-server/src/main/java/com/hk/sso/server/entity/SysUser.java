@@ -1,15 +1,14 @@
 package com.hk.sso.server.entity;
 
-import java.time.LocalDate;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractUUIDPersistable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.hk.core.data.jpa.domain.AbstractUUIDPersistable;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.time.LocalDate;
 
 /**
  * @author: kevin
@@ -20,7 +19,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "sys_user")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysUser extends AbstractUUIDPersistable {
+public class SysUser extends AbstractAuditable {
 
     @Column(name = "dept_id")
     private String deptId;

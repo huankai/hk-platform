@@ -3,14 +3,14 @@ package com.hk.pms.service.impl;
 import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.data.jpa.repository.JpaBaseRepository;
 import com.hk.core.exception.ServiceException;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.platform.commons.tree.TreeNode;
 import com.hk.pms.commons.tree.ResourceTree;
 import com.hk.pms.domain.SysResource;
 import com.hk.pms.mappers.SysResourceMapper;
-import com.hk.pms.repository.SysResourceRepository;
+import com.hk.pms.repository.jpa.SysResourceRepository;
 import com.hk.pms.service.SysResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.ExampleMatcher;
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @date: 2018-08-28 16:40
  */
 @Service
-public class SysResourceServiceImpl extends BaseServiceImpl<SysResource, String> implements SysResourceService {
+public class SysResourceServiceImpl extends JpaServiceImpl<SysResource, String> implements SysResourceService {
 
     private SysResourceRepository sysResourceRepository;
 
@@ -47,7 +47,7 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource, String>
     }
 
     @Override
-    protected BaseRepository<SysResource, String> getBaseRepository() {
+    protected JpaBaseRepository<SysResource, String> getBaseRepository() {
         return sysResourceRepository;
     }
 

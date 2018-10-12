@@ -1,0 +1,18 @@
+server:
+  port: 9999
+  servlet:
+    context-path: /
+spring:
+  main:
+    banner-mode: 'off'
+  application:
+    name: hk-springboot-admin-server
+######################################################### eureka 配置
+eureka:
+  instance:
+    prefer-ip-address: false
+    hostname: 127.0.0.1
+  client:
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka

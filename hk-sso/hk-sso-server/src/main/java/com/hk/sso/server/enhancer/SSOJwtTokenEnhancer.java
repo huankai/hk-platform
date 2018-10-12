@@ -53,7 +53,7 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();
         Map<String, Object> info = new HashMap<>();
-        SysApp sysApp = sysAppService.findOne(clientId).orElseThrow(() -> new OAuth2Exception("当前APP应用不存在"));
+        SysApp sysApp = sysAppService.findById(clientId).orElseThrow(() -> new OAuth2Exception("当前APP应用不存在"));
         if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
             // 注意，这里要返回 400的异常状态码，如果不是，客户端很难获取到异常的详细信息
             throw new OAuth2Exception("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");

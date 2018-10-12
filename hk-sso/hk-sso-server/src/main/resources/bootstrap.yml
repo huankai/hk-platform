@@ -1,6 +1,5 @@
 server:
   port: 8086
-
 spring:
   application:
     name: hk-sso-server
@@ -11,4 +10,3 @@ spring:
       label: "2.0.3.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
-

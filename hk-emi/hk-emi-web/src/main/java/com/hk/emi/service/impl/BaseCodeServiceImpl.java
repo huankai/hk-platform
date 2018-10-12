@@ -2,11 +2,11 @@ package com.hk.emi.service.impl;
 
 
 import com.hk.commons.util.StringUtils;
-import com.hk.core.cache.service.EnableCacheServiceImpl;
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.cache.service.EnableJpaCacheServiceImpl;
+import com.hk.core.data.jpa.repository.JpaBaseRepository;
 import com.hk.core.exception.ServiceException;
 import com.hk.emi.domain.BaseCode;
-import com.hk.emi.repository.BaseCodeRepository;
+import com.hk.emi.repository.jpa.BaseCodeRepository;
 import com.hk.emi.service.BaseCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -21,7 +21,7 @@ import java.util.Optional;
  */
 @Service
 @CacheConfig(cacheNames = {"BaseCode"})
-public class BaseCodeServiceImpl extends EnableCacheServiceImpl<BaseCode, String> implements BaseCodeService {
+public class BaseCodeServiceImpl extends EnableJpaCacheServiceImpl<BaseCode, String> implements BaseCodeService {
 
     private final BaseCodeRepository baseCodeRepository;
 
@@ -38,7 +38,7 @@ public class BaseCodeServiceImpl extends EnableCacheServiceImpl<BaseCode, String
     }
 
     @Override
-    protected BaseRepository<BaseCode, String> getBaseRepository() {
+    protected JpaBaseRepository<BaseCode, String> getBaseRepository() {
         return baseCodeRepository;
     }
 

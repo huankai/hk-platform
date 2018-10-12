@@ -2,7 +2,7 @@ package com.hk.fs.service;
 
 
 import com.hk.commons.util.AssertUtils;
-import com.hk.core.service.BaseService;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.fs.domain.FileInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
  * @author: kevin
  * @date: 2018-08-08 17:46
  */
-public interface FileInfoService extends BaseService<FileInfo, String> {
+public interface FileInfoService extends JpaBaseService<FileInfo, String> {
 
     String B_UNIT = "B";
 

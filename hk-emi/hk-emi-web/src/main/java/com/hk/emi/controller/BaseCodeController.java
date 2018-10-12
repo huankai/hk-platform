@@ -13,8 +13,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * @author: kevin
  * @date: 2018-08-20 11:01
@@ -43,7 +41,7 @@ public class BaseCodeController extends BaseController {
     }
 
     @GetMapping(path = "all")
-    public JsonResult<List<BaseCode>> findAll() {
+    public JsonResult<Iterable<BaseCode>> findAll() {
         return JsonResult.success(baseCodeService.findAll(Order.asc("baseCode")));
     }
 

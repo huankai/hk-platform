@@ -1,15 +1,20 @@
 package com.hk.sso.server.service.impl;
 
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.commons.util.JsonUtils;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.exception.ServiceException;
 import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.service.jdbc.JdbcBaseService;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.sso.server.entity.SysUser;
-import com.hk.sso.server.repository.UserRepository;
+import com.hk.sso.server.repository.jdbc.UserRepository;
 import com.hk.sso.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,7 +22,7 @@ import java.util.Optional;
  * @date: 2018-07-31 12:54
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<SysUser, String> implements UserService {
+public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements UserService {
 
     private final UserRepository userRepository;
 
@@ -30,7 +35,7 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser, String> implements
     }
 
     @Override
-    protected BaseRepository<SysUser, String> getBaseRepository() {
+    protected JdbcRepository<SysUser, String> getBaseRepository() {
         return userRepository;
     }
 
@@ -43,16 +48,22 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser, String> implements
                 optionalUser = userRepository.findByEmail(loginName);
             }
         }
+        if (optionalUser.isPresent()) {
+            List<SysUser> users = findAll(optionalUser.get());
+            System.out.println(JsonUtils.serialize(users, true));
+        }
         return optionalUser;
     }
 
 
     @Override
     public void resetPassword(String userId, String newPass) {
-        SysUser user = new SysUser();
-        user.setId(userId);
+
+        SysUser user = findById(userId).orElseThrow(() -> new ServiceException("用户不存在"));
         user.setPassword(passwordEncoder.encode(newPass));
-        updateByIdSelective(user);
+//        updateByIdSelective(user);
+        updateById(user);
+
     }
 
     @Override
@@ -72,12 +83,12 @@ public class UserServiceImpl extends BaseServiceImpl<SysUser, String> implements
     }
 
     @Override
-    public void delete(Collection<SysUser> entities) {
+    public void delete(Iterable<SysUser> entities) {
         throw new UnsupportedOperationException("不支持的操作！");
     }
 
     @Override
-    public void deleteByIds(Collection<String> strings) {
+    public void deleteByIds(Iterable<String> strings) {
         throw new UnsupportedOperationException("不支持的操作！");
 
     }

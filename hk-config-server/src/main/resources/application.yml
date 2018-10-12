@@ -1,6 +1,10 @@
 server:
   port: 8770
 spring:
+  main:
+    banner-mode: 'off'
+  application:
+    name: hk-config-server
   cloud:
     config:
       server:
@@ -10,3 +14,15 @@ spring:
           search-paths: "src/main/config"  # 会在此目录下查询配置文件
           default-label: "2.0.3.RELEASE"  # clone 分支
           basedir: "/config-basedir" # clone 的项目保存在指定的目录中
+  boot:
+    admin:
+      client:
+        url: "http://127.0.0.1:9999"
+        instance:
+          prefer-ip: false
+          service-url: "http://127.0.0.1:${server.port}"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

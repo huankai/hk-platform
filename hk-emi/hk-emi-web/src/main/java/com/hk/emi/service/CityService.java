@@ -1,13 +1,12 @@
 package com.hk.emi.service;
 
+import java.io.InputStream;
+import java.util.List;
+
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.core.service.BaseService;
 import com.hk.emi.domain.City;
 import com.hk.emi.vo.CityExcelVo;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.List;
 
 /**
  * @author: kevin

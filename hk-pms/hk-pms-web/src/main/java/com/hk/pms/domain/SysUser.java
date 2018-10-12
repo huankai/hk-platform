@@ -2,7 +2,7 @@ package com.hk.pms.domain;
 
 import com.hk.business.utils.DictCodeUtils;
 import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;

@@ -1,17 +1,19 @@
 package com.hk.emi.vo;
 
+import java.io.Serializable;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.hk.commons.poi.excel.annotations.ReadExcel;
 import com.hk.commons.poi.excel.annotations.WriteExcel;
 import com.hk.commons.util.StringUtils;
 import com.hk.commons.validator.constraints.EnumDict;
 import com.hk.emi.domain.City;
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import lombok.Data;
 
 /**
  * 城市导入Vo

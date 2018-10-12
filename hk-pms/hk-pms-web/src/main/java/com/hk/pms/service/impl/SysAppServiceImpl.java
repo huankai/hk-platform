@@ -3,10 +3,10 @@ package com.hk.pms.service.impl;
 
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.cache.service.EnableCacheServiceImpl;
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.cache.service.EnableJpaCacheServiceImpl;
+import com.hk.core.data.jpa.repository.JpaBaseRepository;
 import com.hk.pms.domain.SysApp;
-import com.hk.pms.repository.SysAppRepository;
+import com.hk.pms.repository.jpa.SysAppRepository;
 import com.hk.pms.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -21,7 +21,7 @@ import java.util.Optional;
  */
 @Service
 @CacheConfig(cacheNames = {"app_Cache"})
-public class SysAppServiceImpl extends EnableCacheServiceImpl<SysApp, String> implements SysAppService {
+public class SysAppServiceImpl extends EnableJpaCacheServiceImpl<SysApp, String> implements SysAppService {
 
     private final SysAppRepository sysAppRepository;
 
@@ -30,6 +30,10 @@ public class SysAppServiceImpl extends EnableCacheServiceImpl<SysApp, String> im
         this.sysAppRepository = sysAppRepository;
     }
 
+    @Override
+    protected JpaBaseRepository<SysApp, String> getBaseRepository() {
+        return sysAppRepository;
+    }
 
     @Override
     protected ExampleMatcher ofExampleMatcher() {
@@ -38,11 +42,6 @@ public class SysAppServiceImpl extends EnableCacheServiceImpl<SysApp, String> im
                 .withMatcher("localApp", ExampleMatcher.GenericPropertyMatchers.exact())
                 .withMatcher("appCode", ExampleMatcher.GenericPropertyMatchers.contains())
                 .withMatcher("appName", ExampleMatcher.GenericPropertyMatchers.contains());
-    }
-
-    @Override
-    protected BaseRepository<SysApp, String> getBaseRepository() {
-        return sysAppRepository;
     }
 
     /**
@@ -68,7 +67,7 @@ public class SysAppServiceImpl extends EnableCacheServiceImpl<SysApp, String> im
     }
 
     private void updateStatus(String appId, Byte status) {
-        findOne(appId).ifPresent(app -> {
+        findById(appId).ifPresent(app -> {
             app.setAppStatus(status);
             getCurrentProxy().updateById(app);
         });

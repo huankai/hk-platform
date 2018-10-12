@@ -1,6 +1,6 @@
 package com.hk.emi.service;
 
-import com.hk.core.service.BaseService;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.emi.domain.ChildCode;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  * @author: kevin
  * @date: 2018年1月24日下午1:44:33
  */
-public interface ChildCodeService extends BaseService<ChildCode, String> {
+public interface ChildCodeService extends JpaBaseService<ChildCode, String> {
 
     /**
      * 查询子字典

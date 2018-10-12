@@ -1,9 +1,9 @@
 package com.hk.fs.service.impl;
 
-import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.data.jpa.repository.JpaBaseRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.fs.domain.FileShare;
-import com.hk.fs.repository.FileShareRepository;
+import com.hk.fs.repository.jpa.FileShareRepository;
 import com.hk.fs.service.FileShareService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @date: 2018-08-08 17:46
  */
 @Service
-public class FileShareServiceImpl extends BaseServiceImpl<FileShare, String> implements FileShareService {
+public class FileShareServiceImpl extends JpaServiceImpl<FileShare, String> implements FileShareService {
 
     private final FileShareRepository fileShareRepository;
 
@@ -23,7 +23,7 @@ public class FileShareServiceImpl extends BaseServiceImpl<FileShare, String> imp
     }
 
     @Override
-    protected BaseRepository<FileShare, String> getBaseRepository() {
+    protected JpaBaseRepository<FileShare, String> getBaseRepository() {
         return fileShareRepository;
     }
 }

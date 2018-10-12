@@ -1,12 +1,12 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.data.jpa.repository.JpaBaseRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.pms.domain.SysPermission;
 import com.hk.pms.domain.SysRole;
 import com.hk.pms.mappers.SysPermissionMapper;
-import com.hk.pms.repository.SysPermissionRepository;
+import com.hk.pms.repository.jpa.SysPermissionRepository;
 import com.hk.pms.service.SysPermissionService;
 import com.hk.pms.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @date: 2018-04-12 16:53
  */
 @Service
-public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission, String> implements SysPermissionService {
+public class SysPermissionServiceImpl extends JpaServiceImpl<SysPermission, String> implements SysPermissionService {
 
     private final SysPermissionRepository sysPermissionRepository;
 
@@ -51,7 +51,7 @@ public class SysPermissionServiceImpl extends BaseServiceImpl<SysPermission, Str
      * @return
      */
     @Override
-    protected BaseRepository<SysPermission, String> getBaseRepository() {
+    protected JpaBaseRepository<SysPermission, String> getBaseRepository() {
         return sysPermissionRepository;
     }
 

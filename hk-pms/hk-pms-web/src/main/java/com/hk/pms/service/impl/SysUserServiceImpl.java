@@ -4,18 +4,17 @@ package com.hk.pms.service.impl;
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.data.jpa.repository.JpaBaseRepository;
 import com.hk.core.exception.ServiceException;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.pms.domain.SysUser;
-import com.hk.pms.repository.SysUserRepository;
+import com.hk.pms.repository.jpa.SysUserRepository;
 import com.hk.pms.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -23,7 +22,7 @@ import java.util.Optional;
  * @date: 2018-04-12 17:01
  */
 @Service
-public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> implements SysUserService {
+public class SysUserServiceImpl extends JpaServiceImpl<SysUser, String> implements SysUserService {
 
     private final SysUserRepository sysUserRepository;
 
@@ -41,7 +40,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
      * @return sysUserRepository
      */
     @Override
-    protected BaseRepository<SysUser, String> getBaseRepository() {
+    protected JpaBaseRepository<SysUser, String> getBaseRepository() {
         return sysUserRepository;
     }
 
@@ -92,8 +91,8 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
     }
 
     @Override
-    public Optional<SysUser> findOne(String id) {
-        Optional<SysUser> optionalSysUser = super.findOne(id);
+    public Optional<SysUser> findById(String id) {
+        Optional<SysUser> optionalSysUser = super.findById(id);
         return getValidateUser(optionalSysUser);
     }
 
@@ -138,12 +137,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
     }
 
     @Override
-    public void deleteByIds(Collection<String> ids) {
+    public void deleteByIds(Iterable<String> ids) {
         ids.forEach(id -> updateStatus(id, ByteConstants.NINE));
     }
 
     @Override
-    public void delete(Collection<SysUser> entities) {
+    public void delete(Iterable<SysUser> entities) {
         entities.forEach(item -> updateStatus(item.getId(), ByteConstants.NINE));
     }
 
@@ -153,7 +152,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
     }
 
     private void updateStatus(String userId, Byte userStatus) {
-        findOne(userId).ifPresent(user -> {
+        findById(userId).ifPresent(user -> {
             user.setUserStatus(userStatus);
             insertOrUpdate(user);
             logger.info("用户[{}]状态已更新,更新后的状态为：{}", userId, userStatus);

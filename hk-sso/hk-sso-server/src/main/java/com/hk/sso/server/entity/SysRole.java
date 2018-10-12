@@ -1,13 +1,12 @@
 package com.hk.sso.server.entity;
 
+import com.hk.core.data.jdbc.domain.AbstractUUIDPersistable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
-import com.hk.core.data.jpa.domain.AbstractUUIDPersistable;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author: kevin

@@ -106,7 +106,8 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 }
             }
         }
-        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasAuthority("admin").anyRequest().authenticated();
+        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasAuthority("admin")
+                .anyRequest().authenticated();
 
         //通过源码分析，没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));
@@ -129,6 +130,6 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/favicon.ico", properties.getDefaultFailureUrl());
+        web.ignoring().antMatchers("/actuator/**", "/static/**", "/favicon.ico", properties.getDefaultFailureUrl());
     }
 }

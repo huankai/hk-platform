@@ -21,6 +21,7 @@ spring:
     encoding: UTF-8
     prefix: classpath:/templates/
     suffix: .html
+
 hk:
   websocket:
     endpoint: "/endpointChat"
