@@ -67,7 +67,7 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
             defaultOAuth2AccessToken.setAdditionalInformation(infoMap);
             return defaultOAuth2AccessToken;
         }
-        info.put("clientApp", new ClientAppInfo(sysApp.getId(), sysApp.getAppCode(), sysApp.getAppName(), sysApp.getAppIcon()));
+        info.put("appInfo", new ClientAppInfo(sysApp.getId(), sysApp.getAppCode(), sysApp.getAppName(), sysApp.getAppIcon()));
         info.put("account", principal.getAccount());
         info.put("email", principal.getEmail());
         info.put("phone", principal.getPhone());
@@ -97,8 +97,8 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
                 }
                 permissions = permissionList.stream().map(SysPermission::getPermissionCode).collect(Collectors.toSet());
             }
-            info.put("roles", roles);
-            info.put("permissions", permissions);
+            info.put("roleSet", roles);
+            info.put("permissionSet", permissions);
         }
         Map<String, Object> infoMap = new HashMap<>(additionalInformation);
         infoMap.putAll(info);

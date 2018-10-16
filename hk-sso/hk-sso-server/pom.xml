@@ -32,6 +32,10 @@
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
             <artifactId>hk-core-web</artifactId>
         </dependency>
         <dependency>

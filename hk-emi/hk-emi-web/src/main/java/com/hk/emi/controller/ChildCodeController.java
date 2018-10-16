@@ -47,7 +47,7 @@ public class ChildCodeController extends BaseController {
      */
     @GetMapping(path = "{id}")
     public JsonResult<ChildCode> get(@PathVariable String id) {
-        return JsonResult.success(childCodeService.getOne(id));
+        return JsonResult.success(childCodeService.findById(id).orElse(null));
     }
 
     /**

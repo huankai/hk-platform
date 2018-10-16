@@ -1,7 +1,7 @@
 package com.hk.emi.domain;
 
 import com.hk.commons.validator.constraints.EnumByte;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;

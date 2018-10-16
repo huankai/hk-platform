@@ -1,6 +1,6 @@
 package com.hk.sso.server.service;
 
-import com.hk.core.service.BaseService;
+import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.sso.server.entity.SysUser;
 
 import java.util.Optional;
@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author: kevin
  * @date: 2018-07-31 12:52
  */
-public interface UserService extends BaseService<SysUser, String> {
+public interface UserService extends JdbcBaseService<SysUser, String> {
 
     /**
      * 登陆名查询

@@ -2,6 +2,7 @@ package com.hk.sso.server.repository.jdbc;
 
 import com.hk.core.data.jdbc.repository.StringIdJdbcRepository;
 import com.hk.sso.server.entity.SysUser;
+import com.hk.sso.server.repository.jdbc.custom.CustomUserRepository;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -11,7 +12,7 @@ import java.util.Optional;
  * @author: kevin
  * @date: 2018-07-25 08:49
  */
-public interface UserRepository extends StringIdJdbcRepository<SysUser> {
+public interface UserRepository extends StringIdJdbcRepository<SysUser> ,CustomUserRepository {
 
     /**
      * @param account 登陆名

@@ -1,20 +1,15 @@
 package com.hk.sso.server.service.impl;
 
-import com.hk.commons.util.JsonUtils;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.core.exception.ServiceException;
-import com.hk.core.service.impl.BaseServiceImpl;
-import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.sso.server.entity.SysUser;
 import com.hk.sso.server.repository.jdbc.UserRepository;
 import com.hk.sso.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -47,10 +42,6 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
             if (!optionalUser.isPresent()) {
                 optionalUser = userRepository.findByEmail(loginName);
             }
-        }
-        if (optionalUser.isPresent()) {
-            List<SysUser> users = findAll(optionalUser.get());
-            System.out.println(JsonUtils.serialize(users, true));
         }
         return optionalUser;
     }

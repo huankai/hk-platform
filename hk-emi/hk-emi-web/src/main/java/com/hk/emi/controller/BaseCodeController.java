@@ -53,7 +53,7 @@ public class BaseCodeController extends BaseController {
      */
     @GetMapping(path = "{id}")
     public JsonResult<BaseCode> get(@PathVariable String id) {
-        BaseCode baseCode = baseCodeService.getOne(id);
+        BaseCode baseCode = baseCodeService.findById(id).orElse(null);
         return JsonResult.success(baseCode);
     }
 

@@ -22,7 +22,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
@@ -100,7 +99,7 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                     .and().apply(new ValidateCodeSecurityConfiguration(sms, processor, null));
         }
         http.apply(new WechatQrcodeAuthenticationSecurityConfigurer(wxMpService, qrCodeConfig));
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authenticated = http
+        http
                 .csrf().disable()
 
                 .formLogin()
