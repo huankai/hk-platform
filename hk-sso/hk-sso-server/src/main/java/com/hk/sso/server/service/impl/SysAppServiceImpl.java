@@ -1,6 +1,5 @@
 package com.hk.sso.server.service.impl;
 
-import com.hk.core.cache.service.EnableCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.sso.server.entity.SysApp;
@@ -8,7 +7,6 @@ import com.hk.sso.server.repository.jdbc.SysAppRepository;
 import com.hk.sso.server.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
 /**
