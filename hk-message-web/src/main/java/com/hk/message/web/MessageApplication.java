@@ -1,13 +1,13 @@
 package com.hk.message.web;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author: sjq-278
  * @date: 2018-09-26 11:15
  */
-@SpringCloudApplication
+@SpringBootApplication
 public class MessageApplication {
 
     public static void main(String[] args) {

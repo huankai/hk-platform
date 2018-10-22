@@ -7,6 +7,21 @@ spring:
     banner-mode: 'off'
   cloud:
     config:
-      label: "2.0.3.RELEASE"
+      label: "2.0.5.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
+  boot:
+    admin:
+      client:
+        url: "http://127.0.0.1:9999"
+        instance:
+          prefer-ip: false
+          service-url: "http://127.0.0.1:${server.port}"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"  #启动所有监控端口
+  endpoint:
+    health:
+      show-details: always  #查看详细的应用健康信息，如数据库的连接、redis的连接等，默认为 never

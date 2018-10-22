@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-sso</artifactId>
-        <version>2.0.3.RELEASE</version>
+        <version>2.0.5.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -114,10 +114,10 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>-->
+        </dependency>
 
     </dependencies>
 

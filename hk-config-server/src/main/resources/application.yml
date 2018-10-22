@@ -12,7 +12,7 @@ spring:
         git:
           uri: https://github.com/huankai/hk-platform.git
           search-paths: "src/main/config"  # 会在此目录下查询配置文件
-          default-label: "2.0.3.RELEASE"  # clone 分支
+          default-label: "2.0.5.RELEASE"  # clone 分支
           basedir: "/config-basedir" # clone 的项目保存在指定的目录中
   boot:
     admin:
