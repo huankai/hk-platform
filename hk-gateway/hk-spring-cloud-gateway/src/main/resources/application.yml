@@ -5,18 +5,24 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true
+          enabled: false
 #      default-filters:
 
       routes:
         - id: hk-emi
           uri: http://127.0.0.1:8772
           predicates:
-            - Path=/emi
+            - Path=/emi/**
+          filters:
+            - StripPrefix=1
         - id: hk-oauth2
           uri: http://127.0.0.1:8086
           predicates:
-            - Path=/oauth2
+            - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
 logging:
   level:
     root: error

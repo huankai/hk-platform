@@ -109,9 +109,7 @@ public class CityServiceImpl extends JdbcServiceImpl<City, String> implements Ci
                 Optional<City> parentCityOptional = StreamSupport.stream(cityList.spliterator(), false)
                         .filter(c -> StringUtils.equals(c.getFullName(), item.getParentName()))
                         .findFirst();
-                if (parentCityOptional.isPresent()) {
-                    city.setParentId(parentCityOptional.get().getId());
-                }
+                parentCityOptional.ifPresent(city1 -> city.setParentId(city1.getId()));
             }
             cityInsertList.add(city);
         }
