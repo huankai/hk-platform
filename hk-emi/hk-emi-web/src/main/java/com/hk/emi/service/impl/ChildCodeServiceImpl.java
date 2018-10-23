@@ -6,7 +6,7 @@ import com.hk.commons.validator.DictService;
 import com.hk.core.cache.service.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.emi.domain.ChildCode;
-import com.hk.emi.repository.jpa.ChildCodeRepository;
+import com.hk.emi.repository.jdbc.ChildCodeRepository;
 import com.hk.emi.service.ChildCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;

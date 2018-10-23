@@ -1,4 +1,4 @@
-package com.hk.emi.repository.jpa;
+package com.hk.emi.repository.jdbc;
 
 
 import com.hk.core.data.jdbc.repository.StringIdJdbcRepository;

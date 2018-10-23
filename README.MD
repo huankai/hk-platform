@@ -40,7 +40,14 @@ hk-gateway
 主要是在 application.yml文件中配置 hk.authentication.gate-way-host 参数。
 主要思路是 重写spring security 的 `org.springframework.security.web.savedrequest.RequestCache` 的默认实现，更多详细信息，请查看 `com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache` .
 
+
+-- hk-spring-cloud-gateway: spring cloud 网关
+
+-- hk-config-server:
+
 添加统一配置中心，配置文件请查看  https://github.com/huankai/hk-config
+
+
 
 hk-springboot-admin-server:
     springboot 监控管理

@@ -113,15 +113,16 @@ pagehelper:
 security:
   oauth2:
     client:
-      client-id: 4028c08162b9340f0162b93427c40000
-      client-secret: 4028c08162b9340f0162b93427c40000
-      access-token-uri: http://127.0.0.1:8771/oauth2/oauth/token
-      user-authorization-uri: http://127.0.0.1:8771/oauth2/oauth/authorize
+      client-id: 4028c0816371a097016371a38d5a0000
+      client-secret: 4028c0816371a097016371a38d5a0000
+      #不知道为什么，如果配置成gateway 的url (http://127.0.0.1:8771/oauth2/oauth/token) 会有传递的参数丢失的问题
+      access-token-uri: http://127.0.0.1:8086/oauth/token
+      user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
 #      use-current-uri: false
 #      pre-established-redirect-uri: http://127.0.0.1:8771/pms/login
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8771/oauth2/oauth/token_key
+        key-uri: http://127.0.0.1:8086/oauth/token_key
     sso:
       login-path: /login
 

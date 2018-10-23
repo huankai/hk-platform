@@ -15,10 +15,18 @@ spring:
             - Path=/emi/**
           filters:
             - StripPrefix=1
+        - id: hk-pms
+          uri: http://127.0.0.1:8773
+          predicates:
+            - Path=/pms/**
+          filters:
+            - StripPrefix=1
         - id: hk-oauth2
           uri: http://127.0.0.1:8086
           predicates:
-            - After=2017-01-20T17:42:47.789-07:00[America/Denver]
+            - Path=/oauth2/**
+          filters:
+            - StripPrefix=1
 eureka:
   client:
     service-url:

@@ -74,7 +74,7 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         info.put("sex", principal.getSex());
         info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex(), false));
         info.put("userType", principal.getUserType());
-        info.put("isProtect", principal.isProtectUser());
+        info.put("protectUser", principal.isProtectUser());
         boolean debugEnabled = LOGGER.isDebugEnabled();
         if (debugEnabled) {
             LOGGER.debug("返回用户附加信息: {} ", info);
