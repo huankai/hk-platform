@@ -27,16 +27,16 @@ spring:
     encoding: UTF-8
     prefix: classpath:/templates/
     suffix: .html
-######################################################### jpa 配置
-  jpa:
-    show-sql: true
-    generate-ddl: false
-    properties:
-      hibernate:
-      # hbm2ddl:
-      # auto: upload
-        enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
-        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+########################################################## jpa 配置
+#  jpa:
+#    show-sql: true
+#    generate-ddl: false
+#    properties:
+#      hibernate:
+#      # hbm2ddl:
+#      # auto: upload
+#        enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+#        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
 ######################################################### datasource 配置
   datasource:
     name: druid
