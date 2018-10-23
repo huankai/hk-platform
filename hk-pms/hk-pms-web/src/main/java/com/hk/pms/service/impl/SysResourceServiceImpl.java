@@ -1,19 +1,16 @@
 package com.hk.pms.service.impl;
 
-import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jpa.repository.JpaBaseRepository;
-import com.hk.core.exception.ServiceException;
-import com.hk.core.service.jpa.impl.JpaServiceImpl;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.platform.commons.tree.TreeNode;
 import com.hk.pms.commons.tree.ResourceTree;
 import com.hk.pms.domain.SysResource;
 import com.hk.pms.mappers.SysResourceMapper;
-import com.hk.pms.repository.jpa.SysResourceRepository;
+import com.hk.pms.repository.jdbc.SysResourceRepository;
 import com.hk.pms.service.SysResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,19 +24,12 @@ import java.util.stream.Collectors;
  * @date: 2018-08-28 16:40
  */
 @Service
-public class SysResourceServiceImpl extends JpaServiceImpl<SysResource, String> implements SysResourceService {
+public class SysResourceServiceImpl extends JdbcServiceImpl<SysResource, String> implements SysResourceService {
 
     private SysResourceRepository sysResourceRepository;
 
     @Autowired
     private SysResourceMapper resourceMapper;
-
-    @Override
-    protected ExampleMatcher ofExampleMatcher() {
-        return super.ofExampleMatcher()
-                .withMatcher("state", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("resourceName", ExampleMatcher.GenericPropertyMatchers.contains());
-    }
 
     @Autowired
     public SysResourceServiceImpl(SysResourceRepository sysResourceRepository) {
@@ -47,7 +37,7 @@ public class SysResourceServiceImpl extends JpaServiceImpl<SysResource, String> 
     }
 
     @Override
-    protected JpaBaseRepository<SysResource, String> getBaseRepository() {
+    protected JdbcRepository<SysResource, String> getBaseRepository() {
         return sysResourceRepository;
     }
 
@@ -70,11 +60,11 @@ public class SysResourceServiceImpl extends JpaServiceImpl<SysResource, String> 
         return result;
     }
 
-    @Override
-    protected SysResource saveBefore(SysResource entity) throws ServiceException {
-        entity.setState(ByteConstants.ONE);
-        return super.saveBefore(entity);
-    }
+//    @Override
+//    protected SysResource saveBefore(SysResource entity) throws ServiceException {
+//        entity.setState(ByteConstants.ONE);
+//        return super.saveBefore(entity);
+//    }
 
     private List<? extends TreeNode> getChildList(String parentId, List<SysResource> allResourceList) {
         List<ResourceTree> childList = new ArrayList<>();

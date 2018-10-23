@@ -31,7 +31,7 @@ public interface SysCodeFeignClient {
      * @return String
      */
     default String childCodeName(String parentId, byte codeValue) {
-        return CollectionUtils.getFirstOrDefault(childCodeNameList(parentId, codeValue));
+        return CollectionUtils.getFirstOrDefault(childCodeNameList(parentId, codeValue)).orElse(null);
     }
 
     /**

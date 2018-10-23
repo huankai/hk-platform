@@ -6,7 +6,6 @@ import com.hk.core.web.JsonResult;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysPermission;
 import com.hk.pms.service.SysPermissionService;
-import javafx.geometry.VPos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +36,7 @@ public class SysPermissionController extends BaseController {
 
     @GetMapping
     public JsonResult<SysPermission> get(@RequestParam String id) {
-        return JsonResult.success(permissionService.getOne(id));
+        return JsonResult.success(permissionService.findById(id).orElse(null));
     }
 
     @DeleteMapping

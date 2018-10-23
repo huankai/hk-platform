@@ -1,7 +1,6 @@
 package com.hk.sso.server.service.impl;
 
 import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.exception.ServiceException;
 import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.sso.server.entity.SysUser;
 import com.hk.sso.server.repository.jdbc.UserRepository;
@@ -49,8 +48,7 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
 
     @Override
     public void resetPassword(String userId, String newPass) {
-
-        SysUser user = findById(userId).orElseThrow(() -> new ServiceException("用户不存在"));
+        SysUser user = getById(userId);
         user.setPassword(passwordEncoder.encode(newPass));
 //        updateByIdSelective(user);
         updateById(user);

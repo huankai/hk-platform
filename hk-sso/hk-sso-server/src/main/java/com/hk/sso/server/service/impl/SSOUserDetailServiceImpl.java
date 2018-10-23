@@ -3,7 +3,6 @@ package com.hk.sso.server.service.impl;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.security.SecurityUserPrincipal;
 import com.hk.core.authentication.security.UserDetailClientService;
-import com.hk.core.exception.ServiceException;
 import com.hk.sso.server.entity.SysApp;
 import com.hk.sso.server.entity.SysUser;
 import com.hk.sso.server.service.SysAppService;
@@ -42,7 +41,7 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
 
     @Override
     public ClientAppInfo getClientInfoById(String clientId) {
-        SysApp app = appService.findById(clientId).orElseThrow(() -> new ServiceException("当前APP应用不存在"));
+        SysApp app = appService.getById(clientId);
         return new ClientAppInfo(app.getId(), app.getAppCode(), app.getAppName(), app.getAppIcon());
     }
 }

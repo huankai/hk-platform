@@ -1,10 +1,10 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.core.data.jpa.repository.JpaBaseRepository;
-import com.hk.core.service.jpa.impl.JpaServiceImpl;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysUserRole;
-import com.hk.pms.repository.jpa.SysUserRoleRepository;
+import com.hk.pms.repository.jdbc.SysUserRoleRepository;
 import com.hk.pms.service.SysUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @date: 2018-04-12 17:02
  */
 @Service
-public class SysUserRoleServiceImpl extends JpaServiceImpl<SysUserRole,String> implements SysUserRoleService {
+public class SysUserRoleServiceImpl extends JdbcServiceImpl<SysUserRole,String> implements SysUserRoleService {
 
     private final SysUserRoleRepository sysUserRoleRepository;
 
@@ -29,7 +29,7 @@ public class SysUserRoleServiceImpl extends JpaServiceImpl<SysUserRole,String> i
      * @return
      */
     @Override
-    protected JpaBaseRepository<SysUserRole, String> getBaseRepository() {
+    protected JdbcRepository<SysUserRole, String> getBaseRepository() {
         return sysUserRoleRepository;
     }
 

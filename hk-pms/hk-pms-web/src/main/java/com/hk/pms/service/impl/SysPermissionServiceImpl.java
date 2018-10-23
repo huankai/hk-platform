@@ -1,16 +1,15 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.core.data.jpa.repository.JpaBaseRepository;
-import com.hk.core.service.jpa.impl.JpaServiceImpl;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysPermission;
 import com.hk.pms.domain.SysRole;
 import com.hk.pms.mappers.SysPermissionMapper;
-import com.hk.pms.repository.jpa.SysPermissionRepository;
+import com.hk.pms.repository.jdbc.SysPermissionRepository;
 import com.hk.pms.service.SysPermissionService;
 import com.hk.pms.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  * @date: 2018-04-12 16:53
  */
 @Service
-public class SysPermissionServiceImpl extends JpaServiceImpl<SysPermission, String> implements SysPermissionService {
+public class SysPermissionServiceImpl extends JdbcServiceImpl<SysPermission, String> implements SysPermissionService {
 
     private final SysPermissionRepository sysPermissionRepository;
 
@@ -32,13 +31,6 @@ public class SysPermissionServiceImpl extends JpaServiceImpl<SysPermission, Stri
     @Autowired
     private SysRoleService roleService;
 
-    @Override
-    protected ExampleMatcher ofExampleMatcher() {
-        return super.ofExampleMatcher()
-                .withMatcher("appId", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("permissionCode", ExampleMatcher.GenericPropertyMatchers.contains())
-                .withMatcher("permissionName", ExampleMatcher.GenericPropertyMatchers.contains());
-    }
 
     @Autowired
     public SysPermissionServiceImpl(SysPermissionRepository sysPermissionRepository) {
@@ -51,7 +43,7 @@ public class SysPermissionServiceImpl extends JpaServiceImpl<SysPermission, Stri
      * @return
      */
     @Override
-    protected JpaBaseRepository<SysPermission, String> getBaseRepository() {
+    protected JdbcRepository<SysPermission, String> getBaseRepository() {
         return sysPermissionRepository;
     }
 

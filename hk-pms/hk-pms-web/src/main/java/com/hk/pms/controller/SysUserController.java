@@ -35,7 +35,7 @@ public class SysUserController extends BaseController {
 
     @GetMapping
     public JsonResult<SysUser> get(@RequestParam String id) {
-        return JsonResult.success(userService.getOne(id));
+        return JsonResult.success(userService.findById(id).orElse(null));
     }
 
     @DeleteMapping

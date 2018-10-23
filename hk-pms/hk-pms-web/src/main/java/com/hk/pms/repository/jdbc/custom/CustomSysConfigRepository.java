@@ -1,4 +1,4 @@
-package com.hk.pms.repository.jpa.custom;
+package com.hk.pms.repository.jdbc.custom;
 
 /**
  * @author: sjq-278

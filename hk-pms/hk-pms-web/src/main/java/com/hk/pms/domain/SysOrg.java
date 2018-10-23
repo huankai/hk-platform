@@ -1,63 +1,61 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
  * @author: kevin
  * @date: 2018-04-12 11:41
  */
-@Entity
-@Table(name = "sys_org")
+@Table(value = "sys_org")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class SysOrg extends AbstractAuditable {
 
-    @Column(name = "parent_id")
+    @Column(value = "parent_id")
     private String parentId;
 
     @NotEmpty
     @Length(max = 20)
-    @Column(name = "org_code")
+    @Column(value = "org_code")
     private String orgCode;
 
-    @Column(name = "org_name")
+    @Column(value = "org_name")
     @Length(max = 20)
     @NotEmpty
     private String orgName;
 
-    @Column(name = "description")
+    @Column(value = "description")
     @Length(max = 200)
     @NotEmpty
     private String description;
 
-    @Column(name = "org_icon")
+    @Column(value = "org_icon")
     private String orgIcon;
 
-    @Column(name = "responsible_id")
+    @Column(value = "responsible_id")
     private String responsibleId;
 
-    @Column(name = "org_tag")
+    @Column(value = "org_tag")
     private String orgTag;
 
-    @Column(name = "province_id")
+    @Column(value = "province_id")
     private String provinceId;
 
-    @Column(name = "city_id")
+    @Column(value = "city_id")
     private String cityId;
 
-    @Column(name = "area_id")
+    @Column(value = "area_id")
     private String areaId;
 
-    @Column(name = "address")
+    @Column(value = "address")
     private String address;
 
 

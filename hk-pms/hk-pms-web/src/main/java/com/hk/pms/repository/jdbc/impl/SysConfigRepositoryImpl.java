@@ -1,7 +1,7 @@
-package com.hk.pms.repository.jpa.impl;
+package com.hk.pms.repository.jdbc.impl;
 
 import com.hk.core.data.jdbc.JdbcDaoSupport;
-import com.hk.pms.repository.jpa.custom.CustomSysConfigRepository;
+import com.hk.pms.repository.jdbc.custom.CustomSysConfigRepository;
 
 /**
  * @author: sjq-278

@@ -2,14 +2,13 @@ package com.hk.pms.domain;
 
 import com.hk.commons.validator.constraints.EnumByte;
 import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -18,8 +17,7 @@ import javax.validation.constraints.NotNull;
  * @date: 2018-08-28 16:35
  */
 @Data
-@Entity
-@Table(name = "sys_resource")
+@Table(value = "sys_resource")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class SysResource extends AbstractAuditable {
@@ -27,21 +25,21 @@ public class SysResource extends AbstractAuditable {
     static final String STATE_CODE_ID = "4028c081655a3a5a01655a3acd160001";
 
     @NotEmpty
-    @Column(name = "parent_id")
+    @Column(value = "parent_id")
     private String parentId;
 
     /**
      * appId
      */
     @NotEmpty
-    @Column(name = "app_id")
+    @Column(value = "app_id")
     private String appId;
 
     /**
      * 菜单名称
      */
     @NotEmpty
-    @Column(name = "resource_name")
+    @Column(value = "resource_name")
     @Length(max = 30)
     private String resourceName;
 
@@ -49,7 +47,7 @@ public class SysResource extends AbstractAuditable {
      * uri
      */
     @NotEmpty
-    @Column(name = "resource_uri")
+    @Column(value = "resource_uri")
     @Length(max = 20)
     private String resourceUri;
 
@@ -63,40 +61,40 @@ public class SysResource extends AbstractAuditable {
      */
     @NotEmpty
     @Length(max = 10)
-    @Column(name = "target")
+    @Column(value = "target")
     private String target;
 
     /**
      * 排序
      */
     @NotNull
-    @Column(name = "ordered")
+    @Column(value = "ordered")
     private Byte ordered;
 
     /**
      * 资源菜单类型
      */
     @EnumByte(values = {0})
-    @Column(name = "resource_type")
+    @Column(value = "resource_type")
     private Byte resourceType;
 
     /**
      * 状态
      */
-    @Column(name = "state")
+    @Column(value = "state")
     @EnumDict(codeId = STATE_CODE_ID)
     private Byte state;
 
     /**
      * 图标
      */
-    @Column(name = "icon")
+    @Column(value = "icon")
     private String icon;
 
     /**
      * 备注
      */
-    @Column(name = "remark")
+    @Column(value = "remark")
     private String remark;
 
 }

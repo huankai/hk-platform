@@ -1,14 +1,13 @@
 package com.hk.pms.domain;
 
 import com.hk.commons.validator.constraints.EnumByte;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -16,29 +15,28 @@ import javax.validation.constraints.NotEmpty;
  * @date: 2018-04-12 16:36
  */
 @Data
-@Entity
-@Table(name = "sys_role")
+@Table(value = "sys_role")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class SysRole extends AbstractAuditable {
 
     @NotEmpty
-    @Column(name = "app_id")
+    @Column(value = "app_id")
     private String appId;
 
     @NotEmpty
     @Length(max = 30)
-    @Column(name = "role_name")
+    @Column(value = "role_name")
     private String roleName;
 
     @Length(max = 20)
-    @Column(name = "role_code")
+    @Column(value = "role_code")
     private String roleCode;
 
     @EnumByte(values = {0, 1})
-    @Column(name = "role_status")
+    @Column(value = "role_status")
     private Byte roleStatus;
 
-    @Column(name = "description")
+    @Column(value = "description")
     private String description;
 }

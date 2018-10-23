@@ -1,7 +1,7 @@
 package com.hk.pms.service;
 
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.service.jpa.JpaBaseService;
+import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.pms.commons.tree.ResourceTree;
 import com.hk.pms.domain.SysResource;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author: kevin
  * @date: 2018-08-28 16:40
  */
-public interface SysResourceService extends JpaBaseService<SysResource, String> {
+public interface SysResourceService extends JdbcBaseService<SysResource, String> {
 
     List<ResourceTree> findByPermissionIds(Collection<String> permissions);
 

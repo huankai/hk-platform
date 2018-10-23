@@ -36,7 +36,7 @@ public class SysConfigController extends BaseController {
 
     @GetMapping("{id}")
     public JsonResult<SysConfig> get(@PathVariable String id) {
-        return JsonResult.success(configService.getOne(id));
+        return JsonResult.success(configService.findById(id).orElse(null));
     }
 
     @DeleteMapping("{id}")

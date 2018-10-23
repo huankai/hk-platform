@@ -1,12 +1,11 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 
 /**
  * App 管理人员
@@ -16,20 +15,19 @@ import javax.persistence.Table;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_app_user")
+@Table(value = "sys_app_user")
 public class SysAppUser extends AbstractAuditable {
 
     /**
      * App
      */
-    @Column(name = "app_id", updatable = false)
+    @Column(value = "app_id")
     private String appId;
 
     /**
      * 续期类型
      */
-    @Column(name = "user_id")
+    @Column(value = "user_id")
     private String userId;
 
 
