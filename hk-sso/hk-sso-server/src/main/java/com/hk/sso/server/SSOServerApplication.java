@@ -18,7 +18,6 @@ import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.stereotype.Component;
 
-import javax.sql.DataSource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +47,7 @@ public class SSOServerApplication {
     private SysAppService appService;
 
     @Autowired
-    private DataSource dataSource;
+    private JdbcClientDetailsService clientDetailsService;
 
     /**
      * 初始化用户
@@ -61,7 +60,7 @@ public class SSOServerApplication {
             if (userService.count() == 0) {
                 List<SysUser> users = new ArrayList<>();
                 SysUser user;
-                List<String> accounts = ArrayUtils.asList("18820136090", "18820132014");
+                List<String> accounts = ArrayUtils.asArrayList("18820136090", "18820132014");
                 for (String account : accounts) {
                     user = new SysUser();
                     user.setOrgId("402881e662ba5fff0162ba602bff0000");
@@ -82,8 +81,8 @@ public class SSOServerApplication {
 
             if (appService.count() == 0) {
                 List<SysApp> sysApps = new ArrayList<>();
-                List<String> appNameList = ArrayUtils.asList("字典管理系统", "权限管理系统", "文件管理系统");
-                List<String> appCodeList = ArrayUtils.asList("HK-EMI", "HK-PMS", "HK-FS");
+                List<String> appNameList = ArrayUtils.asArrayList("字典管理系统", "权限管理系统", "文件管理系统");
+                List<String> appCodeList = ArrayUtils.asArrayList("HK-EMI", "HK-PMS", "HK-FS");
                 SysApp app;
                 int index = 0;
                 for (String appName : appNameList) {
@@ -97,17 +96,16 @@ public class SSOServerApplication {
                     app.setLocalApp(true);
                     sysApps.add(app);
                 }
-                JdbcClientDetailsService clientDetailsService = new JdbcClientDetailsService(dataSource);
                 Iterable<SysApp> result = appService.batchInsert(sysApps);
                 for (SysApp sysApp : result) {
                     BaseClientDetails details = new BaseClientDetails();
                     details.setClientId(sysApp.getId());
                     details.setClientSecret("{noop}" + sysApp.getId());
-                    details.setScope(ArrayUtils.asList("all"));
-                    details.setAuthorizedGrantTypes(ArrayUtils.asList("authorization_code", "refresh_token"));
+                    details.setScope(ArrayUtils.asArrayList("all"));
+                    details.setAuthorizedGrantTypes(ArrayUtils.asArrayList("authorization_code", "refresh_token"));
                     details.setAccessTokenValiditySeconds(7200);
                     details.setRefreshTokenValiditySeconds(72000);
-                    details.setAutoApproveScopes(ArrayUtils.asList("true"));
+                    details.setAutoApproveScopes(ArrayUtils.asArrayList("true"));
                     clientDetailsService.addClientDetails(details);
                 }
             }
