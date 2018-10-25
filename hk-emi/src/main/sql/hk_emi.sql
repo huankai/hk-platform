@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : 192.168.1.76
-Source Server Version : 50715
-Source Host           : 192.168.1.76:3306
+Source Server         : 192.168.64.150
+Source Server Version : 50723
+Source Host           : 192.168.64.150:3306
 Source Database       : hk_emi
 
 Target Server Type    : MYSQL
-Target Server Version : 50715
+Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-09-13 17:17:31
+Date: 2018-10-25 15:41:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,7 +29,7 @@ CREATE TABLE `sys_base_code` (
   `last_modified_by` char(32) NOT NULL COMMENT '最后更新人id',
   `last_modified_date` datetime NOT NULL COMMENT '最后更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `base_code` (`base_code`)
+  UNIQUE KEY `base_code` (`base_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -57,8 +57,7 @@ CREATE TABLE `sys_child_code` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `base_code_id` (`base_code_id`,`child_code`) USING BTREE,
-  CONSTRAINT `base_code_id` FOREIGN KEY (`base_code_id`) REFERENCES `sys_base_code` (`id`)
+  UNIQUE KEY `base_code_id` (`base_code_id`,`child_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------

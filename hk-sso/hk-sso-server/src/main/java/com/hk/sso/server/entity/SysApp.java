@@ -1,10 +1,12 @@
 package com.hk.sso.server.entity;
 
-import com.hk.core.data.jdbc.domain.AbstractUUIDPersistable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+
+import java.time.LocalDateTime;
 
 /**
  * @author: kevin
@@ -14,7 +16,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(value = "sys_app")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysApp extends AbstractUUIDPersistable {
+public class SysApp extends AbstractAuditable {
 
     @Column(value = "app_code")
     private String appCode;
@@ -22,12 +24,21 @@ public class SysApp extends AbstractUUIDPersistable {
     @Column(value = "app_name")
     private String appName;
 
+    @Column(value = "app_host")
+    private String appHost;
+
     @Column(value = "app_icon")
     private String appIcon;
+
+    @Column(value = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(value = "expire_date")
+    private LocalDateTime expireDate;
 
     @Column(value = "app_status")
     private Byte appStatus;
 
     @Column(value = "local_app")
-    private Byte localApp;
+    private Boolean localApp;
 }

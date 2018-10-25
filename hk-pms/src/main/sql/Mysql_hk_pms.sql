@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50715
-Source Host           : localhost:3306
+Source Server         : 192.168.64.150
+Source Server Version : 50723
+Source Host           : 192.168.64.150:3306
 Source Database       : hk_pms
 
 Target Server Type    : MYSQL
-Target Server Version : 50715
+Target Server Version : 50723
 File Encoding         : 65001
 
-Date: 2018-09-23 22:19:18
+Date: 2018-10-25 15:39:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,14 +31,15 @@ CREATE TABLE `oauth_client_details` (
   `refresh_token_validity` int(10) NOT NULL,
   `additional_information` varchar(255) DEFAULT NULL,
   `autoapprove` varchar(50) NOT NULL,
-  PRIMARY KEY (`client_id`),
-  CONSTRAINT `FK_Reference_18` FOREIGN KEY (`client_id`) REFERENCES `sys_app` (`id`)
+  PRIMARY KEY (`client_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of oauth_client_details
 -- ----------------------------
-INSERT INTO `oauth_client_details` VALUES ('4028c0816371a097016371a38d5a0000', '{noop}4028c0816371a097016371a38d5a0000', null, 'all', 'authorization_code,refresh_token', null, null, '7200', '72000', null, 'true');
+INSERT INTO `oauth_client_details` VALUES ('7872c6f7f0cb41f0ba0f8aa060cb5c37', '{noop}7872c6f7f0cb41f0ba0f8aa060cb5c37', '', 'all', 'authorization_code,refresh_token', null, '', '7200', '72000', '{}', 'true');
+INSERT INTO `oauth_client_details` VALUES ('f2f77124b224479fa928f49786568251', '{noop}f2f77124b224479fa928f49786568251', '', 'all', 'authorization_code,refresh_token', null, '', '7200', '72000', '{}', 'true');
+INSERT INTO `oauth_client_details` VALUES ('fafcc2196db94fd19a92a1d479a2ca8b', '{noop}fafcc2196db94fd19a92a1d479a2ca8b', '', 'all', 'authorization_code,refresh_token', null, '', '7200', '72000', '{}', 'true');
 
 -- ----------------------------
 -- Table structure for sys_app
@@ -50,22 +51,24 @@ CREATE TABLE `sys_app` (
   `app_name` varchar(100) NOT NULL COMMENT '应用名称',
   `app_host` varchar(50) NOT NULL COMMENT '应用id',
   `app_icon` varchar(100) NOT NULL COMMENT 'icon图标',
-  `app_status` tinyint(1) NOT NULL COMMENT '状态(1:启用,2:禁用)',
-  `start_date` date NOT NULL COMMENT '启用时间',
-  `expire_date` date DEFAULT NULL COMMENT '过期时间,为空表示不过期',
+  `app_status` char(1) NOT NULL COMMENT '状态(1:启用,2:禁用)',
+  `start_date` datetime NOT NULL COMMENT '启用时间',
+  `expire_date` datetime DEFAULT NULL COMMENT '过期时间,为空表示不过期',
   `local_app` tinyint(1) NOT NULL COMMENT '是否本地app',
   `created_by` char(32) NOT NULL,
   `created_date` datetime NOT NULL,
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `app_code` (`app_code`)
+  UNIQUE KEY `app_code` (`app_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='应用系统表';
 
 -- ----------------------------
 -- Records of sys_app
 -- ----------------------------
-INSERT INTO `sys_app` VALUES ('4028c0816371a097016371a38d5a0000', 'HK_EMI', 'zhidian', 'localhost', 'a.png', '1', '2018-09-22', '2018-11-22', '1', '1', '2018-09-22 10:43:35', '1', '2018-09-22 10:43:42');
+INSERT INTO `sys_app` VALUES ('7872c6f7f0cb41f0ba0f8aa060cb5c37', 'HK-PMS', '权限管理系统', '127.0.0.1', 'e7af0e6e6d0f4a5cb9b8b2ee8b51b7e9.png', '0', '2018-10-25 14:57:45', null, '1', '0', '2018-10-25 14:57:45', '0', '2018-10-25 14:57:45');
+INSERT INTO `sys_app` VALUES ('f2f77124b224479fa928f49786568251', 'HK-FS', '文件管理系统', '127.0.0.1', '5262e534d14547b5a84da3bccd5e547b.png', '1', '2018-10-25 14:57:45', null, '1', '0', '2018-10-25 14:57:45', '0', '2018-10-25 14:57:45');
+INSERT INTO `sys_app` VALUES ('fafcc2196db94fd19a92a1d479a2ca8b', 'HK-EMI', '字典管理系统', '127.0.0.1', '2253b41da26c496b975e4eac4855941c.png', '1', '2018-10-25 14:57:45', null, '1', '0', '2018-10-25 14:57:45', '0', '2018-10-25 14:57:45');
 
 -- ----------------------------
 -- Table structure for sys_app_apply
@@ -85,9 +88,7 @@ CREATE TABLE `sys_app_apply` (
   `description` varchar(200) DEFAULT NULL COMMENT '描述',
   `apply_date` datetime DEFAULT NULL COMMENT '申请时间',
   PRIMARY KEY (`id`),
-  KEY `FK_Reference_26` (`user_id`),
-  CONSTRAINT `FK_Reference_25` FOREIGN KEY (`id`) REFERENCES `sys_app` (`id`),
-  CONSTRAINT `FK_Reference_26` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`)
+  KEY `FK_Reference_26` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -110,8 +111,7 @@ CREATE TABLE `sys_app_renewal_detail` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` char(32) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Reference_27` (`app_id`),
-  CONSTRAINT `FK_Reference_27` FOREIGN KEY (`app_id`) REFERENCES `sys_app` (`id`)
+  KEY `FK_Reference_27` (`app_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -131,10 +131,8 @@ CREATE TABLE `sys_app_user` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Reference_22` (`app_id`),
-  KEY `FK_Reference_23` (`user_id`),
-  CONSTRAINT `FK_Reference_22` FOREIGN KEY (`app_id`) REFERENCES `sys_app` (`id`),
-  CONSTRAINT `FK_Reference_23` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`)
+  KEY `FK_Reference_22` (`app_id`) USING BTREE,
+  KEY `FK_Reference_23` (`user_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -157,7 +155,7 @@ CREATE TABLE `sys_config` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `config_key` (`key_`)
+  UNIQUE KEY `config_key` (`key_`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置';
 
 -- ----------------------------
@@ -177,10 +175,8 @@ CREATE TABLE `sys_dept_role` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Reference_28` (`role_id`),
-  KEY `FK_Reference_29` (`dept_id`),
-  CONSTRAINT `FK_Reference_28` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`),
-  CONSTRAINT `FK_Reference_29` FOREIGN KEY (`dept_id`) REFERENCES `sys_org_dept` (`id`)
+  KEY `FK_Reference_28` (`role_id`) USING BTREE,
+  KEY `FK_Reference_29` (`dept_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -209,8 +205,8 @@ CREATE TABLE `sys_org` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `org_code` (`org_code`),
-  KEY `FK_Reference_13` (`responsible_id`)
+  UNIQUE KEY `org_code` (`org_code`) USING BTREE,
+  KEY `FK_Reference_13` (`responsible_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机构表';
 
 -- ----------------------------
@@ -233,10 +229,7 @@ CREATE TABLE `sys_org_dept` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Reference_24` (`org_id`),
-  CONSTRAINT `FK_Reference_12` FOREIGN KEY (`org_id`) REFERENCES `sys_org` (`id`),
-  CONSTRAINT `FK_Reference_21` FOREIGN KEY (`org_id`) REFERENCES `sys_org` (`id`),
-  CONSTRAINT `FK_Reference_24` FOREIGN KEY (`org_id`) REFERENCES `sys_org` (`id`)
+  KEY `FK_Reference_24` (`org_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机构部门表';
 
 -- ----------------------------
@@ -259,8 +252,7 @@ CREATE TABLE `sys_permission` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `permission_app_id` (`app_id`),
-  CONSTRAINT `sys_permission_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `sys_app` (`id`)
+  KEY `permission_app_id` (`app_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 -- ----------------------------
@@ -276,10 +268,8 @@ CREATE TABLE `sys_permission_resource` (
   `permission_id` char(32) NOT NULL,
   `resource_id` char(32) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Reference_16` (`permission_id`),
-  KEY `FK_Reference_17` (`resource_id`),
-  CONSTRAINT `FK_Reference_16` FOREIGN KEY (`permission_id`) REFERENCES `sys_permission` (`id`),
-  CONSTRAINT `FK_Reference_17` FOREIGN KEY (`resource_id`) REFERENCES `sys_resource` (`id`)
+  KEY `FK_Reference_16` (`permission_id`) USING BTREE,
+  KEY `FK_Reference_17` (`resource_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限资源表';
 
 -- ----------------------------
@@ -296,19 +286,18 @@ CREATE TABLE `sys_resource` (
   `app_id` char(32) NOT NULL,
   `resource_name` varchar(50) NOT NULL,
   `resource_uri` varchar(20) NOT NULL,
-  `resource_type` tinyint(1) NOT NULL COMMENT '类型:(0:菜单)',
-  `ordered` tinyint(3) NOT NULL,
+  `resource_type` char(1) NOT NULL COMMENT '类型:(0:菜单)',
+  `ordered` char(3) NOT NULL,
   `icon` varchar(10) DEFAULT NULL,
   `remark` varchar(200) DEFAULT NULL,
-  `state` tinyint(1) NOT NULL COMMENT '是否可用(0:不可用，1：可用)',
+  `state` char(1) NOT NULL COMMENT '是否可用(0:不可用，1：可用)',
   `target` varchar(10) NOT NULL,
   `created_by` char(32) NOT NULL,
   `created_date` datetime NOT NULL,
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `app_id` (`app_id`),
-  CONSTRAINT `FK_Reference_14` FOREIGN KEY (`app_id`) REFERENCES `sys_app` (`id`)
+  KEY `app_id` (`app_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='资源表';
 
 -- ----------------------------
@@ -324,14 +313,14 @@ CREATE TABLE `sys_role` (
   `app_id` char(32) NOT NULL COMMENT '应用id',
   `role_code` varchar(20) NOT NULL COMMENT '角色编号',
   `role_name` varchar(30) NOT NULL COMMENT '角色名称',
-  `role_status` tinyint(1) NOT NULL COMMENT '角色状态(0:禁用,1:启用)',
+  `role_status` char(1) NOT NULL COMMENT '角色状态(0:禁用,1:启用)',
   `description` varchar(200) DEFAULT NULL COMMENT '描述',
   `created_by` char(32) NOT NULL,
   `created_date` datetime NOT NULL,
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `role_app_id` (`app_id`),
+  KEY `role_app_id` (`app_id`) USING BTREE,
   CONSTRAINT `sys_role_ibfk_1` FOREIGN KEY (`app_id`) REFERENCES `sys_app` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
 
@@ -348,8 +337,8 @@ CREATE TABLE `sys_role_permission` (
   `role_id` char(32) NOT NULL,
   `permission_id` char(32) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Reference_10` (`permission_id`),
-  KEY `FK_Reference_9` (`role_id`),
+  KEY `FK_Reference_10` (`permission_id`) USING BTREE,
+  KEY `FK_Reference_9` (`role_id`) USING BTREE,
   CONSTRAINT `sys_role_permission_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `sys_permission` (`id`),
   CONSTRAINT `sys_role_permission_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色权限表';
@@ -371,32 +360,32 @@ CREATE TABLE `sys_user` (
   `password` varchar(100) NOT NULL COMMENT '登陆密码',
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱虚',
   `real_name` varchar(20) NOT NULL COMMENT '真实名称',
-  `user_type` tinyint(1) NOT NULL COMMENT '用户类型(0:管理人员、1:医生、2:客户用户)',
+  `user_type` char(1) NOT NULL COMMENT '用户类型(0:管理人员、1:医生、2:客户用户)',
   `is_protect` tinyint(1) NOT NULL COMMENT '是否受保护的账号(0,否,1:是)，保护的账号有全部权限',
-  `sex` tinyint(1) NOT NULL COMMENT '用户性别(1,男，2：女)',
+  `sex` char(1) NOT NULL COMMENT '用户性别(1,男，2：女)',
   `icon_path` varchar(100) DEFAULT NULL COMMENT '用户头像',
   `birth` date DEFAULT NULL COMMENT '生日',
   `province_id` char(32) DEFAULT NULL COMMENT '省份id',
   `city_id` char(32) DEFAULT NULL COMMENT '市id',
-  `user_status` tinyint(1) NOT NULL COMMENT '用户状态(0,禁用,1:启用，9：已删除)',
-  `created_by` char(32) NOT NULL,
-  `created_date` datetime NOT NULL COMMENT '创建日期',
-  `last_modified_by` char(32) NOT NULL,
-  `last_modified_date` datetime NOT NULL COMMENT '最后修改日期',
+  `user_status` char(1) NOT NULL COMMENT '用户状态(0,禁用,1:启用，9：已删除)',
+  `created_by` char(32) DEFAULT NULL,
+  `created_date` datetime DEFAULT NULL COMMENT '创建日期',
+  `last_modified_by` char(32) DEFAULT NULL,
+  `last_modified_date` datetime DEFAULT NULL COMMENT '最后修改日期',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `account` (`account`),
-  UNIQUE KEY `user_phone` (`phone`),
-  KEY `user_org_id` (`org_id`),
-  KEY `FK_Reference_20` (`dept_id`),
-  CONSTRAINT `FK_Reference_20` FOREIGN KEY (`dept_id`) REFERENCES `sys_org_dept` (`id`),
+  UNIQUE KEY `account` (`account`) USING BTREE,
+  UNIQUE KEY `user_phone` (`phone`) USING BTREE,
+  KEY `user_org_id` (`org_id`) USING BTREE,
+  KEY `FK_Reference_20` (`dept_id`) USING BTREE,
+  CONSTRAINT `sys_user_ibfk_1` FOREIGN KEY (`dept_id`) REFERENCES `sys_org_dept` (`id`),
   CONSTRAINT `sys_user_ibfk_2` FOREIGN KEY (`org_id`) REFERENCES `sys_org` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户基本信息表';
 
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('4028c08162bda8ce0162bda8df6a0000', '402881e662ba5fff0162ba602bff0000', '4028c08162bda84d0162bda85d6b0000', '18820136090', '18820136090', '{bcrypt}$2a$10$Cl73dNsDXWV55uvHcLRNsu/LmvKdnCYAL50uOgcSn49AFopS3ZIaq', 'huankai@139.com', '系统管理员', '0', '1', '1', null, '2000-01-01', null, null, '1', '4028c08162bda8ce0162bda8df6a0000', '2018-09-21 14:50:53', '4028c08162bda8ce0162bda8df6a0000', '2018-09-21 14:50:56');
-INSERT INTO `sys_user` VALUES ('4028c08162bda8ce0162bda8df6a0001', '402881e662ba5fff0162ba602bff0000', '4028c08162bda84d0162bda85d6b0000', '18820132014', '18820132014', '{bcrypt}$2a$10$Cl73dNsDXWV55uvHcLRNsu/LmvKdnCYAL50uOgcSn49AFopS3ZIaq', '18820132014@139.com', 'haha', '0', '0', '1', null, '2018-09-21', null, null, '1', '4028c08162bda8ce0162bda8df6a0001', '2018-09-21 23:59:14', '4028c08162bda8ce0162bda8df6a0001', '2018-09-21 23:59:17');
+INSERT INTO `sys_user` VALUES ('8bb70a2cf0a94c44b4f86fd711e42acd', '402881e662ba5fff0162ba602bff0000', '4028c08162bda84d0162bda85d6b0000', '18820136090', '18820136090', '{bcrypt}$2a$10$mWGLgPqty2ThJmXun2Dr2ulspSES9RfEhjjMX3aGrEc4N7mMulnsu', '18820136090', '18820136090', '0', '1', '1', null, null, null, null, '1', '0', '2018-10-25 14:19:47', '0', '2018-10-25 14:19:47');
+INSERT INTO `sys_user` VALUES ('e03a0ab635cf48bd97d76f0ab90f14c8', '402881e662ba5fff0162ba602bff0000', '4028c08162bda84d0162bda85d6b0000', '18820132014', '18820132014', '{bcrypt}$2a$10$durtXYx.eYYSf4ut8RvLIOFq5M2Dn0ZI2PKANRgIlBmuAzrEE6Cfe', '18820132014', '18820132014', '0', '1', '1', null, null, null, null, '1', '0', '2018-10-25 14:19:48', '0', '2018-10-25 14:19:48');
 
 -- ----------------------------
 -- Table structure for sys_user_card
@@ -418,8 +407,8 @@ CREATE TABLE `sys_user_card` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`),
-  CONSTRAINT `FK_Reference_19` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`)
+  UNIQUE KEY `user_id` (`user_id`) USING BTREE,
+  CONSTRAINT `sys_user_card_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户证件表';
 
 -- ----------------------------
@@ -435,8 +424,8 @@ CREATE TABLE `sys_user_role` (
   `user_id` char(32) NOT NULL,
   `role_id` char(32) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_Reference_8` (`role_id`),
-  KEY `sys_user_role_ibfk_1` (`user_id`),
+  KEY `FK_Reference_8` (`role_id`) USING BTREE,
+  KEY `sys_user_role_ibfk_1` (`user_id`) USING BTREE,
   CONSTRAINT `sys_user_role_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`),
   CONSTRAINT `sys_user_role_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
@@ -461,7 +450,7 @@ CREATE TABLE `sys_user_third` (
   `last_modified_by` char(32) NOT NULL,
   `last_modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`,`user_id`),
-  KEY `FK_Reference_12` (`user_id`),
+  KEY `FK_Reference_12` (`user_id`) USING BTREE,
   CONSTRAINT `sys_user_third_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='第三方用户';
 

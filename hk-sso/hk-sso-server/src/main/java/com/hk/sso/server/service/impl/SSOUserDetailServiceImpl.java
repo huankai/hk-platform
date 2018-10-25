@@ -6,6 +6,8 @@ import com.hk.core.authentication.security.UserDetailClientService;
 import com.hk.sso.server.entity.SysApp;
 import com.hk.sso.server.entity.SysUser;
 import com.hk.sso.server.service.SysAppService;
+import com.hk.sso.server.service.SysOrgDeptService;
+import com.hk.sso.server.service.SysOrgService;
 import com.hk.sso.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,6 +25,12 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
     private SysAppService appService;
 
     @Autowired
+    private SysOrgDeptService orgDeptService;
+
+    @Autowired
+    private SysOrgService sysOrgService;
+
+    @Autowired
     public SSOUserDetailServiceImpl(UserService userService, SysAppService appService) {
         this.userService = userService;
         this.appService = appService;
@@ -36,6 +44,8 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
                 user.getUserType(), user.getPhone(), user.getEmail(), user.getSex(), user.getIconPath(), user.getPassword(), user.getUserStatus());
         userPrincipal.setOrgId(user.getOrgId());
         userPrincipal.setDeptId(user.getDeptId());
+        userPrincipal.setOrgName(sysOrgService.getById(user.getOrgId()).getOrgName());
+        userPrincipal.setDeptName(orgDeptService.getById(user.getDeptId()).getDeptName());
         return userPrincipal;
     }
 

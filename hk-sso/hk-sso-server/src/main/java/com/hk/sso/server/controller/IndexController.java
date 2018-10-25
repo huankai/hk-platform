@@ -28,5 +28,4 @@ public class IndexController extends BaseController {
         return "index";
     }
 
-
 }

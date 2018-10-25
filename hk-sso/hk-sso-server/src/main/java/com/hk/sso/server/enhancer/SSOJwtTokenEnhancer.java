@@ -10,9 +10,7 @@ import com.hk.platform.commons.enums.SexEnum;
 import com.hk.sso.server.entity.SysApp;
 import com.hk.sso.server.entity.SysPermission;
 import com.hk.sso.server.entity.SysRole;
-import com.hk.sso.server.service.RoleService;
-import com.hk.sso.server.service.SysAppService;
-import com.hk.sso.server.service.SysPermissionService;
+import com.hk.sso.server.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +59,10 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         info.put("userId", principal.getUserId());
         info.put("iconPath", principal.getIconPath());
         info.put("realName", principal.getRealName());
-        if (!ByteConstants.ONE.equals(sysApp.getLocalApp())) {
+        info.put("userType", principal.getUserType());
+        info.put("sex", principal.getSex());
+        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex(), false));
+        if (!sysApp.getLocalApp()) {
             Map<String, Object> infoMap = new HashMap<>(additionalInformation);
             infoMap.putAll(info);
             defaultOAuth2AccessToken.setAdditionalInformation(infoMap);
@@ -71,10 +72,11 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         info.put("account", principal.getAccount());
         info.put("email", principal.getEmail());
         info.put("phone", principal.getPhone());
-        info.put("sex", principal.getSex());
-        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex(), false));
-        info.put("userType", principal.getUserType());
-        info.put("protectUser", principal.isProtectUser());
+        info.put("orgId", principal.getOrgId());
+        info.put("orgName", principal.getOrgName());
+        info.put("deptId", principal.getDeptId());
+        info.put("deptName", principal.getDeptName());
+
         boolean debugEnabled = LOGGER.isDebugEnabled();
         if (debugEnabled) {
             LOGGER.debug("返回用户附加信息: {} ", info);
