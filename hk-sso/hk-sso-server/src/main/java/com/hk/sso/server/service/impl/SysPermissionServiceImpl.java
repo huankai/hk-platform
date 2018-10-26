@@ -2,13 +2,11 @@ package com.hk.sso.server.service.impl;
 
 import com.hk.commons.util.CollectionUtils;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
 import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.sso.server.entity.SysPermission;
 import com.hk.sso.server.repository.jdbc.SysPermissionRepository;
 import com.hk.sso.server.service.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -22,8 +20,12 @@ import java.util.Set;
 @Service
 public class SysPermissionServiceImpl extends JdbcServiceImpl<SysPermission, String> implements SysPermissionService {
 
+    private final SysPermissionRepository permissionRepository;
+
     @Autowired
-    private SysPermissionRepository permissionRepository;
+    public SysPermissionServiceImpl(SysPermissionRepository permissionRepository) {
+        this.permissionRepository = permissionRepository;
+    }
 
     @Override
     public List<SysPermission> findByAppIdAndRoleIds(String appId, Set<String> roleIds) {

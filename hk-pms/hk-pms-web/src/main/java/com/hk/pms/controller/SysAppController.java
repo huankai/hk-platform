@@ -34,7 +34,7 @@ public class SysAppController extends BaseController {
 
     @GetMapping("{id}")
     public JsonResult<SysApp> get(@PathVariable String id) {
-        return JsonResult.success(appService.findById(id).orElse(null));
+        return JsonResult.success(appService.getById(id));
     }
 
     @DeleteMapping("{id}")

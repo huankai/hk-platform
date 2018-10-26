@@ -17,8 +17,12 @@ import org.springframework.stereotype.Service;
 @CacheConfig(cacheNames = "SysApp")
 public class SysAppServiceImpl extends JdbcServiceImpl<SysApp, String> implements SysAppService {
 
+    private final SysAppRepository appRepository;
+
     @Autowired
-    private SysAppRepository appRepository;
+    public SysAppServiceImpl(SysAppRepository appRepository) {
+        this.appRepository = appRepository;
+    }
 
     @Override
     protected JdbcRepository<SysApp, String> getBaseRepository() {

@@ -15,8 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class SysConfigServiceImpl extends JdbcServiceImpl<SysConfig, String> implements SysConfigService {
 
+    private final SysConfigRepository sysConfigRepository;
+
     @Autowired
-    private SysConfigRepository sysConfigRepository;
+    public SysConfigServiceImpl(SysConfigRepository sysConfigRepository) {
+        this.sysConfigRepository = sysConfigRepository;
+    }
 
     @Override
     protected JdbcRepository<SysConfig, String> getBaseRepository() {

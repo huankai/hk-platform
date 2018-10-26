@@ -26,12 +26,16 @@ public class SysRoleServiceImpl extends JdbcServiceImpl<SysRole, String> impleme
 
     private final SysRoleRepository sysRoleRepository;
 
-    @Autowired
     private SysRoleMapper roleMapper;
 
     @Autowired
     public SysRoleServiceImpl(SysRoleRepository sysRoleRepository) {
         this.sysRoleRepository = sysRoleRepository;
+    }
+
+    @Autowired
+    public void setRoleMapper(SysRoleMapper roleMapper) {
+        this.roleMapper = roleMapper;
     }
 
     /**

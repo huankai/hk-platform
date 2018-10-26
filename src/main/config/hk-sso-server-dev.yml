@@ -19,14 +19,14 @@ spring:
     cache-duration: -1ms
 ######################################################### thymeleaf 配置
   thymeleaf:
+    enabled: true
     cache: false
     mode: HTML5
-    servlet:
-      content-type: text/html; charset=utf-8
-    enabled: true
     encoding: UTF-8
     prefix: classpath:/templates/
     suffix: .html
+    servlet:
+      content-type: text/html; charset=utf-8
 ########################################################## jpa 配置
 #  jpa:
 #    show-sql: true
@@ -73,9 +73,11 @@ spring:
         url-pattern: /**
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
 ################################################################### redis
+  cache:
+    type: redis
   redis:
     password: 1234567
-    host: 127.0.0.1
+    host: 192.168.64.150
     port: 6379
     database: 2
     timeout: 3000ms
@@ -85,13 +87,11 @@ spring:
         min-idle: 0
         max-idle: 8
         max-wait: -1ms
-  cache:
-    type: redis
 ######################################################### eureka 配置
 eureka:
   instance:
-    prefer-ip-address: false
     hostname: 127.0.0.1
+    prefer-ip-address: false
   client:
     service-url:
       defaultZone: http://root:root123@127.0.0.1:8761/eureka
@@ -151,19 +151,11 @@ wechat:
 logging:
   level:
     root: error
+    com.hk: debug
     org.springframework.web.socket: debug
-    org.springframework.security: debug
+#    org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
-    org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate: debug
-    org.springframework.jdbc.core.StatementCreatorUtils: debug
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: debug
-    com.hk: debug
-
-
-
-
-
-
-
+    org.springframework.jdbc.core.StatementCreatorUtils: trace
+#    org.hibernate.SQL: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: debug

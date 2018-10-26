@@ -28,12 +28,16 @@ public class SysResourceServiceImpl extends JdbcServiceImpl<SysResource, String>
 
     private SysResourceRepository sysResourceRepository;
 
-    @Autowired
     private SysResourceMapper resourceMapper;
 
     @Autowired
     public SysResourceServiceImpl(SysResourceRepository sysResourceRepository) {
         this.sysResourceRepository = sysResourceRepository;
+    }
+
+    @Autowired
+    public void setResourceMapper(SysResourceMapper resourceMapper) {
+        this.resourceMapper = resourceMapper;
     }
 
     @Override

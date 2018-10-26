@@ -25,12 +25,19 @@ public class SysPermissionServiceImpl extends JdbcServiceImpl<SysPermission, Str
 
     private final SysPermissionRepository sysPermissionRepository;
 
-    @Autowired
     private SysPermissionMapper permissionMapper;
 
-    @Autowired
     private SysRoleService roleService;
 
+    @Autowired
+    public void setPermissionMapper(SysPermissionMapper permissionMapper) {
+        this.permissionMapper = permissionMapper;
+    }
+
+    @Autowired
+    public void setRoleService(SysRoleService roleService) {
+        this.roleService = roleService;
+    }
 
     @Autowired
     public SysPermissionServiceImpl(SysPermissionRepository sysPermissionRepository) {

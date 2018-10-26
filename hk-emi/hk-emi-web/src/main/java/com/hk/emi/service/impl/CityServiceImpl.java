@@ -39,11 +39,15 @@ public class CityServiceImpl extends JdbcServiceImpl<City, String> implements Ci
 
     private final CityRepository cityRepository;
 
-    private final CityExcelVoMapper cityExcelVoMapper;
+    private CityExcelVoMapper cityExcelVoMapper;
 
     @Autowired
-    public CityServiceImpl(CityRepository cityRepository, CityExcelVoMapper cityExcelVoMapper) {
+    public CityServiceImpl(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
+    }
+
+    @Autowired
+    public void setCityExcelVoMapper(CityExcelVoMapper cityExcelVoMapper) {
         this.cityExcelVoMapper = cityExcelVoMapper;
     }
 

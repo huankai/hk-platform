@@ -32,7 +32,7 @@ spring:
     name: druid
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    url: jdbc:mysql://192.168.64.150:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
     username: root
     password: root
     druid:
@@ -64,9 +64,11 @@ spring:
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
 
 ################################################################### redis
+  cache:
+    type: redis
   redis:
+    host: 192.168.64.150
     password: 1234567
-    host: 127.0.0.1
     port: 6379
     database: 2
     timeout: 3000ms
@@ -76,8 +78,6 @@ spring:
         min-idle: 0
         max-idle: 8
         max-wait: -1ms
-  cache:
-    type: redis
 
 ################################################################### eureka
 eureka:
@@ -113,9 +113,9 @@ pagehelper:
 security:
   oauth2:
     client:
-      client-id: 4028c0816371a097016371a38d5a0000
-      client-secret: 4028c0816371a097016371a38d5a0000
-      #不知道为什么，如果配置成gateway 的url (http://127.0.0.1:8771/oauth2/oauth/token) 会有传递的参数丢失的问题
+      client-id: 9098cce01f6e4db884658244edb56ade
+      client-secret: 9098cce01f6e4db884658244edb56ade
+      # 不知道为什么，如果配置成gateway 的url (http://127.0.0.1:8771/oauth2/oauth/token) 会有传递的参数丢失的问题
       access-token-uri: http://127.0.0.1:8086/oauth/token
       user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
 #      use-current-uri: false
@@ -152,13 +152,13 @@ hk:
 logging:
   level:
     root: error
+    com.hk: debug
     org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
-    org.springframework.jdbc.core.StatementCreatorUtils: debug
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: debug
-    com.hk: debug
+    org.springframework.jdbc.core.StatementCreatorUtils: trace
+#    org.hibernate.SQL: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: debug
 
 
 

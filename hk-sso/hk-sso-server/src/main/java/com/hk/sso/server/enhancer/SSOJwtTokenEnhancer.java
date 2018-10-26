@@ -76,6 +76,7 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         info.put("orgName", principal.getOrgName());
         info.put("deptId", principal.getDeptId());
         info.put("deptName", principal.getDeptName());
+        info.put("protectUser", principal.isProtectUser());
 
         boolean debugEnabled = LOGGER.isDebugEnabled();
         if (debugEnabled) {

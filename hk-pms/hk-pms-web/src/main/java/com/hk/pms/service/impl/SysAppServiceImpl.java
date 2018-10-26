@@ -3,8 +3,8 @@ package com.hk.pms.service.impl;
 
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
+import com.hk.core.cache.service.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.repository.jdbc.SysAppRepository;
 import com.hk.pms.service.SysAppService;
@@ -20,7 +20,7 @@ import java.util.Optional;
  */
 @Service
 @CacheConfig(cacheNames = {"app_Cache"})
-public class SysAppServiceImpl extends JdbcServiceImpl<SysApp, String> implements SysAppService {
+public class SysAppServiceImpl extends EnableJdbcCacheServiceImpl<SysApp, String> implements SysAppService {
 
     private final SysAppRepository sysAppRepository;
 
@@ -38,11 +38,11 @@ public class SysAppServiceImpl extends JdbcServiceImpl<SysApp, String> implement
      * 根据appCode 查询唯一
      *
      * @param appCode appCode
-     * @return
+     * @return SysApp
      */
     @Override
     public Optional<SysApp> findByAppCode(String appCode) {
-        AssertUtils.notBlank(appCode);
+        AssertUtils.notBlank(appCode, "应用编号不能为空");
         return sysAppRepository.findByAppCode(appCode);
     }
 

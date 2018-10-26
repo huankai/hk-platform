@@ -23,12 +23,16 @@ public class SysUserServiceImpl extends JdbcServiceImpl<SysUser, String> impleme
 
     private final SysUserRepository sysUserRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     public SysUserServiceImpl(SysUserRepository sysUserRepository) {
         this.sysUserRepository = sysUserRepository;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
