@@ -7,7 +7,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 /**
- * @author: sjq-278
+ * @author: kevin
  * @date: 2018-10-25 15:12
  */
 @Data

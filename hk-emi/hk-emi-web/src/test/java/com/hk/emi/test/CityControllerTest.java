@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
- * @author: sjq-278
+ * @author: kevin
  * @date: 2018-09-14 15:42
  */
 @SpringBootTest(classes = EMIApplication.class)

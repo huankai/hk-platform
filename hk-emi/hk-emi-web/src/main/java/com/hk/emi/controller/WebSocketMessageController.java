@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * webSocket Test
  *
- * @author: sjq-278
+ * @author: kevin
  * @date: 2018-09-21 14:26
  */
 @Controller

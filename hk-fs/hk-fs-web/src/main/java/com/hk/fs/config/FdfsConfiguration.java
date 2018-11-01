@@ -11,7 +11,7 @@ import org.springframework.jmx.support.RegistrationPolicy;
 /**
  * FDFS Configuration
  *
- * @author: sjq-278
+ * @author: kevin
  * @date: 2018-09-12 17:19
  */
 @Configuration

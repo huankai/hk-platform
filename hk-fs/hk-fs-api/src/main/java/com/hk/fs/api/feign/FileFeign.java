@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * @author: sjq-278
+ * @author: kevin
  * @date: 2018-09-13 13:34
  */
 @FeignClient(name = "hk-fs")

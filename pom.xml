@@ -28,6 +28,20 @@
         <module>hk-springboot-admin-server</module>
     </modules>
 
+    <!--发布到私服地址-->
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Releases</name>
+            <url>http://192.168.64.150:8081/repository/maven-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Snapshot</name>
+            <url>http://192.168.64.150:8081/repository/maven-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -41,45 +55,86 @@
     </dependencyManagement>
 
     <build>
+        <!-- 注意体会插件配置的顺序，这正体现了一个maven的运行流程 -->
+        <plugins>
+            <!-- Maven Clean Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <skip>false</skip> <!-- 忽略clean [mvn clean -Dmaven.clean.skip=true] -->
+                    <failOnError>false</failOnError> <!-- clean时忽略错误 [mvn clean -Dmaven.clean.failOnError=false] -->
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>auto-clean</id>
+                        <phase>clean</phase> <!-- clean生命周期clean阶段 -->
+                        <goals>
+                            <goal>clean</goal> <!-- 执行clean插件的clean目标 -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- compiler插件, 设定JDK版本 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>${java.version}</source> <!-- 源代码使用的jdk版本 -->
+                    <target>${java.version}</target> <!-- 构建后生成class文件jdk版本 -->
+                    <encoding>${project.build.sourceEncoding}</encoding> <!-- 构建使用的编码 -->
+                </configuration>
+            </plugin>
+
+            <!-- 运行Maven 单元测试 -->
+            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.20.1</version> </plugin> -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
         <pluginManagement>
-            <!-- 注意体会插件配置的顺序，这正体现了一个maven的运行流程 -->
             <plugins>
-                <!-- Maven Clean Plugin -->
                 <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>3.0.0</version>
-                    <configuration>
-                        <skip>false</skip> <!-- 忽略clean [mvn clean -Dmaven.clean.skip=true] -->
-                        <failOnError>false</failOnError> <!-- clean时忽略错误 [mvn clean -Dmaven.clean.failOnError=false] -->
-                    </configuration>
+                    <groupId>com.spotify</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>1.0.0</version>
                     <executions>
+                        <!--执行 mvn package 时 自动 执行 mvn docker:build-->
                         <execution>
-                            <id>auto-clean</id>
-                            <phase>clean</phase> <!-- clean生命周期clean阶段 -->
+                            <id>build-image</id>
+                            <phase>package</phase>
                             <goals>
-                                <goal>clean</goal> <!-- 执行clean插件的clean目标 -->
+                                <goal>build</goal>
                             </goals>
                         </execution>
                     </executions>
-                </plugin>
-
-                <!-- compiler插件, 设定JDK版本 -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.5.1</version>
                     <configuration>
-                        <source>${java.version}</source> <!-- 源代码使用的jdk版本 -->
-                        <target>${java.version}</target> <!-- 构建后生成class文件jdk版本 -->
-                        <encoding>${project.build.sourceEncoding}</encoding> <!-- 构建使用的编码 -->
+                        <imageName>hk/${project.build.finalName}</imageName>
+                        <newName>192.168.64.150:8870/hk/${project.build.finalName}</newName>
+                        <serverId>docker-nexus</serverId> <!--要和 settings.xml配置中的 server.id 值 一样 -->
+                        <imageTags>
+                            <imageTag>${project.version}</imageTag>
+                            <imageTag>latest</imageTag> <!--可以指定多个 imageTag-->
+                        </imageTags>
+                        <forceTags>true</forceTags> <!-- 覆盖已存在的标签镜像 -->
+                        <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     </configuration>
                 </plugin>
-
-                <!-- 运行Maven 单元测试 -->
-                <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.20.1</version> </plugin> -->
-
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -92,7 +147,6 @@
                         </execution>
                     </executions>
                 </plugin>
-
             </plugins>
         </pluginManagement>
     </build>
