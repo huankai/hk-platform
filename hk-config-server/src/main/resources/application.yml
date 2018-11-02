@@ -8,7 +8,7 @@ spring:
   cloud:
     config:
       server:
-        default-application-name: hk-config-server
+        default-application-name: ${spring.application.name}
         git:
           uri: https://github.com/huankai/hk-platform.git
           search-paths: "src/main/config"  # 会在此目录下查询配置文件
@@ -25,6 +25,13 @@ spring:
         instance:
           prefer-ip: false
           service-url: "http://127.0.0.1:${server.port}"
+eureka:
+  instance:
+    hostname: 127.0.0.1
+    prefer-ip-address: false
+  client:
+    service-url:
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
 management:
   endpoints:
     web:
