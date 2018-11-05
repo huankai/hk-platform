@@ -32,7 +32,7 @@ spring:
     name: druid
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.64.150:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    url: jdbc:mysql://192.168.64.128:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
     username: root
     password: root
     druid:
