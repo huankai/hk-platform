@@ -113,8 +113,8 @@ pagehelper:
 security:
   oauth2:
     client:
-      client-id: 9098cce01f6e4db884658244edb56ade
-      client-secret: 9098cce01f6e4db884658244edb56ade
+      client-id: 7872c6f7f0cb41f0ba0f8aa060cb5c37
+      client-secret: 7872c6f7f0cb41f0ba0f8aa060cb5c37
       # 不知道为什么，如果配置成gateway 的url (http://127.0.0.1:8771/oauth2/oauth/token) 会有传递的参数丢失的问题
       access-token-uri: http://127.0.0.1:8086/oauth/token
       user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
