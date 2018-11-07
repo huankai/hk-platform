@@ -9,8 +9,22 @@ spring:
   servlet:
     multipart:
       enabled: false # 禁用文件上传功能
+  autoconfigure:
+    exclude:
+    # 默认情况下，spring boot web 应用会装配一些功能组件 bean,大多数情况下，可以选择性关闭自动装配的组件bean,以提升性能。
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
   mvc:
     throw-exception-if-no-handler-found: true
+    formcontent:
+      putfilter:
+      # 关闭 org.springframework.web.filter.HttpPutFormContentFilter
+      enabled: false
   resources:
     add-mappings: true
   messages:
@@ -32,7 +46,7 @@ spring:
     name: druid
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.64.150:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    url: jdbc:mysql://192.168.1.76:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
     username: root
     password: root
     druid:
@@ -82,8 +96,8 @@ spring:
 ################################################################### eureka
 eureka:
   instance:
-    prefer-ip-address: false
     hostname: 127.0.0.1
+    prefer-ip-address: false
   client:
     service-url:
       defaultZone: http://root:root123@127.0.0.1:8761/eureka
@@ -113,8 +127,8 @@ pagehelper:
 security:
   oauth2:
     client:
-      client-id: 9098cce01f6e4db884658244edb56ade
-      client-secret: 9098cce01f6e4db884658244edb56ade
+      client-id: 7872c6f7f0cb41f0ba0f8aa060cb5c37
+      client-secret: 7872c6f7f0cb41f0ba0f8aa060cb5c37
       # 不知道为什么，如果配置成gateway 的url (http://127.0.0.1:8771/oauth2/oauth/token) 会有传递的参数丢失的问题
       access-token-uri: http://127.0.0.1:8086/oauth/token
       user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
@@ -146,13 +160,13 @@ hk:
   swagger:
     title: "XXX公司_统一用户管理系统_接口文档"
     description: "用户管理系统..."
-    version: "2.0.2.RELEASE"
+    version: "2.1.0.RELEASE"
     base-package: "com.hk.pms.controller"
 ######################################################### logging 配置
 logging:
   level:
     root: error
-    com.hk: debug
+    com.hk: info
     org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug

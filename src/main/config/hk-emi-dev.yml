@@ -6,14 +6,29 @@ server:
         name: emi_jsession
         http-only: true
 spring:
+  autoconfigure:
+    exclude:
+    # 默认情况下，spring boot web 应用会装配一些功能组件 bean,大多数情况下，可以选择性关闭自动装配的组件bean,以提升性能。
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
   mvc:
     throw-exception-if-no-handler-found: true
+    formcontent:
+      putfilter:
+      # 关闭 org.springframework.web.filter.HttpPutFormContentFilter
+        enabled: false
   resources:
     add-mappings: true
   messages:
       basename: org/springframework/security/messages,com/hk/core/i18n/messages,messages
       encoding: utf-8
       cache-duration: -1ms
+########################################################## jpa 配置
 #  jpa:
 #    show-sql: true
 #    generate-ddl: false
@@ -24,6 +39,7 @@ spring:
 #        enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
 #        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
 
+########################################################## datasource 配置
   datasource:
     name: druid
     type: com.alibaba.druid.pool.DruidDataSource
@@ -117,8 +133,8 @@ pagehelper:
 security:
   oauth2:
     client:
-      client-id: 4028c0816371a097016371a38d5a0000
-      client-secret: 4028c0816371a097016371a38d5a0000
+      client-id: fafcc2196db94fd19a92a1d479a2ca8b
+      client-secret: fafcc2196db94fd19a92a1d479a2ca8b
       access-token-uri: http://127.0.0.1:8086/oauth/token
       user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
     resource:
@@ -134,17 +150,17 @@ hk:
   swagger:
     title: "XXX公司_字典信息管理系统_接口文档"
     description: "用于管理系统字典信息,具体包括字典管理模块、地区管理模块..."
-    version: "2.0.5.RELEASE"
+    version: "2.1.0.RELEASE"
     base-package: "com.hk.emi.controller"
 
 ################################################################### logging
 logging:
   level:
     root: error
+    com.hk: info
     org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
     org.springframework.jdbc.core.StatementCreatorUtils: debug
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: debug
-    com.hk: debug
+#   org.hibernate.SQL: debug
+#   org.hibernate.type.descriptor.sql.BasicBinder: debug

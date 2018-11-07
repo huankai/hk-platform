@@ -1,5 +1,5 @@
 # eureka Dockerfile
-# version 2.0.5.RELEASE
+# version 2.1.0.RELEASE
 
 # 基础镜像
 FROM openjdk:8-jre-alpine
@@ -17,7 +17,7 @@ VOLUME /data/docker/project/springboot/eureka
 
 # 添加文件
 # ADD application.yml application.yml
-# ADD hk-discover-eureka-2.0.5.RELEASE.jar eureka-2.0.5.RELEASE.jar
+# ADD hk-discover-eureka-2.1.0.RELEASE.jar eureka-2.1.0.RELEASE.jar
 
 #暴露端口号
 EXPOSE 8761
@@ -25,7 +25,7 @@ EXPOSE 8761
 # ENV JAVA_OPTS = ""
 
 #执行命令
-ENTRYPOINT ["java","-jar","eureka-2.0.5.RELEASE.jar"]
+ENTRYPOINT ["java","-jar","eureka-2.1.0.RELEASE.jar"]
 
 
 # ##################################### 以下命令在 shell 窗口执行 #######################
@@ -42,10 +42,10 @@ ENTRYPOINT ["java","-jar","eureka-2.0.5.RELEASE.jar"]
 # total 46192
 #-rw-rw-r--. 1 huangkai huangkai       22 Oct 29 16:06 application.yml
 #-rw-rw-r--. 1 huangkai huangkai      375 Oct 29 14:30 Dockerfile
-#-rwxr--r--. 1 huangkai huangkai 47291178 Oct 29 12:15 hk-discover-eureka-2.0.5.RELEASE.jar
+#-rwxr--r--. 1 huangkai huangkai 47291178 Oct 29 12:15 hk-discover-eureka-2.1.0.RELEASE.jar
 
 # 构建镜像，将当前目录下的所有文件构建到 Dockerfile中的 WORKDIR 目录下，目录不存在会自动创建
-#[huangkai@sjq-20 eureka]$ docker build -t eureka:2.0.5 .
+#[huangkai@sjq-20 eureka]$ docker build -t eureka:2.1.0 .
 
 #启动镜像
     #[huangkai@sjq-20 eureka]$ docker run --name eureka --restart=always -p 8761:8761 -d -v /data/docker/project/springboot/eureka:/data/docker/project/springboot/eureka 镜像id

@@ -10,8 +10,22 @@ spring:
   servlet:
     multipart:
       enabled: false # 禁用文件上传功能
+  autoconfigure:
+    exclude:
+    # 默认情况下，spring boot web 应用会装配一些功能组件 bean,大多数情况下，可以选择性关闭自动装配的组件bean,以提升性能。
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
   mvc:
     throw-exception-if-no-handler-found: true
+    formcontent:
+      putfilter:
+      # 关闭 org.springframework.web.filter.HttpPutFormContentFilter
+        enabled: false
 ######################################################### 国际化配置
   messages:
     encoding: UTF-8
@@ -42,7 +56,7 @@ spring:
     name: druid
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.64.128:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    url: jdbc:mysql://192.168.1.76:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
     username: root
     password: root
     druid:
@@ -151,7 +165,7 @@ wechat:
 logging:
   level:
     root: error
-    com.hk: debug
+    com.hk: info
     org.springframework.web.socket: debug
 #    org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug

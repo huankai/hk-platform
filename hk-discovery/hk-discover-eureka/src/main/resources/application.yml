@@ -1,27 +1,95 @@
+spring:
+  application:
+    name: eureka-server
+  main:
+    banner-mode: 'off'
+  profiles:
+    active: peer1
+  security:
+    user:
+      # 配置登陆用户名
+      name: root
+      # 配置登陆密码
+      password: root123
+  autoconfigure:
+    exclude:
+      # 默认情况下，spring boot web 应用会装配一些功能组件 bean,大多数情况下，可以选择性关闭自动装配的组件bean,以提升性能。
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
+  mvc:
+    formcontent:
+      putfilter:
+        enabled: false
+logging:
+  level:
+    root: error
+    com.hk.discover.eureka: info
+
+
+---
+spring:
+  profiles: peer1
 server:
   port: 8761
   servlet:
     context-path: /
-
 eureka:
   instance:
-    hostname: 192.168.1.76
-    prefer-ip-address: true
+    hostname: peer1
+    prefer-ip-address: false
   client:
-    register-with-eureka: false
     fetch-registry: false
+    register-with-eureka: false
     service-url:
       defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+  server:
+    # 测试期间,关闭注册中心自我保护,可以快速清理无效的服务
+    enable-self-preservation: false
+    # 清理间隔
+    eviction-interval-timer-in-ms: 2000
 
+---
 spring:
-  main:
-    banner-mode: 'off'
-  security:
-    user:
-      name: root  #配置登陆用户名
-      password: root123  # 配置登陆密码
+  profiles: peer2
+server:
+  port: 8761
+  servlet:
+    context-path: /
+eureka:
+  instance:
+    hostname: peer2
+    prefer-ip-address: false
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+#  server:
+#    enable-self-preservation: false
+#    eviction-interval-timer-in-ms: 2000
 
-logging:
-  level:
-    root: off
 
+---
+spring:
+  profiles: peer3
+server:
+  port: 8761
+  servlet:
+    context-path: /
+eureka:
+  instance:
+    hostname: peer3
+    prefer-ip-address: false
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+#  server:
+#    enable-self-preservation: false
+#    eviction-interval-timer-in-ms: 2000

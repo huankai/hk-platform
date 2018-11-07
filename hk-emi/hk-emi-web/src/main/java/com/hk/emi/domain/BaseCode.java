@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 字典
@@ -25,7 +25,7 @@ public class BaseCode extends AbstractAuditable {
      *
      */
     @Column(value = "base_code")
-    @NotBlank
+    @NotEmpty
     @Length(max = 20)
     private String baseCode;
 
@@ -33,7 +33,7 @@ public class BaseCode extends AbstractAuditable {
      *
      */
     @Column(value = "code_value")
-    @NotBlank
+    @NotEmpty
     @Length(max = 20)
     private String codevalue;
 

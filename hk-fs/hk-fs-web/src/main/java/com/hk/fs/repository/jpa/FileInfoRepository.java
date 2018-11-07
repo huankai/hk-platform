@@ -3,6 +3,7 @@ package com.hk.fs.repository.jpa;
 
 import com.hk.core.data.jpa.repository.StringIdJpaRepository;
 import com.hk.fs.domain.FileInfo;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -12,5 +13,6 @@ import java.util.List;
  */
 public interface FileInfoRepository extends StringIdJpaRepository<FileInfo> {
 
+    @Query(value = "select u from FileInfo u where u.digest = ?1")
     List<FileInfo> findByDigest(String digest);
 }

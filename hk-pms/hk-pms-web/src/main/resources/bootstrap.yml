@@ -6,8 +6,26 @@ spring:
     name: hk-pms
   main:
     banner-mode: 'off'
+    allow-bean-definition-overriding: true
   cloud:
+########################################################################### spring cloud config 配置
     config:
-      label: "2.0.5.RELEASE"
+      label: "2.1.0.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
+########################################################################### spring cloud stream 配置
+    stream:
+      default-binder: kafka
+      instance-count: 3
+      kafka:
+        binder:
+          brokers:
+            - sjq-01:9092
+            - sjq-02:9092
+            - sjq-03:9092
+          min-partition-count: 2
+          replication-factor: 2
+          # required-acks: 3
+      bindings:
+        output:
+          group: group1
