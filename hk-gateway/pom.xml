@@ -15,7 +15,6 @@
 
     <modules>
         <module>hk-gateway-zuul</module>
-        <module>hk-spring-cloud-gateway</module>
     </modules>
 
 </project>

@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
+import org.springframework.cloud.stream.messaging.Sink;
 
 /**
  * PMS Start
@@ -14,13 +14,12 @@ import org.springframework.cloud.stream.messaging.Source;
  */
 @SpringCloudApplication
 @EnableFeignClients(basePackages = "com.hk")
-@EnableBinding(value = {Source.class})
+@EnableBinding(value = {Sink.class})
 public class PMSApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PMSApplication.class, args);
     }
-
 
 
 }

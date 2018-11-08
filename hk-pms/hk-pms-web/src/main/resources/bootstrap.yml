@@ -27,5 +27,8 @@ spring:
           replication-factor: 2
           # required-acks: 3
       bindings:
-        output:
+        input:
+          # 消息接收的主题，见生产者 （hk-sso-server） 配置文件中的 spring.cloud.stream.bindings.output.destination 参数值
+          destination: test-destination
+          # 组名，如果不指定组名，会生成一个匿名组名，在kafka中，不同组的实例都会消费生产者发送的消息
           group: group1

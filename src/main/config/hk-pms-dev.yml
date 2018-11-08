@@ -141,11 +141,13 @@ security:
       login-path: /login
 
 hk:
+  gate-way-host: http://127.0.0.1:8771
   authentication:
     browser:
       logout-url: /logout
-      logout-success-url: http://127.0.0.1:8771/oauth2/logout?redirect_url=http://127.0.0.1:8771/pms/index
-      gate-way-host: http://127.0.0.1:8771/pms
+      logout-success-url: http://127.0.0.1:8086/logout?redirect_url=http://127.0.0.1:${server.port}${server.servlet.context-path}
+      # 配置 gateway host
+      # gate-way-host: ${hk.gate-way-host}/${server.servlet.context-path}
 #      permit-all-matchers:
 #        - method: GET
 #          uris:
@@ -155,7 +157,8 @@ hk:
 #          uris:
 #            - /aaaa/**
 #          permission: admin
-    default-failure-url: http://127.0.0.1:8771/pms/error  #使用了gateway这里写上gateway访问的路径，如果是前后端分离项目，可以不需要这样写
+
+#    default-failure-url: http://127.0.0.1:8771/pms/error  #使用了gateway这里写上gateway访问的路径，如果是前后端分离项目，可以不需要这样写
 ######################################################### swagger 文档生成配置
   swagger:
     title: "XXX公司_统一用户管理系统_接口文档"

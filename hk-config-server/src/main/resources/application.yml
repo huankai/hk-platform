@@ -5,26 +5,30 @@ spring:
     banner-mode: 'off'
   application:
     name: hk-config-server
+  profiles:
+    active: native
   cloud:
     config:
       server:
         default-application-name: hk-config-server
-        git:
-          uri: https://github.com/huankai/hk-platform.git
-          search-paths: "src/main/config"  # 会在此目录下查询配置文件
-          default-label: "2.0.5.RELEASE"  # clone 分支
-          basedir: "/config-basedir" # clone 的项目保存在指定的目录中
-    stream:
-      kafka:
-        binder:
-          brokers: sjq-01:9092,sjq-02:9092,sjq-03:9092
-  boot:
-    admin:
-      client:
-        url: "http://127.0.0.1:9999"
-        instance:
-          prefer-ip: false
-          service-url: "http://127.0.0.1:${server.port}"
+        native:
+          search-locations: "file:///E:/worksplace/hk/idea/hk-platform/src/main/config"
+#        git:
+#          uri: https://github.com/huankai/hk-platform.git
+#          search-paths: "src/main/config"  # 会在此目录下查询配置文件
+#          default-label: "2.0.5.RELEASE"  # clone 分支
+#          basedir: "/config-basedir" # clone 的项目保存在指定的目录中
+#    stream:
+#      kafka:
+#        binder:
+#          brokers: sjq-01:9092,sjq-02:9092,sjq-03:9092
+#  boot:
+#    admin:
+#      client:
+#        url: "http://127.0.0.1:9999"
+#        instance:
+#          prefer-ip: false
+#          service-url: "http://127.0.0.1:${server.port}"
 management:
   endpoints:
     web:
