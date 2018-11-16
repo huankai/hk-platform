@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.authserver.Authori
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +31,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -71,11 +73,11 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
         this.passwordEncoder = passwordEncoder;
     }
 
-    // /**
-    // * redis 连接
-    // */
-    // @Autowired
-    // private RedisConnectionFactory connectionFactory;
+     /**
+     * redis 连接
+     */
+     @Autowired
+     private RedisConnectionFactory connectionFactory;
 
     //
     // /**
@@ -156,7 +158,8 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
      * @return TokenStore
      */
     private TokenStore tokenStore() {
-        return new JwtTokenStore(accessTokenConverter());
+        return new RedisTokenStore(connectionFactory);
+//        return new JwtTokenStore(accessTokenConverter());
     }
 
     @Autowired

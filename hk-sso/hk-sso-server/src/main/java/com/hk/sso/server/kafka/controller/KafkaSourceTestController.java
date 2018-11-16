@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 /**
  * 消息发送测试类
  *
- * @author: sjq-278
+ * @author: huangkai
  * @date: 2018-11-05 10:12
  */
 @RestController

@@ -1,6 +1,5 @@
 package com.hk.sso.server;
 
-
 import com.hk.commons.util.*;
 import com.hk.core.data.jdbc.query.CompositeCondition;
 import com.hk.core.data.jdbc.query.SimpleCondition;
@@ -21,6 +20,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisConnectionUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
@@ -44,6 +46,9 @@ public class SSOServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SSOServerApplication.class, args);
+        RedisConnection connection = RedisConnectionUtils.getConnection(SpringContextHolder.getBean(RedisConnectionFactory.class));
+        connection.set("a".getBytes(),"value".getBytes());
+        connection.close();
     }
 
     /*    **************初始化登陆用户**********************/

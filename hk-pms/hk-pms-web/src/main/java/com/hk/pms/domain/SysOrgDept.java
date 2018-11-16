@@ -31,9 +31,9 @@ public class SysOrgDept extends AbstractAuditable {
     @Length(max = 20)
     private String deptName;
 
-    @Column(value = "responsible_id")
-    @NotEmpty
-    private String responsibleId;
+//    @Column(value = "responsible_id")
+//    @NotEmpty
+//    private String responsibleId;
 
     @Column(value = "description")
     @Length(max = 200)

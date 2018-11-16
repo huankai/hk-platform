@@ -13,6 +13,25 @@ spring:
       label: "2.1.0.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
+########################################################################### spring cloud stream 配置
+    stream:
+      default-binder: kafka
+      instance-count: 3
+      kafka:
+        binder:
+          brokers:
+            - sjq-01:9092
+            - sjq-02:9092
+            - sjq-03:9092
+          min-partition-count: 2
+          replication-factor: 2
+          # required-acks: 3
+      bindings:
+        input:
+          # 消息接收的主题，见生产者 （hk-sso-server） 配置文件中的 spring.cloud.stream.bindings.output.destination 参数值
+          destination: destination-01
+          # 组名，如果不指定组名，会生成一个匿名组名，在kafka中，不同组的实例都会消费生产者发送的消息
+          group: group99
 ######################################################### thymeleaf 配置
   thymeleaf:
     cache: false

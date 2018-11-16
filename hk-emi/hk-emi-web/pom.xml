@@ -56,6 +56,10 @@
             <artifactId>hk-emi-commons</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-stream-kafka</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.hk</groupId>

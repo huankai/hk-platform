@@ -24,8 +24,8 @@ spring:
     stream:
       # 当有多个binder时(如kafka、rabbitmq)，默认的binder
       default-binder: kafka
-      # 应用已部署实例的数量。如果使用Kafka和分区，必须要设置。
-      # instance-count: 3
+      # 应用已部署实例的数量
+#      instance-count: 3
       kafka:
         binder:
           # Kafka绑定（binder）将连接到的代理（broker）列表
@@ -45,13 +45,34 @@ spring:
 #          # 仅在 auto-create-topics 或 auto-add-partitions 为true时有效，
 #          # 绑定（binder）将在其生产/消费数据的主题（topic）上配置的分区的全局最小数量。
 #          # 它可以被生产者的partitionCount设置或生产者的instanceCount * concurrency设置的值所替代（其中较大的值）。
-#          min-partition-count: 2
+          min-partition-count: 2
 #
 #          #以秒为单位等待分区信息的时间，默认为 60，如果此计时器到期，运行状态将报告down.
 #          health-timeout: 30
 #
-#          # 创建 topic 副本数，默认为 1
-#          replication-factor: 2
+#         # 创建 topic 副本数，默认为 1
+#         # 副本数对kafka的吞吐率会有一定的影响。
+          replication-factor: 3
+          # 设置数据可靠性保证
+          # 0： 生产者无需等待来自 broker 的确认，不能确定消息是否到达 broker，配置此参数时数据传输效率最高，但数据可靠性是最低的。
+          # 1： 生产者在ISR 中的 Leader 已成功收到数据并确认，则消息发送成功，如果leader 所在服务器宕机了，则会丢失消息
+          # 大于1： 生产者在ISR 中的指定数量的follower收到消息才算发送成功。
+          # all ：生产者需要等待 ISR中所有的follower都确定接收数据后才算发送成功，可靠性最高，但这样也不能保证数据不丢失，如在 ISR 中只有 Leader 时,Leader宕机，则会丢失消息
+          required-acks: 'all'
+
+          configuration:
+            # 上面配置的 required-acks 为 all， 虽然能最大限度的保证数据的可靠性，但对于集群节点数据过多的情况下，会损失部分性能
+            # 因为需要在 ISR 中所有的 follower 都确定接收成功才算发送成功，可结合 min.insync.replicas 参数，发挥最大的功效
+            # 此参数仅在 required-acks = all 时才有效，如果 ISR 中的副本数少于 min.insync.replicas 参数值，会反回异常信息。
+            # 此参数表示需要 ISR 中有多少个副本数确认后才能表示消息发送成功，而不需要全部确认。但好像在这里配置不生效。
+#            min.insync.replicas: 5
+
+            # 指定压缩类型
+            # none ，默认值
+            # gzip
+            # snappy
+            # lz4
+            compression.type: none
       bindings:
 #        input:
 #          #通道内容类型，默认为 application/json
@@ -97,11 +118,14 @@ spring:
 #
 #            #
 #            use-native-decoding: false
+
+            #
+#            multiplex: false
 #
 #        # 配置 output 生产者
         output:
           # 指定消息发送的目的地，消息会发送到这个主题，消费者可订阅此主题消费消息
-          destination: test-destination
+          destination: destination-01
 #          #默认为 application/json
 #          #content-type: "application/json"
 #          group: abc
@@ -114,7 +138,8 @@ spring:
 
               # partition-key-extractor-name: ""
 
-              #partition-selector-name: ""
+              # 配置 消息生产在哪个 partition 上，需要实现 org.springframework.cloud.stream.binder.PartitionSelectorStrategy 接口，也可以使用表达式
+#              partition-selector-name: ""
 
               # 数据的目标分区的数量（如果分区已启用）。 如果生产者是分区的，则必须设置为大于1的值。 在Kafka上意味着使用 此值和目标主题分区数量中的较大值。
               # partition-count: 2

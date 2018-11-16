@@ -23,7 +23,7 @@ spring:
       - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
   mvc:
     formcontent:
-      putfilter:
+      filter:
         enabled: false
 logging:
   level:

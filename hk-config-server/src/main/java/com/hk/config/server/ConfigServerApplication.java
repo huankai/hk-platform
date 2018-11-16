@@ -13,7 +13,6 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 public class ConfigServerApplication {
 
     public static void main(String[] args) throws ClassNotFoundException {
-        //System.out.println(Class.forName("org.springframework.integration.handler.support.HandlerMethodArgumentResolversHolder"));
         SpringApplication.run(ConfigServerApplication.class,args);
     }
 }

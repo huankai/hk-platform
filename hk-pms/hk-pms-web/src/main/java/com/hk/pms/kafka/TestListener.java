@@ -1,9 +1,13 @@
 package com.hk.pms.kafka;
 
 import com.hk.commons.util.JsonUtils;
+import com.hk.commons.util.StringUtils;
+import com.hk.core.exception.ServiceException;
+import com.hk.pms.service.SysOrgDeptService;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -13,7 +17,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author: sjq-278
+ * @author: huangkai
  * @date: 2018-11-03 15:21
  */
 @Component
@@ -42,14 +46,31 @@ public class TestListener {
 //        logger.info(JsonUtils.serialize(message, true));
 //    }
 
-    /**
-     * 集合消息
-     *
-     * @param messages
-     */
+//    /**
+//     * 集合消息
+//     *
+//     * @param messages
+//     */
+//    @StreamListener(Sink.INPUT)
+//    public void collectionMessageReceive(@Payload List<MessageVo> messages) {
+//        logger.info(JsonUtils.serialize(messages, true));
+//    }
+
+
+    @Autowired
+    private SysOrgDeptService orgDeptService;
+
     @StreamListener(Sink.INPUT)
-    public void collectionMessageReceive(@Payload List<MessageVo> messages) {
-        logger.info(JsonUtils.serialize(messages, true));
+    public void transactionMessage(String message) {
+        logger.info("--------> {}", message);
+        /*if (StringUtils.isNotEmpty(message)) {
+            throw new ServiceException("exception...");
+        }*/
+//        SysOrgDept orgDept = new SysOrgDept();
+//        orgDept.setDeptName(message);
+//        orgDept.setOrgId("");
+//        orgDept.setParentId("0");
+//        orgDeptService.insert(orgDept);
     }
 
     @Data

@@ -12,6 +12,7 @@ import com.hk.weixin.qrcode.WechatQrCodeConfig;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -146,12 +147,15 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                     public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
                         return (O) new AdminAccessWebSecurityExpressionHandler();
                     }
-                })*/.anyRequest().authenticated();
+                })*/
+//                @see https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("admin") //访问所有以 /actuator/**的需要有admin 角色
+                .anyRequest().authenticated();
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**", "/actuator/**", "/error","/eureka/**", "/sms/sender", "/wechat/login", "/oauth/logout", "/favicon.ico");
+        web.ignoring().antMatchers("/resources/**", "/error", "/eureka/**", "/sms/sender", "/wechat/login", "/oauth/logout", "/favicon.ico");
     }
 
     /**
