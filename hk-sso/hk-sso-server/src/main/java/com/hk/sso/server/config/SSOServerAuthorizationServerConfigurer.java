@@ -1,6 +1,7 @@
 package com.hk.sso.server.config;
 
 import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
+import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
 import com.hk.core.authentication.security.UserDetailClientService;
 import com.hk.core.web.JsonResult;
 import com.hk.core.web.Webs;
@@ -30,8 +31,6 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
@@ -73,25 +72,11 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
         this.passwordEncoder = passwordEncoder;
     }
 
-     /**
+    /**
      * redis 连接
      */
-     @Autowired
-     private RedisConnectionFactory connectionFactory;
-
-    //
-    // /**
-    // * redis token 存储
-    // *
-    // * @return
-    // */
-    // @Bean
-    // @ConditionalOnMissingBean(TokenStore.class)
-    // public TokenStore tokenStore() {
-    // return new RedisTokenStore(connectionFactory);
-    // }
-    //
-    //
+    @Autowired
+    private RedisConnectionFactory connectionFactory;
 
     @Bean
     public JdbcClientDetailsService jdbcClientDetailsService() {
@@ -158,6 +143,7 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
      * @return TokenStore
      */
     private TokenStore tokenStore() {
+        //使用 redis store
         return new RedisTokenStore(connectionFactory);
 //        return new JwtTokenStore(accessTokenConverter());
     }
