@@ -51,10 +51,7 @@
             <artifactId>hk-core-authentication-weixin-mp</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-stream-kafka</artifactId>
-        </dependency>
+       
 
         <dependency>
             <groupId>com.hk</groupId>

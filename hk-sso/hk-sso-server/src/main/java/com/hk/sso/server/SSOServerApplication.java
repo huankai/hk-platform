@@ -17,12 +17,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.connection.RedisConnection;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisConnectionUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
@@ -41,14 +36,10 @@ import java.util.Optional;
  */
 @SpringBootApplication
 @EnableEurekaClient
-@EnableBinding(Source.class)
 public class SSOServerApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(SSOServerApplication.class, args);
-        RedisConnection connection = RedisConnectionUtils.getConnection(SpringContextHolder.getBean(RedisConnectionFactory.class));
-        connection.set("a".getBytes(),"value".getBytes());
-        connection.close();
     }
 
     /*    **************初始化登陆用户**********************/

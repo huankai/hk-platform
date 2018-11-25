@@ -124,7 +124,7 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .logoutUrl(browser.getLogoutUrl())
                 .invalidateHttpSession(true)
                 .addLogoutHandler(new SecurityContextLogoutHandler())
-                .addLogoutHandler(new RedirectLogoutHandler(browser.getLoginUrl()))
+                .addLogoutHandler(new RedirectLogoutHandler(browser.getLogoutSuccessUrl()))
                 .and()
                 // 使用 zuul登陆地址
 //                .addObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>() {

@@ -4,7 +4,7 @@ spring:
   main:
     banner-mode: 'off'
   profiles:
-    active: peer1
+    active: peer2
   security:
     user:
       # 配置登陆用户名
@@ -37,16 +37,16 @@ spring:
 server:
   port: 8761
   servlet:
-    context-path: /
+    context-path: /eureka-server
 eureka:
   instance:
-    hostname: peer1
+    hostname: 127.0.0.1
     prefer-ip-address: false
   client:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}${server.servlet.context-path}/eureka
   server:
     # 测试期间,关闭注册中心自我保护,可以快速清理无效的服务
     enable-self-preservation: false
@@ -57,18 +57,18 @@ eureka:
 spring:
   profiles: peer2
 server:
-  port: 8761
+  port: 8762
   servlet:
-    context-path: /
+    context-path: /eureka-server
 eureka:
   instance:
-    hostname: peer2
+    hostname: 127.0.0.1
     prefer-ip-address: false
   client:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}${server.servlet.context-path}/eureka
 #  server:
 #    enable-self-preservation: false
 #    eviction-interval-timer-in-ms: 2000
@@ -80,16 +80,16 @@ spring:
 server:
   port: 8761
   servlet:
-    context-path: /
+    context-path: /eureka-server
 eureka:
   instance:
-    hostname: peer3
+    hostname: 127.0.0.1
     prefer-ip-address: false
   client:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}/eureka
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}${server.servlet.context-path}/eureka
 #  server:
 #    enable-self-preservation: false
 #    eviction-interval-timer-in-ms: 2000
