@@ -4,7 +4,7 @@ spring:
   main:
     banner-mode: 'off'
   profiles:
-    active: peer2
+    active: peer1
   security:
     user:
       # 配置登陆用户名

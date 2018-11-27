@@ -1,20 +1,13 @@
 package com.hk.pms.kafka;
 
-import com.hk.commons.util.JsonUtils;
-import com.hk.commons.util.StringUtils;
-import com.hk.core.exception.ServiceException;
 import com.hk.pms.service.SysOrgDeptService;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @author: huangkai
@@ -60,7 +53,7 @@ public class TestListener {
     @Autowired
     private SysOrgDeptService orgDeptService;
 
-    @StreamListener(Sink.INPUT)
+//    @StreamListener(Sink.INPUT)
     public void transactionMessage(String message) {
         logger.info("--------> {}", message);
         /*if (StringUtils.isNotEmpty(message)) {
