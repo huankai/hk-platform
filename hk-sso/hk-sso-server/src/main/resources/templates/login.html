@@ -12,6 +12,7 @@
     <link rel="stylesheet" th:href="@{resources/css/sign-up-login.css}"/>
     <link rel="stylesheet" th:href="@{resources/css/font-awesome.4.6.0.css}"/>
     <link rel="stylesheet" th:href="@{resources/css/inputEffect.css}"/>
+    <link rel="stylesheet" th:href="@{resources/css/verifyCode.css}"/>
     <link rel="stylesheet" th:href="@{resources/css/tooltips.css}"/>
     <link rel="stylesheet" th:href="@{resources/css/spop.min.css}"/>
     <style type="text/css">
@@ -46,6 +47,14 @@
             margin: 0 auto;
             position: absolute;
             left: 55px;
+        }
+
+        .phone-verify-btn {
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            top: 20px;
+            right: 10px;
         }
 
     </style>
@@ -105,7 +114,8 @@
         </div>
         <!-- 手机号登陆-->
         <div class="login sign-out-htm">
-            <form th:action="@{mobile/login}" th:method="post" class="container offset1 loginform">
+            <form th:id="phoneLoginForm" th:action="@{mobile/login}" th:method="post"
+                  class="container offset1 loginform">
                 <div id="owl-login-phone" class="forget-owl">
                     <div class="hand"></div>
                     <div class="hand hand-r"></div>
@@ -126,7 +136,7 @@
                                 <span class="input__label-content input__label-content--hideo"></span>
                             </label>
                         </span>
-                        <span class="input input--hideo">
+                        <span class="input input--hideo input--verify_code">
                             <input class="input__field input__field--hideo" type="text" th:id="phoneCode"
                                    th:autocomplete="off" th:name="phoneCode"
                                    autocomplete="off" placeholder="验证码"/>
@@ -134,6 +144,9 @@
                                 <i class="fa fa-fw fa-wifi icon icon--hideo"></i>
                                 <span class="input__label-content input__label-content--hideo"></span>
                             </label>
+                        </span>
+                        <span class="phone-verify-btn">
+                            <input class="btn btn-info" type="button" onclick="sendPhoneCode()" value="发送验证码"/>
                         </span>
                     </section>
                 </div>
@@ -144,8 +157,6 @@
                 </div>
             </form>
         </div>
-
-
     </div>
 </div>
 </body>
@@ -162,23 +173,8 @@
         }).blur(function () {
             $('.login-owl').removeClass('password');
         });
-        $('#phone').blur(function () {
-            $.ajax({
-                method: "get",
-                url: "[[@{/}]]sms/sender",
-                data: {
-                    "phone": $(this).val()
-                },
-                success: function (rslt) {
-                    $("#phoneCode").val(rslt.data);
-                },
-                error: function () {
-                    alert("获取验证码失败");
-                }
-            })
-        });
-
     });
+
 
     function goto_login() {
         $("#login-username").val("");
@@ -221,20 +217,8 @@
         }
     }
 
-    function phoneLogin() {
-        var phone = $("#phone").val(),
-            phoneCode = $("#phoneCode").val();
-        if (phone === '') {
-            $.pt({
-                target: $("#login-username"),
-                position: 'r',
-                align: 't',
-                width: 'auto',
-                height: 'auto',
-                content: "手机号不能为空"
-            });
-            return false;
-        }
+    function validatePhoneCode() {
+        var phoneCode = $("#phoneCode").val();
         if (phoneCode === "") {
             $.pt({
                 target: $("#login-password"),
@@ -246,6 +230,45 @@
             });
             return false;
         }
+        return true;
+    }
+
+    function validatePhone() {
+        var phone = $("#phone").val();
+        if (phone === '') {
+            $.pt({
+                target: $("#login-username"),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                height: 'auto',
+                content: "手机号不能为空"
+            });
+            return false;
+        }
+        return true;
+    }
+
+    function sendPhoneCode() {
+        if (validatePhone()) {
+            $.ajax({
+                method: "get",
+                url: "[[@{/}]]sms/sender",
+                data: {
+                    "phone": $("#phoneLoginForm #phone").val()
+                },
+                success: function (rslt) {
+                    $("#phoneCode").val(rslt.data);
+                },
+                error: function () {
+                    alert("获取验证码失败");
+                }
+            })
+
+        }
+    }
+    function phoneLogin() {
+        return validatePhone() && validatePhoneCode();
     }
 </script>
 </html>
