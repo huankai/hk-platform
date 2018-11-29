@@ -3,64 +3,249 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>LOGIN PAGE</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>统一认证中心</title>
+    <link rel="shortcut icon" href="http://47.107.245.220/resources/public/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{resources/css/normalize.css}"/>
+    <link rel="stylesheet" th:href="@{resources/css/login.css}"/>
+    <link rel="stylesheet" th:href="@{resources/css/sign-up-login.css}"/>
+    <link rel="stylesheet" th:href="@{resources/css/font-awesome.4.6.0.css}"/>
+    <link rel="stylesheet" th:href="@{resources/css/inputEffect.css}"/>
+    <link rel="stylesheet" th:href="@{resources/css/tooltips.css}"/>
+    <link rel="stylesheet" th:href="@{resources/css/spop.min.css}"/>
+    <style type="text/css">
+        html {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            background-repeat: no-repeat;
+            background-position: center center #2D0F0F;
+            background-color: #00BDDC;
+            background-image: url(resources/images/snow.jpg);
+            background-size: 100% 100%;
+        }
+
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100001;
+        }
+
+        .weixin-icon {
+            width: 24px;
+            height: 23px;
+            display: block;
+            background-image: url("resources/images/icon24_appwx_logo.png");
+            margin: 0 auto;
+            position: absolute;
+            left: 55px;
+        }
+
+    </style>
 </head>
-<style type="text/css">
-    .error-info {
-        color: red;
-    }
-
-    .weixin-icon {
-        width: 24px;
-        height: 23px;
-        display: block;
-        background-image: url("resources/images/icon24_appwx_logo.png");
-        margin: 0 auto;
-        position: absolute;
-        left: 55px;
-    }
-</style>
 <body>
-<!-- 登陆失败信息: @see org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler#saveException -->
-<div th:if="${session.SPRING_SECURITY_LAST_EXCEPTION}" style="color:red;"
-     th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></div>
-<h1>FORM 表单登陆</h1>
-<form th:action="@{/login}" th:method="POST">
-    <div>
-        <label>用户名: </label>
-        <input type="text" name="username" placeholder="请输入用户名"/>
-    </div>
-    <div>
-        <label>密码: </label>
-        <input type="password" name="password" placeholder="请输入密码"/>
-    </div>
-    <input type="submit" value="登陆"/>
-</form>
-
-<div th:if="${smsEnabled}">
-    <h1>手机短信登陆</h1>
-    <form th:id="phoneLogin" th:action="@{/mobile/login}" th:method="POST">
-        <div>
-            <label>手机号: </label>
-            <input type="text" id="phone" name="phone" value="18820132014" placeholder="请输入手机号"/>
+<div class="snow-container"></div>
+<div id="login">
+    <input id="tab-1" type="radio" name="tab" class="sign-in hidden" checked/>
+    <input id="tab-2" type="radio" name="tab" class="sign-up hidden"/>
+    <input id="tab-3" type="radio" name="tab" class="sign-out hidden"/>
+    <div class="wrapper">
+        <div class="login sign-in-htm">
+            <form class="container offset1 loginform" th:method="post" th:action="@{/login}">
+                <div id="owl-login" class="login-owl">
+                    <div class="hand"></div>
+                    <div class="hand hand-r"></div>
+                    <div class="arms">
+                        <div class="arm"></div>
+                        <div class="arm arm-r"></div>
+                    </div>
+                </div>
+                <div class="pad input-container">
+                    <div th:if="${session.SPRING_SECURITY_LAST_EXCEPTION}" style="color:red;"
+                         th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></div>
+                    <section class="content">
+                        <span class="input input--hideo">
+                            <input class="input__field input__field--hideo" type="text" th:autocomplete="off"
+                                   th:name="username"
+                                   id="login-username" placeholder="请输入用户名" tabindex="1" maxlength="15"/>
+                            <label class="input__label input__label--hideo" for="login-username">
+                                <i class="fa fa-fw fa-user icon icon--hideo"></i>
+                                <span class="input__label-content input__label-content--hideo"></span>
+                            </label>
+                        </span>
+                        <span class="input input--hideo">
+                            <input class="input__field input__field--hideo" type="password" id="login-password"
+                                   th:autocomplete="off" th:name="password"
+                                   placeholder="请输入密码" tabindex="2" maxlength="15"/>
+                            <label class="input__label input__label--hideo" for="login-password">
+                                <i class="fa fa-fw fa-lock icon icon--hideo"></i>
+                                <span class="input__label-content input__label-content--hideo"></span>
+                            </label>
+                        </span>
+                        <span>
+                            <a th:href="@{/wechat/login}" th:target="_blank">
+                                <b class="weixin-icon"></b>
+                            </a>
+                        </span>
+                    </section>
+                </div>
+                <div class="form-actions">
+                    <a tabindex="4" class="btn pull-left btn-link text-muted" onclick="goto_forget()">手机号登陆</a>
+                    <input class="btn btn-primary" type="submit" tabindex="3" onclick="return login()" value="登录"
+                           style="color:white;"/>
+                </div>
+            </form>
         </div>
-        <div>
-            <label>验证码: </label>
-            <input type="text" name="phoneCode" placeholder="请输入验证码"/>
-            <a th:href="@{/sms/sender(phone=18820132014)}" target="_self">发送验证码</a>
+        <!-- 手机号登陆-->
+        <div class="login sign-out-htm">
+            <form th:action="@{mobile/login}" th:method="post" class="container offset1 loginform">
+                <div id="owl-login-phone" class="forget-owl">
+                    <div class="hand"></div>
+                    <div class="hand hand-r"></div>
+                    <div class="arms">
+                        <div class="arm"></div>
+                        <div class="arm arm-r"></div>
+                    </div>
+                </div>
+                <div class="pad input-container">
+                    <div th:if="${session.SPRING_SECURITY_LAST_EXCEPTION}" style="color:red;"
+                         th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></div>
+                    <section class="content">
+                        <span class="input input--hideo">
+                            <input class="input__field input__field--hideo" th:id="phone" th:name="phone"
+                                   type="text" th:autocomplete="off" placeholder="请输入手机号"/>
+                            <label class="input__label input__label--hideo" th:for="phone">
+                                <i class="fa fa-fw fa-user icon icon--hideo"></i>
+                                <span class="input__label-content input__label-content--hideo"></span>
+                            </label>
+                        </span>
+                        <span class="input input--hideo">
+                            <input class="input__field input__field--hideo" type="text" th:id="phoneCode"
+                                   th:autocomplete="off" th:name="phoneCode"
+                                   autocomplete="off" placeholder="验证码"/>
+                            <label class="input__label input__label--hideo" th:for="phoneCode">
+                                <i class="fa fa-fw fa-wifi icon icon--hideo"></i>
+                                <span class="input__label-content input__label-content--hideo"></span>
+                            </label>
+                        </span>
+                    </section>
+                </div>
+                <div class="form-actions">
+                    <a class="btn pull-left btn-link text-muted" onclick="goto_login()">返回登录</a>
+                    <input class="btn btn-primary" type="submit" onclick="return phoneLogin()" value="登陆"
+                           style="color:white;"/>
+                </div>
+            </form>
         </div>
-        <input th:type="submit" th:value="登陆" />
-    </form>
-</div>
 
-<div>
-    <h1>微信扫码登陆</h1>
-    <div style="height: 32px;margin-top: 10px;">
-        <a th:href="@{/wechat/login}">
-            <b class="weixin-icon"></b>
-            <span style="margin-left: 75px">微信</span>
-        </a>
+
     </div>
 </div>
 </body>
+<script src="http://47.107.245.220/resources/js/jquery.min.js"></script>
+<script th:src="@{resources/js/snow.js}"></script>
+<script th:src="@{resources/js/jquery.pure.tooltips.js}"></script>
+<script th:src="@{resources/js/spop.min.js}"></script>
+
+<script>
+
+    $(function () {
+        $('#login #login-password').focus(function () {
+            $('.login-owl').addClass('password');
+        }).blur(function () {
+            $('.login-owl').removeClass('password');
+        });
+        $('#phone').blur(function () {
+            $.ajax({
+                method: "get",
+                url: "[[@{/}]]sms/sender",
+                data: {
+                    "phone": $(this).val()
+                },
+                success: function (rslt) {
+                    $("#phoneCode").val(rslt.data);
+                },
+                error: function () {
+                    alert("获取验证码失败");
+                }
+            })
+        });
+
+    });
+
+    function goto_login() {
+        $("#login-username").val("");
+        $("#login-password").val("");
+        $("#tab-1").prop("checked", true);
+    }
+
+    function goto_forget() {
+        $("#forget-username").val("");
+        $("#forget-password").val("");
+        $("#forget-code").val("");
+        $("#phone").focus().val("18820132014");
+        $("#tab-3").prop("checked", true);
+    }
+
+    function login() {
+        var username = $("#login-username").val(),
+            password = $("#login-password").val();
+        if (username === '') {
+            $.pt({
+                target: $("#login-username"),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                height: 'auto',
+                content: "用户名不能为空"
+            });
+            return false;
+        }
+        if (password === "") {
+            $.pt({
+                target: $("#login-password"),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                height: 'auto',
+                content: "密码不能为空"
+            });
+            return false;
+        }
+    }
+
+    function phoneLogin() {
+        var phone = $("#phone").val(),
+            phoneCode = $("#phoneCode").val();
+        if (phone === '') {
+            $.pt({
+                target: $("#login-username"),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                height: 'auto',
+                content: "手机号不能为空"
+            });
+            return false;
+        }
+        if (phoneCode === "") {
+            $.pt({
+                target: $("#login-password"),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                height: 'auto',
+                content: "验证码不能为空"
+            });
+            return false;
+        }
+    }
+</script>
 </html>

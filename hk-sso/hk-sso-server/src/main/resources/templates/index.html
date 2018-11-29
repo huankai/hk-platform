@@ -1,13 +1,114 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>首页</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="http://47.107.245.220/resources/public/favicon.ico" type="image/x-icon"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>单点登陆集成系统</title>
+    <link href="http://47.107.245.220/resources/css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: url(http://47.107.245.220/resources/public/bg.jpg) no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .main-title {
+            margin-top: 100px;
+            color: #fff;
+        }
+
+        .int-wrap {
+            margin-top: 60px;
+        }
+
+        .int-wrap .int-item {
+            position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 70%;
+            margin-bottom: 30px;
+        }
+
+        .int-wrap .int-item > a {
+            display: block;
+            position: absolute;
+            padding: 15px;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.6);
+            text-decoration: none;
+            text-align: center;
+            transition: background-color 500ms ease;
+        }
+
+        .int-wrap .int-item > a:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .int-wrap .int-item > a > .int-icon {
+            display: block;
+            width: 80px;
+            height: 80px;
+            margin: 10px auto 0 auto;
+            transition: transform 500ms ease;
+        }
+
+        .int-wrap .int-item > a:hover > .int-icon {
+            transform: rotate(18deg);
+        }
+
+        .int-wrap .int-item > a > .int-icon > img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .int-wrap .int-item > a > .int-title {
+            height: 26px;
+            margin-top: 10px;
+            line-height: 26px;
+            font-size: 18px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .int-wrap .int-item > a > .int-desc {
+            max-height: 40px;
+            line-height: 20px;
+            white-space: normal;
+            word-break: break-all;
+            overflow: hidden;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+    </style>
 </head>
 <body>
-<h1>Hello，<span th:text="${currentUser.realName}"></span>
-</h1>
-<a th:href="@{/logout}">退出</a>
+<h1 class="main-title text-center">单点登陆集成系统</h1>
+<div class="container">
+    <div class="row int-wrap">
+        <div class="col-md-4 col-sm-6" th:each="item : ${appList}">
+            <div class="int-item">
+                <a th:href="${item.appHost}" target="_blank">
+                    <div class="int-icon"><img th:src="@{'http://47.107.245.220/' + ${item.appIcon}}"></div>
+                    <div class="int-title"><strong th:text="${item.appName}"></strong></div>
+                    <div class="int-desc" th:text="${item.description}"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="http://47.107.245.220/resources/js/jquery.min.js"></script>
+<script src="http://47.107.245.220/resources/js/bootstrap.min.js"></script>
 </body>
 </html>

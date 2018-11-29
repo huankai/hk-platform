@@ -39,6 +39,9 @@ public class SysApp extends AbstractAuditable {
     @Column(value = "app_status")
     private Byte appStatus;
 
+    @Column(value = "description")
+    private String description;
+
     @Column(value = "local_app")
     private Boolean localApp;
 }

@@ -53,6 +53,9 @@ public class SysApp extends AbstractAuditable {
     @Column(value = "expire_date")
     private LocalDate expireDate;
 
+    @Column(value = "description")
+    private String description;
+
     @Column(value = "local_app")
     private Boolean localApp;
 
