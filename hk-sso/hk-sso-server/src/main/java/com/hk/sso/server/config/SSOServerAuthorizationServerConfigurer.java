@@ -3,7 +3,7 @@ package com.hk.sso.server.config;
 import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
 import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
 import com.hk.core.authentication.security.UserDetailClientService;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import com.hk.core.web.Webs;
 import com.hk.sso.server.enhancer.SSOJwtTokenEnhancer;
 import com.hk.sso.server.exception.SsoDefaultWebResponseExceptionTranslator;

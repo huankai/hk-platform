@@ -1,0 +1,17 @@
+version: "3"
+services:
+  cfig-server:
+    build: .
+    image: config-server
+    container_name: config-server
+    ports:
+      - "8770:8770"
+    volumes:
+      - "/etc/timezone:/etc/timezone"
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/data/docker/springcloud/config-server:/app:ro"
+    command:
+      - "-Xms256m"
+      - "-Xmx256m"
+      - "hk-config-server-2.1.0.RELEASE.jar"
+    restart: "always"

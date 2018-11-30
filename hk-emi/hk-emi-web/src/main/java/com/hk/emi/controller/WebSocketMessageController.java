@@ -2,7 +2,7 @@ package com.hk.emi.controller;
 
 import com.hk.commons.util.JsonUtils;
 import com.hk.core.authentication.security.SecurityUserPrincipal;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import com.hk.message.api.ChatMessage;
 import com.hk.message.api.OnLineUserMessage;
 import com.hk.message.api.subject.SimpleTopicMessageSubject;

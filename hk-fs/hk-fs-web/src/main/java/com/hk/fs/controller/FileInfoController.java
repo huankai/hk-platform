@@ -1,7 +1,7 @@
 package com.hk.fs.controller;
 
 import com.hk.commons.util.StringUtils;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import com.hk.core.web.Webs;
 import com.hk.fs.domain.FileInfo;
 import com.hk.fs.service.FileInfoService;

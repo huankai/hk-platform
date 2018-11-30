@@ -3,7 +3,7 @@ package com.hk.emi.controller;
 import com.hk.core.page.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.Order;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import com.hk.emi.domain.BaseCode;
 import com.hk.emi.service.BaseCodeService;
 import com.hk.platform.commons.web.BaseController;

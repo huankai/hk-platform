@@ -2,7 +2,7 @@ package com.hk.pms.controller;
 
 import com.hk.core.authentication.api.SecurityContextUtils;
 import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

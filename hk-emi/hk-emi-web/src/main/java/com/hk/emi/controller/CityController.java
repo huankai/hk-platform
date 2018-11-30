@@ -2,7 +2,7 @@ package com.hk.emi.controller;
 
 import com.hk.core.page.QueryModel;
 import com.hk.core.page.QueryPage;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import com.hk.core.web.Webs;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;

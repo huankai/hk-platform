@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hk.core.authentication.api.SecurityContextUtils;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 
 import java.util.List;
 

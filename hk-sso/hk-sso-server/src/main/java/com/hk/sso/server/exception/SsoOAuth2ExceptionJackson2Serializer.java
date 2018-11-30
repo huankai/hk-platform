@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.EnumDisplayUtils;
 import com.hk.commons.util.StringUtils;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 
 import java.io.IOException;
 

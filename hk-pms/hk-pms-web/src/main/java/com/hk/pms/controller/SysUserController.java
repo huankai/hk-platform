@@ -3,7 +3,7 @@ package com.hk.pms.controller;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.page.QueryModel;
 import com.hk.core.page.QueryPage;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysUser;
 import com.hk.pms.service.SysUserService;

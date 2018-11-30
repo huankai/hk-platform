@@ -1,7 +1,7 @@
 package com.hk.sso.server.controller;
 
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;

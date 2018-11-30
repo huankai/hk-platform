@@ -145,7 +145,8 @@
                             </label>
                         </span>
                         <span class="phone-verify-btn">
-                            <input class="btn btn-info" type="button" onclick="sendPhoneCode()" value="发送验证码"/>
+                            <input class="btn btn-info" id="sendPhoneBtn" type="button" onclick="sendPhoneCode()"
+                                   value="发送验证码"/>
                         </span>
                     </section>
                 </div>
@@ -162,9 +163,7 @@
 <script th:src="@{${resourceUrlPrefix} + '/js/jquery.min.js'}"></script>
 <script th:src="@{resources/js/snow.js}"></script>
 <script th:src="@{resources/js/jquery.pure.tooltips.js}"></script>
-
 <script>
-
     $(function () {
         $('#login #login-password').focus(function () {
             $('.login-owl').addClass('password');
@@ -172,7 +171,6 @@
             $('.login-owl').removeClass('password');
         });
     });
-
 
     function goto_login() {
         $("#login-username").val("");
@@ -213,11 +211,13 @@
             });
             return false;
         }
+        return true;
     }
 
     function validatePhoneCode() {
         var phoneCode = $("#phoneCode").val();
-        if (phoneCode.trim() === "") {
+        var result = phoneCode.trim() !== '';
+        if (!result) {
             $.pt({
                 target: $("#login-password"),
                 position: 'r',
@@ -226,14 +226,14 @@
                 height: 'auto',
                 content: "验证码不能为空"
             });
-            return false;
         }
-        return true;
+        return result;
     }
 
     function validatePhone() {
-        var phone = $("#phone").val();
-        if (phone.trim() === '') {
+        var phone = $("#phone").val().trim();
+        var result = phone !== '';
+        if(!result){
             $.pt({
                 target: $("#login-username"),
                 position: 'r',
@@ -244,7 +244,7 @@
             });
             return false;
         }
-        return true;
+        return isPoneAvailable(phone) && result;
     }
 
     function sendPhoneCode() {
@@ -255,6 +255,24 @@
                 data: {
                     "phone": $("#phoneLoginForm #phone").val().trim()
                 },
+                beforeSend: function () {
+                    var time = 60;
+                    var sendPhoneBtn = $("#sendPhoneBtn");
+                    var value = sendPhoneBtn.val();
+                    sendPhoneBtn.addClass("disabled");
+                    decrementTime();
+                    var phoneBtnInterval = setInterval(decrementTime, 1000);
+
+                    function decrementTime() {
+                        if (time === 0) {
+                            clearInterval(phoneBtnInterval);
+                            sendPhoneBtn.removeClass("disabled");
+                            sendPhoneBtn.val(value);
+                        } else {
+                            sendPhoneBtn.val((time--) + "秒后发送");
+                        }
+                    }
+                },
                 success: function (rslt) {
                     $("#phoneCode").val(rslt.data);
                 },
@@ -262,8 +280,23 @@
                     alert(request.responseJSON.message || "获取验证码失败");
                 }
             })
-
         }
+    }
+
+    function isPoneAvailable(phone) {
+        var myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+        var result = myreg.test(phone);
+        if (!result) {
+            $.pt({
+                target: $("#login-username"),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                height: 'auto',
+                content: "手机号格式不正确"
+            });
+        }
+        return result;
     }
 
     function phoneLogin() {
