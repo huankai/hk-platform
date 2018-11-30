@@ -6,15 +6,13 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>统一认证中心</title>
-    <link rel="shortcut icon" href="http://47.107.245.220/resources/public/favicon.ico" type="image/x-icon"/>
-    <link rel="stylesheet" th:href="@{resources/css/normalize.css}"/>
+    <link rel="shortcut icon" th:href="@{${resourceUrlPrefix} + '/public/favicon.ico'}" type="image/x-icon"/>
     <link rel="stylesheet" th:href="@{resources/css/login.css}"/>
     <link rel="stylesheet" th:href="@{resources/css/sign-up-login.css}"/>
-    <link rel="stylesheet" th:href="@{resources/css/font-awesome.4.6.0.css}"/>
+    <link rel="stylesheet" th:href="@{${resourceUrlPrefix} + '/css/font-awesome.4.6.0.css'}"/>
     <link rel="stylesheet" th:href="@{resources/css/inputEffect.css}"/>
     <link rel="stylesheet" th:href="@{resources/css/verifyCode.css}"/>
     <link rel="stylesheet" th:href="@{resources/css/tooltips.css}"/>
-    <link rel="stylesheet" th:href="@{resources/css/spop.min.css}"/>
     <style type="text/css">
         html {
             width: 100%;
@@ -107,6 +105,7 @@
                 </div>
                 <div class="form-actions">
                     <a tabindex="4" class="btn pull-left btn-link text-muted" onclick="goto_forget()">手机号登陆</a>
+                    <a tabindex="5" class="btn pull-left btn-link text-muted" href="https://www.baidu.com">忘记密码</a>
                     <input class="btn btn-primary" type="submit" tabindex="3" onclick="return login()" value="登录"
                            style="color:white;"/>
                 </div>
@@ -114,7 +113,7 @@
         </div>
         <!-- 手机号登陆-->
         <div class="login sign-out-htm">
-            <form th:id="phoneLoginForm" th:action="@{mobile/login}" th:method="post"
+            <form th:id="phoneLoginForm" th:action="@{/mobile/login}" th:method="post"
                   class="container offset1 loginform">
                 <div id="owl-login-phone" class="forget-owl">
                     <div class="hand"></div>
@@ -132,7 +131,7 @@
                             <input class="input__field input__field--hideo" th:id="phone" th:name="phone"
                                    type="text" th:autocomplete="off" placeholder="请输入手机号"/>
                             <label class="input__label input__label--hideo" th:for="phone">
-                                <i class="fa fa-fw fa-user icon icon--hideo"></i>
+                                <i class="fa fa-fw fa-phone icon icon--hideo"></i>
                                 <span class="input__label-content input__label-content--hideo"></span>
                             </label>
                         </span>
@@ -160,10 +159,9 @@
     </div>
 </div>
 </body>
-<script src="http://47.107.245.220/resources/js/jquery.min.js"></script>
+<script th:src="@{${resourceUrlPrefix} + '/js/jquery.min.js'}"></script>
 <script th:src="@{resources/js/snow.js}"></script>
 <script th:src="@{resources/js/jquery.pure.tooltips.js}"></script>
-<script th:src="@{resources/js/spop.min.js}"></script>
 
 <script>
 
@@ -191,8 +189,8 @@
     }
 
     function login() {
-        var username = $("#login-username").val(),
-            password = $("#login-password").val();
+        var username = $("#login-username").val().trim(),
+            password = $("#login-password").val().trim();
         if (username === '') {
             $.pt({
                 target: $("#login-username"),
@@ -219,7 +217,7 @@
 
     function validatePhoneCode() {
         var phoneCode = $("#phoneCode").val();
-        if (phoneCode === "") {
+        if (phoneCode.trim() === "") {
             $.pt({
                 target: $("#login-password"),
                 position: 'r',
@@ -235,7 +233,7 @@
 
     function validatePhone() {
         var phone = $("#phone").val();
-        if (phone === '') {
+        if (phone.trim() === '') {
             $.pt({
                 target: $("#login-username"),
                 position: 'r',
@@ -255,18 +253,19 @@
                 method: "get",
                 url: "[[@{/}]]sms/sender",
                 data: {
-                    "phone": $("#phoneLoginForm #phone").val()
+                    "phone": $("#phoneLoginForm #phone").val().trim()
                 },
                 success: function (rslt) {
                     $("#phoneCode").val(rslt.data);
                 },
-                error: function () {
-                    alert("获取验证码失败");
+                error: function (request) {
+                    alert(request.responseJSON.message || "获取验证码失败");
                 }
             })
 
         }
     }
+
     function phoneLogin() {
         return validatePhone() && validatePhoneCode();
     }

@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="http://47.107.245.220/resources/public/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" th:href="@{${resourceUrlPrefix} + '/public/favicon.ico'}" type="image/x-icon"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>单点登陆集成系统</title>
-    <link href="http://47.107.245.220/resources/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{${resourceUrlPrefix} + '/css/bootstrap.min.css'}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
@@ -15,7 +15,7 @@
         html, body {
             margin: 0;
             padding: 0;
-            background: url(http://47.107.245.220/resources/public/bg.jpg) no-repeat center center fixed;
+            background: url([[${resourceUrlPrefix}]]/public/bg.jpg) no-repeat center center fixed;
             background-size: cover;
         }
 
@@ -99,7 +99,7 @@
         <div class="col-md-4 col-sm-6" th:each="item : ${appList}">
             <div class="int-item">
                 <a th:href="${item.appHost}" target="_blank">
-                    <div class="int-icon"><img th:src="@{'http://47.107.245.220/' + ${item.appIcon}}"></div>
+                    <div class="int-icon"><img th:src="@{${resourceUrlPrefix} + ${item.appIcon}}"></div>
                     <div class="int-title"><strong th:text="${item.appName}"></strong></div>
                     <div class="int-desc" th:text="${item.description}"></div>
                 </a>
@@ -108,7 +108,8 @@
     </div>
 </div>
 
-<script src="http://47.107.245.220/resources/js/jquery.min.js"></script>
-<script src="http://47.107.245.220/resources/js/bootstrap.min.js"></script>
+<script th:src="@{${resourceUrlPrefix} + '/js/jquery.min.js'}"></script>
+<script th:src="@{${resourceUrlPrefix} + '/js/bootstrap.min.js'}"></script>
+
 </body>
 </html>
