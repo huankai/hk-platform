@@ -34,11 +34,6 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-core-data-jdbc</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-data-solr</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-web</artifactId>
@@ -55,9 +50,7 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-core-authentication-weixin-mp</artifactId>
         </dependency>
-
-       
-
+        
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-spring-boot-autoconfigure</artifactId>

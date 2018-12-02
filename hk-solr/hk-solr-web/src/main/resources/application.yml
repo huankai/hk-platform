@@ -1,0 +1,44 @@
+server:
+  port: 8660
+
+spring:
+  application:
+    name: hk-solr-web
+  servlet:
+    multipart:
+      enabled: false
+  mvc:
+    formcontent:
+      filter:
+        enabled: false
+  messages:
+    encoding: UTF-8
+    basename: messages
+  main:
+    allow-bean-definition-overriding: true
+    banner-mode: 'off'
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
+  data:
+    solr:
+      zk-host: 192.168.64.128:2181,192.168.64.129s:2181,192.168.64.130:2181
+
+eureka:
+  instance:
+    hostname: 127.0.0.1
+    prefer-ip-address: false
+  client:
+    service-url:
+      defaultZone: http://root:root123@172.17.0.1:8761/eureka-server/eureka
+
+logging:
+  level:
+    root: error
+    com.hk.solr.web: info
