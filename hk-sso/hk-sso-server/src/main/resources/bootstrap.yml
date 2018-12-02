@@ -126,6 +126,9 @@ spring:
         output:
           # 指定消息发送的目的地，消息会发送到这个主题，消费者可订阅此主题消费消息
           destination: destination-01
+  data:
+    solr:
+      host:
 #          #默认为 application/json
 #          #content-type: "application/json"
 #          group: abc

@@ -34,6 +34,11 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-core-data-jdbc</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-solr</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-web</artifactId>
