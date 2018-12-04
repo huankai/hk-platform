@@ -1,7 +1,8 @@
 package com.hk.solr.web.service.impl;
 
+import com.hk.core.solr.respoitory.BaseSolrRepository;
 import com.hk.solr.web.domain.Commodity;
-import com.hk.solr.web.repository.CommodityRepository;
+import com.hk.solr.web.repository.solr.CommodityRepository;
 import com.hk.solr.web.service.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,23 +12,18 @@ import org.springframework.stereotype.Service;
  * @date 2018-12-2 21:44
  */
 @Service
-public class CommodityServiceImpl implements CommodityService {
+public class CommodityServiceImpl extends BaseSolrServiceImpl<Commodity, String> implements CommodityService {
+
+    private final CommodityRepository commodityRepository;
 
     @Autowired
-    private CommodityRepository commodityRepository;
-
-    @Override
-    public Iterable<Commodity> findAll() {
-        return commodityRepository.findAll();
+    public CommodityServiceImpl(CommodityRepository commodityRepository) {
+        this.commodityRepository = commodityRepository;
     }
 
     @Override
-    public void deleteById(String id) {
-        commodityRepository.deleteById(id);
+    protected BaseSolrRepository<Commodity, String> getSolrRepository() {
+        return commodityRepository;
     }
 
-    @Override
-    public void save(Commodity commodity) {
-        commodityRepository.save(commodity);
-    }
 }

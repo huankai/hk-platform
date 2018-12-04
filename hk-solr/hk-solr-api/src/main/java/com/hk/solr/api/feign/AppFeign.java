@@ -1,12 +1,12 @@
 package com.hk.solr.api.feign;
 
 import com.hk.core.page.QueryModel;
-import com.hk.core.page.QueryPage;
+import com.hk.core.page.SimpleQueryPage;
 import com.hk.solr.api.SolrService;
-import com.hk.solr.api.entity.Commodity;
+import com.hk.solr.api.entity.App;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.data.solr.core.query.result.HighlightPage;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
@@ -14,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2018-12-2 23:18
  */
 @FeignClient(name = SolrService.SERVICE_NAME, path = SolrService.CONTEXT_PATH)
-@RequestMapping("/commodity")
-public interface CommodityFeign {
+@RequestMapping("/app")
+public interface AppFeign {
 
     @PostMapping("list")
-    QueryPage<Commodity> findPage(QueryModel<Commodity> queryModel);
+    SimpleQueryPage<App> findPage(@RequestBody QueryModel<App> queryModel);
 
-    @PostMapping("highlight-list")
-    HighlightPage<Commodity> findHighlightPage(QueryModel<Commodity> queryModel);
 }

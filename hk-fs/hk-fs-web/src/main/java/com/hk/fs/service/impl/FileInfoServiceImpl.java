@@ -5,7 +5,7 @@ import com.github.tobato.fastdfs.service.AppendFileStorageClient;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.FileUtils;
 import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jpa.repository.JpaBaseRepository;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.core.exception.ServiceException;
 import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.fs.domain.FileInfo;
@@ -43,7 +43,7 @@ public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implem
     }
 
     @Override
-    protected JpaBaseRepository<FileInfo, String> getBaseRepository() {
+    protected BaseJpaRepository<FileInfo, String> getBaseRepository() {
         return fileInfoRepository;
     }
 

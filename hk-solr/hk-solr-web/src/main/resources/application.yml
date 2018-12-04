@@ -28,7 +28,7 @@ spring:
       - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
   data:
     solr:
-      zk-host: 192.168.64.128:2181,192.168.64.129s:2181,192.168.64.130:2181
+      host: http://47.107.245.220/solr/
 
 eureka:
   instance:
@@ -36,9 +36,10 @@ eureka:
     prefer-ip-address: false
   client:
     service-url:
-      defaultZone: http://root:root123@172.17.0.1:8761/eureka-server/eureka
+      defaultZone: http://root:root123@47.107.245.220/eureka-server/eureka
 
 logging:
   level:
     root: error
     com.hk.solr.web: info
+    org.springframework.data.solr.core.SolrTemplate: debug

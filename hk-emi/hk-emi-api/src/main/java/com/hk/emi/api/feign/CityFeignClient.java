@@ -13,7 +13,7 @@ import java.util.List;
  * @author: kevin
  * @date: 2018-07-13 15:27
  */
-@FeignClient(name = "hk-emi", fallback = CityFeignClientFallback.class)
+@FeignClient(name = EmiService.SERVICE_NAME, path = EmiService.CONTEXT_PATH, fallback = CityFeignClientFallback.class)
 @RequestMapping("/api/city")
 public interface CityFeignClient {
 

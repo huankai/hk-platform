@@ -1,6 +1,6 @@
 package com.hk.fs.service.impl;
 
-import com.hk.core.data.jpa.repository.JpaBaseRepository;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.fs.domain.FileShare;
 import com.hk.fs.repository.jpa.FileShareRepository;
@@ -23,7 +23,7 @@ public class FileShareServiceImpl extends JpaServiceImpl<FileShare, String> impl
     }
 
     @Override
-    protected JpaBaseRepository<FileShare, String> getBaseRepository() {
+    protected BaseJpaRepository<FileShare, String> getBaseRepository() {
         return fileShareRepository;
     }
 }

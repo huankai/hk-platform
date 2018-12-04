@@ -6,11 +6,6 @@ import com.hk.solr.web.domain.Commodity;
  * @author huangkai
  * @date 2018-12-2 21:43
  */
-public interface CommodityService {
+public interface CommodityService extends BaseSolrService<Commodity, String> {
 
-    Iterable<Commodity> findAll();
-
-    void deleteById(String id);
-
-    void save(Commodity commodity);
 }
