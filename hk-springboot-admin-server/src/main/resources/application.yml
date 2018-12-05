@@ -7,6 +7,12 @@ spring:
     banner-mode: 'off'
   application:
     name: hk-springboot-admin-server
+  security:
+    user:
+      # 登陆用户名
+      name: user
+      # 登陆密码
+      password: 123456
 ######################################################### eureka 配置
 eureka:
   instance:
@@ -15,4 +21,4 @@ eureka:
   client:
     register-with-eureka: false
     service-url:
-      defaultZone: http://root:root123@127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@47.107.245.220/eureka-server/eureka

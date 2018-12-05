@@ -155,7 +155,7 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**", "/error", "/eureka/**", "/sms/sender", "/wechat/login", "/oauth/logout", "/favicon.ico");
+        web.ignoring().antMatchers("/resources/**", "/error", "/actuator/health", "/sms/sender", "/wechat/login", "/oauth/logout", "/favicon.ico");
     }
 
     /**

@@ -100,10 +100,10 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
-        </dependency>-->
+        </dependency>
 
 
         <!--

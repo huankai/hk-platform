@@ -1,6 +1,7 @@
 server:
   port: 8775
-
+#  tomcat:
+#    basedir: /data/tomcat/tmp
 spring:
   application:
     name: hk-fs

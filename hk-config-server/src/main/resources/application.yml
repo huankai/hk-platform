@@ -22,15 +22,23 @@ spring:
 #      kafka:
 #        binder:
 #          brokers: sjq-01:9092,sjq-02:9092,sjq-03:9092
-#  boot:
-#    admin:
-#      client:
-#        url: "http://127.0.0.1:9999"
-#        instance:
-#          prefer-ip: false
-#          service-url: "http://127.0.0.1:${server.port}"
+
+########################### spring boot admin client configuration ######################################################
+  boot:
+    admin:
+      client:
+        username: user
+        password: 123456
+        url: "http://127.0.0.1:9999"
+        instance:
+          prefer-ip: false
+          service-url: "http://127.0.0.1:${server.port}"
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+  endpoint:
+    health:
+      show-details: always
+###########################   ######################################################
