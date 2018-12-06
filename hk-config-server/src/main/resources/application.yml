@@ -14,7 +14,7 @@ spring:
       server:
         default-application-name: ${spring.application.name}
         native:
-          search-locations: "file:///E:/worksplace/hk/idea/gitlab/config"
+          search-locations: "file:///E:/worksplace/hk/github/hk-config/platform-config"
 #        git:
 #          uri: https://github.com/huankai/hk-platform.git
 #          search-paths: "src/main/config"  # 会在此目录下查询配置文件
