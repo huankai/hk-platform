@@ -23,6 +23,8 @@ public class TestController {
     @Autowired
     private CityFeignClient cityFeignClient;
 
+
+
     @GetMapping({"/", "/test"})
     public JsonResult<UserPrincipal> test() {
         List<City> childList = cityFeignClient.getChildList("4028c08162be57660162be5779cb0000");

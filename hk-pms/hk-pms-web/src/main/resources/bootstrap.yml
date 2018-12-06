@@ -1,6 +1,8 @@
+server:
+  port: 7110
 spring:
   application:
-    name: hk-pms
+    name: hk-pms-web
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true

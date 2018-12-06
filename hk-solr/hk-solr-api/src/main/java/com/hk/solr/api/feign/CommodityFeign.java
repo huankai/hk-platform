@@ -1,6 +1,6 @@
 package com.hk.solr.api.feign;
 
-import com.hk.core.page.QueryModel;
+import com.hk.core.query.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.solr.api.entity.Commodity;
 import org.springframework.cloud.openfeign.FeignClient;

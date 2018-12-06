@@ -1,6 +1,6 @@
 package com.hk.emi.controller;
 
-import com.hk.core.page.QueryModel;
+import com.hk.core.query.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.commons.JsonResult;
 import com.hk.core.web.Webs;

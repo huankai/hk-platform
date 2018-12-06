@@ -1,5 +1,5 @@
 server:
-  port: 8775
+  port: 7130
 #  tomcat:
 #    basedir: /data/tomcat/tmp
 spring:

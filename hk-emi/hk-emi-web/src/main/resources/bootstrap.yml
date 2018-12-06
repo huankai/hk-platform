@@ -1,9 +1,10 @@
 server:
-  port: 8772
-
+  port: 7120
+  servlet:
+    context-path: /
 spring:
   application:
-    name: hk-emi
+    name: hk-emi-web
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true

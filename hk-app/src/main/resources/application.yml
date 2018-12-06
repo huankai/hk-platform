@@ -1,12 +1,26 @@
 server:
-  port: 8776
+  port: 7150
   servlet:
     context-path: /
 spring:
   main:
     banner-mode: 'off'
+    allow-bean-definition-overriding: true
+  autoconfigure: 
+    exclude: 
+    # 默认情况下，spring boot web 应用会装配一些功能组件 bean,大多数情况下，可以选择性关闭自动装配的组件bean,以提升性能。
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
   mvc:
     throw-exception-if-no-handler-found: true
+    formcontent:
+      filter:
+        enabled: false
   resources:
     add-mappings: false
   messages:
@@ -29,10 +43,10 @@ spring:
   datasource:
     name: druid
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
-    username: root
-    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: pms
+    password: pmsadmin
     druid:
       initial-size: 1
       max-active: 20
@@ -83,26 +97,40 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@127.0.0.1/eureka-server/eureka
 
-################################################################### security oauth2
 security:
   oauth2:
     client:
-      client-id: 4028c0816371a097016371a38d650002
-      client-secret: 4028c0816371a097016371a38d650001
-      user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
-      access-token-uri: http://127.0.0.1:8086/oauth/token
+      client-id: 7872c6f7f0cb41f0ba0f8aa060cb5c37
+      client-secret: 7872c6f7f0cb41f0ba0f8aa060cb5c37
+      access-token-uri: http://127.0.0.1:8086/oauth2/oauth/token
+      user-authorization-uri: http://127.0.0.1:8086/oauth2/oauth/authorize
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8086/oauth/token_key
+        key-uri: http://127.0.0.1:8086/oauth2/oauth/token_key
     sso:
-      default-failure-url: /error
+      login-path: /login
+
 hk:
+  #gate-way-host: http://127.0.0.1:8771
   authentication:
     browser:
       logout-url: /logout
-      logout-success-url: http://127.0.0.1:8086/oauth/logout?redirect_url=http://127.0.0.1:8776/index
+      logout-success-url: http://127.0.0.1:8086/oauth2/logout?redirect_url=http://127.0.0.1:${server.port}${server.servlet.context-path}
+      # 配置 gateway host
+      # gate-way-host: ${hk.gate-way-host}/${server.servlet.context-path}
+#      permit-all-matchers:
+#        - method: GET
+#          uris:
+#            - /api/**
+#          permission: admin
+#        - method: GET
+#          uris:
+#            - /aaaa/**
+#          permission: admin
+
+#    default-failure-url: http://127.0.0.1:8771/pms/error  #使用了gateway这里写上gateway访问的路径，如果是前后端分离项目，可以不需要这样写
 ######################################################### logging 配置
 logging:
   level:

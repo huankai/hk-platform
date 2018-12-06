@@ -1,3 +1,6 @@
+server:
+  servlet:
+    context-path: /eureka-server
 spring:
   application:
     name: eureka-server
@@ -30,14 +33,11 @@ logging:
     root: error
     com.hk.discover.eureka: info
 
-
 ---
 spring:
   profiles: peer1
 server:
   port: 8761
-  servlet:
-    context-path: /eureka-server
 eureka:
   instance:
     hostname: 127.0.0.1
@@ -58,8 +58,6 @@ spring:
   profiles: peer2
 server:
   port: 8762
-  servlet:
-    context-path: /eureka-server
 eureka:
   instance:
     hostname: 127.0.0.1
@@ -78,9 +76,7 @@ eureka:
 spring:
   profiles: peer3
 server:
-  port: 8761
-  servlet:
-    context-path: /eureka-server
+  port: 8763
 eureka:
   instance:
     hostname: 127.0.0.1

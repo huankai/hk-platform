@@ -1,5 +1,7 @@
 server:
   port: 8770
+  servlet:
+    context-path: /
 spring:
   main:
     banner-mode: 'off'
@@ -10,7 +12,7 @@ spring:
   cloud:
     config:
       server:
-        default-application-name: hk-config-server
+        default-application-name: ${spring.application.name}
         native:
           search-locations: "file:///E:/worksplace/hk/idea/gitlab/config"
 #        git:
@@ -28,8 +30,8 @@ spring:
     admin:
       client:
         username: user
-        password: 123456
-        url: "http://127.0.0.1:9999"
+        password: user#1350
+        url: "http://127.0.0.1:8780"
         instance:
           prefer-ip: false
           service-url: "http://127.0.0.1:${server.port}"

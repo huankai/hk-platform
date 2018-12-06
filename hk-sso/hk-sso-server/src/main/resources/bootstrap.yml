@@ -1,3 +1,6 @@
+server:
+  port: 7100
+
 spring:
   application:
     name: hk-sso-server

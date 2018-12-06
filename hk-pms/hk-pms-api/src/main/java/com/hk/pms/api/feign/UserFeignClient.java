@@ -1,6 +1,6 @@
 package com.hk.pms.api.feign;
 
-import com.hk.core.page.QueryModel;
+import com.hk.core.query.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.pms.api.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;

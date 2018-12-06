@@ -1,6 +1,6 @@
 package com.hk.solr.web.rest;
 
-import com.hk.core.page.QueryModel;
+import com.hk.core.query.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.solr.web.domain.Commodity;
 import com.hk.solr.web.service.CommodityService;

@@ -1,10 +1,10 @@
 package com.hk.app.config;
 
+import com.hk.commons.JsonResult;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import com.hk.commons.JsonResult;
 import com.hk.core.web.Webs;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

@@ -1,6 +1,6 @@
 package com.hk.pms.controller;
 
-import com.hk.core.page.QueryModel;
+import com.hk.core.query.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.commons.JsonResult;
 import com.hk.platform.commons.web.BaseController;
