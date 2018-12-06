@@ -4,7 +4,7 @@ server:
 #    basedir: /data/tomcat/tmp
 spring:
   application:
-    name: hk-fs
+    name: hk-fs-web
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true
