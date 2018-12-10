@@ -6,7 +6,7 @@ import com.hk.commons.poi.excel.model.ReadParam;
 import com.hk.commons.poi.excel.model.ReadResult;
 import com.hk.commons.poi.excel.model.WriteParam;
 import com.hk.commons.poi.excel.read.ReadableExcel;
-import com.hk.commons.poi.excel.read.SimpleSaxReadExcel;
+import com.hk.commons.poi.excel.read.SaxReadExcel;
 import com.hk.commons.poi.excel.write.WriteableExcel;
 import com.hk.commons.poi.excel.write.XSSFWriteableExcel;
 import com.hk.commons.util.BeanUtils;
@@ -97,7 +97,7 @@ public class CityServiceImpl extends JdbcServiceImpl<City, String> implements Ci
                 .sheetStartIndex(0)
                 .sheetMaxIndex(1)
                 .build();
-        ReadableExcel<CityExcelVo> readableExcel = new SimpleSaxReadExcel<>(readableParam);
+        ReadableExcel<CityExcelVo> readableExcel = new SaxReadExcel<>(readableParam);
         ReadResult<CityExcelVo> result = readableExcel.read(in);
         if (result.hasErrors()) {
             return result.getErrorLogList();

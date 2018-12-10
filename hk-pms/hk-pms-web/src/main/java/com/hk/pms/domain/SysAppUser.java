@@ -13,6 +13,7 @@ import org.springframework.data.relational.core.mapping.Table;
  * @author: kevin
  * @date: 2018-09-20 14:18
  */
+@SuppressWarnings("serial")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(value = "sys_app_user")

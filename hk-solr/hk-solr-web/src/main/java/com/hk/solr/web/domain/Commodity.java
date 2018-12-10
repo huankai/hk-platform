@@ -12,55 +12,56 @@ import java.util.List;
  * @author huangkai
  * @date 2018-12-2 21:32
  */
+@SuppressWarnings("serial")
 @Data
 @SolrDocument(collection = "commodity")
 public class Commodity implements Serializable {
 
-    /**
-     * 商品id
-     */
-    @Field
-    private String id;
+	/**
+	 * 商品id
+	 */
+	@Field
+	private String id;
 
-    /**
-     * 名称
-     */
-    @Field
-    private String name;
+	/**
+	 * 名称
+	 */
+	@Field
+	private String name;
 
-    /**
-     * 价格
-     */
-    @Field
-    private BigDecimal price;
+	/**
+	 * 价格
+	 */
+	@Field
+	private BigDecimal price;
 
-    /**
-     * 描述
-     */
-    @Field
-    private String description;
+	/**
+	 * 描述
+	 */
+	@Field
+	private String description;
 
-    /**
-     * 店铺id
-     */
-    @Field
-    private String storeId;
+	/**
+	 * 店铺id
+	 */
+	@Field
+	private String storeId;
 
-    /**
-     * 店铺名称
-     */
-    @Field
-    private String storeName;
+	/**
+	 * 店铺名称
+	 */
+	@Field
+	private String storeName;
 
-    /**
-     * 评论数
-     */
-    @Field
-    private Long commentCount;
+	/**
+	 * 评论数
+	 */
+	@Field
+	private Long commentCount;
 
-    /**
-     * 商品图片
-     */
-    @Field
-    private List<String> images;
+	/**
+	 * 商品图片
+	 */
+	@Field
+	private List<String> images;
 }

@@ -46,7 +46,7 @@ public class SysResourceController extends BaseController {
 
     @PostMapping("/disabled")
     @PreAuthorize("hasRole('admin')")
-    public JsonResult disabled(@RequestParam String id) {
+    public JsonResult<Void> disabled(@RequestParam String id) {
         resourceService.disable(id);
         return JsonResult.success();
     }

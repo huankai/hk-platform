@@ -6,7 +6,6 @@ import com.hk.sso.server.entity.SysApp;
 import com.hk.sso.server.repository.jdbc.SysAppRepository;
 import com.hk.sso.server.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @date: 2018-08-03 08:57
  */
 @Service
-@CacheConfig(cacheNames = "SysApp")
+//@CacheConfig(cacheNames = "SysApp")
 public class SysAppServiceImpl extends JdbcServiceImpl<SysApp, String> implements SysAppService {
 
     private final SysAppRepository appRepository;

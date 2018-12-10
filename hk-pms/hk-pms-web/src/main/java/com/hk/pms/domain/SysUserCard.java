@@ -18,6 +18,7 @@ import java.time.LocalDate;
  * @author: kevin
  * @date: 2018-08-31 11:40
  */
+@SuppressWarnings("serial")
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Table(value = "sys_user_card")

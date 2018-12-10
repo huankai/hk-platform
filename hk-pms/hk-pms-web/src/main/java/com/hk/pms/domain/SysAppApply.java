@@ -15,6 +15,7 @@ import java.time.LocalDate;
  * @author: kevin
  * @date: 2018-09-20 14:18
  */
+@SuppressWarnings("serial")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Table(value = "sys_app_apply")

@@ -12,6 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("serial")
 public class ResourceTree extends TreeNode {
 
     private String resourceUri;

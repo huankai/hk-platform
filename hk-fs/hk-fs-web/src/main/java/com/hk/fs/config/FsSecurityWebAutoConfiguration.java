@@ -1,21 +1,13 @@
 package com.hk.fs.config;
 
-import com.hk.commons.util.ArrayUtils;
-import com.hk.commons.util.CollectionUtils;
-import com.hk.commons.util.StringUtils;
-import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
-import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
-import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
+import java.util.Set;
+
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2SsoProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.access.expression.AbstractSecurityExpressionHandler;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,7 +17,14 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticat
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-import java.util.Set;
+import com.hk.commons.util.ArrayUtils;
+import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.StringUtils;
+import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
+import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
+import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
+import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 
 /**
  * <p>

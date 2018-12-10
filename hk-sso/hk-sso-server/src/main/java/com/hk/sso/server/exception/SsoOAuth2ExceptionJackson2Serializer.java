@@ -16,22 +16,25 @@ import java.io.IOException;
  * @author: kevin
  * @date: 2018-08-20 08:45
  */
+@SuppressWarnings("serial")
 public class SsoOAuth2ExceptionJackson2Serializer extends StdSerializer<SsoUnsupportedGrantTypeException> {
 
-    protected SsoOAuth2ExceptionJackson2Serializer() {
-        super(SsoUnsupportedGrantTypeException.class);
-    }
+	protected SsoOAuth2ExceptionJackson2Serializer() {
+		super(SsoUnsupportedGrantTypeException.class);
+	}
 
-    @Override
-    public void serialize(SsoUnsupportedGrantTypeException value, JsonGenerator jGen, SerializerProvider provider) throws IOException {
-        jGen.writeStartObject();
-        jGen.writeStringField("status", String.valueOf(EnumDisplayUtils.getDisplayOrder(JsonResult.Status.BAD_REQUEST)));
-        String errorMessage = value.getMessage();
-        String[] delimitArr = StringUtils.delimitedListToStringArray(errorMessage, ":");
-        if (ArrayUtils.isNotEmpty(delimitArr) && delimitArr.length == 2) {
-            errorMessage = delimitArr[1];
-        }
-        jGen.writeStringField("message", "不支持的认证类型：" + errorMessage);
-        jGen.writeEndObject();
-    }
+	@Override
+	public void serialize(SsoUnsupportedGrantTypeException value, JsonGenerator jGen, SerializerProvider provider)
+			throws IOException {
+		jGen.writeStartObject();
+		jGen.writeStringField("status",
+				String.valueOf(EnumDisplayUtils.getDisplayOrder(JsonResult.Status.BAD_REQUEST)));
+		String errorMessage = value.getMessage();
+		String[] delimitArr = StringUtils.delimitedListToStringArray(errorMessage, ":");
+		if (ArrayUtils.isNotEmpty(delimitArr) && delimitArr.length == 2) {
+			errorMessage = delimitArr[1];
+		}
+		jGen.writeStringField("message", "不支持的认证类型：" + errorMessage);
+		jGen.writeEndObject();
+	}
 }

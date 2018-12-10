@@ -1,13 +1,12 @@
 package com.hk.pms.kafka;
 
-import com.hk.pms.service.SysOrgDeptService;
-import lombok.Data;
+import java.time.LocalDateTime;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import lombok.Data;
 
 /**
  * @author: huangkai
@@ -50,8 +49,8 @@ public class TestListener {
 //    }
 
 
-    @Autowired
-    private SysOrgDeptService orgDeptService;
+//    @Autowired
+//    private SysOrgDeptService orgDeptService;
 
 //    @StreamListener(Sink.INPUT)
     public void transactionMessage(String message) {

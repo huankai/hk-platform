@@ -10,6 +10,7 @@ import java.util.List;
  * @date: 2018-08-29 08:50
  */
 @Data
+@SuppressWarnings("serial")
 public class TreeNode implements Serializable {
 
     /**

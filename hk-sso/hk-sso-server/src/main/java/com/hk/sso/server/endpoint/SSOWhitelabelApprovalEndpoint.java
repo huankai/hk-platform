@@ -1,13 +1,12 @@
 package com.hk.sso.server.endpoint;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
+
+import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * 替换默认的确认页，直接重定向到 /oauth/authorize
@@ -20,12 +19,12 @@ import java.util.Map;
 //@SessionAttributes("authorizationRequest")
 public class SSOWhitelabelApprovalEndpoint {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SSOWhitelabelApprovalEndpoint.class);
+//    private static final Logger LOGGER = LoggerFactory.getLogger(SSOWhitelabelApprovalEndpoint.class);
 
-    @RequestMapping("/oauth/confirm_access")
-    public void getAccessConfirmation(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@RequestMapping("/oauth/confirm_access")
+	public void getAccessConfirmation(Map<String, Object> model, HttpServletRequest request,
+			HttpServletResponse response) throws IOException {
 
-    }
-
+	}
 
 }

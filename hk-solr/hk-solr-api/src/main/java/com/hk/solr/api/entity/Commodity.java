@@ -10,6 +10,7 @@ import java.util.List;
  * @author huangkai
  * @date 2018-12-2 23:17
  */
+@SuppressWarnings("serial")
 @Data
 public class Commodity implements Serializable {
 

@@ -11,8 +11,9 @@ import java.time.*;
  * @author: sjq-278
  * @date: 2018-12-03 11:43
  */
+@SuppressWarnings("serial")
 @Data
-@SolrDocument(solrCoreName = "mysolr")
+@SolrDocument(collection = "mysolr")
 public class App implements Serializable {
 
     private String id;
