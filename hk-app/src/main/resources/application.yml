@@ -44,9 +44,9 @@ spring:
     name: druid
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: pms
-    password: pmsadmin
+    url: jdbc:mysql://192.168.64.150:3306/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
     druid:
       initial-size: 1
       max-active: 20
@@ -80,7 +80,7 @@ spring:
     host: 127.0.0.1
     port: 6379
     database: 0
-    password: 1234567
+    password:
     timeout: 2000ms
     jedis:
       pool:
@@ -97,18 +97,18 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://root:root123@127.0.0.1/eureka-server/eureka
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka-server/eureka
 
 security:
   oauth2:
     client:
       client-id: 7872c6f7f0cb41f0ba0f8aa060cb5c37
       client-secret: 7872c6f7f0cb41f0ba0f8aa060cb5c37
-      access-token-uri: http://127.0.0.1:8086/oauth2/oauth/token
-      user-authorization-uri: http://127.0.0.1:8086/oauth2/oauth/authorize
+      access-token-uri: http://127.0.0.1:7100/oauth2/oauth/token
+      user-authorization-uri: http://127.0.0.1:7100/oauth2/oauth/authorize
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8086/oauth2/oauth/token_key
+        key-uri: http://127.0.0.1:7100/oauth2/oauth/token_key
     sso:
       login-path: /login
 
@@ -117,7 +117,7 @@ hk:
   authentication:
     browser:
       logout-url: /logout
-      logout-success-url: http://127.0.0.1:8086/oauth2/logout?redirect_url=http://127.0.0.1:${server.port}${server.servlet.context-path}
+      logout-success-url: http://127.0.0.1:7100/oauth2/logout?redirect_url=http://127.0.0.1:${server.port}${server.servlet.context-path}
       # 配置 gateway host
       # gate-way-host: ${hk.gate-way-host}/${server.servlet.context-path}
 #      permit-all-matchers:

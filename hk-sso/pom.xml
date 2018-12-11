@@ -6,7 +6,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>hk-sso-server</module>
+        <module>hk-oauth2-server</module>
     </modules>
 
     <parent>

@@ -35,7 +35,7 @@
 	-  pms 统一用户与权限管理系统
 
 - hk-sso:
-	- hk-sso-server
+	- hk-oauth2-server
 		-  oauth2 单点登陆认证服务器
 
 - hk-gateway
