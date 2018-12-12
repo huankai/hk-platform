@@ -3,7 +3,7 @@
 
 <mapper namespace="com.hk.sso.server.mappers.SysRoleMapper">
 
-    <select id="findRoleByAppIdAndUserId" parameterType="string" resultType="com.hk.sso.server.entity.SysRole">
+    <select id="findRoleByAppIdAndUserId" parameterType="string" resultType="com.hk.oauth2.server.entity.SysRole">
         SELECT t1.*
         FROM sys_role t1
             JOIN sys_user_role t2 ON t1.id = t2.role_id

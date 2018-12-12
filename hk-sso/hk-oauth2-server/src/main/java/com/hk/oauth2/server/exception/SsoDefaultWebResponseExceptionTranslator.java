@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.provider.error.WebResponseExceptionTr
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 /**
