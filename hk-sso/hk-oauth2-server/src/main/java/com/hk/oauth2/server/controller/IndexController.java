@@ -1,8 +1,8 @@
 package com.hk.oauth2.server.controller;
 
+import com.hk.commons.util.ListResult;
 import com.hk.core.data.jdbc.query.CompositeCondition;
 import com.hk.core.data.jdbc.query.SimpleCondition;
-import com.hk.core.page.ListResult;
 import com.hk.core.query.Order;
 import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.service.SysAppService;

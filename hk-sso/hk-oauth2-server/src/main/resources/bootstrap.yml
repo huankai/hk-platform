@@ -1,9 +1,8 @@
 server:
   port: 7100
-
 spring:
   application:
-    name: hk-sso-server
+    name: hk-oauth2-server
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true

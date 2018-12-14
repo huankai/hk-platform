@@ -3,7 +3,6 @@ package com.hk.oauth2.server;
 import com.hk.commons.util.*;
 import com.hk.core.data.jdbc.query.CompositeCondition;
 import com.hk.core.data.jdbc.query.SimpleCondition;
-import com.hk.core.page.ListResult;
 import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.entity.SysOrg;
 import com.hk.oauth2.server.entity.SysOrgDept;
