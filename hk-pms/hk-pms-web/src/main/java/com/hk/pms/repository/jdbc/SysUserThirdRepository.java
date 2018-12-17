@@ -8,8 +8,8 @@ import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.query.Param;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 16:43
+ * @author kevin
+ * @date 2018-04-12 16:43
  */
 public interface SysUserThirdRepository extends StringIdJdbcRepository<SysUserThird> {
 

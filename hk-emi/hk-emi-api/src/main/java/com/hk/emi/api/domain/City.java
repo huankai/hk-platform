@@ -7,8 +7,8 @@ import java.io.Serializable;
 /**
  * City
  *
- * @author: kevin
- * @date: 2018-07-13 15:25
+ * @author kevin
+ * @date 2018-07-13 15:25
  */
 @Data
 @SuppressWarnings("serial")

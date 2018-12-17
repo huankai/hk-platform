@@ -5,8 +5,8 @@ import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.pms.domain.SysRolePermission;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 16:56
+ * @author kevin
+ * @date 2018-04-12 16:56
  */
 public interface SysRolePermissionService extends JdbcBaseService<SysRolePermission, String> {
 

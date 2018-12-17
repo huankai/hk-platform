@@ -14,8 +14,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 16:59
+ * @author kevin
+ * @date 2018-04-12 16:59
  */
 public interface SysRoleService extends JdbcBaseService<SysRole, String> {
 

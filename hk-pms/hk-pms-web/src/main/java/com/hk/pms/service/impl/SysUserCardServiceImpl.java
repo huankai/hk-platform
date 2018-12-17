@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018-08-31 11:42
+ * @author kevin
+ * @date 2018-08-31 11:42
  */
 @Service
 public class SysUserCardServiceImpl extends JdbcServiceImpl<SysUserCard, String> implements SysUserCardService {

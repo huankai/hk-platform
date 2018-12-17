@@ -9,8 +9,8 @@ import org.springframework.data.relational.core.mapping.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * @author: kevin
- * @date: 2018-08-28 16:34
+ * @author kevin
+ * @date 2018-08-28 16:34
  */
 @Data
 @Table(value = "sys_permission_resource")

@@ -10,8 +10,8 @@ import org.springframework.context.annotation.Bean;
 /**
  * Zuul
  *
- * @author: kevin
- * @date: 2018-07-13 11:56
+ * @author kevin
+ * @date 2018-07-13 11:56
  */
 @EnableZuulProxy
 @EnableDiscoveryClient

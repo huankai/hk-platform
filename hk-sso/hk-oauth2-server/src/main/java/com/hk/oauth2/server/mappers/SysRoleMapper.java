@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-02 14:27
+ * @author kevin
+ * @date 2018-08-02 14:27
  */
 @Mapper
 public interface SysRoleMapper {

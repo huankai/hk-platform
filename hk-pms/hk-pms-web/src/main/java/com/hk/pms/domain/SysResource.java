@@ -13,8 +13,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author: kevin
- * @date: 2018-08-28 16:35
+ * @author kevin
+ * @date 2018-08-28 16:35
  */
 @Data
 @Table(value = "sys_resource")

@@ -5,8 +5,8 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author: kevin
- * @date: 2018-07-13 15:30
+ * @author kevin
+ * @date 2018-07-13 15:30
  */
 @Data
 @SuppressWarnings("serial")

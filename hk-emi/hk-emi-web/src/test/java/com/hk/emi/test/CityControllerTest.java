@@ -9,8 +9,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 /**
- * @author: kevin
- * @date: 2018-09-14 15:42
+ * @author kevin
+ * @date 2018-09-14 15:42
  */
 @SpringBootTest(classes = EMIApplication.class)
 public class CityControllerTest extends LoginBaseTest {

@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author: kevin
- * @date: 2018-6-1 21:00
+ * @author kevin
+ * @date 2018-6-1 21:00
  */
 public abstract class BaseController {
 

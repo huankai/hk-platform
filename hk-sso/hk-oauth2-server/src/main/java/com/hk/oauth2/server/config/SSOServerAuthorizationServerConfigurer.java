@@ -38,8 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-07-16 10:53
+ * @author kevin
+ * @date 2018-07-16 10:53
  * @see org.springframework.boot.autoconfigure.security.oauth2.authserver.OAuth2AuthorizationServerConfiguration
  */
 @Configuration

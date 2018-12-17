@@ -6,8 +6,8 @@ import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * @author: kevin
- * @date: 2018-08-06 17:57
+ * @author kevin
+ * @date 2018-08-06 17:57
  */
 @EnableOAuth2Sso
 @EnableFeignClients(basePackages = "com.hk")

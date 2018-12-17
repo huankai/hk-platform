@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2017年12月1日下午2:20:44
+ * @author kevin
+ * @date 2017年12月1日下午2:20:44
  */
 public interface ChildCodeRepository extends StringIdJdbcRepository<ChildCode> {
 

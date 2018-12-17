@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-09-11 21:21
+ * @author kevin
+ * @date 2018-09-11 21:21
  */
 @Mapper
 public interface CityExcelVoMapper extends BaseMapper<CityExcelVo> {

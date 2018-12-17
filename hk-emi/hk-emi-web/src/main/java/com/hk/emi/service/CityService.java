@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * @author: kevin
+ * @author kevin
  */
 public interface CityService extends JdbcBaseService<City, String> {
 

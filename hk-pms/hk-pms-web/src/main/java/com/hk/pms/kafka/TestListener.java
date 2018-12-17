@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import lombok.Data;
 
 /**
- * @author: huangkai
- * @date: 2018-11-03 15:21
+ * @author huangkai
+ * @date 2018-11-03 15:21
  */
 @Component
 public class TestListener {

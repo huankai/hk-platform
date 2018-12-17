@@ -31,7 +31,7 @@ import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 /**
- * @author: kevin
+ * @author kevin
  */
 @Service
 @CacheConfig(cacheNames = "City")

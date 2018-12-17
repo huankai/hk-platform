@@ -11,8 +11,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author: sjq-278
- * @date: 2018-12-03 17:40
+ * @author sjq-278
+ * @date 2018-12-03 17:40
  */
 public abstract class BaseSolrServiceImpl<T extends Serializable, ID extends Serializable> implements BaseSolrService<T, ID> {
 

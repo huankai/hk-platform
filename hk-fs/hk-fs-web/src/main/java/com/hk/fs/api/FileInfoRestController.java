@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author: kevin
- * @date: 2018-09-13 13:31
+ * @author kevin
+ * @date 2018-09-13 13:31
  */
 @RestController
 @RequestMapping("/api/file")

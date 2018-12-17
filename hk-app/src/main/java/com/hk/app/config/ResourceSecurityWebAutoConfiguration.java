@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Set;
 
 /**
- * @author: kevin
- * @date: 2018-08-17 13:24
+ * @author kevin
+ * @date 2018-08-17 13:24
  */
 @Configuration
 @EnableResourceServer

@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 16:52
+ * @author kevin
+ * @date 2018-04-12 16:52
  */
 @Service
 public class SysOrgServiceImpl extends JdbcServiceImpl<SysOrg, String> implements SysOrgService {

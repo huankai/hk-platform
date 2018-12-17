@@ -1,8 +1,8 @@
 package com.hk.springcloud.gateway;
 
 /**
- * @author: huangkai
- * @date: 2018-9-23 22:37
+ * @author huangkai
+ * @date 2018-9-23 22:37
  */
 //@SpringBootApplication
 public class SpringGatewayApplication {

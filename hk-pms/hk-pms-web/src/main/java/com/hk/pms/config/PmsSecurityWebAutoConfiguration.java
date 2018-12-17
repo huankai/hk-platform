@@ -35,8 +35,8 @@ import java.util.Set;
 
 
 /**
- * @author: kevin
- * @date: 2018-08-13 13:29
+ * @author kevin
+ * @date 2018-08-13 13:29
  */
 @Order(1)
 @Configuration

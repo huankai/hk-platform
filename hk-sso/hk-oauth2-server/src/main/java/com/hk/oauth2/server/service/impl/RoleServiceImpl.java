@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-03 08:53
+ * @author kevin
+ * @date 2018-08-03 08:53
  */
 @Service
 public class RoleServiceImpl extends JdbcServiceImpl<SysRole, String> implements RoleService {

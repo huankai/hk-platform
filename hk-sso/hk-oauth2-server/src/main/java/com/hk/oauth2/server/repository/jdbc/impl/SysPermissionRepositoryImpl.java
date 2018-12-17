@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author: kevin
- * @date: 2018-09-19 10:29
+ * @author kevin
+ * @date 2018-09-19 10:29
  */
 public class SysPermissionRepositoryImpl extends JdbcDaoSupport implements CustomSysPermissionRepository {
 

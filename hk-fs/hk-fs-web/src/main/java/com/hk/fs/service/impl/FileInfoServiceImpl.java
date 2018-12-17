@@ -23,8 +23,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-08 17:46
+ * @author kevin
+ * @date 2018-08-08 17:46
  */
 @Service
 public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implements FileInfoService {

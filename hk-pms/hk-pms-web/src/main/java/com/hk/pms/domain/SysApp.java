@@ -14,8 +14,8 @@ import java.time.LocalDate;
 /**
  * App Entity
  *
- * @author: kevin
- * @date: 2018-04-12 11:24
+ * @author kevin
+ * @date 2018-04-12 11:24
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

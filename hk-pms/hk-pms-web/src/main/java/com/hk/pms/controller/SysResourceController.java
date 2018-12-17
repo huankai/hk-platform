@@ -12,8 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 15:36
+ * @author kevin
+ * @date 2018-08-29 15:36
  */
 @RestController
 @RequestMapping("/menu")

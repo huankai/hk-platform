@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-31 16:37
+ * @author kevin
+ * @date 2018-08-31 16:37
  */
 @Component
 public class SysCodeFeignClientFallback implements SysCodeFeignClient {

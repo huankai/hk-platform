@@ -19,8 +19,8 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 /**
  * 异常信息处理器
  *
- * @author: kevin
- * @date: 2018-08-20 08:55
+ * @author kevin
+ * @date 2018-08-20 08:55
  */
 public class SsoDefaultWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
 

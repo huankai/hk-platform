@@ -18,8 +18,8 @@ import java.util.List;
 /**
  * 首页
  *
- * @author: kevin
- * @date: 2018-08-06 10:38
+ * @author kevin
+ * @date 2018-08-06 10:38
  */
 @Controller
 public class IndexController extends BaseController {

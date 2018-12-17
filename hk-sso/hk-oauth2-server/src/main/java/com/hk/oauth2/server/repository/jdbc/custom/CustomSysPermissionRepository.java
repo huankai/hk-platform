@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author: kevin
- * @date: 2018-08-24 13:56
+ * @author kevin
+ * @date 2018-08-24 13:56
  */
 public interface CustomSysPermissionRepository {
 

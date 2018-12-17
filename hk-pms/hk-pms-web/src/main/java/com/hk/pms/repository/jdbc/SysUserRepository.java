@@ -7,8 +7,8 @@ import com.hk.pms.domain.SysUser;
 import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 16:42
+ * @author kevin
+ * @date 2018-04-12 16:42
  */
 public interface SysUserRepository extends StringIdJdbcRepository<SysUser> {
 

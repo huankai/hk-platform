@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-09 09:41
+ * @author kevin
+ * @date 2018-08-09 09:41
  */
 @RestController
 @RequestMapping("/api/city")

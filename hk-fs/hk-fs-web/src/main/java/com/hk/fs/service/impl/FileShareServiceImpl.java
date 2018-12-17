@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author: kevin
- * @date: 2018-08-08 17:46
+ * @author kevin
+ * @date 2018-08-08 17:46
  */
 @Service
 public class FileShareServiceImpl extends JpaServiceImpl<FileShare, String> implements FileShareService {

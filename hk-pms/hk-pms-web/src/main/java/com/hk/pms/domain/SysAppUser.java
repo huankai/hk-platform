@@ -10,8 +10,8 @@ import org.springframework.data.relational.core.mapping.Table;
 /**
  * App 管理人员
  *
- * @author: kevin
- * @date: 2018-09-20 14:18
+ * @author kevin
+ * @date 2018-09-20 14:18
  */
 @SuppressWarnings("serial")
 @Data

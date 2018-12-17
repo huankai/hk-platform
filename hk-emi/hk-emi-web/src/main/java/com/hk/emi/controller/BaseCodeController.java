@@ -14,8 +14,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author: kevin
- * @date: 2018-08-20 11:01
+ * @author kevin
+ * @date 2018-08-20 11:01
  */
 @Api(description = "父级字典管理")
 @RestController

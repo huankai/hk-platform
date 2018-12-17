@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author: kevin
- * @date: 2018-08-31 14:29
+ * @author kevin
+ * @date 2018-08-31 14:29
  */
 public class DictCodeServiceImpl implements DictService {
 

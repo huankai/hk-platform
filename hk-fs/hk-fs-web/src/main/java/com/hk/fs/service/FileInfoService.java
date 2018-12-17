@@ -11,8 +11,8 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 /**
- * @author: kevin
- * @date: 2018-08-08 17:46
+ * @author kevin
+ * @date 2018-08-08 17:46
  */
 public interface FileInfoService extends JpaBaseService<FileInfo, String> {
 

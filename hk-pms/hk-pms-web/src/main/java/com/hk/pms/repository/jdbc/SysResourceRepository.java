@@ -6,8 +6,8 @@ import com.hk.pms.domain.SysResource;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-28 16:37
+ * @author kevin
+ * @date 2018-08-28 16:37
  */
 public interface SysResourceRepository extends StringIdJdbcRepository<SysResource> {
 

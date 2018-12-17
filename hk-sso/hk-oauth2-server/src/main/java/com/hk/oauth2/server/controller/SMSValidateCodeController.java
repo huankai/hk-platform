@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 短信验证码
  *
- * @author: kevin
- * @date: 2018-08-06 16:05
+ * @author kevin
+ * @date 2018-08-06 16:05
  */
 @RestController
 public class SMSValidateCodeController {

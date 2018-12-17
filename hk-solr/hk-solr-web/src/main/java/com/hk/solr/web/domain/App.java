@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.time.*;
 
 /**
- * @author: sjq-278
- * @date: 2018-12-03 11:43
+ * @author sjq-278
+ * @date 2018-12-03 11:43
  */
 @SuppressWarnings("serial")
 @Data

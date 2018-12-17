@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 16:53
+ * @author kevin
+ * @date 2018-04-12 16:53
  */
 public interface SysPermissionService extends JdbcBaseService<SysPermission, String> {
 

@@ -7,8 +7,8 @@ import com.hk.pms.domain.SysApp;
 import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 11:25
+ * @author kevin
+ * @date 2018-04-12 11:25
  */
 public interface SysAppService extends JdbcBaseService<SysApp, String> {
 

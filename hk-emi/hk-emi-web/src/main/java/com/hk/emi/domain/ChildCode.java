@@ -12,8 +12,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * @author: kevin
- * @date: 2017-11-29 17:11
+ * @author kevin
+ * @date 2017-11-29 17:11
  */
 @Data
 @Table(value = "sys_child_code")

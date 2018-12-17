@@ -11,8 +11,8 @@ import org.springframework.jmx.support.RegistrationPolicy;
 /**
  * FDFS Configuration
  *
- * @author: kevin
- * @date: 2018-09-12 17:19
+ * @author kevin
+ * @date 2018-09-12 17:19
  */
 @Configuration
 @Import(FdfsClientConfig.class)

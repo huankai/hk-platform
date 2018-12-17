@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 消息发送测试类
  *
- * @author: huangkai
- * @date: 2018-11-05 10:12
+ * @author huangkai
+ * @date 2018-11-05 10:12
  */
 @RestController
 @RequestMapping("/kafka/message")

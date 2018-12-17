@@ -6,8 +6,8 @@ import org.springframework.cloud.client.SpringCloudApplication;
 /**
  * FS Start
  *
- * @author: kevin
- * @date: 2018-07-13 14:48
+ * @author kevin
+ * @date 2018-07-13 14:48
  */
 @SpringCloudApplication
 public class FSApplication {

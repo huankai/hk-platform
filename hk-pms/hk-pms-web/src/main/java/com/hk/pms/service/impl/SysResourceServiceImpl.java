@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * @author: kevin
- * @date: 2018-08-28 16:40
+ * @author kevin
+ * @date 2018-08-28 16:40
  */
 @Service
 public class SysResourceServiceImpl extends JdbcServiceImpl<SysResource, String> implements SysResourceService {

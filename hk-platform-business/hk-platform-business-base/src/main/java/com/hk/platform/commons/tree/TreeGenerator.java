@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 08:55
+ * @author kevin
+ * @date 2018-08-29 08:55
  */
 public interface TreeGenerator<T extends TreeNode> {
 

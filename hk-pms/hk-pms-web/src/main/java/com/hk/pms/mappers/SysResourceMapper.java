@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 09:19
+ * @author kevin
+ * @date 2018-08-29 09:19
  */
 @Mapper
 public interface SysResourceMapper {

@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-08 17:45
+ * @author kevin
+ * @date 2018-08-08 17:45
  */
 public interface FileInfoRepository extends StringIdJpaRepository<FileInfo> {
 

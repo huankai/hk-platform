@@ -1,8 +1,8 @@
 package com.hk.solr.api.feign;
 
 /**
- * @author: sjq-278
- * @date: 2018-12-04 16:46
+ * @author sjq-278
+ * @date 2018-12-04 16:46
  */
 interface SolrService {
 

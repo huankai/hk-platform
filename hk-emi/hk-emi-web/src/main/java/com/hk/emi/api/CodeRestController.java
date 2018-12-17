@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018-08-21 09:25
+ * @author kevin
+ * @date 2018-08-21 09:25
  */
 @RestController
 @RequestMapping("/api/code")

@@ -14,8 +14,8 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 11:42
+ * @author kevin
+ * @date 2018-04-12 11:42
  */
 @Data
 @Table(value = "sys_user")

@@ -8,7 +8,7 @@ import org.springframework.data.jdbc.repository.query.Query;
 import java.util.List;
 
 /**
- * @author: kevin
+ * @author kevin
  */
 public interface CityRepository extends StringIdJdbcRepository<City> {
 

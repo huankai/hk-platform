@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author: kevin
- * @date: 2018-08-03 08:59
+ * @author kevin
+ * @date 2018-08-03 08:59
  */
 @Service
 public class SysPermissionServiceImpl extends JdbcServiceImpl<SysPermission, String> implements SysPermissionService {

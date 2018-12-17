@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 系统配置
  *
- * @author: kevin
- * @date: 2018-09-20 20:05
+ * @author kevin
+ * @date 2018-09-20 20:05
  */
 @RestController
 @RequestMapping("/system/config")

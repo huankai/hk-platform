@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 09:08
+ * @author kevin
+ * @date 2018-08-29 09:08
  */
 @Data
 @Builder

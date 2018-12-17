@@ -9,8 +9,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018-07-25 08:49
+ * @author kevin
+ * @date 2018-07-25 08:49
  */
 public interface UserRepository extends StringIdJdbcRepository<SysUser> ,CustomUserRepository {
 

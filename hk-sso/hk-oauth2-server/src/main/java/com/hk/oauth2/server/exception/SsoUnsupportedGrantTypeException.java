@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.security.oauth2.common.exceptions.UnsupportedGrantTypeException;
 
 /**
- * @author: kevin
- * @date: 2018-08-20 08:44
+ * @author kevin
+ * @date 2018-08-20 08:44
  */
 @SuppressWarnings("serial")
 @JsonSerialize(using = SsoOAuth2ExceptionJackson2Serializer.class)

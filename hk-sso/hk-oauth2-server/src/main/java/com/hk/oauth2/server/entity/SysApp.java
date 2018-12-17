@@ -9,8 +9,8 @@ import org.springframework.data.relational.core.mapping.Table;
 import java.time.LocalDateTime;
 
 /**
- * @author: kevin
- * @date: 2018-08-02 16:51
+ * @author kevin
+ * @date 2018-08-02 16:51
  */
 @Data
 @Table(value = "sys_app")

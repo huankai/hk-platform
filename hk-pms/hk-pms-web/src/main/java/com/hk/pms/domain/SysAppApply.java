@@ -12,8 +12,8 @@ import java.time.LocalDate;
 /**
  * App 接入申请
  *
- * @author: kevin
- * @date: 2018-09-20 14:18
+ * @author kevin
+ * @date 2018-09-20 14:18
  */
 @SuppressWarnings("serial")
 @Data

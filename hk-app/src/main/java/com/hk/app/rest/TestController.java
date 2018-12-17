@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author: kally
- * @date: 2018年8月17日下午1:56:50
+ * @author kally
+ * @date 2018年8月17日下午1:56:50
  */
 @RestController
 public class TestController {

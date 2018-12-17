@@ -8,8 +8,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * @author: kevin
- * @date: 2018-08-14 16:19
+ * @author kevin
+ * @date 2018-08-14 16:19
  */
 @Api(value = "首页管理")
 @Controller

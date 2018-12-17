@@ -28,8 +28,8 @@ import java.util.stream.Collectors;
 /**
  * 返回用户附加信息
  *
- * @author: kevin
- * @date: 2018-08-01 14:44
+ * @author kevin
+ * @date 2018-08-01 14:44
  */
 @Component
 @Log4j2

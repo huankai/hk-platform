@@ -15,8 +15,8 @@ import java.time.LocalDate;
 /**
  * 用户身份证信息实体
  *
- * @author: kevin
- * @date: 2018-08-31 11:40
+ * @author kevin
+ * @date 2018-08-31 11:40
  */
 @SuppressWarnings("serial")
 @Data

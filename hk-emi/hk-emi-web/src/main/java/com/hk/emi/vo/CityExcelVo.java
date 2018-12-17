@@ -18,8 +18,8 @@ import lombok.Data;
 /**
  * 城市导入Vo
  *
- * @author: kevin
- * @date: 2018-04-13 16:34
+ * @author kevin
+ * @date 2018-04-13 16:34
  */
 @Data
 @SuppressWarnings("serial")

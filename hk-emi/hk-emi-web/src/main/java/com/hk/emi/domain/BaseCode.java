@@ -12,8 +12,8 @@ import javax.validation.constraints.NotEmpty;
 /**
  * 字典
  *
- * @author: kevin
- * @date: 2017-11-29 16:27
+ * @author kevin
+ * @date 2017-11-29 16:27
  */
 @Data
 @Table(value = "sys_base_code")

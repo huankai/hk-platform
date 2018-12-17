@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author: sjq-278
- * @date: 2018-12-03 17:37
+ * @author sjq-278
+ * @date 2018-12-03 17:37
  */
 public interface BaseSolrService<T extends Serializable, ID extends Serializable> {
 

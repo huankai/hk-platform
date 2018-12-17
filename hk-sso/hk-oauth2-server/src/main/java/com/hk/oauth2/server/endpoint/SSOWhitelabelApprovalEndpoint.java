@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 /**
  * 替换默认的确认页，直接重定向到 /oauth/authorize
  *
- * @author: kevin
- * @date: 2018-08-03 10:23
+ * @author kevin
+ * @date 2018-08-03 10:23
  * @see org.springframework.security.oauth2.provider.endpoint.WhitelabelApprovalEndpoint
  */
 //@RestController

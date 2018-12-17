@@ -9,8 +9,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-28 16:40
+ * @author kevin
+ * @date 2018-08-28 16:40
  */
 public interface SysResourceService extends JdbcBaseService<SysResource, String> {
 

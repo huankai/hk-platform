@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * EMI Start
  *
- * @author: kevin
- * @date: 2018-07-13 14:06
+ * @author kevin
+ * @date 2018-07-13 14:06
  */
 @SpringCloudApplication
 @EnableBinding(Sink.class)

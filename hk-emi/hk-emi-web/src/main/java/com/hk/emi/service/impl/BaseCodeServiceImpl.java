@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018年1月24日下午1:46:36
+ * @author kevin
+ * @date 2018年1月24日下午1:46:36
  */
 @Service
 @CacheConfig(cacheNames = {"BaseCode"})

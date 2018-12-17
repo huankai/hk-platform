@@ -6,8 +6,8 @@ import com.hk.oauth2.server.entity.SysUser;
 import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018-07-31 12:52
+ * @author kevin
+ * @date 2018-07-31 12:52
  */
 public interface UserService extends JdbcBaseService<SysUser, String> {
 

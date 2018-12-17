@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 17:05
+ * @author kevin
+ * @date 2018-04-12 17:05
  */
 @Service
 public class SysRolePermissionServiceImpl extends JdbcServiceImpl<SysRolePermission, String> implements SysRolePermissionService {

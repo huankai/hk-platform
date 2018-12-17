@@ -31,8 +31,8 @@ import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuth
  * Order 的值需要注意配置
  * </p>
  *
- * @author: kevin
- * @date: 2018-08-13 13:29
+ * @author kevin
+ * @date 2018-08-13 13:29
  */
 @Order(1)
 @Configuration

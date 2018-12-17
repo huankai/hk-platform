@@ -16,8 +16,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @author: kevin
- * @date: 2018-09-14 17:03
+ * @author kevin
+ * @date 2018-09-14 17:03
  */
 @SpringBootTest(classes = FSApplication.class)
 public class FileUploadTest extends LoginBaseTest {

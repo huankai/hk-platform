@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-07-17 16:49
+ * @author kevin
+ * @date 2018-07-17 16:49
  */
 @Api(description = "城市管理")
 @RestController

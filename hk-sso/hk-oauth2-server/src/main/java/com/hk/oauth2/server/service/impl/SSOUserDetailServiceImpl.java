@@ -14,8 +14,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 /**
- * @author: kevin
- * @date: 2018-07-31 12:56
+ * @author kevin
+ * @date 2018-07-31 12:56
  */
 @Component
 public class SSOUserDetailServiceImpl implements UserDetailClientService {

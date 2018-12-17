@@ -30,8 +30,8 @@ import java.util.Optional;
 /**
  * SSO Start
  *
- * @author: kevin
- * @date: 2018-07-13 11:50
+ * @author kevin
+ * @date 2018-07-13 11:50
  */
 @SpringBootApplication
 @EnableEurekaClient

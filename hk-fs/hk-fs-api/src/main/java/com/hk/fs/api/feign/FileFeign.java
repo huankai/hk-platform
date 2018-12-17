@@ -9,8 +9,8 @@ import java.io.File;
 import java.io.InputStream;
 
 /**
- * @author: kevin
- * @date: 2018-09-13 13:34
+ * @author kevin
+ * @date 2018-09-13 13:34
  */
 @FeignClient(name = FileService.SERVICE_NAME, path = FileService.CONTEXT_PATH)
 @RequestMapping("/api/file")

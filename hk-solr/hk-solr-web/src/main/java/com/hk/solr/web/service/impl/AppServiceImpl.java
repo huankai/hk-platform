@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author: sjq-278
- * @date: 2018-12-03 11:44
+ * @author sjq-278
+ * @date 2018-12-03 11:44
  */
 @Service
 public class AppServiceImpl extends BaseSolrServiceImpl<App, String> implements AppService {

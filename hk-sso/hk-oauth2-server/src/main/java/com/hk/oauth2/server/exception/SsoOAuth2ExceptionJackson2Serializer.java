@@ -13,8 +13,8 @@ import java.io.IOException;
 /**
  * 异常信息序列化
  *
- * @author: kevin
- * @date: 2018-08-20 08:45
+ * @author kevin
+ * @date 2018-08-20 08:45
  */
 @SuppressWarnings("serial")
 public class SsoOAuth2ExceptionJackson2Serializer extends StdSerializer<SsoUnsupportedGrantTypeException> {

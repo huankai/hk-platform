@@ -8,8 +8,8 @@ import org.springframework.data.relational.core.mapping.Table;
 
 
 /**
- * @author: kevin
- * @date: 2018-07-31 12:45
+ * @author kevin
+ * @date 2018-07-31 12:45
  */
 @Data
 @Table(value = "sys_role")

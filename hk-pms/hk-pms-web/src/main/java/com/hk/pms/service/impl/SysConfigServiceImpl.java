@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author: kevin
- * @date: 2018-09-20 20:07
+ * @author kevin
+ * @date 2018-09-20 20:07
  */
 @Service
 public class SysConfigServiceImpl extends JdbcServiceImpl<SysConfig, String> implements SysConfigService {

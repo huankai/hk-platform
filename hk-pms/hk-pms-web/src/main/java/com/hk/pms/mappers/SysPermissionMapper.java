@@ -8,8 +8,8 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 14:23
+ * @author kevin
+ * @date 2018-08-29 14:23
  */
 @Mapper
 public interface SysPermissionMapper extends BaseMapper<SysPermission> {

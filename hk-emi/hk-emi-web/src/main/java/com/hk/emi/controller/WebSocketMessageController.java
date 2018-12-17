@@ -29,8 +29,8 @@ import java.util.Map;
 /**
  * webSocket Test
  *
- * @author: kevin
- * @date: 2018-09-21 14:26
+ * @author kevin
+ * @date 2018-09-21 14:26
  */
 @Controller
 public class WebSocketMessageController extends BaseController {

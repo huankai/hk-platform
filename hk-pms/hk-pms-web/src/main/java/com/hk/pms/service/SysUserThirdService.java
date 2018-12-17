@@ -5,8 +5,8 @@ import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.pms.domain.SysUserThird;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 17:03
+ * @author kevin
+ * @date 2018-04-12 17:03
  */
 public interface SysUserThirdService extends JdbcBaseService<SysUserThird, String> {
 

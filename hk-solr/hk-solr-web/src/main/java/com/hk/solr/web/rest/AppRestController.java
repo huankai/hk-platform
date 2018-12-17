@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * @author: sjq-278
- * @date: 2018-12-03 11:45
+ * @author sjq-278
+ * @date 2018-12-03 11:45
  */
 @RestController
 @RequestMapping("/app")

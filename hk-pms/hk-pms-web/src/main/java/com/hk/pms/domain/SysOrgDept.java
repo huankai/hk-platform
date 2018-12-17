@@ -10,8 +10,8 @@ import org.springframework.data.relational.core.mapping.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
- * @author: kevin
- * @date: 2018-04-12 11:48
+ * @author kevin
+ * @date 2018-04-12 11:48
  */
 @Table(value = "sys_org_dept")
 @Data

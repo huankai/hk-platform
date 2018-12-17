@@ -6,8 +6,8 @@ import com.hk.emi.domain.ChildCode;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018年1月24日下午1:44:33
+ * @author kevin
+ * @date 2018年1月24日下午1:44:33
  */
 public interface ChildCodeService extends JdbcBaseService<ChildCode, String> {
 

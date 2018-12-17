@@ -7,8 +7,8 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 /**
- * @author: kevin
- * @date: 2018-10-25 15:08
+ * @author kevin
+ * @date 2018-10-25 15:08
  */
 @SuppressWarnings("serial")
 @Data
