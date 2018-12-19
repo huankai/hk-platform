@@ -1,19 +1,16 @@
 package com.hk.emi.vo;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
-import com.hk.commons.poi.excel.annotations.ReadExcel;
-import com.hk.commons.poi.excel.annotations.WriteExcel;
+import com.hk.commons.poi.excel.annotations.ReadExcelField;
+import com.hk.commons.poi.excel.annotations.WriteExcelField;
 import com.hk.commons.util.StringUtils;
 import com.hk.commons.validator.constraints.EnumDict;
 import com.hk.emi.domain.City;
-
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 城市导入Vo
@@ -28,14 +25,14 @@ public class CityExcelVo implements Serializable {
     /**
      * 上级名称
      */
-    @ReadExcel(start = 0)
+    @ReadExcelField(start = 0)
     private String parentName;
 
     /**
      * 行政代码
      */
-    @ReadExcel(start = 1)
-    @WriteExcel(index = 0, value = "行政代码")
+    @ReadExcelField(start = 1)
+    @WriteExcelField(index = 0, value = "行政代码")
     @NotEmpty
     @Length(max = 20)
     private String code;
@@ -43,8 +40,8 @@ public class CityExcelVo implements Serializable {
     /**
      * 全称
      */
-    @ReadExcel(start = 2)
-    @WriteExcel(index = 1, value = "全称")
+    @ReadExcelField(start = 2)
+    @WriteExcelField(index = 1, value = "全称")
     @NotEmpty
     @Length(max = 50)
     private String fullName;
@@ -52,21 +49,21 @@ public class CityExcelVo implements Serializable {
     /**
      * 简称
      */
-    @ReadExcel(start = 3)
-    @WriteExcel(index = 2, value = "简称")
+    @ReadExcelField(start = 3)
+    @WriteExcelField(index = 2, value = "简称")
     private String shortName;
 
     /**
      * 邮编
      */
-    @ReadExcel(start = 4)
-    @WriteExcel(index = 3, value = "邮政编码")
+    @ReadExcelField(start = 4)
+    @WriteExcelField(index = 3, value = "邮政编码")
     private String postOffice;
 
     /**
      * 城市类型
      */
-    @ReadExcel(start = 5)
+    @ReadExcelField(start = 5)
     @NotNull
     @EnumDict(codeId = City.CITY_TYPE_DICT_ID)
     private Byte cityType;
@@ -74,7 +71,7 @@ public class CityExcelVo implements Serializable {
     /**
      * 描述
      */
-    @ReadExcel(start = 6)
+    @ReadExcelField(start = 6)
     private String description;
 
     /**
