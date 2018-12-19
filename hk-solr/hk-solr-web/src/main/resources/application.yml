@@ -36,7 +36,7 @@ eureka:
     prefer-ip-address: false
   client:
     service-url:
-      defaultZone: http://root:root123@47.107.245.220/eureka-server/eureka
+      defaultZone: http://root:root123@127.0.0.1：8761/eureka-server/eureka
 
 logging:
   level:
