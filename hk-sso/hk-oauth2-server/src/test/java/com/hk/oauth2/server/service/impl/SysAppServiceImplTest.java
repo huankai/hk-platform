@@ -162,14 +162,14 @@ public class SysAppServiceImplTest extends BaseTest {
 
     @Test
     public void testGetById() {
-        System.out.println(JsonUtils.serialize(sysAppService.getById("37003dce5f854bc18bf47ea713b7976c")));
+        System.out.println(JsonUtils.serialize(sysAppService.getById("4c36393dfb56420ba9cc7d34a1d3c196"), true));
     }
 
     @Test
     public void testGetOneT() {
         SysApp sysApp = new SysApp();
         sysApp.setLocalApp(false);
-        System.out.println(JsonUtils.serialize(sysAppService.getOne(sysApp)));
+        System.out.println(JsonUtils.serialize(sysAppService.getOne(sysApp), true));
 
     }
 
