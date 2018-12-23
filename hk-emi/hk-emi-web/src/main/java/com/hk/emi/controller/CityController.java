@@ -25,7 +25,7 @@ import java.util.List;
  */
 @Api(description = "城市管理")
 @RestController
-@RequestMapping(path = "city")
+@RequestMapping(path = "/city")
 public class CityController extends BaseController {
 
     private final CityService cityService;

@@ -6,7 +6,7 @@ package com.hk.emi.api.feign;
  */
 interface EmiService {
 
-    String SERVICE_NAME = "hk-emi";
+    String SERVICE_NAME = "hk-emi-web";
 
     String CONTEXT_PATH = "/";
 
