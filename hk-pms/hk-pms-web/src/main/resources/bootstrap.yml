@@ -6,6 +6,11 @@ spring:
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true
+  zipkin:
+    base-url: http://127.0.0.1:9411
+  sleuth:
+    sampler:
+      percentage: 1.0
   cloud:
 ########################################################################### spring cloud config 配置
     config:

@@ -1,58 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    status 			: 是否记录log4j2本身的event信息，默认是OFF
-    monitorInterval : log4j2每隔1800秒（半小时），自动监控该配置文件是否有变化，如果变化，则自动根据文件内容重新配置
- -->
 <Configuration status="off" monitorInterval="1800">
-    <!-- 配置一些属性  -->
     <properties>
-        <property name="LOG_HOME">${sys:user.name}/project</property>
+        <property name="LOG_HOME">${sys:user.home}/logs/emi-web</property>
     </properties>
     <Appenders>
-        <!--
-             每个appender子元素分别定义不同的日志输出目的地和样式
-                Log4j提供的appender有以下几种:
-                    ConsoleAppender(控制台) ：设置控制台打印它也会将要打印到文件或者流格式的信息打印到控制台中
-                    FileAppender(文件) :
-                    DailyRollingFileAppender(按照设定的时间产生一个日志文件):
-                    RollingFileAppender(文件大小到达指定尺寸的时候产生一个新的文件):
-                    WriterAppender(将日志信息以流格式发送到任意指定的地方):
-          -->
-        <!--
-             Console(控制能输出):
-                 name 	:提供给Logger指定不同的输出方式名
-                 target  :指定输出方法: SYSTEM_ERR或者 System.err为System.err.println();   System.out为System.err.println();
-         -->
         <Console name="console" target="SYSTEM_OUT">
-            <!--log4j 有四种布局方式分别为下面几种  -->
-            <!--PatternLayout可以灵活地指定布局模式 -->
-            <!--org.apache.log4j.HTMLLayout（以HTML表格形式布局），-->
-            <!--org.apache.log4j.PatternLayout（可以灵活地指定布局模式），-->
-            <!--org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串），-->
-            <!--org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）  -->
-            <!--格式说明pattern中的参数都以%开始，后面不同的参数代表不同的格式化信息（参数按字母表顺序列出）：  -->
-            <!--%c 输出所属类的全名，可在修改为 %d{Num} ,Num类名输出的维（如："org.apache.elathen.ClassName",%C{2}将输出elathen.ClassName） -->
-            <!--%d 输出日志时间其格式为 %d{yyyy-MM-dd HH:mm:ss,SSS}，可指定格式 如 %d{HH:mm:ss}  -->
-            <!--%l 输出日志事件发生位置，包括类目名、发生线程，在代码中的行数  -->
-            <!--%n 换行符  -->
-            <!--%m 输出代码指定信息，如info(“message”),输出message  -->
-            <!--%p 输出优先级，即 FATAL ,ERROR 等  -->
-            <!--%r 输出从启动到显示该log信息所耗费的毫秒数  -->
-            <!--%t 输出产生该日志事件的线程名 -->
-            <PatternLayout pattern="%d %-5level %class{36} %M() @%L - %msg%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %c{1.} %M() @%L - %msg%n"/>
         </Console>
-
-        <!--RollingFile 表示以文件方式记录  -->
-        <!--  filePattern当log文件超出SizeBasedTriggeringPolicy size的范围时 就将其压缩进D:/logs/年-用/log-月-日-年-序列号.log.gz压缩包中-->
         <RollingFile name="myRollingFile" fileName="${LOG_HOME}/logs/emi.log"
                      filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/log-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %class{36} %L %M - %msg%xEx%n"/>
             <Policies>
-                <!-- 这一触发策略不需要参数设置，它会自行判断log文件的创建时间和JVM的启动时间。若log文件的创建时间早于JVM的启动时间，则将原来的log文件封存，然后创建一个新的空白log文件 -->
-                <!--<OnStartupTriggeringPolicy/>-->
-                <!-- 基于时间的触发策略。该策略主要是完成周期性的log文件封存工作 -->
-                <!--<TimeBasedTriggeringPolicy/>-->
-                <!-- 这一触发策略基于对log文件大小的判断。当log文件大于设定的阈值时，将触发封存动作。200MB的信息压缩后其实很小，因为日志文件有大量的重复信息所以压缩后的大小会变得很小方便存储 -->
                 <SizeBasedTriggeringPolicy size="200MB"/>
             </Policies>
         </RollingFile>
@@ -63,11 +21,6 @@
             <AppenderRef ref="console"/>
             <AppenderRef ref="myRollingFile"/>
         </Root>
-        <!--
-            additivity:
-                它是 子Logger 是否继承 父Logger 的 输出源（appender） 的标志位。具体说，默认情况下子Logger会继承父Logger的appender，也就是说子Logger会在父Logger的appender里输出。
-                若是additivity设为false，则子Logger只会在自己的appender里输出，而不会在父Logger的appender里输出
-         -->
         <Logger name="com.hk" additivity="false" level="INFO"/>
         <Logger name="org.springframework.security" additivity="true" level="ERROR"/>
         <Logger name="org.springframework.jdbc.core.JdbcTemplate" additivity="true" level="DEBUG"/>

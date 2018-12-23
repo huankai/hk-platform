@@ -1,0 +1,28 @@
+server:
+  port: 9411
+spring:
+  application:
+    name: hk-zipkin
+  main:
+    banner-mode: 'off'
+    allow-bean-definition-overriding: true
+  zipkin:
+    base-url: http://127.0.0.1:9411
+  sleuth:
+    sampler:
+      percentage: 1.0
+management:
+  metrics:
+    web:
+      server:
+        auto-time-requests: false
+################################################################### eureka
+eureka:
+  instance:
+    hostname: 127.0.0.1
+    prefer-ip-address: false
+  client:
+    service-url:
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka-server/eureka
+logging:
+  config: classpath:log4j2.xml
