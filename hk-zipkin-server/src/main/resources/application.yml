@@ -2,15 +2,16 @@ server:
   port: 9411
 spring:
   application:
-    name: hk-zipkin
+    name: hk-zipkin-server
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true
-  zipkin:
-    base-url: http://127.0.0.1:9411
   sleuth:
-    sampler:
-      percentage: 1.0
+    enabled: false
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/hk_zipkin?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: root
 management:
   metrics:
     web:

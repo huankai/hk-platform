@@ -1,5 +1,3 @@
-server:
-  port: 7100
 spring:
   application:
     name: hk-oauth2-server

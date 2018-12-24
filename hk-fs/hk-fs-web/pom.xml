@@ -13,6 +13,10 @@
         <version>2.1.0.RELEASE</version>
     </parent>
 
+    <properties>
+        <thumbnailator.version>0.4.8</thumbnailator.version>
+    </properties>
+
     <dependencies>
         <!-- 注意，此包要放在前面，因为依赖了 guava包，
            其它包也许也依赖了 guava包，如果版本不一样，在启动时会报错，
@@ -22,6 +26,14 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-swagger-ui</artifactId>
         </dependency>
+
+        <!-- 图片压缩-->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>${thumbnailator.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.hk</groupId>
@@ -125,9 +137,9 @@
         </dependency>
 
         <dependency>
-        	<groupId>org.springframework.boot</groupId>
-        	<artifactId>spring-boot-configuration-processor</artifactId>
-        	<optional>true</optional>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

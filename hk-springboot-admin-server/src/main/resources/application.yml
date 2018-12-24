@@ -23,6 +23,4 @@ eureka:
     service-url:
       defaultZone: http://root:root123@127.0.0.1:8761/eureka-server/eureka
 logging:
-  level:
-    root: error
-    com.hk.springboot.admin: info
+  config: 'classpath:log4j2.xml'

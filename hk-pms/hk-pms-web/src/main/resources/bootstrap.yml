@@ -1,22 +1,13 @@
-server:
-  port: 7110
 spring:
   application:
     name: hk-pms-web
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true
-  zipkin:
-    base-url: http://127.0.0.1:9411
-  sleuth:
-    sampler:
-      percentage: 1.0
   cloud:
 ########################################################################### spring cloud config 配置
     config:
       label: "2.1.0.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
-logging:
-  config: classpath:log4j2.xml
 

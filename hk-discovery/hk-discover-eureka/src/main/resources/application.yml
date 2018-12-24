@@ -29,9 +29,7 @@ spring:
       filter:
         enabled: false
 logging:
-  level:
-    root: error
-    com.hk.discover.eureka: info
+  config: 'classpath:log4j2.xml'
 
 ---
 spring:
