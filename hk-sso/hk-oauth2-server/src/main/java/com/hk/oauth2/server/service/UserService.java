@@ -19,5 +19,11 @@ public interface UserService extends JdbcBaseService<SysUser, String> {
      */
     Optional<SysUser> findByLoginName(String loginName);
 
+    /**
+     * 重置用户密码
+     *
+     * @param userId  用户id
+     * @param newPass 新密码
+     */
     void resetPassword(String userId, String newPass);
 }

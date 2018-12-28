@@ -1,7 +1,3 @@
-server:
-  port: 7130
-#  tomcat:
-#    basedir: /data/tomcat/tmp
 spring:
   application:
     name: hk-fs-web

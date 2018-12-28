@@ -3,6 +3,7 @@ package com.hk.app.config;
 import com.hk.commons.JsonResult;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.SpringContextHolder;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.web.Webs;
@@ -38,7 +39,8 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
         OAuth2AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
         authenticationEntryPoint.setExceptionRenderer((responseEntity, webRequest) -> {
             if (null != webRequest && webRequest.getResponse() != null) {
-                Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED, JsonResult.unauthorized("用户未认证！"));
+                Webs.writeJson(webRequest.getResponse(), HttpServletResponse.SC_UNAUTHORIZED,
+                        JsonResult.unauthorized(SpringContextHolder.getMessage("operation.unauthorized")));
             }
         });
         resources.authenticationEntryPoint(authenticationEntryPoint);

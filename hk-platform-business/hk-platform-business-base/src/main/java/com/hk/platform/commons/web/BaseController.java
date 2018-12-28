@@ -42,6 +42,6 @@ public abstract class BaseController {
      * @return
      */
     protected final String getMessage(String code, String defaultMessage, Object... args) {
-        return SpringContextHolder.getMessage(code, defaultMessage, args);
+        return SpringContextHolder.getMessageWithDefault(code, defaultMessage, args);
     }
 }

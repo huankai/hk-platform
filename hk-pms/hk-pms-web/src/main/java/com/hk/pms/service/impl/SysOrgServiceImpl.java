@@ -43,7 +43,7 @@ public class SysOrgServiceImpl extends EnableJdbcCacheServiceImpl<SysOrg, String
         SysOrg sysOrg = getById(org.getId());
         UserPrincipal principal = getPrincipal();
         if (!principal.isAdministrator() && StringUtils.notEquals(principal.getUserId(), sysOrg.getResponsibleId())) {
-            throw new ServiceException("非管理员不能修改");
+            throw new ServiceException(getMessage("no.admin.disable.operation"));
         }
         return super.updateById(org);
     }

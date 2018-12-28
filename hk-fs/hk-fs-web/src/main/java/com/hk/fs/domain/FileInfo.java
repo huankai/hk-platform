@@ -1,11 +1,8 @@
 package com.hk.fs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.FileUtils;
-import com.hk.commons.util.SpringContextHolder;
 import com.hk.core.data.jpa.domain.AbstractAuditable;
-import com.hk.fs.config.FileServer;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -84,18 +81,7 @@ public class FileInfo extends AbstractAuditable {
      */
     @JsonIgnore
     public boolean isImage() {
-        return ArrayUtils.contains(FileUtils.IMAGE_EXT, extension.toLowerCase());
-    }
-
-    /**
-     * 获取文件全路径
-     *
-     * @return
-     */
-    @JsonIgnore
-    public String getFullPath() {
-        String fileUrl = SpringContextHolder.getBean(FileServer.class).getFileUrl();
-        return String.format("%s/%s/%s", fileUrl, groupName, filePath);
+        return FileUtils.isImage(fileName);
     }
 
 }

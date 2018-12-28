@@ -21,12 +21,6 @@
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-authentication-api</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-web</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: hk-pms-web
+    name: hk-app
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true
@@ -10,3 +10,9 @@ spring:
       label: "2.1.0.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
+#security:
+#  oauth2:
+#    client:
+#      use-current-uri: true
+#      user-authorization-uri: http://127.0.0.1:7150/login
+

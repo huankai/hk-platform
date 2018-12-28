@@ -2,7 +2,7 @@ package com.hk.oauth2.server.controller;
 
 import com.hk.core.authentication.api.SecurityContextUtils;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
-    /**
-     * @see AuthenticationProperties.SMSProperties#enabled
-     */
-    @Value("${hk.authentication.sms.enabled:false}")
-    private boolean smsEnabled;
+    @Autowired
+    private AuthenticationProperties authenticationProperties;
 
     /**
      * 登陆
@@ -33,10 +30,9 @@ public class LoginController {
         if (SecurityContextUtils.isAuthenticated()) {
             return "redirect:/";
         }
-        modelMap.put("smsEnabled", smsEnabled);
-        return "login";
+        modelMap.put("smsEnabled", authenticationProperties.getSms().isEnabled());
+           return "login";
     }
-
 
 
 }

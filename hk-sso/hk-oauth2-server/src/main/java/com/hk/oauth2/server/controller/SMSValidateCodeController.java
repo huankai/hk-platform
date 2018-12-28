@@ -2,6 +2,7 @@ package com.hk.oauth2.server.controller;
 
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
 import com.hk.commons.JsonResult;
+import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2018-08-06 16:05
  */
 @RestController
-public class SMSValidateCodeController {
+public class SMSValidateCodeController extends BaseController {
 
     @Autowired(required = false)
     @Qualifier("smsValidateCodeProcessor")
@@ -32,7 +33,7 @@ public class SMSValidateCodeController {
     @GetMapping("/sms/sender")
     public JsonResult<String> createSmsCode(HttpServletRequest request) throws Exception {
         if (null == validateCodeProcessor) {
-            throw new UnsupportedOperationException("系统未开启短信验证码登陆,请与管理员联系!");
+            throw new UnsupportedOperationException(getMessage("sms.disable.message"));
         }
         String code = validateCodeProcessor.create(new ServletWebRequest(request));
         return new JsonResult<>(code);

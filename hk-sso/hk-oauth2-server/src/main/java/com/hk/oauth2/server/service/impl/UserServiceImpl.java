@@ -1,5 +1,6 @@
 package com.hk.oauth2.server.service.impl;
 
+import com.hk.commons.util.SpringContextHolder;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.oauth2.server.entity.SysUser;
@@ -57,28 +58,28 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
 
     @Override
     public SysUser updateById(SysUser sysUser) {
-        throw new UnsupportedOperationException("不支持的操作！");
+        throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
     }
 
 
     @Override
     public SysUser insert(SysUser sysUser) {
-        throw new UnsupportedOperationException("不支持的操作！");
+        throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
     }
 
     @Override
     public void deleteById(String s) {
-        throw new UnsupportedOperationException("不支持的操作！");
+        throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
     }
 
     @Override
     public void delete(Iterable<SysUser> entities) {
-        throw new UnsupportedOperationException("不支持的操作！");
+        throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
     }
 
     @Override
     public void deleteByIds(Iterable<String> strings) {
-        throw new UnsupportedOperationException("不支持的操作！");
+        throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
 
     }
 }

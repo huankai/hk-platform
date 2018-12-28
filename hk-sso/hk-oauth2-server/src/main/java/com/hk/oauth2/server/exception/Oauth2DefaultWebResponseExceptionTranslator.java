@@ -1,5 +1,6 @@
 package com.hk.oauth2.server.exception;
 
+import com.hk.commons.util.SpringContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,13 +8,10 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
-import org.springframework.security.oauth2.common.exceptions.UnsupportedGrantTypeException;
+import org.springframework.security.oauth2.common.exceptions.*;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-
 
 
 /**
@@ -22,13 +20,13 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  * @author kevin
  * @date 2018-08-20 08:55
  */
-public class SsoDefaultWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+public class Oauth2DefaultWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
 
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
     public ResponseEntity<OAuth2Exception> translate(Exception e) {
-        if (e instanceof UnsupportedGrantTypeException) {//自定义异常
-            return handleOAuth2Exception(new SsoUnsupportedGrantTypeException(e.getMessage(), e));
+        if (e instanceof UnsupportedGrantTypeException || e instanceof InvalidClientException) {//自定义异常
+            return handleOAuth2Exception(new Oauth2UnsupportedGrantTypeException(e.getMessage(), e));
         }
         // Try to extract a SpringSecurityException from the stacktrace
         Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);
@@ -40,17 +38,17 @@ public class SsoDefaultWebResponseExceptionTranslator implements WebResponseExce
         ase = (AuthenticationException) throwableAnalyzer.getFirstThrowableOfType(AuthenticationException.class,
                 causeChain);
         if (ase != null) {
-            return handleOAuth2Exception(new SsoDefaultWebResponseExceptionTranslator.UnauthorizedException(e.getMessage(), e));
+            return handleOAuth2Exception(new Oauth2DefaultWebResponseExceptionTranslator.UnauthorizedException(e.getMessage(), e));
         }
         ase = (AccessDeniedException) throwableAnalyzer.getFirstThrowableOfType(AccessDeniedException.class, causeChain);
         if (ase instanceof AccessDeniedException) {
-            return handleOAuth2Exception(new SsoDefaultWebResponseExceptionTranslator.ForbiddenException(ase.getMessage(), ase));
+            return handleOAuth2Exception(new Oauth2DefaultWebResponseExceptionTranslator.ForbiddenException(ase.getMessage(), ase));
         }
 
         ase = (HttpRequestMethodNotSupportedException) throwableAnalyzer
                 .getFirstThrowableOfType(HttpRequestMethodNotSupportedException.class, causeChain);
         if (ase instanceof HttpRequestMethodNotSupportedException) {
-            return handleOAuth2Exception(new SsoDefaultWebResponseExceptionTranslator.MethodNotAllowedException(ase.getMessage(), ase));
+            return handleOAuth2Exception(new Oauth2DefaultWebResponseExceptionTranslator.MethodNotAllowedException(ase.getMessage(), ase));
         }
 
         return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
@@ -80,7 +78,7 @@ public class SsoDefaultWebResponseExceptionTranslator implements WebResponseExce
         }
 
         public String getOAuth2ErrorCode() {
-            return "访问被拒绝";
+            return SpringContextHolder.getMessage("oauth2.error.403.message");
         }
 
         public int getHttpErrorCode() {
@@ -97,7 +95,7 @@ public class SsoDefaultWebResponseExceptionTranslator implements WebResponseExce
         }
 
         public String getOAuth2ErrorCode() {
-            return "服务器错误";
+            return SpringContextHolder.getMessage("oauth2.error.500.message");
         }
 
         public int getHttpErrorCode() {
@@ -114,7 +112,7 @@ public class SsoDefaultWebResponseExceptionTranslator implements WebResponseExce
         }
 
         public String getOAuth2ErrorCode() {
-            return "用户未认证";
+            return SpringContextHolder.getMessage("oauth2.error.401.message");
         }
 
         public int getHttpErrorCode() {
@@ -131,7 +129,7 @@ public class SsoDefaultWebResponseExceptionTranslator implements WebResponseExce
         }
 
         public String getOAuth2ErrorCode() {
-            return "请求方法不支持";
+            return SpringContextHolder.getMessage("oauth2.error.405.message");
         }
 
         public int getHttpErrorCode() {

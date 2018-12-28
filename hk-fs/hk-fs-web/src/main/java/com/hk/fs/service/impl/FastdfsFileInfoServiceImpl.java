@@ -1,6 +1,6 @@
 package com.hk.fs.service.impl;
 
-import com.github.tobato.fastdfs.domain.StorePath;
+import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.AppendFileStorageClient;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.FileUtils;
@@ -8,6 +8,7 @@ import com.hk.commons.util.StringUtils;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.core.exception.ServiceException;
 import com.hk.core.service.jpa.impl.JpaServiceImpl;
+import com.hk.fs.config.FileServer;
 import com.hk.fs.domain.FileInfo;
 import com.hk.fs.repository.jpa.FileInfoRepository;
 import com.hk.fs.service.FileInfoService;
@@ -23,11 +24,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
+ * Fastdfs 文件处理
+ *
  * @author kevin
  * @date 2018-08-08 17:46
  */
 @Service
-public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implements FileInfoService {
+public class FastdfsFileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implements FileInfoService {
 
     private static final String DEFAULT_GROUP = "group1";
 
@@ -36,8 +39,11 @@ public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implem
     private final AppendFileStorageClient appendFileStorageClient;
 
     @Autowired
-    public FileInfoServiceImpl(FileInfoRepository fileInfoRepository,
-                               AppendFileStorageClient appendFileStorageClient) {
+    private FileServer fileServer;
+
+    @Autowired
+    public FastdfsFileInfoServiceImpl(FileInfoRepository fileInfoRepository,
+                                      AppendFileStorageClient appendFileStorageClient) {
         this.fileInfoRepository = fileInfoRepository;
         this.appendFileStorageClient = appendFileStorageClient;
     }
@@ -79,6 +85,14 @@ public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implem
         } catch (IOException e) {
             throw new ServiceException("文件上传失败！");
         }
+    }
+
+    @Override
+    public String getFullPath(String groupName, String path) {
+        if (StringUtils.isEmpty(groupName)) {
+            groupName = DEFAULT_GROUP;
+        }
+        return String.format("%s/%s/%s", fileServer.getFileUrl(), groupName, path);
     }
 
     private List<FileInfo> findByDigest(String digest) {

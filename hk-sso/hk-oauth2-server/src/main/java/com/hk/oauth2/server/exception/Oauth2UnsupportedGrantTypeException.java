@@ -8,14 +8,14 @@ import org.springframework.security.oauth2.common.exceptions.UnsupportedGrantTyp
  * @date 2018-08-20 08:44
  */
 @SuppressWarnings("serial")
-@JsonSerialize(using = SsoOAuth2ExceptionJackson2Serializer.class)
-public class SsoUnsupportedGrantTypeException extends UnsupportedGrantTypeException {
+@JsonSerialize(using = Oauth2ExceptionSerializer.OAuth2UnsupportedGrantedExceptionJackson2Serializer.class)
+public class Oauth2UnsupportedGrantTypeException extends UnsupportedGrantTypeException {
 
-    public SsoUnsupportedGrantTypeException(String msg) {
+    public Oauth2UnsupportedGrantTypeException(String msg) {
         super(msg);
     }
 
-    public SsoUnsupportedGrantTypeException(String msg, Throwable t) {
+    public Oauth2UnsupportedGrantTypeException(String msg, Throwable t) {
         super(msg, t);
     }
 

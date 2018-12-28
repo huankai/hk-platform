@@ -39,11 +39,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties(value = {WechatQrCodeConfig.class, AuthenticationProperties.class})
-public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
+public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties authenticationProperties;
 
-    @Autowired
     private WechatQrCodeConfig qrCodeConfig;
 
     /**
@@ -55,8 +54,10 @@ public class SSOSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     @Qualifier("smsValidateCodeProcessor")
     private ValidateCodeProcessor processor;
 
-    public SSOSecurityWebAutoConfiguration(AuthenticationProperties authenticationProperties) {
+    public Oauth2SecurityWebAutoConfiguration(AuthenticationProperties authenticationProperties,
+                                              WechatQrCodeConfig qrCodeConfig) {
         this.authenticationProperties = authenticationProperties;
+        this.qrCodeConfig = qrCodeConfig;
     }
 
     /**

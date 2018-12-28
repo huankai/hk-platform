@@ -5,8 +5,8 @@ import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConver
 import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
 import com.hk.core.authentication.security.UserDetailClientService;
 import com.hk.core.web.Webs;
-import com.hk.oauth2.server.enhancer.SSOJwtTokenEnhancer;
-import com.hk.oauth2.server.exception.SsoDefaultWebResponseExceptionTranslator;
+import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
+import com.hk.oauth2.server.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ import java.util.List;
 @Configuration
 @EnableAuthorizationServer
 @EnableConfigurationProperties(AuthorizationServerProperties.class)
-public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
+public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServerConfigurerAdapter {
 
     private AuthorizationServerProperties authorizationServerProperties;
 
@@ -60,7 +60,7 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
 
     private UserDetailClientService userDetailClientService;
 
-    public SSOServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
+    public Oauth2ServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
                                                   ObjectProvider<AuthenticationManager> authenticationManager,
                                                   UserDetailClientService userDetailClientService,
                                                   DataSource dataSource,
@@ -131,12 +131,12 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 
         List<TokenEnhancer> enhancers = new ArrayList<>();
-        enhancers.add(ssoJwtTokenEnhancer); //注意 顺序
+        enhancers.add(oauth2JwtTokenEnhancer); //注意 顺序
         enhancers.add(jwtAccessTokenConverter);
 
         tokenEnhancerChain.setTokenEnhancers(enhancers);
         endpoints.authenticationManager(authenticationManager)
-                .exceptionTranslator(new SsoDefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
+                .exceptionTranslator(new Oauth2DefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
                 .accessTokenConverter(jwtAccessTokenConverter)
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenStore(tokenStore());
@@ -154,7 +154,7 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
     }
 
     @Autowired
-    private SSOJwtTokenEnhancer ssoJwtTokenEnhancer;
+    private Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer;
 
     /**
      * 這個Bean 一定要注入

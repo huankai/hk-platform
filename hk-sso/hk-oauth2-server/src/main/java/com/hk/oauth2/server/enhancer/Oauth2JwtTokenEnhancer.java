@@ -1,14 +1,12 @@
 package com.hk.oauth2.server.enhancer;
 
-import com.hk.commons.util.ByteConstants;
-import com.hk.commons.util.CollectionUtils;
-import com.hk.commons.util.EnumDisplayUtils;
-import com.hk.commons.util.JsonUtils;
+import com.hk.commons.util.*;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.entity.SysPermission;
 import com.hk.oauth2.server.entity.SysRole;
+import com.hk.oauth2.server.exception.Oauth2AppStatusException;
 import com.hk.oauth2.server.service.RoleService;
 import com.hk.oauth2.server.service.SysAppService;
 import com.hk.oauth2.server.service.SysPermissionService;
@@ -31,9 +29,9 @@ import java.util.stream.Collectors;
  * @author kevin
  * @date 2018-08-01 14:44
  */
-@Component
 @Log4j2
-public class SSOJwtTokenEnhancer implements TokenEnhancer {
+@Component
+public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
 
 //    private static final Logger LOGGER = LoggerFactory.getLogger(SSOJwtTokenEnhancer.class);
 
@@ -65,17 +63,18 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();
         Map<String, Object> info = new HashMap<>();
-        SysApp sysApp = sysAppService.findById(clientId).orElseThrow(() -> new OAuth2Exception("当前APP应用不存在"));
+        SysApp sysApp = sysAppService.findById(clientId)
+                .orElseThrow(() -> new OAuth2Exception(SpringContextHolder.getMessage("app.notFound.message")));
         if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
             // 注意，这里要返回 400的异常状态码，如果不是，客户端很难获取到异常的详细信息
-            throw new OAuth2Exception("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");
+            throw new Oauth2AppStatusException(SpringContextHolder.getMessageWithDefault("app.disable.message", sysApp.getAppName(), sysApp.getAppName()));
         }
         info.put("userId", principal.getUserId());
         info.put("iconPath", principal.getIconPath());
         info.put("realName", principal.getRealName());
         info.put("userType", principal.getUserType());
         info.put("sex", principal.getSex());
-        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex(), false));
+        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex()));
         if (!sysApp.getLocalApp()) {
             Map<String, Object> infoMap = new HashMap<>(additionalInformation);
             infoMap.putAll(info);

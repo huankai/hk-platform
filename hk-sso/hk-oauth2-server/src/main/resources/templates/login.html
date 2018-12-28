@@ -104,7 +104,7 @@
                     </section>
                 </div>
                 <div class="form-actions">
-                    <a tabindex="4" class="btn pull-left btn-link text-muted" onclick="goto_forget()">手机号登陆</a>
+                    <a th:if="${smsEnabled}" tabindex="4" class="btn pull-left btn-link text-muted" onclick="goto_forget()">手机号登陆</a>
                     <a tabindex="5" class="btn pull-left btn-link text-muted" href="https://www.baidu.com">忘记密码</a>
                     <input class="btn btn-primary" type="submit" tabindex="3" onclick="return login()" value="登录"
                            style="color:white;"/>
@@ -112,7 +112,7 @@
             </form>
         </div>
         <!-- 手机号登陆-->
-        <div class="login sign-out-htm">
+        <div th:if="${smsEnabled}" class="login sign-out-htm">
             <form th:id="phoneLoginForm" th:action="@{/mobile/login}" th:method="post"
                   class="container offset1 loginform">
                 <div id="owl-login-phone" class="forget-owl">

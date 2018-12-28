@@ -9,7 +9,6 @@ import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpr
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
-import com.hk.core.autoconfigure.exception.DefaultErrorController;
 import com.hk.emi.api.feign.SysCodeFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,7 +47,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     private ApplicationContext applicationContext;
 
     /**
-     * @see DefaultErrorController#errorPath
+     * @see
      */
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPath;

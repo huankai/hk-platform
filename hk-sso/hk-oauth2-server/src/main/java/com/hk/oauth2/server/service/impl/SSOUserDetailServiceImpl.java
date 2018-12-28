@@ -1,5 +1,6 @@
 package com.hk.oauth2.server.service.impl;
 
+import com.hk.commons.util.SpringContextHolder;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.security.SecurityUserPrincipal;
 import com.hk.core.authentication.security.UserDetailClientService;
@@ -39,7 +40,7 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
     @Override
     public SecurityUserPrincipal loadUserByLoginUsername(String username) {
         SysUser user = userService.findByLoginName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("不存在的用户:" + username));
+                .orElseThrow(() -> new UsernameNotFoundException(SpringContextHolder.getMessage("user.notFound.message", username)));
         SecurityUserPrincipal userPrincipal = new SecurityUserPrincipal(user.getId(), user.getAccount(), user.getIsProtect(), user.getRealName(),
                 user.getUserType(), user.getPhone(), user.getEmail(), user.getSex(), user.getIconPath(), user.getPassword(), user.getUserStatus());
         userPrincipal.setOrgId(user.getOrgId());

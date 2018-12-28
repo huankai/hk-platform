@@ -32,7 +32,25 @@ public interface FileInfoService extends JpaBaseService<FileInfo, String> {
 
     BigDecimal GB_MAX_SIZE = B_MAX_SIZE.pow(4);
 
+    /**
+     * 上传文件
+     *
+     * @param group    文件所属组
+     * @param in       文件
+     * @param fileSize 文件大小
+     * @param fileName 文件名
+     * @return {@link FileInfo}
+     */
     FileInfo uploadFile(String group, InputStream in, long fileSize, String fileName);
+
+    /**
+     * 获取文件全路径
+     *
+     * @param groupName groupName
+     * @param path      filePath
+     * @return fullPath
+     */
+    String getFullPath(String groupName, String path);
 
     /**
      * @param fileSize fileSize
