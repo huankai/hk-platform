@@ -35,7 +35,9 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) {
+        // 重定向到登陆页面
         resources.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"));
+        // 直接输出JSON.
 //        OAuth2AuthenticationEntryPoint authenticationEntryPoint = new OAuth2AuthenticationEntryPoint();
 //        authenticationEntryPoint.setExceptionRenderer((responseEntity, webRequest) -> {
 //            if (null != webRequest && webRequest.getResponse() != null) {
@@ -56,12 +58,6 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
         AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler());// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
-//                .withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
-//                    @Override
-//                    public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
-//                        return (O) new AdminAccessWebSecurityExpressionHandler();// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
-//                    }
-//                });
         Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
         if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
             for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
@@ -74,7 +70,7 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
                 }
             }
         }
-        urlRegistry.antMatchers("/login").permitAll()
+        urlRegistry.antMatchers(properties.getBrowser().getLoginUrl()).permitAll()
                 .anyRequest().authenticated();
     }
 }
