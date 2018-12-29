@@ -53,6 +53,11 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-platform-business-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.hk</groupId>

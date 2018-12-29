@@ -1,8 +1,9 @@
 package com.hk.pms.controller;
 
-import com.hk.core.query.QueryModel;
-import com.hk.core.page.QueryPage;
 import com.hk.commons.JsonResult;
+import com.hk.core.page.QueryPage;
+import com.hk.core.query.QueryModel;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.service.SysAppService;
@@ -44,21 +45,21 @@ public class SysAppController extends BaseController {
     }
 
     @PostMapping("/disabled")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> disabled(@RequestParam String id) {
         appService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping("/enabled")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> enabled(@RequestParam String id) {
         appService.enable(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysApp app) {
         appService.insertOrUpdate(app);
         return JsonResult.success();

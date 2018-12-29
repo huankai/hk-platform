@@ -15,4 +15,13 @@ spring:
 #    client:
 #      use-current-uri: true
 #      user-authorization-uri: http://127.0.0.1:7150/login
-
+######################################################### thymeleaf 配置
+  thymeleaf:
+    enabled: true
+    cache: false
+    mode: HTML5
+    encoding: UTF-8
+    prefix: classpath:/templates/
+    suffix: .html
+    servlet:
+      content-type: text/html; charset=utf-8

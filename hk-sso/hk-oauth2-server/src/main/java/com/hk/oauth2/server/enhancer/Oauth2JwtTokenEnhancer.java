@@ -1,12 +1,13 @@
 package com.hk.oauth2.server.enhancer;
 
-import com.hk.commons.util.*;
+import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.EnumDisplayUtils;
+import com.hk.commons.util.JsonUtils;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.entity.SysPermission;
 import com.hk.oauth2.server.entity.SysRole;
-import com.hk.oauth2.server.exception.Oauth2AppStatusException;
 import com.hk.oauth2.server.service.RoleService;
 import com.hk.oauth2.server.service.SysAppService;
 import com.hk.oauth2.server.service.SysPermissionService;
@@ -15,7 +16,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.stereotype.Component;
@@ -63,12 +63,11 @@ public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();
         Map<String, Object> info = new HashMap<>();
-        SysApp sysApp = sysAppService.findById(clientId)
-                .orElseThrow(() -> new OAuth2Exception(SpringContextHolder.getMessage("app.notFound.message")));
-        if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
-            // 注意，这里要返回 400的异常状态码，如果不是，客户端很难获取到异常的详细信息
+        SysApp sysApp = sysAppService.getById(clientId);
+        //这里不用再判断，查看 com.hk.oauth2.server.provider.token.AppStatusTokenServices#createAccessToken
+        /*if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
             throw new Oauth2AppStatusException(SpringContextHolder.getMessageWithDefault("app.disable.message", sysApp.getAppName(), sysApp.getAppName()));
-        }
+        }*/
         info.put("userId", principal.getUserId());
         info.put("iconPath", principal.getIconPath());
         info.put("realName", principal.getRealName());

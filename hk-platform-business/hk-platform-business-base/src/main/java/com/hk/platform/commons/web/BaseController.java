@@ -22,6 +22,10 @@ public abstract class BaseController {
         return securityContext.getPrincipal();
     }
 
+    protected final boolean isAuthenticated(){
+        return securityContext.isAuthenticated();
+    }
+
     /**
      * 获取国际化消息
      *

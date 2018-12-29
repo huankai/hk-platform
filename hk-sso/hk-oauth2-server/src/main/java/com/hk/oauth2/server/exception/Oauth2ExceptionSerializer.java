@@ -15,80 +15,82 @@ import java.io.IOException;
  * @author huangkai
  * @date 2018-12-28 15:29
  */
+@SuppressWarnings("serial")
 public class Oauth2ExceptionSerializer<T extends OAuth2Exception> extends StdSerializer<T> {
 
-    protected Oauth2ExceptionSerializer(Class<T> t) {
-        super(t);
-    }
+	protected Oauth2ExceptionSerializer(Class<T> t) {
+		super(t);
+	}
 
-    @Override
-    public void serialize(T value, JsonGenerator gen, SerializerProvider provider) throws IOException {
-        gen.writeStartObject();
-        //统一异常，所有响应返三个字段，@see com.hk.commons.JsonResult
-        gen.writeNumberField("statusCode", getStatus(value));
-        gen.writeStringField("message", getMessage(value));
-        gen.writeObjectField("data", getData(value));
-        gen.writeEndObject();
-    }
+	@Override
+	public void serialize(T value, JsonGenerator gen, SerializerProvider provider) throws IOException {
+		gen.writeStartObject();
+		// 统一异常，所有响应返三个字段，@see com.hk.commons.JsonResult
+		gen.writeNumberField("statusCode", getStatus(value));
+		gen.writeStringField("message", getMessage(value));
+		gen.writeObjectField("data", getData(value));
+		gen.writeEndObject();
+	}
 
-    /**
-     * 获取data字段值
-     *
-     * @param exception exception
-     * @see JsonResult#data
-     */
-    protected Object getData(T exception) {
-        return null;
-    }
+	/**
+	 * 获取data字段值
+	 *
+	 * @param exception exception
+	 * @see JsonResult#data
+	 */
+	protected Object getData(T exception) {
+		return null;
+	}
 
-    /**
-     * 获取错误消息
-     *
-     * @param exception exception
-     * @return 错误消息
-     * @see JsonResult#message
-     */
-    protected String getMessage(T exception) {
-        return exception.getMessage();
-    }
+	/**
+	 * 获取错误消息
+	 *
+	 * @param exception exception
+	 * @return 错误消息
+	 * @see JsonResult#message
+	 */
+	protected String getMessage(T exception) {
+		return exception.getMessage();
+	}
 
-    /**
-     * @param exception
-     * @return
-     * @see JsonResult#getStatusCode()
-     */
-    protected int getStatus(T exception) {
-        return EnumDisplayUtils.getDisplayOrder(JsonResult.Status.BAD_REQUEST);
-    }
+	/**
+	 * @param exception
+	 * @return
+	 * @see JsonResult#getStatusCode()
+	 */
+	protected int getStatus(T exception) {
+		return EnumDisplayUtils.getDisplayOrder(JsonResult.Status.BAD_REQUEST);
+	}
 
+	public static class Oauth2AppStatusExceptionJackson2Serializer
+			extends Oauth2ExceptionSerializer<Oauth2AppStatusException> {
 
-    public static class Oauth2AppStatusExceptionJackson2Serializer extends Oauth2ExceptionSerializer<Oauth2AppStatusException> {
+		protected Oauth2AppStatusExceptionJackson2Serializer() {
+			super(Oauth2AppStatusException.class);
+		}
+	}
 
-        protected Oauth2AppStatusExceptionJackson2Serializer() {
-            super(Oauth2AppStatusException.class);
-        }
-    }
+	public static class OAuth2UnsupportedGrantedExceptionJackson2Serializer
+			extends Oauth2ExceptionSerializer<Oauth2UnsupportedGrantTypeException> {
 
-    public static class OAuth2UnsupportedGrantedExceptionJackson2Serializer extends Oauth2ExceptionSerializer<Oauth2UnsupportedGrantTypeException> {
+		protected OAuth2UnsupportedGrantedExceptionJackson2Serializer() {
+			super(Oauth2UnsupportedGrantTypeException.class);
+		}
 
-        protected OAuth2UnsupportedGrantedExceptionJackson2Serializer() {
-            super(Oauth2UnsupportedGrantTypeException.class);
-        }
-
-        /**
-         * 获取错误消息
-         *
-         * @param exception exception
-         * @return 错误消息
-         */
-        @Override
-        protected String getMessage(Oauth2UnsupportedGrantTypeException exception) {
-            String errorMessage = exception.getMessage();
-            String[] delimitArr = StringUtils.delimitedListToStringArray(errorMessage, ":");
-            if (ArrayUtils.isNotEmpty(delimitArr) && delimitArr.length == 2) {
-                errorMessage = delimitArr[1];
-            }
-            return errorMessage;
-        }
-    }
+		/**
+		 * 获取错误消息
+		 *
+		 * @param exception exception
+		 * @return 错误消息
+		 */
+		@Override
+		protected String getMessage(Oauth2UnsupportedGrantTypeException exception) {
+			String errorMessage = exception.getMessage();
+			String[] delimitArr = StringUtils.delimitedListToStringArray(errorMessage, ":");
+			if (ArrayUtils.isNotEmpty(delimitArr) && delimitArr.length == 2) {
+				errorMessage = delimitArr[1];
+			}
+			return errorMessage;
+		}
+	}
 }

@@ -6,6 +6,7 @@ import com.hk.commons.JsonResult;
 import com.hk.core.web.Webs;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +76,7 @@ public class CityController extends BaseController {
      * @return JsonResult
      */
     @DeleteMapping(path = "{id}")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> deleteById(@PathVariable String id) {
         cityService.deleteById(id);
         return JsonResult.success();
@@ -88,7 +89,7 @@ public class CityController extends BaseController {
      * @return JsonResult
      */
     @PostMapping
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody City city) {
         cityService.insertOrUpdate(city);
         return JsonResult.success();
@@ -101,7 +102,7 @@ public class CityController extends BaseController {
      * @return JsonResult
      */
     @PostMapping("excel/import")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         cityService.importExcel(multipartFile.getInputStream());
         return JsonResult.success();
@@ -114,7 +115,7 @@ public class CityController extends BaseController {
      * @return ResponseEntity
      */
     @GetMapping("excel/export")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public ResponseEntity<InputStreamResource> excelExport(City city) {
         return Webs.toDownloadResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
     }

@@ -3,6 +3,7 @@ package com.hk.pms.controller;
 import com.hk.core.query.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.commons.JsonResult;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysRole;
 import com.hk.pms.service.SysRoleService;
@@ -44,14 +45,14 @@ public class SysRoleController extends BaseController {
     }
 
     @PostMapping("/disabled")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> disabled(@RequestParam String id) {
         roleService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping("/enabled")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> enabled(@RequestParam String id) {
         roleService.enable(id);
         return JsonResult.success();

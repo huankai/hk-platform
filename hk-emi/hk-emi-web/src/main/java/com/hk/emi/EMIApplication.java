@@ -1,12 +1,11 @@
 package com.hk.emi;
 
-import lombok.Data;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.time.LocalDateTime;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
-import java.time.LocalDateTime;
+import lombok.Data;
 
 /**
  * EMI Start
@@ -18,7 +17,7 @@ import java.time.LocalDateTime;
 //@EnableBinding(Sink.class)
 public class EMIApplication {
 
-    private final Logger logger = LoggerFactory.getLogger(EMIApplication.class);
+//    private final Logger logger = LoggerFactory.getLogger(EMIApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(EMIApplication.class, args);

@@ -1,8 +1,9 @@
 package com.hk.pms.controller;
 
-import com.hk.core.query.QueryModel;
-import com.hk.core.page.QueryPage;
 import com.hk.commons.JsonResult;
+import com.hk.core.page.QueryPage;
+import com.hk.core.query.QueryModel;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysPermission;
 import com.hk.pms.service.SysPermissionService;
@@ -40,14 +41,14 @@ public class SysPermissionController extends BaseController {
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> delete(@RequestParam String id) {
         permissionService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysPermission permission) {
         permissionService.insertOrUpdate(permission);
         return JsonResult.success();

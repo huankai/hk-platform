@@ -10,6 +10,7 @@ import com.hk.core.autoconfigure.authentication.security.AuthenticationPropertie
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 import com.hk.emi.api.feign.SysCodeFeignClient;
+import com.hk.platform.commons.role.RoleNamed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -112,7 +113,8 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 }
             }
         }
-        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasRole("admin").anyRequest().authenticated();
+        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasRole(RoleNamed.ADMIN)
+                .anyRequest().authenticated();
 
         //通过源码分析，好像没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));

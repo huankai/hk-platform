@@ -9,6 +9,7 @@ import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecuri
 import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
 import com.hk.core.autoconfigure.weixin.authentication.qrcode.WechatQrcodeAuthenticationSecurityConfigurer;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.weixin.qrcode.WechatQrCodeConfig;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,6 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 
 
 /**
@@ -119,13 +119,13 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 .enableSessionUrlRewriting(false)
                 .maximumSessions(browser.getMaximumSessions())
                 .sessionRegistry(sessionRegistry())
+                .expiredUrl(browser.getSessionInvalidUrl())
                 .maxSessionsPreventsLogin(browser.isMaxSessionsPreventsLogin())
                 .and()
                 .and()
                 .logout().clearAuthentication(true)
                 .logoutUrl(browser.getLogoutUrl())
                 .invalidateHttpSession(true)
-                .addLogoutHandler(new SecurityContextLogoutHandler())
                 .addLogoutHandler(new RedirectLogoutHandler(browser.getLogoutSuccessUrl()))
                 .and()
                 // 使用 zuul登陆地址
@@ -151,7 +151,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                     }
                 })*/
 //                @see https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
-                .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("admin") //访问所有以 /actuator/**的需要有admin 角色
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(RoleNamed.ADMIN) //访问所有以 /actuator/**的需要有admin 角色
                 .anyRequest().authenticated();
     }
 

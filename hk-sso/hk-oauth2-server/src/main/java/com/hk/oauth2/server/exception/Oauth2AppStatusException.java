@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
  * @author huangkai
  * @date 2018-12-28 15:19
  */
+@SuppressWarnings("serial")
 @JsonSerialize(using = Oauth2ExceptionSerializer.Oauth2AppStatusExceptionJackson2Serializer.class)
 public class Oauth2AppStatusException extends OAuth2Exception {
 

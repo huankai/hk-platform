@@ -1,8 +1,9 @@
 package com.hk.pms.controller;
 
-import com.hk.core.query.QueryModel;
-import com.hk.core.page.QueryPage;
 import com.hk.commons.JsonResult;
+import com.hk.core.page.QueryPage;
+import com.hk.core.query.QueryModel;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysConfig;
 import com.hk.pms.service.SysConfigService;
@@ -40,7 +41,7 @@ public class SysConfigController extends BaseController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> delete(@PathVariable String id) {
         configService.deleteById(id);
         return JsonResult.success();
@@ -48,7 +49,7 @@ public class SysConfigController extends BaseController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysConfig config) {
         configService.insertOrUpdate(config);
         return JsonResult.success();

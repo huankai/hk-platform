@@ -1,9 +1,10 @@
 package com.hk.pms.controller;
 
-import com.hk.commons.util.StringUtils;
-import com.hk.core.query.QueryModel;
-import com.hk.core.page.QueryPage;
 import com.hk.commons.JsonResult;
+import com.hk.commons.util.StringUtils;
+import com.hk.core.page.QueryPage;
+import com.hk.core.query.QueryModel;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysUser;
 import com.hk.pms.service.SysUserService;
@@ -45,14 +46,14 @@ public class SysUserController extends BaseController {
     }
 
     @PostMapping("/disabled")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> disabled(@RequestParam String id) {
         userService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping("/enabled")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> enabled(@RequestParam String id) {
         userService.enable(id);
         return JsonResult.success();

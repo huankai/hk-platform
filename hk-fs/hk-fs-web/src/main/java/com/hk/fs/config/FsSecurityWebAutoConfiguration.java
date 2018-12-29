@@ -1,7 +1,14 @@
 package com.hk.fs.config;
 
-import java.util.Set;
-
+import com.hk.commons.util.ArrayUtils;
+import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.StringUtils;
+import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
+import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
+import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
+import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
+import com.hk.platform.commons.role.RoleNamed;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2SsoProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateFactory;
@@ -17,14 +24,7 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticat
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 
-import com.hk.commons.util.ArrayUtils;
-import com.hk.commons.util.CollectionUtils;
-import com.hk.commons.util.StringUtils;
-import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
-import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
-import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
+import java.util.Set;
 
 /**
  * <p>
@@ -84,7 +84,8 @@ public class FsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter
                 }
             }
         }
-        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasRole("admin").anyRequest().authenticated();
+        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasRole(RoleNamed.ADMIN)
+                .anyRequest().authenticated();
 
         //通过源码分析，没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));

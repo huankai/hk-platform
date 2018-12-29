@@ -5,6 +5,7 @@ import com.hk.core.page.QueryPage;
 import com.hk.commons.JsonResult;
 import com.hk.emi.domain.ChildCode;
 import com.hk.emi.service.ChildCodeService;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class ChildCodeController extends BaseController {
      * @return JsonResult
      */
     @DeleteMapping(path = "{id}")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> deleteById(@PathVariable String id) {
         childCodeService.deleteById(id);
         return JsonResult.success();
@@ -70,7 +71,7 @@ public class ChildCodeController extends BaseController {
      * @return JsonResult
      */
     @PostMapping
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody ChildCode childCode) {
         childCodeService.insertOrUpdate(childCode);
         return JsonResult.success();

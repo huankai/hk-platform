@@ -20,17 +20,21 @@
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
+            <artifactId>hk-commons-httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
             <artifactId>hk-core-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
         </dependency>
-       <dependency>
+        <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-web</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-emi-api</artifactId>
@@ -96,6 +100,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

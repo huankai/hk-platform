@@ -6,6 +6,7 @@ import com.hk.core.query.Order;
 import com.hk.commons.JsonResult;
 import com.hk.emi.domain.BaseCode;
 import com.hk.emi.service.BaseCodeService;
+import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class BaseCodeController extends BaseController {
      * @return JsonResult
      */
     @DeleteMapping(path = "{id}")
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> deleteById(@PathVariable String id) {
         baseCodeService.deleteById(id);
         return JsonResult.success();
@@ -77,7 +78,7 @@ public class BaseCodeController extends BaseController {
      * @return JsonResult
      */
     @PostMapping
-    @PreAuthorize("hasRole('admin')")
+    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody BaseCode baseCode) {
         baseCodeService.insertOrUpdate(baseCode);
         return JsonResult.success();

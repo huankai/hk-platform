@@ -7,6 +7,9 @@ import com.hk.core.authentication.security.UserDetailClientService;
 import com.hk.core.web.Webs;
 import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
 import com.hk.oauth2.server.exception.Oauth2DefaultWebResponseExceptionTranslator;
+import com.hk.oauth2.server.provider.code.RedisAuthorizationCodeServices;
+import com.hk.oauth2.server.provider.token.AppStatusTokenServices;
+import com.hk.oauth2.server.service.SysAppService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,15 +63,19 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
 
     private UserDetailClientService userDetailClientService;
 
+    private SysAppService appService;
+
     public Oauth2ServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
-                                                  ObjectProvider<AuthenticationManager> authenticationManager,
-                                                  UserDetailClientService userDetailClientService,
-                                                  DataSource dataSource,
-                                                  PasswordEncoder passwordEncoder) {
+                                                     ObjectProvider<AuthenticationManager> authenticationManager,
+                                                     UserDetailClientService userDetailClientService,
+                                                     DataSource dataSource,
+                                                     SysAppService appService,
+                                                     PasswordEncoder passwordEncoder) {
         this.authorizationServerProperties = authorizationServerProperties;
         this.authenticationManager = authenticationManager.getIfAvailable();
         this.userDetailClientService = userDetailClientService;
         this.dataSource = dataSource;
+        this.appService = appService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -134,11 +141,26 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         enhancers.add(oauth2JwtTokenEnhancer); //注意 顺序
         enhancers.add(jwtAccessTokenConverter);
 
+        AppStatusTokenServices tokenServices = new AppStatusTokenServices();
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setSysAppService(appService);
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setReuseRefreshToken(true);
+        tokenServices.setClientDetailsService(jdbcClientDetailsService());
+        tokenServices.setTokenEnhancer(tokenEnhancerChain);
+
         tokenEnhancerChain.setTokenEnhancers(enhancers);
         endpoints.authenticationManager(authenticationManager)
                 .exceptionTranslator(new Oauth2DefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
                 .accessTokenConverter(jwtAccessTokenConverter)
+                .reuseRefreshTokens(true)
                 .tokenEnhancer(tokenEnhancerChain)
+                .tokenServices(tokenServices)
+
+                /* 使用Jdbc authorization 存储，需要 创建数据库表 oauth_code */
+//              endpoints.authorizationCodeServices(new JdbcAuthorizationCodeServices(dataSource));
+                /* 使用 redis  */
+                .authorizationCodeServices(new RedisAuthorizationCodeServices(connectionFactory))
                 .tokenStore(tokenStore());
     }
 
