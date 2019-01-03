@@ -26,36 +26,9 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-swagger-ui</artifactId>
         </dependency>
-
-        <!-- 图片压缩-->
-        <dependency>
-            <groupId>net.coobird</groupId>
-            <artifactId>thumbnailator</artifactId>
-            <version>${thumbnailator.version}</version>
-        </dependency>
-
-
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-data-jpa</artifactId>
-        </dependency>
-
-        <!--FastDfs Client-->
-        <dependency>
-            <groupId>com.github.tobato</groupId>
-            <artifactId>fastdfs-client</artifactId>
-            <version>1.26.5</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-platform-business-base</artifactId>
+            <artifactId>hk-fs-controller</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -74,17 +47,7 @@
 
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-cache</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hk</groupId>
             <artifactId>hk-core-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>

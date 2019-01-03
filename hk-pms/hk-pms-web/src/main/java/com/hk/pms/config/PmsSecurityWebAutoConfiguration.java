@@ -71,7 +71,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
+        AuthenticationProperties.LoginProperties browser = properties.getLogin();
         if (null != requestCache) {//默认使用的是 HttpSessionRequestCache
             http.requestCache().requestCache(requestCache);
         }
@@ -101,7 +101,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 //                        return (O) new AdminAccessWebSecurityExpressionHandler();
 //                    }
 //                });
-        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
+        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitMatchers();
         if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
             for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {

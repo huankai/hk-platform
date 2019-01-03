@@ -22,9 +22,8 @@ public class CityRestController extends BaseController {
     @Autowired
     private CityService cityService;
 
-    @GetMapping("/child/{parentId}")
+    @GetMapping(path = "/child/{parentId}")
     public List<City> findByParentId(@PathVariable("parentId") String parentId) {
-        LOGGER.info(parentId);
         return cityService.findChildList(parentId);
     }
 

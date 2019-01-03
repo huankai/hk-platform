@@ -14,8 +14,10 @@
     </parent>
 
     <modules>
-        <module>hk-fs-web</module>
         <module>hk-fs-api</module>
+        <module>hk-fs-core</module>
+        <module>hk-fs-controller</module>
+        <module>hk-fs-web</module>
     </modules>
 
 </project>

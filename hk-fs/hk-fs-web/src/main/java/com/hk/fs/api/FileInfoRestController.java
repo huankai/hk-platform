@@ -2,8 +2,8 @@ package com.hk.fs.api;
 
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
-import com.hk.fs.config.FileServer;
 import com.hk.fs.domain.FileInfo;
+import com.hk.fs.properties.FileServer;
 import com.hk.fs.service.FileInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

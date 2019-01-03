@@ -18,10 +18,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-pms-commons</artifactId>
             <version>${project.version}</version>

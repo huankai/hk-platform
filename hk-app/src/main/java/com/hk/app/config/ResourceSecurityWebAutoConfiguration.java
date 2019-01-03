@@ -55,12 +55,12 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
+        AuthenticationProperties.LoginProperties loginProperties = properties.getLogin();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler());// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
-        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
-        if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
-            for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
+        Set<AuthenticationProperties.PermitMatcher> permitMatchers = loginProperties.getPermitMatchers();
+        if (CollectionUtils.isNotEmpty(permitMatchers)) {
+            for (AuthenticationProperties.PermitMatcher permitMatcher : permitMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
                     urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
                 } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {
@@ -70,7 +70,7 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
                 }
             }
         }
-        urlRegistry.antMatchers(properties.getBrowser().getLoginUrl()).permitAll()
+        urlRegistry.antMatchers(loginProperties.getLoginUrl()).permitAll()
                 .anyRequest().authenticated();
     }
 }

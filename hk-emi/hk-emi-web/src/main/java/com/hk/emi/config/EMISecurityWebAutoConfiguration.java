@@ -64,7 +64,7 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
+        AuthenticationProperties.LoginProperties browser = properties.getLogin();
         if (StringUtils.isNotEmpty(browser.getGateWayHost())) {
             http.requestCache().requestCache(new GateWayHttpSessionRequestCache(browser.getGateWayHost()));
         }
@@ -95,9 +95,9 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                     }
                 })*/
         ;
-        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
-        if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
-            for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
+        Set<AuthenticationProperties.PermitMatcher> permitMatchers = browser.getPermitMatchers();
+        if (CollectionUtils.isNotEmpty(permitMatchers)) {
+            for (AuthenticationProperties.PermitMatcher permitMatcher : permitMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
                     urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
                 } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {

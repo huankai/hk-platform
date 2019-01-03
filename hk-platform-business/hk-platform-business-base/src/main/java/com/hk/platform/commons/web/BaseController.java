@@ -3,6 +3,7 @@ package com.hk.platform.commons.web;
 import com.hk.commons.util.SpringContextHolder;
 import com.hk.core.authentication.api.SecurityContext;
 import com.hk.core.authentication.api.UserPrincipal;
+import com.hk.platform.commons.role.RoleNamed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author kevin
  * @date 2018-6-1 21:00
  */
-public abstract class BaseController {
+public abstract class BaseController implements RoleNamed {
 
     protected final Logger LOGGER = LoggerFactory.getLogger(getClass());
 

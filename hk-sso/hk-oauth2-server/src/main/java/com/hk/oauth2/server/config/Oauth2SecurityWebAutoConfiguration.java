@@ -94,7 +94,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.BrowserProperties browser = authenticationProperties.getBrowser();
+        AuthenticationProperties.LoginProperties browser = authenticationProperties.getLogin();
         AuthenticationProperties.SMSProperties sms = authenticationProperties.getSms();
         if (sms.isEnabled()) {
             http

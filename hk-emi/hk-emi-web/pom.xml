@@ -14,25 +14,17 @@
 
     <dependencies>
         <!-- 注意，此包要放在前面，因为依赖了 guava包，
-            其它包也许也依赖了 guava包，如果版本不一样，在启动时会报错，
-            swagger 需要的 guava版本是 20.0
-        -->
+          其它包也许也依赖了 guava包，如果版本不一样，在启动时会报错，
+          swagger 需要的 guava版本是 20.0
+      -->
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-swagger-ui</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-commons-poi</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-data-jdbc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-authentication-security</artifactId>
+            <artifactId>hk-emi-controller</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
@@ -49,36 +41,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-emi-commons</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!--<dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-stream-kafka</artifactId>
-        </dependency>-->
-
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-cache</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-data-mybatis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>

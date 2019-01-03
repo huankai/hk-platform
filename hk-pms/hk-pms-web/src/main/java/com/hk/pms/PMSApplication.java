@@ -19,5 +19,4 @@ public class PMSApplication {
         SpringApplication.run(PMSApplication.class, args);
     }
 
-
 }
