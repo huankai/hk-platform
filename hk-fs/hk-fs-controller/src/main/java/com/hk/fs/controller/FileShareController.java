@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2018-08-08 17:59
  */
 @RestController
-@RequestMapping("/share")
+@RequestMapping("share")
 public class FileShareController {
 
 

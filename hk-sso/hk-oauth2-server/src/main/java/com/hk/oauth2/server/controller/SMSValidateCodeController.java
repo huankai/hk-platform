@@ -30,7 +30,7 @@ public class SMSValidateCodeController extends BaseController {
      * @param request request
      * @throws Exception
      */
-    @GetMapping("/sms/sender")
+    @GetMapping(path = "sms/sender")
     public JsonResult<String> createSmsCode(HttpServletRequest request) throws Exception {
         if (null == validateCodeProcessor) {
             throw new UnsupportedOperationException(getMessage("sms.disable.message"));

@@ -12,9 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @date 2019-01-03 08:56
  */
 @Controller
-@RequestMapping(path = "/excel/template")
+@RequestMapping(path = "excel/template")
 public class ExcelTemplateController {
-
 
     /**
      * Excel 模板文件下载
@@ -22,7 +21,7 @@ public class ExcelTemplateController {
      * @param name 模板文件名
      * @return
      */
-    @RequestMapping(path = "/down")
+    @RequestMapping(path = "down")
     public ResponseEntity<InputStreamResource> excelTemplate(@RequestParam("name") String name) {
         return Webs.toDownloadResponseEntity(name, (byte[]) null);
 

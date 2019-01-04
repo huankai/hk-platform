@@ -38,15 +38,13 @@ public class City extends AbstractAuditable {
     private String parentId;
 
     /**
-     * <p>
+     * <pre>
      * 城市类型:
-     * 1:国家,
-     * 2:省或直辖市,
-     * 3:市,
-     * 4:区或县,
-     * 5:镇,
-     * 6:村
-     * </p>
+     * 0:国家,
+     * 1:省或直辖市,
+     * 2:市,
+     * 3:区或县,
+     * </pre>
      */
     @Column(value = "city_type")
     @NotNull
@@ -61,17 +59,35 @@ public class City extends AbstractAuditable {
     @Length(max = 20)
     private String fullName;
 
+    @Column(value = "area_code")
+    private String areaCode;
+
     /**
      * 简名
      */
     @Column(value = "short_name")
     private String shortName;
 
+    @Column(value = "merger_name")
+    private String mergerName;
+
     /**
      * 邮编
      */
     @Column(value = "post_office")
     private String postOffice;
+
+    /**
+     * 拼音
+     */
+    @Column(value = "pinyin")
+    private String pinyin;
+
+    @Column(value = "longitude")
+    private Double longitude;
+
+    @Column(value = "latitude")
+    private Double latitude;
 
     /**
      * 描述

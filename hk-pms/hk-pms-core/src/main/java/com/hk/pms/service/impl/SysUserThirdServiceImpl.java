@@ -1,6 +1,7 @@
 package com.hk.pms.service.impl;
 
 
+import com.hk.commons.util.AssertUtils;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysUserThird;
@@ -44,9 +45,18 @@ public class SysUserThirdServiceImpl extends JdbcServiceImpl<SysUserThird, Strin
 
     @Override
     public void bindUser(SysUserThird sysUserThird) {
-        if (!exists(sysUserThird)) {
+        if (!existsByUserIdAndAccountType(sysUserThird.getUserId(), sysUserThird.getAccountType())) {
             insert(sysUserThird);
         }
+    }
+
+    @Override
+    public boolean existsByUserIdAndAccountType(String userId, byte accountType) {
+        AssertUtils.notEmpty(userId, "userId");
+        SysUserThird sysUserThird = new SysUserThird();
+        sysUserThird.setUserId(userId);
+        sysUserThird.setAccountType(accountType);
+        return exists(sysUserThird);
     }
 
     @Override

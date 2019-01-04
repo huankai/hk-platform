@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
  * @date 2018-08-06 17:57
  */
 @EnableOAuth2Client
-@EnableFeignClients(basePackages = "com.hk")
+@EnableFeignClients(basePackages = "com.hk.emi.api")
 @SpringCloudApplication
 public class AppApplication {
 

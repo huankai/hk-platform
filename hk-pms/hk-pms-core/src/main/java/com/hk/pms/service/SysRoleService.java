@@ -38,7 +38,7 @@ public interface SysRoleService extends JdbcBaseService<SysRole, String> {
      * @return
      */
     default boolean hasRole(String userId, String appId, String roleCode) {
-        return StringUtils.isNotBlank(roleCode) && getRoleListAsString(userId, appId).contains(roleCode);
+        return StringUtils.isNotEmpty(roleCode) && getRoleListAsString(userId, appId).contains(roleCode);
     }
 
     /**
@@ -57,7 +57,7 @@ public interface SysRoleService extends JdbcBaseService<SysRole, String> {
      */
     default Map<String, Collection<String>> getCurrentUserAllRoleListAsString() {
         List<SysRole> roleList = getRoleList(SecurityContextUtils.getPrincipal().getUserId(), null);
-        Map<String, List<SysRole>> byAppIdMap = roleList.stream().collect(Collectors.groupingBy((sysRole) -> sysRole.getId()));
+        Map<String, List<SysRole>> byAppIdMap = roleList.stream().collect(Collectors.groupingBy(SysRole::getId));
         Map<String, Collection<String>> result = new HashMap<>();
         byAppIdMap.forEach((key, value) -> result.put(key, value.stream().map(SysRole::getRoleCode).collect(Collectors.toList())));
         return result;

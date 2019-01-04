@@ -3,7 +3,6 @@ package com.hk.pms.controller;
 import com.hk.commons.JsonResult;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
-import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysPermission;
 import com.hk.pms.service.SysPermissionService;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018-08-29 16:16
  */
 @RestController
-@RequestMapping("/permissions")
+@RequestMapping("permissions")
 public class SysPermissionController extends BaseController {
 
     private SysPermissionService permissionService;
@@ -29,28 +28,27 @@ public class SysPermissionController extends BaseController {
         this.permissionService = permissionService;
     }
 
-    @PostMapping("/list")
+    @PostMapping(path = "list")
     public JsonResult<QueryPage<SysPermission>> userPage(@RequestBody QueryModel<SysPermission> query) {
-        QueryPage<SysPermission> page = permissionService.queryForPage(query);
-        return JsonResult.success(page);
+        return JsonResult.success(permissionService.queryForPage(query));
     }
 
     @GetMapping
     public JsonResult<SysPermission> get(@RequestParam String id) {
-        return JsonResult.success(permissionService.findById(id).orElse(null));
+        return JsonResult.success(permissionService.getById(id));
     }
 
     @DeleteMapping
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> delete(@RequestParam String id) {
         permissionService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysPermission permission) {
-        permissionService.insertOrUpdate(permission);
+        permissionService.insertOrUpdateSelective(permission);
         return JsonResult.success();
     }
 }

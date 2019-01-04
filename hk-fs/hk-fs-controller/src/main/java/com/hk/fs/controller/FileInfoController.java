@@ -18,7 +18,7 @@ import java.io.IOException;
  * @date 2018-08-08 17:59
  */
 @RestController
-@RequestMapping("/file")
+@RequestMapping("file")
 public class FileInfoController {
 
     private final FileInfoService fileInfoService;
@@ -46,7 +46,7 @@ public class FileInfoController {
      * @return JsonResult
      * @throws IOException IOException
      */
-    @PostMapping(path = "/upload")
+    @PostMapping(path = "upload")
     public JsonResult<?> upload(String group, @RequestParam("file") MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             return JsonResult.badRequest("文件不能为空");
@@ -61,7 +61,7 @@ public class FileInfoController {
      * @param id id
      * @return InputStreamResource
      */
-    @GetMapping(path = "/down/{id}")
+    @GetMapping(path = "down/{id}")
     public ResponseEntity<InputStreamResource> downFile(@PathVariable String id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
         return Webs.toDownloadResponseEntity(fileInfo.getFileName(), StringUtils.createResource(

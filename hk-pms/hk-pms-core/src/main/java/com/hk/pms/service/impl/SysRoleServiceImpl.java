@@ -40,22 +40,11 @@ public class SysRoleServiceImpl extends JdbcServiceImpl<SysRole, String> impleme
 
     /**
      * 返回 BaseRepository
-     *
-     * @return
      */
     @Override
     protected JdbcRepository<SysRole, String> getBaseRepository() {
         return sysRoleRepository;
     }
-
-//    @Override
-//    protected ExampleMatcher ofExampleMatcher() {
-//        return super.ofExampleMatcher()
-//                .withMatcher("appId", ExampleMatcher.GenericPropertyMatchers.exact())
-//                .withMatcher("roleStatus", ExampleMatcher.GenericPropertyMatchers.exact())
-//                .withMatcher("roleCode", ExampleMatcher.GenericPropertyMatchers.contains())
-//                .withMatcher("roleName", ExampleMatcher.GenericPropertyMatchers.contains());
-//    }
 
     @Override
     public List<SysRole> getRoleList(String userId, String appId) {
@@ -79,13 +68,5 @@ public class SysRoleServiceImpl extends JdbcServiceImpl<SysRole, String> impleme
         role.setRoleStatus(ByteConstants.ONE);
         insertOrUpdate(role);
     }
-
-//    @Override
-//    protected SysRole saveBefore(SysRole entity) {
-//        if (null == entity.getRoleStatus()) {
-//            entity.setRoleStatus(ByteConstants.ONE);
-//        }
-//        return super.saveBefore(entity);
-//    }
 
 }

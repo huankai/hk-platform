@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018-08-29 16:26
  */
 @RestController
-@RequestMapping("/dept")
+@RequestMapping("dept")
 public class SysOrgDeptController extends BaseController {
 
     private SysOrgDeptService orgDeptService;
@@ -25,26 +25,26 @@ public class SysOrgDeptController extends BaseController {
         this.orgDeptService = orgDeptService;
     }
 
-    @PostMapping("/list")
+    @PostMapping(path = "list")
     public JsonResult<QueryPage<SysOrgDept>> userPage(@RequestBody QueryModel<SysOrgDept> query) {
         QueryPage<SysOrgDept> page = orgDeptService.queryForPage(query);
         return JsonResult.success(page);
     }
 
-    @GetMapping
-    public JsonResult<SysOrgDept> get(@RequestParam String id) {
-        return JsonResult.success(orgDeptService.findById(id).orElse(null));
+    @GetMapping(path = "{id}", name = "dept-get")
+    public JsonResult<SysOrgDept> get(@PathVariable String id) {
+        return JsonResult.success(orgDeptService.getById(id));
     }
 
-    @DeleteMapping
-    public JsonResult<Void> delete(@RequestParam String id) {
+    @DeleteMapping(path = "{id}", name = "dept-delete")
+    public JsonResult<Void> delete(@PathVariable String id) {
         orgDeptService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysOrgDept dept) {
-        orgDeptService.insertOrUpdate(dept);
+        orgDeptService.insertOrUpdateSelective(dept);
         return JsonResult.success();
     }
 }

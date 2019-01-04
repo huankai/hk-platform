@@ -1,8 +1,7 @@
 package com.hk.pms.domain;
 
 import com.hk.core.data.jdbc.domain.AbstractAuditable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -13,6 +12,9 @@ import javax.validation.constraints.NotEmpty;
  * @date 2018-04-12 16:34
  */
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(value = "sys_dept_role")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = false)

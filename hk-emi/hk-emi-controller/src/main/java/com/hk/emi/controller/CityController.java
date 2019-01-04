@@ -26,7 +26,7 @@ import java.util.List;
  * @date 2018-07-17 16:49
  */
 @RestController
-@RequestMapping(path = "/city")
+@RequestMapping(path = "city")
 public class CityController extends BaseController {
 
     private final CityService cityService;
@@ -42,7 +42,7 @@ public class CityController extends BaseController {
      * @param query query
      * @return {@link City}
      */
-    @PostMapping(path = "/list")
+    @PostMapping(path = "list")
     public JsonResult<QueryPage<City>> list(@RequestBody QueryModel<City> query) {
         return JsonResult.success(cityService.queryForPage(query));
     }
@@ -64,7 +64,7 @@ public class CityController extends BaseController {
      * @param parentId parentId
      * @return {@link City}
      */
-    @GetMapping(path = "/child/{parentId}", name = "city-child")
+    @GetMapping(path = "child/{parentId}", name = "city-child")
     public JsonResult<List<City>> childList(@PathVariable String parentId) {
         return JsonResult.success(cityService.findChildList(parentId));
     }
@@ -101,7 +101,7 @@ public class CityController extends BaseController {
      * @param multipartFile multipartFile
      * @return {@link ErrorLog}
      */
-    @PostMapping(path = "/excel/import")
+    @PostMapping(path = "excel/import")
     @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<List<ErrorLog<CityExcelVo>>> excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
         List<ErrorLog<CityExcelVo>> errorLogs = cityService.importExcel(multipartFile.getInputStream());

@@ -33,7 +33,7 @@ public class BaseCodeController extends BaseController {
      * @param query query
      * @return JsonResult
      */
-    @PostMapping(path = "/list")
+    @PostMapping(path = "list")
     public JsonResult<QueryPage<BaseCode>> list(@RequestBody QueryModel<BaseCode> query) {
         return JsonResult.success(baseCodeService.queryForPage(query));
     }

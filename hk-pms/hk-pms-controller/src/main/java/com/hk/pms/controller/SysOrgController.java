@@ -2,6 +2,7 @@ package com.hk.pms.controller;
 
 import com.hk.commons.JsonResult;
 import com.hk.core.page.QueryPage;
+import com.hk.core.query.Order;
 import com.hk.core.query.QueryModel;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysOrg;
@@ -26,28 +27,43 @@ public class SysOrgController extends BaseController {
         this.orgService = orgService;
     }
 
-    @PostMapping("/list")
-    public JsonResult<QueryPage<SysOrg>> userPage(@RequestBody QueryModel<SysOrg> query) {
-        QueryPage<SysOrg> page = orgService.queryForPage(query);
-        return JsonResult.success(page);
+    @PostMapping(path = "list")
+    public JsonResult<QueryPage<SysOrg>> page(@RequestBody QueryModel<SysOrg> query) {
+        return JsonResult.success(orgService.queryForPage(query));
     }
 
+    /**
+     * 查询所有
+     *
+     * @return {@link JsonResult}
+     */
     @GetMapping
-    public JsonResult<SysOrg> get(@RequestParam String id) {
-        return JsonResult.success(orgService.findById(id).orElse(null));
+    public JsonResult<Iterable<SysOrg>> findAll() {
+        return JsonResult.success(orgService.findAll(Order.asc("org_code")));
     }
 
-    @DeleteMapping
+    @GetMapping(path = "{id}", name = "org-get")
+    public JsonResult<SysOrg> get(@PathVariable String id) {
+        return JsonResult.success(orgService.getById(id));
+    }
+
+    @DeleteMapping(path = "{id}", name = "org-delete")
     @PreAuthorize("hasRole('org_admin')")
-    public JsonResult<Void> delete(@RequestParam String id) {
+    public JsonResult<Void> delete(@PathVariable String id) {
         orgService.deleteById(id);
         return JsonResult.success();
     }
 
+    /**
+     * 保存或更新
+     *
+     * @param org org
+     * @return {@link JsonResult}
+     */
     @PostMapping
     @PreAuthorize("hasRole('org_admin')")
     public JsonResult<Void> update(@Validated @RequestBody SysOrg org) {
-        orgService.updateById(org);
+        orgService.insertOrUpdateSelective(org);
         return JsonResult.success();
     }
 }

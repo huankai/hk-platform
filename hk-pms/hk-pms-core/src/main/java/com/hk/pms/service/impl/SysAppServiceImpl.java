@@ -7,6 +7,7 @@ import com.hk.core.cache.service.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.repository.jdbc.SysAppRepository;
+import com.hk.pms.service.OauthClientDetailsService;
 import com.hk.pms.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -23,6 +24,15 @@ import java.util.Optional;
 public class SysAppServiceImpl extends EnableJdbcCacheServiceImpl<SysApp, String> implements SysAppService {
 
     private final SysAppRepository sysAppRepository;
+
+    /*
+     * oauth2 client注册
+     */
+//    @Autowired
+//    private ClientRegistrationService clientRegistrationService;
+
+    @Autowired
+    private OauthClientDetailsService oauthClientDetailsService;
 
     @Autowired
     public SysAppServiceImpl(SysAppRepository sysAppRepository) {
@@ -42,7 +52,7 @@ public class SysAppServiceImpl extends EnableJdbcCacheServiceImpl<SysApp, String
      */
     @Override
     public Optional<SysApp> findByAppCode(String appCode) {
-        AssertUtils.notEmpty(appCode);
+        AssertUtils.notEmpty(appCode, "appCode");
         return sysAppRepository.findByAppCode(appCode);
     }
 

@@ -3,7 +3,6 @@ package com.hk.pms.controller;
 import com.hk.commons.JsonResult;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
-import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysConfig;
 import com.hk.pms.service.SysConfigService;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018-09-20 20:05
  */
 @RestController
-@RequestMapping("/system/config")
+@RequestMapping("system/config")
 public class SysConfigController extends BaseController {
 
     private final SysConfigService configService;
@@ -29,19 +28,19 @@ public class SysConfigController extends BaseController {
         this.configService = configService;
     }
 
-    @PostMapping("/list")
+    @PostMapping(path = "list")
     public JsonResult<QueryPage<SysConfig>> userPage(@RequestBody QueryModel<SysConfig> query) {
         QueryPage<SysConfig> page = configService.queryForPage(query);
         return JsonResult.success(page);
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "{id}", name = "config-get")
     public JsonResult<SysConfig> get(@PathVariable String id) {
-        return JsonResult.success(configService.findById(id).orElse(null));
+        return JsonResult.success(configService.getById(id));
     }
 
-    @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @DeleteMapping(path = "{id}", name = "config-delete")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> delete(@PathVariable String id) {
         configService.deleteById(id);
         return JsonResult.success();
@@ -49,9 +48,9 @@ public class SysConfigController extends BaseController {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysConfig config) {
-        configService.insertOrUpdate(config);
+        configService.insertOrUpdateSelective(config);
         return JsonResult.success();
     }
 

@@ -60,4 +60,26 @@ public interface SysUserService extends JdbcBaseService<SysUser, String> {
      * @param newPassword 新密码
      */
     void resetPassword(String id, String oldPassword, String newPassword);
+
+    /**
+     * 根据邮箱号修改密码
+     *
+     * @param id
+     * @param emailCode
+     * @param newPassword
+     */
+    default void resetPasswordByEmail(String id, String emailCode, String newPassword) {
+        throw new UnsupportedOperationException("未实现...");
+    }
+
+    /**
+     * 根据手机号修改密码
+     *
+     * @param id
+     * @param phoneCode
+     * @param newPassword
+     */
+    default void resetPasswordByPhone(String id, String phoneCode, String newPassword) {
+        throw new UnsupportedOperationException("未实现...");
+    }
 }

@@ -3,7 +3,6 @@ package com.hk.pms.controller;
 import com.hk.commons.JsonResult;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
-import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysRole;
 import com.hk.pms.service.SysRoleService;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2018-08-29 16:20
  */
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("roles")
 public class SysRoleController extends BaseController {
 
     private SysRoleService roleService;
@@ -27,32 +26,31 @@ public class SysRoleController extends BaseController {
         this.roleService = roleService;
     }
 
-    @PostMapping("/list")
-    public JsonResult<QueryPage<SysRole>> userPage(@RequestBody QueryModel<SysRole> query) {
-        QueryPage<SysRole> page = roleService.queryForPage(query);
-        return JsonResult.success(page);
+    @PostMapping(path = "list")
+    public JsonResult<QueryPage<SysRole>> page(@RequestBody QueryModel<SysRole> query) {
+        return JsonResult.success(roleService.queryForPage(query));
     }
 
-    @GetMapping
-    public JsonResult<SysRole> get(@RequestParam String id) {
-        return JsonResult.success(roleService.findById(id).orElse(null));
+    @GetMapping(path = "{id}", name = "role-get")
+    public JsonResult<SysRole> get(@PathVariable String id) {
+        return JsonResult.success(roleService.getById(id));
     }
 
-    @DeleteMapping
-    public JsonResult<Void> delete(@RequestParam String id) {
+    @DeleteMapping(path = "{id}", name = "role-delete")
+    public JsonResult<Void> delete(@PathVariable String id) {
         roleService.deleteById(id);
         return JsonResult.success();
     }
 
-    @PostMapping("/disabled")
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @PostMapping(path = "disabled")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> disabled(@RequestParam String id) {
         roleService.disable(id);
         return JsonResult.success();
     }
 
-    @PostMapping("/enabled")
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @PostMapping(path = "enabled")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> enabled(@RequestParam String id) {
         roleService.enable(id);
         return JsonResult.success();
@@ -60,7 +58,7 @@ public class SysRoleController extends BaseController {
 
     @PostMapping
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysRole role) {
-        roleService.insertOrUpdate(role);
+        roleService.insertOrUpdateSelective(role);
         return JsonResult.success();
     }
 }

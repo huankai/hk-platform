@@ -34,7 +34,7 @@ public class ChildCodeController extends BaseController {
      * @param query query
      * @return {@link ChildCode}
      */
-    @PostMapping(path = "/list")
+    @PostMapping(path = "list")
     public JsonResult<QueryPage<ChildCode>> list(@RequestBody QueryModel<ChildCode> query) {
         return JsonResult.success(childCodeService.queryForPage(query));
     }

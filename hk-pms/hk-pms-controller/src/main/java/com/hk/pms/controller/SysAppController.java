@@ -3,7 +3,6 @@ package com.hk.pms.controller;
 import com.hk.commons.JsonResult;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
-import com.hk.platform.commons.role.RoleNamed;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.service.SysAppService;
@@ -27,41 +26,41 @@ public class SysAppController extends BaseController {
         this.appService = appService;
     }
 
-    @PostMapping("/list")
+    @PostMapping(path = "list")
     public JsonResult<QueryPage<SysApp>> userPage(@RequestBody QueryModel<SysApp> query) {
         QueryPage<SysApp> page = appService.queryForPage(query);
         return JsonResult.success(page);
     }
 
-    @GetMapping("{id}")
+    @GetMapping(path = "{id}", name = "app-get")
     public JsonResult<SysApp> get(@PathVariable String id) {
         return JsonResult.success(appService.getById(id));
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping(path = "{id}", name = "app-delete")
     public JsonResult<Void> delete(@PathVariable String id) {
         appService.deleteById(id);
         return JsonResult.success();
     }
 
-    @PostMapping("/disabled")
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @PostMapping(path = "disabled")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> disabled(@RequestParam String id) {
         appService.disable(id);
         return JsonResult.success();
     }
 
-    @PostMapping("/enabled")
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @PostMapping(path = "enabled")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> enabled(@RequestParam String id) {
         appService.enable(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('" + RoleNamed.ADMIN + "')")
+    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysApp app) {
-        appService.insertOrUpdate(app);
+        appService.insertOrUpdateSelective(app);
         return JsonResult.success();
     }
 }

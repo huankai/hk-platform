@@ -15,4 +15,8 @@ public interface SysRolePermissionService extends JdbcBaseService<SysRolePermiss
      * @param permissionId permissionId
      */
     void deleteByRoleIdAndPermissionId(String roleId, String permissionId);
+
+    void updateRolePermission(String roleId, String[] permissionIds);
+
+    void addPermissionRole(String permissionId, String[] roleIds);
 }

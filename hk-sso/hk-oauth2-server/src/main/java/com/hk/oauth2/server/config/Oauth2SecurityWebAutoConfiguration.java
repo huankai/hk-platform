@@ -144,12 +144,6 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
 
                 .authorizeRequests().expressionHandler(new AdminAccessWebSecurityExpressionHandler())// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
-                /*.withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
-                    @Override
-                    public <O extends AbstractSecurityExpressionHandler> O postProcess(O object) {
-                        return (O) new AdminAccessWebSecurityExpressionHandler();
-                    }
-                })*/
 //                @see https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
                 .requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(RoleNamed.ADMIN) //访问所有以 /actuator/**的需要有admin 角色
                 .anyRequest().authenticated();
@@ -157,7 +151,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**", "/error", "/actuator/health", "/sms/sender", "/wechat/login", "/oauth/logout", "/favicon.ico");
+        web.ignoring().antMatchers("/resources/**", "/error", "/actuator/health", "/sms/sender", "/wechat/login", "/favicon.ico");
     }
 
     /**

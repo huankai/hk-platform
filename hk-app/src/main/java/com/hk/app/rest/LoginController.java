@@ -1,7 +1,9 @@
 package com.hk.app.rest;
 
+import com.hk.commons.JsonResult;
 import com.hk.commons.http.post.SimplePostHttpExecutor;
 import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.JsonUtils;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,10 +37,7 @@ public class LoginController extends BaseController {
      */
     @GetMapping(path = "${hk.authentication.browser.login-url:/login}")
     public String login() {
-        if (isAuthenticated()) {
-            return "forward:/";
-        }
-        return "login";
+        return isAuthenticated() ? "forward:/" : "login";
     }
 
     /**
@@ -50,17 +48,19 @@ public class LoginController extends BaseController {
      */
     @PostMapping(path = "${hk.authentication.browser.login-url:/login}", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     @ResponseBody
-    public String login(@RequestParam String username, @RequestParam String password) throws IOException {
-        String clientId = oAuth2ProtectedResourceDetails.getClientId();
-        String accessTokenUri = oAuth2ProtectedResourceDetails.getAccessTokenUri();
-        String clientSecret = oAuth2ProtectedResourceDetails.getClientSecret();
+    public String login(@RequestParam String username, @RequestParam String password) {
         Map<String, Object> params = new HashMap<>();
-        params.put(OAuth2Utils.CLIENT_ID, clientId);
-        params.put("client_secret", clientSecret);
+        params.put(OAuth2Utils.CLIENT_ID, oAuth2ProtectedResourceDetails.getClientId());
+        params.put("client_secret", oAuth2ProtectedResourceDetails.getClientSecret());
         params.put("username", username);
         params.put("password", password);
         params.put(OAuth2Utils.GRANT_TYPE, "password");
-        return new SimplePostHttpExecutor().execute(accessTokenUri, params);
+        try {
+            return new SimplePostHttpExecutor().execute(oAuth2ProtectedResourceDetails.getAccessTokenUri(),
+                    params);
+        } catch (Exception e) {
+            return JsonUtils.serialize(JsonResult.error("登陆失败"));
+        }
     }
 
     /**
@@ -82,11 +82,10 @@ public class LoginController extends BaseController {
      * </pre>
      *
      * @param refreshToken refreshToken
-     * @throws IOException
      */
     @PostMapping(path = "/refreshToken", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
     @ResponseBody
-    public String refreshToken(@RequestParam String refreshToken) throws IOException {
+    public String refreshToken(@RequestParam String refreshToken) {
         Map<String, Object> params = new HashMap<>();
         params.put(OAuth2Utils.CLIENT_ID, oAuth2ProtectedResourceDetails.getClientId());
         params.put("client_secret", oAuth2ProtectedResourceDetails.getClientSecret());
@@ -96,8 +95,12 @@ public class LoginController extends BaseController {
             params.put(OAuth2Utils.SCOPE, scopeList);
         }
         params.put(OAuth2AccessToken.REFRESH_TOKEN, refreshToken);
-        return new SimplePostHttpExecutor().execute(oAuth2ProtectedResourceDetails.getAccessTokenUri(),
-                params);
+        try {
+            return new SimplePostHttpExecutor().execute(oAuth2ProtectedResourceDetails.getAccessTokenUri(),
+                    params);
+        } catch (Exception e) {
+            return JsonUtils.serialize(JsonResult.error("刷新Token失败"));
+        }
     }
 
 }

@@ -5,12 +5,9 @@ import com.hk.commons.util.CollectionUtils;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -46,11 +43,6 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
 //            }
 //        });
 //        resources.authenticationEntryPoint(authenticationEntryPoint);
-    }
-
-    @Bean
-    public SessionRegistry sessionRegistry() {
-        return new SessionRegistryImpl();
     }
 
     @Override
