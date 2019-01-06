@@ -10,14 +10,15 @@ import java.util.List;
 
 /**
  * @author kevin
+ * @date 2018-07-17 16:49
  */
 public interface CityService extends JdbcBaseService<City, String> {
 
     /**
      * 查询下级City
      *
-     * @param parentId
-     * @return
+     * @param parentId parentId
+     * @return 子级城市
      */
     List<City> findChildList(String parentId);
 
@@ -25,6 +26,7 @@ public interface CityService extends JdbcBaseService<City, String> {
      * 导入
      *
      * @param excelInput excel文件
+     * @return 如果解析出错，返回错误信息 {@link ErrorLog}
      */
     List<ErrorLog<CityExcelVo>> importExcel(InputStream excelInput);
 
@@ -32,7 +34,7 @@ public interface CityService extends JdbcBaseService<City, String> {
      * 根据条件查询生成Excel Byte
      *
      * @param city city 查询条件
-     * @return
+     * @return Excel byte[] 数据
      */
     byte[] exportExcelData(City city);
 }
