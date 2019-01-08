@@ -45,7 +45,7 @@ public class SysRolePermissionServiceImpl extends JdbcServiceImpl<SysRolePermiss
 
     @Override
     public void updateRolePermission(String roleId, String[] permissionIds) {
-        AssertUtils.notEmpty(roleId, "roleId");
+        AssertUtils.notEmptyWithI18n(roleId, "roleId");
         deleteByRoleId(roleId);
         if (ArrayUtils.isNotEmpty(permissionIds)) {
             List<SysRolePermission> addList = new ArrayList<>();
@@ -62,7 +62,7 @@ public class SysRolePermissionServiceImpl extends JdbcServiceImpl<SysRolePermiss
 
     @Override
     public void addPermissionRole(String permissionId, String[] roleIds) {
-        AssertUtils.notEmpty(permissionId, "permissionId");
+        AssertUtils.notEmptyWithI18n(permissionId, "permissionId");
         if (ArrayUtils.isNotEmpty(roleIds)) {
             List<SysRolePermission> userRoleList = findByPermissionId(permissionId);
             if (CollectionUtils.isNotEmpty(userRoleList)) {

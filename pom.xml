@@ -23,6 +23,7 @@
         <module>hk-emi</module>
         <module>hk-fs</module>
         <module>hk-solr</module>
+        <module>hk-mail</module>
         <module>hk-platform-business</module>
         <module>hk-config-server</module>
         <module>hk-message-web</module>

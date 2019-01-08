@@ -51,7 +51,7 @@ public class SysDeptRoleServiceImpl extends JdbcServiceImpl<SysDeptRole, String>
      */
     @Override
     public void updateDeptRole(String deptId, String[] roleIds) {
-        AssertUtils.notEmpty(deptId, "deptId");
+        AssertUtils.notEmptyWithI18n(deptId, "deptId");
         deleteByDeptId(deptId);
         if (ArrayUtils.isNotEmpty(roleIds)) {
             List<SysDeptRole> addList = new ArrayList<>();
@@ -74,7 +74,7 @@ public class SysDeptRoleServiceImpl extends JdbcServiceImpl<SysDeptRole, String>
      */
     @Override
     public void addRoleDept(String roleId, String[] deptIds) {
-        AssertUtils.notEmpty(roleId, "roleId");
+        AssertUtils.notEmptyWithI18n(roleId, "roleId");
         if (ArrayUtils.isNotEmpty(deptIds)) {
             List<SysDeptRole> userRoleList = findByRoleId(roleId);
             if (CollectionUtils.isNotEmpty(userRoleList)) {

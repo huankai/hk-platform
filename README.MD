@@ -10,6 +10,10 @@
 		- feign emi api接口定义
 	- hk-emi-commons: 
 		- emi commons 包
+	- hk-emi-core:
+	    - emi core 
+	- hk-emi-controller:
+	    - emi controller
 	- hk-emi-web: 
 		- emi 字典管理系统
 
@@ -25,14 +29,27 @@
 	- hk-platform-business-emi:
 		- 业务公用emi包
 
+- hk-mail:
+    - hk-mail-api: 
+        - mail 发送 api
+    - hk-mail-core:
+        - mail core  
+    - hk-mail-controller:
+        - mail controller 
+    - hk-mail-web: 
+        - 邮件发送
 - hk-pms:
 	- hk-pms-api
 		-  feign pms api接口定义
+	- hk-pms-core
+	    - pms core
+	- hk-pms-controller
+	    - pms controller
 	- hk-pms-commons
 		-  pms commons 包
 
-- hk-pms-web
-	-  pms 统一用户与权限管理系统
+    - hk-pms-web
+	    -  pms 统一用户与权限管理系统
 
 - hk-sso:
 	- hk-oauth2-server

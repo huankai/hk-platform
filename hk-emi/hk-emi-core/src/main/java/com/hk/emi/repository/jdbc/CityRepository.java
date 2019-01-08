@@ -20,6 +20,6 @@ public interface CityRepository extends StringIdJdbcRepository<City> {
      * @return City
      */
     @Query(value = "select * from sys_city where parent_id = :parentId and parent_id <> id order by code asc")
-    List<City> findByParentId(@Param("parentId") String parentId);
+    List<City> findByParentIdOrderByCodeAsc(@Param("parentId") String parentId);
 
 }

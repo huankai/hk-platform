@@ -52,7 +52,7 @@ public class SysAppServiceImpl extends EnableJdbcCacheServiceImpl<SysApp, String
      */
     @Override
     public Optional<SysApp> findByAppCode(String appCode) {
-        AssertUtils.notEmpty(appCode, "appCode");
+        AssertUtils.notEmptyWithI18n(appCode, "appCode");
         return sysAppRepository.findByAppCode(appCode);
     }
 

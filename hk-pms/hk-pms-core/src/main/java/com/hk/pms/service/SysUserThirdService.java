@@ -45,7 +45,7 @@ public interface SysUserThirdService extends JdbcBaseService<SysUserThird, Strin
      * @return {@link SysUserThird}
      */
     default List<SysUserThird> findByUserId(String userId) {
-        AssertUtils.notEmpty(userId, "userId");
+        AssertUtils.notEmptyWithI18n(userId, "userId");
         return findAll(new CompositeCondition(new SimpleCondition("user_id", userId))).getResult();
     }
 }

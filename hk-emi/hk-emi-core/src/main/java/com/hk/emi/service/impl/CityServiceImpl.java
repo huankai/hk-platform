@@ -64,7 +64,7 @@ public class CityServiceImpl extends JdbcServiceImpl<City, String> implements Ci
      */
     @Override
     public List<City> findChildList(String parentId) {
-        return StringUtils.isEmpty(parentId) ? Collections.emptyList() : cityRepository.findByParentId(parentId);
+        return StringUtils.isEmpty(parentId) ? Collections.emptyList() : cityRepository.findByParentIdOrderByCodeAsc(parentId);
     }
 
     /**
@@ -116,7 +116,6 @@ public class CityServiceImpl extends JdbcServiceImpl<City, String> implements Ci
         WriteableExcel<CityExcelVo> writeAbleExcel = new XSSFWriteableExcel<>();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         writeAbleExcel.write(param, outputStream);
-
         return outputStream.toByteArray();
     }
 }

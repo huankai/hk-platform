@@ -52,7 +52,7 @@ public class SysUserThirdServiceImpl extends JdbcServiceImpl<SysUserThird, Strin
 
     @Override
     public boolean existsByUserIdAndAccountType(String userId, byte accountType) {
-        AssertUtils.notEmpty(userId, "userId");
+        AssertUtils.notEmptyWithI18n(userId, "userId");
         SysUserThird sysUserThird = new SysUserThird();
         sysUserThird.setUserId(userId);
         sysUserThird.setAccountType(accountType);

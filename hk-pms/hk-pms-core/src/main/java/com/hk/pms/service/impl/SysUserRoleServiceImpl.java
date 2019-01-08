@@ -53,7 +53,7 @@ public class SysUserRoleServiceImpl extends JdbcServiceImpl<SysUserRole, String>
      */
     @Override
     public void updateUserRole(String userId, String[] roleIds) {
-        AssertUtils.notEmpty(userId, "userId");
+        AssertUtils.notEmptyWithI18n(userId, "userId");
         deleteByUserId(userId);
         if (ArrayUtils.isNotEmpty(roleIds)) {
             List<SysUserRole> addList = new ArrayList<>();
@@ -72,7 +72,7 @@ public class SysUserRoleServiceImpl extends JdbcServiceImpl<SysUserRole, String>
      */
     @Override
     public void addRoleUser(String roleId, String[] userIds) {
-        AssertUtils.notEmpty(roleId, "roleId");
+        AssertUtils.notEmptyWithI18n(roleId, "roleId");
         if (ArrayUtils.isNotEmpty(userIds)) {
             List<SysUserRole> userRoleList = findByRoleId(roleId);
             if (CollectionUtils.isNotEmpty(userRoleList)) {
