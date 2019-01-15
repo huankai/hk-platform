@@ -151,7 +151,13 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/resources/**", "/error", "/actuator/health", "/sms/sender", "/wechat/login", "/favicon.ico");
+        web.ignoring().antMatchers("/resources/**",
+                "email/register/**",// 邮箱号注册
+                "/error", // 错误页面
+                "/actuator/health",  // 健康检查
+                "/sms/sender",  // 短信登陆
+                "/wechat/login", // 微信登陆
+                "/favicon.ico"); // ico
     }
 
     /**

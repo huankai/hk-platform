@@ -57,17 +57,6 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
     }
 
     @Override
-    public SysUser updateById(SysUser sysUser) {
-        throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
-    }
-
-
-    @Override
-    public SysUser insert(SysUser sysUser) {
-        throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
-    }
-
-    @Override
     public void deleteById(String s) {
         throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
     }

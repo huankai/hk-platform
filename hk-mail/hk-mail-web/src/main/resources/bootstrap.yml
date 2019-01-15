@@ -10,4 +10,3 @@ spring:
       label: "2.1.0.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
-

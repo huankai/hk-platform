@@ -13,8 +13,8 @@
         <java.version>1.8</java.version>
         <hk.core.version>2.1.0.RELEASE</hk.core.version>
     </properties>
-
     <modules>
+
         <module>hk-app</module>
         <module>hk-sso</module>
         <module>hk-gateway</module>
@@ -24,6 +24,7 @@
         <module>hk-fs</module>
         <module>hk-solr</module>
         <module>hk-mail</module>
+        <module>hk-flowable</module>
         <module>hk-platform-business</module>
         <module>hk-config-server</module>
         <module>hk-message-web</module>

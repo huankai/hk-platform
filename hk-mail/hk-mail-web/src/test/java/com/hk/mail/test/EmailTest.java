@@ -4,8 +4,6 @@ import com.hk.core.test.BaseTest;
 import com.hk.mail.MailApplication;
 import com.hk.mail.service.EmailService;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,17 +20,13 @@ public class EmailTest extends BaseTest {
     @Autowired
     private EmailService emailService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmailTest.class);
-
     @Test
-    public void asynSendTest() {
-        LOGGER.info("Thread Name: ------------> {}", Thread.currentThread().getName());
+    public void asyncSendTest() {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("huankai@139.com");
-        message.setTo("852476317@qq.com");
+        message.setTo("huankai@139.com");
         message.setSubject("tests");
         message.setSentDate(new Date());
-        message.setText("测试sddf");
+        message.setText("测试2sddddf");
         emailService.asyncSend(message);
 
         /*
