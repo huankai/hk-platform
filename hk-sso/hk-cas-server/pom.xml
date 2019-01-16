@@ -4,16 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>hk-discovery</artifactId>
-    <packaging>pom</packaging>
+    <groupId>com.hk</groupId>
+    <artifactId>hk-cas-server</artifactId>
+    <version>2.1.2.RELEASE</version>
 
-    <parent>
-        <groupId>com.hk</groupId>
-        <artifactId>hk-platform</artifactId>
-        <version>2.1.2.RELEASE</version>
-    </parent>
-
-    <modules>
-        <module>hk-discover-eureka</module>
-    </modules>
+    
 </project>
