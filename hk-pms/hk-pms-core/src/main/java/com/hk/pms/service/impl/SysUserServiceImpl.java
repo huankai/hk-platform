@@ -3,7 +3,7 @@ package com.hk.pms.service.impl;
 
 import com.hk.commons.util.ByteConstants;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.exception.ServiceException;
+import com.hk.core.service.exception.ServiceException;
 import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysUser;
 import com.hk.pms.repository.jdbc.SysUserRepository;

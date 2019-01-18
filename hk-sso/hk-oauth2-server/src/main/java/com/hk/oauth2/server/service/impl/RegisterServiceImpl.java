@@ -2,7 +2,7 @@ package com.hk.oauth2.server.service.impl;
 
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.exception.ServiceException;
+import com.hk.core.service.exception.ServiceException;
 import com.hk.mail.api.domain.EmailMessage;
 import com.hk.mail.api.feign.EmailFeign;
 import com.hk.oauth2.server.entity.SysUser;

@@ -7,7 +7,7 @@
     <artifactId>hk-emi-controller</artifactId>
     <parent>
         <groupId>com.hk</groupId>
-        <artifactId>hk-pms</artifactId>
+        <artifactId>hk-emi</artifactId>
         <version>2.1.2.RELEASE</version>
     </parent>
     <dependencies>

@@ -6,7 +6,7 @@ import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.FileUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
-import com.hk.core.exception.ServiceException;
+import com.hk.core.service.exception.ServiceException;
 import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.fs.domain.FileInfo;
 import com.hk.fs.properties.FileServer;

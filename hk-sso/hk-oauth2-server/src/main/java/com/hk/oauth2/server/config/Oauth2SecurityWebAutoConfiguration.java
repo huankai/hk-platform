@@ -10,7 +10,8 @@ import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityCon
 import com.hk.core.autoconfigure.weixin.authentication.qrcode.WechatQrcodeAuthenticationSecurityConfigurer;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
 import com.hk.platform.commons.role.RoleNamed;
-import com.hk.weixin.qrcode.WechatQrCodeConfig;
+import com.hk.weixin.qrcode.WechatQrCodeProperties;
+
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,12 +39,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Order(1)
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(value = {WechatQrCodeConfig.class, AuthenticationProperties.class})
+@EnableConfigurationProperties(value = {WechatQrCodeProperties.class, AuthenticationProperties.class})
 public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties authenticationProperties;
 
-    private WechatQrCodeConfig qrCodeConfig;
+    private WechatQrCodeProperties qrCodeProperties;
 
     /**
      * 手机号验证 Bean,在没有开启手机号验证时,不会注入该Bean
@@ -55,9 +56,9 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     private ValidateCodeProcessor processor;
 
     public Oauth2SecurityWebAutoConfiguration(AuthenticationProperties authenticationProperties,
-                                              WechatQrCodeConfig qrCodeConfig) {
+    		WechatQrCodeProperties qrCodeProperties) {
         this.authenticationProperties = authenticationProperties;
-        this.qrCodeConfig = qrCodeConfig;
+        this.qrCodeProperties = qrCodeProperties;
     }
 
     /**
@@ -101,7 +102,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                     .apply(new SmsAuthenticationSecurityConfiguration(sms, userDetailsService))
                     .and().apply(new ValidateCodeSecurityConfiguration(sms, processor, null));
         }
-        http.apply(new WechatQrcodeAuthenticationSecurityConfigurer(wxMpService, qrCodeConfig));
+        http.apply(new WechatQrcodeAuthenticationSecurityConfigurer(wxMpService, qrCodeProperties));
         http
                 .csrf().disable()
 

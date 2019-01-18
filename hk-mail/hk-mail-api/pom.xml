@@ -9,7 +9,7 @@
 
     <parent>
         <groupId>com.hk</groupId>
-        <artifactId>hk-pms</artifactId>
+        <artifactId>hk-mail</artifactId>
         <version>2.1.2.RELEASE</version>
     </parent>
 

@@ -1,7 +1,7 @@
 package com.hk.pms.service;
 
 
-import com.hk.core.exception.ServiceException;
+import com.hk.core.service.exception.ServiceException;
 import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.pms.domain.SysUser;
 
