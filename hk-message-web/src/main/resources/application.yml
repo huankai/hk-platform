@@ -36,36 +36,17 @@ spring:
     suffix: .html
 ######################################################### datasource 配置
   datasource:
-    name: druid
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.jdbc.Driver
+    name: hikari
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
     username: root
     password: root
-    druid:
-      initial-size: 1
-      max-active: 20
-      min-idle: 1
-      max-wait: 6000
-      time-between-eviction-runs-millis: 60000
-      test-on-borrow: true
-      test-on-return: false
-      pool-prepared-statements: true
-      max-pool-prepared-statement-per-connection-size: 20
-      filters: stat,wall,log4j2
-      filter:
-        stat:
-          slow-sql-millis: 5000
-      connection-properties: druid.stat.mergeSql=true
-      stat-view-servlet:
-        enabled: true
-        url-pattern: /druid/*
-        # 禁用HTML页面上的“Reset All”功能
-        reset-enable: false
-        allow: 127.0.0.1
-        login-username: druidAdmin
-        login-password: druidAdmin@%*
-      web-stat-filter:
-        enabled: true
-        url-pattern: /**
-        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+######################################################### hikari datasource 配置
+    hikari:
+      maximum-pool-size: 50
+      max-lifetime: 600000
+      minimum-idle: 10
+      connection-timeout: 30000
+      read-only: false
+      connection-test-query: SELECT 1 FROM DUAL

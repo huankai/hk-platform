@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
  * @date 2017-11-29 17:11
  */
 @Data
-@Table(value = "sys_child_code")
+@Table(value = "emi_child_code")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
 public class ChildCode extends AbstractAuditable {

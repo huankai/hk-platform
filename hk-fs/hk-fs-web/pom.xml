@@ -34,7 +34,7 @@
 
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-authentication-security</artifactId>
+            <artifactId>hk-core-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
@@ -53,20 +53,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
         </dependency>
 
         <dependency>

@@ -11,11 +11,11 @@ import java.util.stream.Collectors;
  * @author kevin
  * @date 2018-08-31 14:29
  */
-public class DictCodeServiceImpl implements DictService {
+public class FeignDictCodeServiceImpl implements DictService {
 
     private SysCodeFeignClient codeFeignClient;
 
-    public DictCodeServiceImpl(SysCodeFeignClient codeFeignClient) {
+    public FeignDictCodeServiceImpl(SysCodeFeignClient codeFeignClient) {
         this.codeFeignClient = codeFeignClient;
     }
 

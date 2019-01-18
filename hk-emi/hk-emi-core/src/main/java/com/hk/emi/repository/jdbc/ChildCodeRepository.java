@@ -14,9 +14,9 @@ import java.util.List;
  */
 public interface ChildCodeRepository extends StringIdJdbcRepository<ChildCode> {
 
-    @Query(value = "SELECT * FROM sys_child_code WHERE base_code_id = :baseCodeId AND state = 1")
+    @Query(value = "SELECT * FROM emi_child_code WHERE base_code_id = :baseCodeId AND state = 1")
     List<ChildCode> findByBaseCodeIdOrderByCodeValueAsc(@Param("baseCodeId") String baseCodeId);
 
-    @Query(value = "SELECT code_name FROM sys_child_code WHERE base_code_id = :baseCodeId AND code_value = :value AND state = 1")
+    @Query(value = "SELECT code_name FROM emi_child_code WHERE base_code_id = :baseCodeId AND code_value = :value AND state = 1")
     String findByBaseCodeIdAndCodeValue(@Param("baseCodeId") String baseCodeId, @Param("value") byte value);
 }

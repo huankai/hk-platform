@@ -16,7 +16,7 @@ import javax.validation.constraints.NotEmpty;
  * @date 2017-11-29 16:27
  */
 @Data
-@Table(value = "sys_base_code")
+@Table(value = "emi_base_code")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class BaseCode extends AbstractAuditable {

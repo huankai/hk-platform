@@ -10,3 +10,19 @@ spring:
       label: "2.1.2.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
+
+#ribbon:
+#  ConnectTimeout: 3000
+#  ReadTimeout: 60000
+# 超时重试次数，注意：如果在执行Insert 时，需要保证唯一性，有可能会出现重复Insert
+#  MaxAutoRetries: 1
+#  OkToRetryOnAllOperations: true
+#  MaxAutoRetriesNextServer: 1
+#
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 60000

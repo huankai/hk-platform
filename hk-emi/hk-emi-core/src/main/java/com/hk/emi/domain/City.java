@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
  * @date 2017年12月24日下午8:14:32
  */
 @Data
-@Table(value = "sys_city")
+@Table(value = "emi_city")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
 public class City extends AbstractAuditable {
