@@ -27,7 +27,7 @@
         <module>hk-flowable</module>
         <module>hk-platform-business</module>
         <module>hk-config-server</module>
-        <module>hk-message-web</module>
+        <module>hk-message</module>
         <module>hk-springboot-admin-server</module>
         <module>hk-platform-web</module>
     </modules>

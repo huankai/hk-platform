@@ -28,8 +28,7 @@ public class SysAppController extends BaseController {
 
     @PostMapping(path = "list")
     public JsonResult<QueryPage<SysApp>> userPage(@RequestBody QueryModel<SysApp> query) {
-        QueryPage<SysApp> page = appService.queryForPage(query);
-        return JsonResult.success(page);
+        return JsonResult.success(appService.queryForPage(query));
     }
 
     @GetMapping(path = "{id}", name = "app-get")
