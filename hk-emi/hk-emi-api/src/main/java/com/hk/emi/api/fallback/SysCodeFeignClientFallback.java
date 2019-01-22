@@ -20,7 +20,7 @@ public class SysCodeFeignClientFallback implements SysCodeFeignClient {
     }
 
     @Override
-    public List<String> childCodeNameList(String parentId, byte... codeValues) {
+    public List<String> childCodeNameList(String parentId, Number... codeValues) {
         return Collections.emptyList();
     }
 

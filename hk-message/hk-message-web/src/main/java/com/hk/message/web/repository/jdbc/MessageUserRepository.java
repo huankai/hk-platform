@@ -9,6 +9,6 @@ import java.util.Optional;
 
 public interface MessageUserRepository extends StringIdJdbcRepository<MessageUser> {
 
-    @Query(value = "SELECT id,message_id,user_id,read_state,read_date FROM t_message_user WHERE message_id = :messageId AND user_id = :userId")
+    @Query(value = "SELECT id,message_id,user_id, is_read,read_date FROM t_message_user WHERE message_id = :messageId AND user_id = :userId")
     Optional<MessageUser> findByMessageIdAndUserId(@Param(value = "messageId") String messageId, @Param(value = "userId") String userId);
 }

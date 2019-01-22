@@ -8,8 +8,8 @@
     <packaging>jar</packaging>
 
     <parent>
-        <artifactId>hk-platform</artifactId>
         <groupId>com.hk</groupId>
+        <artifactId>hk-message</artifactId>
         <version>2.1.2.RELEASE</version>
     </parent>
 

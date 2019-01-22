@@ -1,6 +1,6 @@
 package com.hk.oauth2.server.service.impl;
 
-import com.hk.core.cache.service.EnableJdbcCacheServiceImpl;
+import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.oauth2.server.entity.SysOrg;
 import com.hk.oauth2.server.repository.jdbc.SysOrgRepository;

@@ -3,7 +3,7 @@ package com.hk.pms.service.impl;
 
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.cache.service.EnableJdbcCacheServiceImpl;
+import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.core.service.exception.ServiceException;
 import com.hk.pms.domain.SysOrg;

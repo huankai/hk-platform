@@ -32,10 +32,10 @@ public class BaseCode extends AbstractAuditable {
     /**
      *
      */
-    @Column(value = "code_value")
+    @Column(value = "code_name")
     @NotEmpty
     @Length(max = 20)
-    private String codevalue;
+    private String codeName;
 
     /**
      *

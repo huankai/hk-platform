@@ -26,7 +26,7 @@ public class FeignDictCodeServiceImpl implements DictService {
     }
 
     @Override
-    public String getCodeName(String baseCodeId, byte value) {
+    public String getCodeName(String baseCodeId, Number value) {
         return codeFeignClient.childCodeName(baseCodeId, value);
     }
 }

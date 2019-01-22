@@ -15,7 +15,7 @@ public class MessageUserDTO extends Message {
     /**
      * 消息读取状态
      */
-    private Byte readState;
+    private Boolean isRead;
 
     /**
      * 消息读取时间

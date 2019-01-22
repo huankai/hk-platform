@@ -1,6 +1,5 @@
 package com.hk.message.web.service.impl;
 
-import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.core.service.exception.ServiceException;
@@ -40,7 +39,7 @@ public class MessageUserServiceImpl extends JdbcServiceImpl<MessageUser, String>
             MessageUser messageUser;
             for (String userId : userIds) {
                 messageUser = new MessageUser();
-                messageUser.setReadState(ByteConstants.ZERO);
+                messageUser.setIsRead(Boolean.FALSE);
                 messageUser.setMessageId(messageId);
                 messageUser.setUserId(userId);
                 messageUsers.add(messageUser);
@@ -53,9 +52,9 @@ public class MessageUserServiceImpl extends JdbcServiceImpl<MessageUser, String>
     public MessageUser read(String messageId, String userId) {
         MessageUser messageUser = findByMessageIdAndUserId(messageId, getPrincipal().getUserId())
                 .orElseThrow(() -> new ServiceException("消息不存在"));
-        if (ByteConstants.ZERO.equals(messageUser.getReadState())) {
+        if (!messageUser.getIsRead()) {
             messageUser.setReadDate(LocalDateTime.now());
-            messageUser.setReadState(ByteConstants.ONE);
+            messageUser.setIsRead(Boolean.TRUE);
             updateById(messageUser);
         }
         return messageUser;

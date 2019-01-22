@@ -1,7 +1,7 @@
 package com.hk.emi.service.impl;
 
 
-import com.hk.core.cache.service.EnableJdbcCacheServiceImpl;
+import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.emi.domain.BaseCode;
 import com.hk.emi.repository.jdbc.BaseCodeRepository;

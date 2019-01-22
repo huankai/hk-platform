@@ -30,7 +30,7 @@ public interface SysCodeFeignClient {
      * @param codeValue codeValue
      * @return String
      */
-    default String childCodeName(String parentId, byte codeValue) {
+    default String childCodeName(String parentId, Number codeValue) {
         return CollectionUtils.getFirstOrDefault(childCodeNameList(parentId, codeValue)).orElse(null);
     }
 
@@ -40,5 +40,5 @@ public interface SysCodeFeignClient {
      * @return List<String>
      */
     @GetMapping("/childnames")
-    List<String> childCodeNameList(@RequestParam("parentId") String parentId, @RequestParam("code_values") byte... codeValues);
+    List<String> childCodeNameList(@RequestParam("parentId") String parentId, @RequestParam("code_values") Number... codeValues);
 }

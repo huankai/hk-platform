@@ -20,8 +20,8 @@ public class MessageUser extends AbstractAuditable {
     @Column(value = "user_id")
     private String userId;
 
-    @Column(value = "read_state")
-    private Byte readState;
+    @Column(value = "is_read")
+    private Boolean isRead;
 
     @Column(value = "read_date")
     private LocalDateTime readDate;

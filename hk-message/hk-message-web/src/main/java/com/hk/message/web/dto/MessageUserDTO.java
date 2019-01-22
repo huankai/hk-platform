@@ -29,14 +29,14 @@ public class MessageUserDTO extends Message {
     /**
      * 消息读取状态
      */
-    private Byte readState;
+    private Boolean isRead;
 
     /**
      * 消息读取时间
      */
     private LocalDateTime readDate;
 
-    public MessageUserDTO(Message message, Byte readState, LocalDateTime readDate) {
+    public MessageUserDTO(Message message, Boolean isRead, LocalDateTime readDate) {
         setId(message.getId());
         setTitle(message.getTitle());
         setMsgContent(message.getMsgContent());
@@ -44,7 +44,7 @@ public class MessageUserDTO extends Message {
         setSenderName(message.getSenderName());
         setSenderDate(message.getSenderDate());
         setSenderTo(message.getSenderTo());
-        this.readState = readState;
+        this.isRead = isRead;
         this.readDate = readDate;
     }
 }

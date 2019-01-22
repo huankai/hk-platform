@@ -24,4 +24,5 @@ public class CityControllerTest extends LoginBaseTest {
                 .andDo(MockMvcResultHandlers.print())
                 .andReturn();
     }
+
 }
