@@ -2,7 +2,8 @@
 server:
   port: 8888
   context-path: /cas
-  ssl:    enabled: false
+  ssl:
+    enabled: false
     key-store: file:/etc/cas/thekeystore
     key-password: changeit
     key-store-password: changeit
@@ -98,7 +99,7 @@ management:
   security:
     enabled: true
     roles: ACTUATOR,ADMIN
-    sessions: if-required
+    sessions: if_required
   context-path: /status
   add-application-context-header: false
 
