@@ -6,6 +6,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>hk-cas-server</module>
         <module>hk-oauth2-server</module>
     </modules>
 

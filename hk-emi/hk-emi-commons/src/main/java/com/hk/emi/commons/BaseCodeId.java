@@ -24,4 +24,14 @@ public interface BaseCodeId {
      * 教师状态
      */
     String JSZT = "57b41c954c57474ba3195dcfcf9ccebb";
+
+    /**
+     * 学校附件类型
+     */
+    String XXFJLX = "4ce3abf76f1a45528605d5a611b8a693";
+
+    /**
+     * 日常行为准则类型
+     */
+    String XWZZLX = "cdabd5abcc494ae19bba3f9fd1c8cca1";
 }

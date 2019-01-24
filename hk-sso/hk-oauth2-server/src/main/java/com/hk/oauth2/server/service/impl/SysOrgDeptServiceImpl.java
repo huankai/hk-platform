@@ -17,15 +17,15 @@ import org.springframework.stereotype.Service;
 @CacheConfig(cacheNames = {"SysOrgDept"})
 public class SysOrgDeptServiceImpl extends EnableJdbcCacheServiceImpl<SysOrgDept, String> implements SysOrgDeptService {
 
-    private SysOrgDeptRepository sysOrgDeptRepository;
+    private SysOrgDeptRepository orgDeptRepository;
 
     @Autowired
-    public SysOrgDeptServiceImpl(SysOrgDeptRepository sysOrgDeptRepository) {
-        this.sysOrgDeptRepository = sysOrgDeptRepository;
+    public SysOrgDeptServiceImpl(SysOrgDeptRepository orgDeptRepository) {
+        this.orgDeptRepository = orgDeptRepository;
     }
 
     @Override
     protected JdbcRepository<SysOrgDept, String> getBaseRepository() {
-        return sysOrgDeptRepository;
+        return orgDeptRepository;
     }
 }

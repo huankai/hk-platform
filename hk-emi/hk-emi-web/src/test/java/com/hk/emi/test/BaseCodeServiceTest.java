@@ -31,8 +31,8 @@ public class BaseCodeServiceTest extends LoginBaseTest {
     @Test
     public void insertTest() {
         BaseCode baseCode = new BaseCode();
-        baseCode.setBaseCode("JZGZT");
-        baseCode.setCodeName("教职工状态");
+        baseCode.setBaseCode("XWZZLX");
+        baseCode.setCodeName("日常行为准则");
         baseCode = baseCodeService.insert(baseCode);
 
 //        List<String> status = ArrayUtils.asArrayList("休学", "退学", "停学", "复学", "流失", "毕业", "结业", "肄业", "转学（转出)", "死亡", "保留入学资格", "公派出国", "开除", "下落不明", "其他");
@@ -40,8 +40,10 @@ public class BaseCodeServiceTest extends LoginBaseTest {
 
 //        List<String> status = ArrayUtils.asArrayList("应届", "初始化", "往届");
 //        List<String> codes = ArrayUtils.asArrayList("YJ", "CSH", "WJ");
-        List<String> status = ArrayUtils.asArrayList("在职", "退休", "离休", "死亡", "返聘", "调出", "辞职", "离职", "开除", "下落不明", "延聘", "待退休", "长病假", "因公出国", "停薪留职", "待岗", "其他");
-        List<String> codes = ArrayUtils.asArrayList("ZAIZHI", "TUIXIU", "LIXIU", "SIWANG", "FANPIN", "DIAOCHU", "CIZHI", "LIZHI", "KAICHU", "XLBM", "YANPIN", "DAITUIXIU", "CHANGBINGJIA", "YGCG", "TXLZ", "DAIGANG", "QITA");
+//        List<String> status = ArrayUtils.asArrayList("在职", "退休", "离休", "死亡", "返聘", "调出", "辞职", "离职", "开除", "下落不明", "延聘", "待退休", "长病假", "因公出国", "停薪留职", "待岗", "其他");
+//        List<String> codes = ArrayUtils.asArrayList("ZAIZHI", "TUIXIU", "LIXIU", "SIWANG", "FANPIN", "DIAOCHU", "CIZHI", "LIZHI", "KAICHU", "XLBM", "YANPIN", "DAITUIXIU", "CHANGBINGJIA", "YGCG", "TXLZ", "DAIGANG", "QITA");
+        List<String> status = ArrayUtils.asArrayList("小学生守则", "中学生守则", "日常行为规范");
+        List<String> codes = ArrayUtils.asArrayList("XXSSZ", "ZXSSZ", "RCXWGF");
         List<ChildCode> list = new ArrayList<>();
         byte index = 1;
         for (String item : status) {
@@ -51,7 +53,7 @@ public class BaseCodeServiceTest extends LoginBaseTest {
             childCode.setCodeName(item);
             childCode.setCodeValue(index);
             childCode.setState(ByteConstants.ONE);
-            childCode.setIsGb(Boolean.TRUE);
+            childCode.setIsGb(Boolean.FALSE);
             list.add(childCode);
             index++;
         }
