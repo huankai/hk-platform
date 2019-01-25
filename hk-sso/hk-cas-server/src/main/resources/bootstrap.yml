@@ -29,7 +29,7 @@ spring:
 # If you wish to change the configuration directory, it's best to not
 # overlay this file, but specify the directory location via command-line
 # parameters or system properties via -D.
-cas:
-  standalone:
-    configuration-directory: "/etc/cas/config"
+#cas:
+#  standalone:
+#    configuration-directory: "/etc/cas/config"
       

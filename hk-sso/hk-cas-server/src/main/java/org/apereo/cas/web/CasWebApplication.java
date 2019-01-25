@@ -1,7 +1,5 @@
 package org.apereo.cas.web;
 
-import java.util.Map;
-
 import org.apereo.cas.CasEmbeddedContainerUtils;
 import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.springframework.boot.Banner;
@@ -25,7 +23,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import lombok.NoArgsConstructor;
+import java.util.Map;
+
 
 @EnableDiscoveryClient
 @SpringBootApplication(exclude = { HibernateJpaAutoConfiguration.class, JerseyAutoConfiguration.class,
@@ -37,7 +36,6 @@ import lombok.NoArgsConstructor;
 @EnableAsync
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableScheduling
-@NoArgsConstructor
 public class CasWebApplication {
 	
 	public static void main(final String[] args) {

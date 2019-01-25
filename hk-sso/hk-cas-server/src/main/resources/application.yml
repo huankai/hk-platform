@@ -4,16 +4,14 @@ server:
   context-path: /cas
   ssl:
     enabled: false
-    key-store: file:/etc/cas/thekeystore
-    key-password: changeit
-    key-store-password: changeit
-
+#    key-store: "classpath:thekeystore"
+#    key-password: changeit
+#    key-store-password: changeit
   max-http-header-size: 2097152
   use-forward-headers: true
   connection-timeout: 20000
   error:
     include-stacktrace: ALWAYS
-
   compression:
     enabled: true
     mime-types: "application/javascript,application/json,application/xml,text/html,text/xml,text/plain"
@@ -21,7 +19,7 @@ server:
     max-http-post-size: 2097152
     basedir: build/tomcat
     accesslog:
-      enabled: true
+      enabled: false
       pattern: "%t %a '%r' %s (%D ms)"
       suffix: .log
     min-spare-threads: 10
@@ -31,13 +29,13 @@ server:
     protocol-header-https-value: https
     remote-ip-header: X-FORWARDED-FOR
     uri-encoding: UTF-8
-#    context-parameters:
-#      isLog4jAutoInitializationDisabled: true
+  context-parameters:
+    isLog4jAutoInitializationDisabled: true
 ##
 # CAS Web Application Session Configuration
 #
-  session: 
-    timeout: 300
+  session:
+    timeout: 3600
     cookie:
       http-only: true
     tracking-modes: COOKIE
@@ -61,10 +59,8 @@ spring:
     cache: true
     mode: HTML
     template-resolver-order: 100
-##
-# CAS Cloud Bus Configuration
-#
   cloud:
+# CAS Cloud Bus Configuration
 #    bus:
 #      enabled: false
 
@@ -99,7 +95,7 @@ management:
   security:
     enabled: true
     roles: ACTUATOR,ADMIN
-    sessions: if_required
+    sessions: IF_REQUIRED
   context-path: /status
   add-application-context-header: false
 
@@ -112,25 +108,45 @@ management:
 # With basic authentication, assuming Spring Security and/or relevant modules are on the classpath.
 security:
   basic:
+    enabled: false
     authorize-mode: role
     path: ${server.context-path}/status/**
 # security.basic.enabled=true
 # security.user.name=casuser
 # security.user.password=
 
-
-
-
-##
 # CAS Log4j Configuration
-#
-# logging.config=file:/etc/cas/log4j2.xml
-# server.context-parameters.isLog4jAutoInitializationDisabled=true
-
+logging:
+  config: classpath:log4j2.xml
 ##
 # CAS Authentication Credentials
 #
 cas:
-  authn: 
-    accept:
-      users: casuser::Mellon
+  tgc:
+    secure: false
+  service-registry:
+    init-from-json: true
+    json:
+      location: "classpath:services"
+  warning-cookie:
+    secure: false
+  logout:
+    follow-service-redirects: true
+  authn:
+#    accept:
+      # 静态认证配置用户名与密码
+#      users: admin::admin
+   jdbc:
+      query:
+        - sql: SELECT * FROM sys_user WHERE account = ?
+          url: jdbc:mysql://182.61.40.18:3705/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+          dialect: oorg.hibernate.dialect.MySQL57Dialect
+          user: pms
+          password: pmsadmin
+          driver-class: com.mysql.cj.jdbc.Driver
+          field-password: password
+          password-encoder:
+            type: BCRYPT
+            
+      
+          
