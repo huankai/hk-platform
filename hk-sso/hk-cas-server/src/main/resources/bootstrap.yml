@@ -6,8 +6,8 @@
 spring:
   application: 
     name: cas
-  profiles:
-    active: standalone
+#  profiles:
+#    active: standalone
 
 # Define where the configuration server is running
 # and what credentials are used to access it.

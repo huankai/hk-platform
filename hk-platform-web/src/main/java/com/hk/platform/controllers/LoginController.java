@@ -2,7 +2,6 @@ package com.hk.platform.controllers;
 
 import com.hk.core.authentication.api.SecurityContextUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**

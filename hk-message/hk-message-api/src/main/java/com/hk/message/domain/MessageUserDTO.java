@@ -1,15 +1,16 @@
 package com.hk.message.domain;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
+@SuppressWarnings("serial")
 public class MessageUserDTO extends Message {
 
     /**

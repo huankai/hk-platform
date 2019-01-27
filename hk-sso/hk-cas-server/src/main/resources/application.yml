@@ -17,7 +17,7 @@ server:
     mime-types: "application/javascript,application/json,application/xml,text/html,text/xml,text/plain"
   tomcat: 
     max-http-post-size: 2097152
-    basedir: build/tomcat
+#    basedir: build/tomcat
     accesslog:
       enabled: false
       pattern: "%t %a '%r' %s (%D ms)"
@@ -139,12 +139,16 @@ cas:
    jdbc:
       query:
         - sql: SELECT * FROM sys_user WHERE account = ?
-          url: jdbc:mysql://182.61.40.18:3705/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+          url: jdbc:mysql://127.0.0.1:3306/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
           dialect: oorg.hibernate.dialect.MySQL57Dialect
-          user: pms
-          password: pmsadmin
+          user: root
+          password: root
           driver-class: com.mysql.cj.jdbc.Driver
           field-password: password
+          principal-attribute-list:
+            - id
+            - org_id
+            - dept_id
           password-encoder:
             type: BCRYPT
             

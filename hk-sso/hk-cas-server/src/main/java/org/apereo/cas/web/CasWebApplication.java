@@ -1,7 +1,8 @@
 package org.apereo.cas.web;
 
+import java.util.Map;
+
 import org.apereo.cas.CasEmbeddedContainerUtils;
-import org.apereo.cas.configuration.CasConfigurationProperties;
 import org.springframework.boot.Banner;
 import org.springframework.boot.actuate.autoconfigure.MetricsDropwizardAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,13 +18,10 @@ import org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
-import java.util.Map;
 
 
 @EnableDiscoveryClient
@@ -32,7 +30,6 @@ import java.util.Map;
 		RedisAutoConfiguration.class, MongoAutoConfiguration.class, MongoDataAutoConfiguration.class,
 		CassandraAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class,
 		MetricsDropwizardAutoConfiguration.class, RedisRepositoriesAutoConfiguration.class })
-@EnableConfigurationProperties(CasConfigurationProperties.class)
 @EnableAsync
 @EnableTransactionManagement(proxyTargetClass = true)
 @EnableScheduling
