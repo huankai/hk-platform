@@ -14,6 +14,6 @@ public enum SexEnum {
     @EnumDisplay(order = 2, value = "女")
     WUMAN,
 
-    @EnumDisplay(order = 9, value = "未知")
+    @EnumDisplay(order = 9, value = "未采集")
     UNKNOWN;
 }

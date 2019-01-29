@@ -1,4 +1,4 @@
-package com.hk.pms.api.entity;
+package com.hk.pms.commons.dto;
 
 import lombok.Data;
 
@@ -14,6 +14,8 @@ public class User implements Serializable {
     private String deptId;
 
     private String orgId;
+
+    private String password;
 
     private String account;
 

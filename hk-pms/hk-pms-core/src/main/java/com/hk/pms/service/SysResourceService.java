@@ -1,12 +1,12 @@
 package com.hk.pms.service;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.hk.commons.util.ByteConstants;
 import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.pms.commons.tree.ResourceTree;
 import com.hk.pms.domain.SysResource;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * @author kevin
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface SysResourceService extends JdbcBaseService<SysResource, String> {
 
-    List<ResourceTree> findByPermissionIds(Collection<String> permissions);
+    List<ResourceTree> findByPermissionIds(String appId,Collection<String> permissions);
 
     default void disable(String id) {
         findById(id).ifPresent(item -> {

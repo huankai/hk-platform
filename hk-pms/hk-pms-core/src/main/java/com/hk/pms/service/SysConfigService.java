@@ -8,4 +8,5 @@ import com.hk.pms.domain.SysConfig;
  * @date 2018-09-20 20:06
  */
 public interface SysConfigService extends JdbcBaseService<SysConfig, String> {
+	
 }

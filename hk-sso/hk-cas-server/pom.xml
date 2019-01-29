@@ -122,11 +122,11 @@
             <artifactId>cas-server-support-actions</artifactId>
             <version>${cas.version}</version>
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>org.apereo.cas</groupId>
             <artifactId>cas-server-support-pac4j-core</artifactId>
             <version>${cas.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.apereo.cas</groupId>
             <artifactId>cas-server-support-pm</artifactId>

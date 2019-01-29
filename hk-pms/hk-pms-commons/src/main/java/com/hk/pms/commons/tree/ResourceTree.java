@@ -1,9 +1,12 @@
 package com.hk.pms.commons.tree;
 
 import com.hk.platform.commons.tree.TreeNode;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author kevin
@@ -13,7 +16,9 @@ import lombok.EqualsAndHashCode;
 @Builder
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class ResourceTree extends TreeNode {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ResourceTree extends TreeNode<ResourceTree> {
 
     private String resourceUri;
 

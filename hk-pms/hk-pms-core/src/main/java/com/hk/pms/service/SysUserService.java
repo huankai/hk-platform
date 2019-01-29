@@ -17,9 +17,15 @@ public interface SysUserService extends JdbcBaseService<SysUser, String> {
      * 根据用户名查询用户
      *
      * @param username 用户名
-     * @return
+     * @return {@link SysUser}
      */
     Optional<SysUser> findByLoginUsername(String username);
+
+    Optional<SysUser> findByAccount(String username);
+
+    Optional<SysUser> findByEmail(String email);
+
+    Optional<SysUser> findByPhone(String phone);
 
     /**
      * 判断用户名是否存在

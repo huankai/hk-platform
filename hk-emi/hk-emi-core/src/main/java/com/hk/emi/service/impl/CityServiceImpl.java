@@ -1,6 +1,18 @@
 package com.hk.emi.service.impl;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.stereotype.Service;
+
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.commons.poi.excel.model.ReadParam;
 import com.hk.commons.poi.excel.model.ReadResult;
@@ -18,17 +30,6 @@ import com.hk.emi.mappers.CityExcelVoMapper;
 import com.hk.emi.repository.jdbc.CityRepository;
 import com.hk.emi.service.CityService;
 import com.hk.emi.vo.CityExcelVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.stereotype.Service;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 /**
  * @author kevin

@@ -139,18 +139,16 @@ cas:
    jdbc:
       query:
         - sql: SELECT * FROM sys_user WHERE account = ?
-          url: jdbc:mysql://127.0.0.1:3306/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-          dialect: oorg.hibernate.dialect.MySQL57Dialect
-          user: root
-          password: root
+          url: jdbc:mysql://182.61.40.18:3705/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+          user: pms
+          password: pmsadmin
           driver-class: com.mysql.cj.jdbc.Driver
           field-password: password
-          principal-attribute-list:
-            - id
-            - org_id
-            - dept_id
+          principal-attribute-list:  id,org_id,dept_id,phone,email,real_name,user_type,is_protect,sex,icon_path
+          field-disabled: user_status
           password-encoder:
             type: BCRYPT
+            character-encoding: UTF-8
             
       
           

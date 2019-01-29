@@ -1,6 +1,14 @@
 package com.hk.emi.service.impl;
 
 
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.stereotype.Service;
+
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.ByteConstants;
 import com.hk.commons.validator.DictService;
@@ -9,13 +17,6 @@ import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.emi.domain.ChildCode;
 import com.hk.emi.repository.jdbc.ChildCodeRepository;
 import com.hk.emi.service.ChildCodeService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @author kevin
@@ -69,9 +70,12 @@ public class ChildCodeServiceImpl extends EnableJdbcCacheServiceImpl<ChildCode, 
 
     @Override
     public ChildCode insert(ChildCode childCode) {
-        return super.insert(childCode, item -> {
+        return insert(childCode, item -> {
             if (Objects.isNull(item.getState())) {
                 item.setState(ByteConstants.ONE);
+            }
+            if(Objects.isNull(item.getIsGb())) {
+            	item.setIsGb(Boolean.FALSE);
             }
             return item;
         });

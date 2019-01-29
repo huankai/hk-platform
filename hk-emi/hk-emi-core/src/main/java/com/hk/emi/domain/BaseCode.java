@@ -1,13 +1,15 @@
 package com.hk.emi.domain;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import javax.validation.constraints.NotEmpty;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.validation.constraints.NotEmpty;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 字典
@@ -36,6 +38,9 @@ public class BaseCode extends AbstractAuditable {
     @NotEmpty
     @Length(max = 20)
     private String codeName;
+    
+    @Column(value = "is_gb")
+    private Boolean isGb;
 
     /**
      *

@@ -1,16 +1,18 @@
 package com.hk.pms.domain;
 
-import com.hk.commons.validator.constraints.EnumByte;
-import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import com.hk.commons.validator.constraints.EnumByte;
+import com.hk.commons.validator.constraints.EnumDict;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author kevin
@@ -52,12 +54,12 @@ public class SysResource extends AbstractAuditable {
     private String resourceUri;
 
     /**
-     * <p>
-     * _self <br/>
-     * _blank <br/>
-     * _top <br/>
-     * _parent <br/>
-     * </p>
+     * <pre>
+     * _self
+     * _blank
+     * _top
+     * _parent
+     * </pre>
      */
     @NotEmpty
     @Length(max = 10)
