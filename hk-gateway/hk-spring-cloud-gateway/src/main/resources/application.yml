@@ -49,12 +49,12 @@ spring:
             - StripPrefix=1
 eureka:
   instance:
-    hostname: localhost
+    hostname: 127.0.0.1
     prefer-ip-address: false
   client:
     register-with-eureka: false
     service-url:
-      defaultZone: http://root:root123@127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@182.61.40.18/eureka-server/eureka
 logging:
   level:
     root: error

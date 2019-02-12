@@ -11,23 +11,23 @@ spring:
     active: native
   cloud:
     config:
-      server:
-        default-application-name: ${spring.application.name}
-        native:
-#          search-locations: "file:///Users/huangkai/worksplace/hk-config/platform-config"
-          search-locations: "file:///E:/worksplace/hk/github/hk-config/platform-config"
-#        git:
-#          uri: https://github.com/huankai/hk-config.git
-#          search-paths: "platform-config"  # 会在此目录下查询配置文件
-#          default-label: "2.1.2.RELEASE"  # clone 分支
-#          basedir: "/config-basedir" # clone 的项目保存在指定的目录中
-#    stream:
-#      kafka:
-#        binder:
-#          brokers:
-#            - "sjq128:9092"
-#            - "sjq129:9092"
-#            - "sjq130:9092"
+      enabled: true
+      name: ${spring.application.name}
+      server:        native:          search-locations:            - "file:///E:/worksplace/hk/github/hk-config/platform-config"
+#          - "file:///Users/huangkai/worksplace/hk-config/platform-config"#        git:#          uri: https://github.com/huankai/hk-config.git
+#          search-paths:
+##           会在此目录下查询配置文件#          - "platform-config"
+##           clone 分支
+#          default-label: "2.1.2.RELEASE"
+##           clone 的项目保存在指定的目录中
+#          basedir: "/config-basedir" 
+##    stream:
+##      kafka:
+##        binder:
+##          brokers:
+##            - "sjq128:9092"
+##            - "sjq129:9092"
+##            - "sjq130:9092"
 ########################### spring boot admin client configuration ######################################################
   boot:
     admin:
