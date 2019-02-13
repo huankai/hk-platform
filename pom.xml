@@ -113,12 +113,12 @@
 
         <pluginManagement>
             <plugins>
-                <plugin>
+                <!-- <plugin>
                     <groupId>com.spotify</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>1.0.0</version>
                     <executions>
-                        <!--执行 mvn package 时 自动 执行 mvn docker:build-->
+                        执行 mvn package 时 自动 执行 mvn docker:build
                         <execution>
                             <id>build-image</id>
                             <phase>package</phase>
@@ -130,15 +130,15 @@
                     <configuration>
                         <imageName>hk/${project.build.finalName}</imageName>
                         <newName>192.168.64.150:8870/hk/${project.build.finalName}</newName>
-                        <serverId>docker-nexus</serverId> <!--要和 settings.xml配置中的 server.id 值 一样 -->
+                        <serverId>docker-nexus</serverId> 要和 settings.xml配置中的 server.id 值 一样
                         <imageTags>
                             <imageTag>${project.version}</imageTag>
-                            <imageTag>latest</imageTag> <!--可以指定多个 imageTag-->
+                            <imageTag>latest</imageTag> 可以指定多个 imageTag
                         </imageTags>
-                        <forceTags>true</forceTags> <!-- 覆盖已存在的标签镜像 -->
+                        <forceTags>true</forceTags> 覆盖已存在的标签镜像
                         <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
                     </configuration>
-                </plugin>
+                </plugin> -->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
