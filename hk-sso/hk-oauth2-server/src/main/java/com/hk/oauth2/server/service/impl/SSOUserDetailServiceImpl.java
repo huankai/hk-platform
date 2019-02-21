@@ -46,16 +46,16 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
         SysUser user = userService.findByLoginName(username)
                 .orElseThrow(() -> new UsernameNotFoundException(SpringContextHolder.getMessage("user.notFound.message", username)));
         SysOrg sysOrg = sysOrgService.getById(user.getOrgId());
-        if(!ByteConstants.ONE.equals(sysOrg.getState())) {
-        	throw new DisabledException(SpringContextHolder.getMessage("org.disabled.message", sysOrg.getOrgName()));
+        if (!ByteConstants.ONE.equals(sysOrg.getState())) {
+            throw new DisabledException(SpringContextHolder.getMessage("org.disabled.message", sysOrg.getOrgName()));
         }
-        SecurityUserPrincipal userPrincipal = new SecurityUserPrincipal(user.getId(), user.getAccount(), user.getIsProtect(), user.getRealName(),
-                user.getUserType(), user.getPhone(), user.getEmail(), user.getSex(), user.getIconPath(), user.getPassword(), user.getUserStatus());
-        userPrincipal.setOrgId(user.getOrgId());
-        userPrincipal.setDeptId(user.getDeptId());
-        userPrincipal.setOrgName(sysOrg.getOrgName());
-        userPrincipal.setDeptName(orgDeptService.getById(user.getDeptId()).getDeptName());
-        return userPrincipal;
+        //        userPrincipal.setOrgId(user.getOrgId());
+//        userPrincipal.setDeptId(user.getDeptId());
+//        userPrincipal.setOrgName(sysOrg.getOrgName());
+//        userPrincipal.setDeptName(orgDeptService.getById(user.getDeptId()).getDeptName());
+        return new SecurityUserPrincipal(user.getId(), user.getOrgId(), sysOrg.getOrgName(), user.getDeptId(), orgDeptService.getById(user.getDeptId()).getDeptName(),
+                user.getAccount(), user.getIsProtect(), user.getRealName(),
+                user.getUserType(), user.getPhone(), user.getEmail(), user.getSex(), user.getIconPath(), user.getPassword(), user.getUserStatus(), null, null);
     }
 
     @Override

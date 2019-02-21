@@ -5,6 +5,7 @@ import com.hk.commons.util.EnumDisplayUtils;
 import com.hk.commons.util.JsonUtils;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.api.UserPrincipal;
+import com.hk.core.authentication.security.SecurityUserPrincipal;
 import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.entity.SysPermission;
 import com.hk.oauth2.server.entity.SysRole;
@@ -58,7 +59,7 @@ public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        UserPrincipal principal = SecurityUserPrincipal.class.cast(authentication.getPrincipal()).getPrincipal();
         String clientId = authentication.getOAuth2Request().getClientId();
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();
