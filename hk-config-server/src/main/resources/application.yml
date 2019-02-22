@@ -13,14 +13,21 @@ spring:
     config:
       enabled: true
       name: ${spring.application.name}
-      server:        native:          search-locations:            - "file:///E:/worksplace/hk/github/hk-config/platform-config"
-#          - "file:///Users/huangkai/worksplace/hk-config/platform-config"#        git:#          uri: https://github.com/huankai/hk-config.git
+      server:
+        native:
+          search-locations:
+            - "file:///E:/worksplace/hk/github/hk-config/platform-config"
+#          - "file:///Users/huangkai/worksplace/hk-config/platform-config"
+#        git:
+#          uri: https://github.com/huankai/hk-config.git
 #          search-paths:
-##           会在此目录下查询配置文件#          - "platform-config"
+##           会在此目录下查询配置文件
+#          - "platform-config"
 ##           clone 分支
 #          default-label: "2.1.2.RELEASE"
 ##           clone 的项目保存在指定的目录中
-#          basedir: "/config-basedir" 
+#          basedir: "/config-basedir" 
+
 ##    stream:
 ##      kafka:
 ##        binder:

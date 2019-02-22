@@ -5,6 +5,7 @@ server:
 spring:
   main:
     banner-mode: 'off'
+    allow-bean-definition-overriding: true
   application:
     name: hk-springboot-admin-server
   security:
