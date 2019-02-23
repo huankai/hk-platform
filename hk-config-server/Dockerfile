@@ -4,4 +4,4 @@ COPY target/hk-config-server-2.1.2.RELEASE.jar /app/hk-config-server-2.1.2.RELEA
 
 WORKDIR /app
 
-ENTRYPOINT ["java","-jar"]
+ENTRYPOINT ["java","-jar","hk-config-server-2.1.2.RELEASE.jar"]
