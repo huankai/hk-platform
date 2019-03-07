@@ -13,6 +13,7 @@ import com.hk.platform.commons.role.RoleNamed;
 import com.hk.weixin.WechatMpProperties;
 import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
 import me.chanjar.weixin.mp.api.WxMpService;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -46,7 +47,6 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
     private WechatMpProperties wechatProperties;
 
-    @Autowired(required = false)
     private WxMpService wxMpService;
 
     /**
@@ -54,14 +54,17 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
      *
      * @see SecurityAuthenticationAutoConfiguration.SmsAutoConfiguration
      */
-    @Autowired(required = false)
-    @Qualifier("smsValidateCodeProcessor")
+
     private ValidateCodeProcessor processor;
 
     public Oauth2SecurityWebAutoConfiguration(AuthenticationProperties authenticationProperties,
-                                              WechatMpProperties wechatProperties) {
+                                              WechatMpProperties wechatProperties,
+                                              ObjectProvider<WxMpService> wxMpServices,
+                                              @Qualifier("smsValidateCodeProcessor") ObjectProvider<ValidateCodeProcessor> validateCodeProcessors) {
         this.authenticationProperties = authenticationProperties;
         this.wechatProperties = wechatProperties;
+        this.wxMpService = wxMpServices.getIfAvailable();
+        this.processor = validateCodeProcessors.getIfAvailable();
     }
 
     /**
