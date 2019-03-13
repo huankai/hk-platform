@@ -1,6 +1,6 @@
 package com.hk.pms.mappers;
 
-import com.hk.data.mybatis.BaseMapper;
+import com.hk.data.ibatis.BaseMapper;
 import com.hk.pms.domain.SysRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
