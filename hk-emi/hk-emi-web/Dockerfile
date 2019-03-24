@@ -3,7 +3,7 @@ FROM docker.io/java:8-jre-alpine
 MAINTAINER huangkai huankai@139.com
 
 # 定义变量，会在环境变量中
-ENV SERVER_NAME=hk-emi-web-2.1.2.RELEASE.jar
+ENV SERVER_NAME=hk-emi-web-2.1.3.RELEASE.jar
 
 COPY target/$SERVER_NAME /app/$SERVER_NAME
 
