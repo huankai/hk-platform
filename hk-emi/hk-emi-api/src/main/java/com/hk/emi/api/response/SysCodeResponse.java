@@ -1,4 +1,4 @@
-package com.hk.emi.api.domain;
+package com.hk.emi.api.response;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 @Data
 @SuppressWarnings("serial")
-public final class SysCode implements Serializable {
+public final class SysCodeResponse implements Serializable {
 
     private String id;
 

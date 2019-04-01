@@ -2,7 +2,8 @@ package com.hk.solr.api.feign;
 
 import com.hk.core.query.QueryModel;
 import com.hk.core.page.SimpleQueryPage;
-import com.hk.solr.api.entity.App;
+import com.hk.solr.api.request.AppRequest;
+import com.hk.solr.api.response.AppResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface AppFeign {
 
     @PostMapping("list")
-    SimpleQueryPage<App> findPage(@RequestBody QueryModel<App> queryModel);
+    SimpleQueryPage<AppResponse> findPage(@RequestBody QueryModel<AppRequest> queryModel);
 
 }

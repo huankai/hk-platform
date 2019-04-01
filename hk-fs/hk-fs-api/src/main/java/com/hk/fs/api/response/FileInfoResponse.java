@@ -1,16 +1,19 @@
-package com.hk.fs.api.domain;
+package com.hk.fs.api.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 
 /**
- * @author kevin
- * @date 2018-09-13 13:35
+ * @author huangkai
+ * @date 2019-4-1 15:00
  */
-@Data
-@SuppressWarnings("serial")
-public class FileInfo implements Serializable {
+@Getter
+@Setter
+@NoArgsConstructor
+public class FileInfoResponse implements Serializable {
 
     private String id;
 

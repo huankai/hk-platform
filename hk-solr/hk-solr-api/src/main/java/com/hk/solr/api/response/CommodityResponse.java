@@ -1,6 +1,7 @@
-package com.hk.solr.api.entity;
+package com.hk.solr.api.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -8,11 +9,11 @@ import java.util.List;
 
 /**
  * @author huangkai
- * @date 2018-12-2 23:17
+ * @date 2019-4-1 15:54
  */
-@SuppressWarnings("serial")
-@Data
-public class Commodity implements Serializable {
+@Getter
+@Setter
+public class CommodityResponse implements Serializable {
 
     /**
      * 商品id
@@ -53,4 +54,6 @@ public class Commodity implements Serializable {
      * 商品图片
      */
     private List<String> images;
+
+
 }

@@ -1,4 +1,4 @@
-package com.hk.mail.api.domain;
+package com.hk.mail.api.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuppressWarnings("serial")
-public class EmailMessage implements Serializable {
+public class EmailMessageRequest implements Serializable {
 
 	/**
 	 * 设置回复人

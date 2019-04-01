@@ -1,7 +1,7 @@
-package com.hk.emi.api.fallback;
+package com.hk.emi.api.feign.fallback;
 
-import com.hk.emi.api.domain.SysCode;
 import com.hk.emi.api.feign.SysCodeFeignClient;
+import com.hk.emi.api.response.SysCodeResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -15,7 +15,7 @@ import java.util.List;
 public class SysCodeFeignClientFallback implements SysCodeFeignClient {
 
     @Override
-    public List<SysCode> childListByParentId(String parentId, String... ignores) {
+    public List<SysCodeResponse> childListByParentId(String parentId, String... ignores) {
         return Collections.emptyList();
     }
 

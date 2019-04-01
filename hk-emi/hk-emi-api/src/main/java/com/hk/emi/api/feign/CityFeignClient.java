@@ -1,7 +1,7 @@
 package com.hk.emi.api.feign;
 
-import com.hk.emi.api.domain.City;
-import com.hk.emi.api.fallback.CityFeignClientFallback;
+import com.hk.emi.api.feign.fallback.CityFeignClientFallback;
+import com.hk.emi.api.response.CityResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +13,8 @@ import java.util.List;
  * @author kevin
  * @date 2018-07-13 15:27
  */
-@FeignClient(name = EmiService.SERVICE_NAME, path = EmiService.CONTEXT_PATH, fallback = CityFeignClientFallback.class)
+@FeignClient(name = EmiService.SERVICE_NAME, path = EmiService.CONTEXT_PATH,
+        fallback = CityFeignClientFallback.class)
 @RequestMapping("/api/city")
 public interface CityFeignClient {
 
@@ -24,14 +25,14 @@ public interface CityFeignClient {
      * @return all childs.
      */
     @GetMapping("child/{parentId}")
-    List<City> getChildList(@PathVariable("parentId") String parentId);
+    List<CityResponse> getChildList(@PathVariable("parentId") String parentId);
 
     /**
      * 获取所有省
      *
      * @return all provinces.
      */
-    default List<City> getProvinceList() {
+    default List<CityResponse> getProvinceList() {
         return getList(2);
     }
 
@@ -40,7 +41,7 @@ public interface CityFeignClient {
      *
      * @return all cities.
      */
-    default List<City> getCityList() {
+    default List<CityResponse> getCityList() {
         return getList(3);
     }
 
@@ -49,11 +50,11 @@ public interface CityFeignClient {
      *
      * @return all areas.
      */
-    default List<City> getAreaList() {
+    default List<CityResponse> getAreaList() {
         return getList(4);
     }
 
     @GetMapping("level")
-    List<City> getList(int level);
+    List<CityResponse> getList(int level);
 
 }

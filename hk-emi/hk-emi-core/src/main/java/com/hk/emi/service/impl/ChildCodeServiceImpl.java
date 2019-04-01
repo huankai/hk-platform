@@ -4,10 +4,10 @@ package com.hk.emi.service.impl;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.ByteConstants;
 import com.hk.commons.validator.DictService;
-import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.emi.domain.ChildCode;
-import com.hk.emi.repository.jdbc.ChildCodeRepository;
+import com.hk.emi.repository.jpa.ChildCodeRepository;
 import com.hk.emi.service.ChildCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = "ChildCode")
-public class ChildCodeServiceImpl extends EnableJdbcCacheServiceImpl<ChildCode, String> implements ChildCodeService, DictService {
+public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, String> implements ChildCodeService, DictService {
 
     private final ChildCodeRepository childCodeRepository;
 
@@ -33,7 +33,7 @@ public class ChildCodeServiceImpl extends EnableJdbcCacheServiceImpl<ChildCode, 
     }
 
     @Override
-    protected JdbcRepository<ChildCode, String> getBaseRepository() {
+    protected BaseJpaRepository<ChildCode, String> getBaseRepository() {
         return childCodeRepository;
     }
 

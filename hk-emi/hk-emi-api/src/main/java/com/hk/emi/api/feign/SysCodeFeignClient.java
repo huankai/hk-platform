@@ -1,8 +1,8 @@
 package com.hk.emi.api.feign;
 
 import com.hk.commons.util.CollectionUtils;
-import com.hk.emi.api.domain.SysCode;
-import com.hk.emi.api.fallback.SysCodeFeignClientFallback;
+import com.hk.emi.api.feign.fallback.SysCodeFeignClientFallback;
+import com.hk.emi.api.response.SysCodeResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +14,8 @@ import java.util.List;
  * @author kevin
  * @date 2018-07-13 15:27
  */
-@FeignClient(name = EmiService.SERVICE_NAME, path = EmiService.CONTEXT_PATH, fallback = SysCodeFeignClientFallback.class)
+@FeignClient(name = EmiService.SERVICE_NAME, path = EmiService.CONTEXT_PATH,
+        fallback = SysCodeFeignClientFallback.class)
 @RequestMapping("/api/code")
 public interface SysCodeFeignClient {
 
@@ -23,7 +24,7 @@ public interface SysCodeFeignClient {
      * @return SysCode
      */
     @GetMapping("/child")
-    List<SysCode> childListByParentId(@RequestParam("parentId") String parentId, @RequestParam("ignore") String... ignores);
+    List<SysCodeResponse> childListByParentId(@RequestParam("parentId") String parentId, @RequestParam("ignore") String... ignores);
 
     /**
      * @param parentId  parentId

@@ -1,15 +1,13 @@
 package com.hk.emi.domain;
 
-import javax.validation.constraints.NotEmpty;
-
-import org.hibernate.validator.constraints.Length;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
-
+import com.hk.core.data.jpa.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Column;
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 /**
  * 字典
@@ -18,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * @date 2017-11-29 16:27
  */
 @Data
-@Table(value = "emi_base_code")
+@Table(name = "emi_base_code")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class BaseCode extends AbstractAuditable {
@@ -26,7 +24,7 @@ public class BaseCode extends AbstractAuditable {
     /**
      *
      */
-    @Column(value = "base_code")
+    @Column(name = "base_code")
     @NotEmpty
     @Length(max = 20)
     private String baseCode;
@@ -34,18 +32,18 @@ public class BaseCode extends AbstractAuditable {
     /**
      *
      */
-    @Column(value = "code_name")
+    @Column(name = "code_name")
     @NotEmpty
     @Length(max = 20)
     private String codeName;
-    
-    @Column(value = "is_gb")
+
+    @Column(name = "is_gb")
     private Boolean isGb;
 
     /**
      *
      */
-    @Column(value = "description")
+    @Column(name = "description")
     private String description;
 
 }

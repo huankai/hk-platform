@@ -1,7 +1,7 @@
-package com.hk.emi.api.fallback;
+package com.hk.emi.api.feign.fallback;
 
-import com.hk.emi.api.domain.City;
 import com.hk.emi.api.feign.CityFeignClient;
+import com.hk.emi.api.response.CityResponse;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -15,12 +15,12 @@ import java.util.List;
 public class CityFeignClientFallback implements CityFeignClient {
 
     @Override
-    public List<City> getChildList(String parentId) {
+    public List<CityResponse> getChildList(String parentId) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<City> getList(int level) {
+    public List<CityResponse> getList(int level) {
         return Collections.emptyList();
     }
 }

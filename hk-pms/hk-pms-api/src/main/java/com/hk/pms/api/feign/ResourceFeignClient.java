@@ -20,7 +20,6 @@ public interface ResourceFeignClient {
      * 我的权限资源
      *
      * @param appId appId
-     * @return
      */
     @GetMapping("{appId}")
     List<ResourceTree> myResourceList(@PathVariable("appId") String appId);

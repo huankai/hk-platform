@@ -1,17 +1,18 @@
-package com.hk.solr.api.entity;
+package com.hk.solr.api.response;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * @author sjq-278
- * @date 2018-12-04 16:45
+ * @author huangkai
+ * @date 2019-4-1 15:53
  */
-@SuppressWarnings("serial")
-@Data
-public class App implements Serializable {
+@Getter
+@Setter
+public class AppResponse implements Serializable {
 
     private String id;
 

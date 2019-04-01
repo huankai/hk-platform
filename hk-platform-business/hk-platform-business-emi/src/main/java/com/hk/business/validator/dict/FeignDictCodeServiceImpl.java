@@ -1,8 +1,8 @@
 package com.hk.business.validator.dict;
 
 import com.hk.commons.validator.DictService;
-import com.hk.emi.api.domain.SysCode;
 import com.hk.emi.api.feign.SysCodeFeignClient;
+import com.hk.emi.api.response.SysCodeResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,8 +21,8 @@ public class FeignDictCodeServiceImpl implements DictService {
 
     @Override
     public List<Byte> getDictValueListByCodeId(String codeId) {
-        List<SysCode> sysCodeList = codeFeignClient.childListByParentId(codeId);
-        return sysCodeList.stream().map(SysCode::getCodeValue).collect(Collectors.toList());
+        List<SysCodeResponse> sysCodeList = codeFeignClient.childListByParentId(codeId);
+        return sysCodeList.stream().map(SysCodeResponse::getCodeValue).collect(Collectors.toList());
     }
 
     @Override

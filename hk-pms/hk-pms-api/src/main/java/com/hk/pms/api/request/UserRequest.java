@@ -1,13 +1,18 @@
-package com.hk.pms.commons.dto;
+package com.hk.pms.api.request;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 
-@Data
-@SuppressWarnings("serial")
-public class User implements Serializable {
+/**
+ * @author huangkai
+ * @date 2019-4-1 15:31
+ */
+@Setter
+@Getter
+public class UserRequest implements Serializable {
 
     private String id;
 
