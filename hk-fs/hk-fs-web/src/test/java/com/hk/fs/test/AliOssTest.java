@@ -1,17 +1,12 @@
 package com.hk.fs.test;
 
+import java.io.File;
+import java.io.IOException;
+
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectResult;
 import com.hk.commons.util.FileUtils;
-import com.hk.core.test.BaseTest;
-import com.hk.fs.FSApplication;
-import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import java.io.File;
-import java.io.IOException;
 
 /**
  * @author huangkai

@@ -117,6 +117,6 @@ public class CityController extends BaseController {
     @GetMapping(path = "excel/export")
     @PreAuthorize("hasRole('" + ADMIN + "')")
     public ResponseEntity<InputStreamResource> excelExport(City city) {
-        return Webs.toDownloadResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
+        return Webs.toResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
     }
 }

@@ -1,6 +1,5 @@
 package com.hk.emi.service;
 
-import com.hk.core.cache.service.JdbcCacheService;
 import com.hk.core.cache.service.JpaCacheService;
 import com.hk.emi.domain.BaseCode;
 

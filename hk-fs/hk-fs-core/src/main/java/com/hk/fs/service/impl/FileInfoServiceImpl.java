@@ -7,6 +7,7 @@ import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.fs.domain.FileInfo;
 import com.hk.fs.handler.FileHandler;
+import com.hk.fs.handler.FileUploadResponse;
 import com.hk.fs.repository.jpa.FileInfoRepository;
 import com.hk.fs.service.FileInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,15 +54,15 @@ public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implem
                     String originalFilename = file.getOriginalFilename();
                     String ext = FileUtils.getExtension(originalFilename);
                     FileSizeUnit sizeUnit = FileInfoService.convertFileSize(file.getSize());
-                    String path = fileHandler.upload(group, file.getInputStream(), file.getSize(), ext);
+                    FileUploadResponse response = fileHandler.upload(group, file);
                     fileInfo = new FileInfo();
                     fileInfo.setExtension(ext);
                     fileInfo.setFileName(originalFilename);
-                    fileInfo.setGroupName(group);
+                    fileInfo.setBucketName(response.getBucketName());
                     fileInfo.setFileSize(sizeUnit.getFileSize());
                     fileInfo.setUnit(sizeUnit.getUnit());
                     fileInfo.setUploadDate(uploadDate);
-                    fileInfo.setFilePath(path);
+                    fileInfo.setFilePath(response.getFilePath());
                     fileInfo.setUserId(getPrincipal().getUserId());
                     fileInfo.setDigest(IDGenerator.STRING_UUID.generate()); //先随机生成
                     saveList.add(fileInfo);

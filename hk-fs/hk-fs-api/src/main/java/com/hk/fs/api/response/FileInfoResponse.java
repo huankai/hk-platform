@@ -1,10 +1,10 @@
 package com.hk.fs.api.response;
 
+import java.io.Serializable;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.io.Serializable;
 
 /**
  * @author huangkai
@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 @NoArgsConstructor
+@SuppressWarnings("serial")
 public class FileInfoResponse implements Serializable {
 
     private String id;

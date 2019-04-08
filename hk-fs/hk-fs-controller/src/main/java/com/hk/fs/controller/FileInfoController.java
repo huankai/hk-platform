@@ -63,8 +63,8 @@ public class FileInfoController {
     @GetMapping(path = "down/{id}")
     public ResponseEntity<InputStreamResource> downFile(@PathVariable String id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
-        return Webs.toDownloadResponseEntity(fileInfo.getFileName(), StringUtils.createResource(
-                fileInfoService.getFullPath(fileInfo.getGroupName(), fileInfo.getFilePath())));
+        return Webs.toResponseEntity(fileInfo.getFileName(), StringUtils.createResource(
+                fileInfoService.getFullPath(fileInfo.getBucketName(), fileInfo.getFilePath())));
     }
 
     /**
@@ -76,8 +76,8 @@ public class FileInfoController {
     @GetMapping(path = "/view/{id}")
     public ResponseEntity<InputStreamResource> viewImage(@PathVariable String id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
-        return Webs.toImageViewResponseEntity(StringUtils.createResource(
-                fileInfoService.getFullPath(fileInfo.getGroupName(), fileInfo.getFilePath())));
+        return Webs.toResponseEntity(StringUtils.createResource(
+                fileInfoService.getFullPath(fileInfo.getBucketName(), fileInfo.getFilePath())));
     }
 
     /**

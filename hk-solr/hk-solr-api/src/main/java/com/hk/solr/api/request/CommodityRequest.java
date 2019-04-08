@@ -1,10 +1,10 @@
 package com.hk.solr.api.request;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author huangkai
@@ -12,6 +12,7 @@ import java.math.BigDecimal;
  */
 @Getter
 @Setter
+@SuppressWarnings("serial")
 public class CommodityRequest implements Serializable {
 
     /**

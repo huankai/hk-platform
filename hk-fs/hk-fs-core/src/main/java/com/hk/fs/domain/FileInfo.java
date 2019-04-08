@@ -43,8 +43,8 @@ public class FileInfo extends AbstractAuditable {
     /**
      * 文件组
      */
-    @Column(name = "group_name")
-    private String groupName;
+    @Column(name = "bucket_name")
+    private String bucketName;
 
     /**
      * 文件大小

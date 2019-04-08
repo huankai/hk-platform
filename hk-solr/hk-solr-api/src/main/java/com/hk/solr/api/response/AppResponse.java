@@ -1,10 +1,10 @@
 package com.hk.solr.api.response;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author huangkai
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
+@SuppressWarnings("serial")
 public class AppResponse implements Serializable {
 
     private String id;

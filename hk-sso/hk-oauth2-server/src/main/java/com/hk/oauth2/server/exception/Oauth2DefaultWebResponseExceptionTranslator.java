@@ -1,6 +1,5 @@
 package com.hk.oauth2.server.exception;
 
-import com.hk.commons.util.SpringContextHolder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,10 +7,16 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.*;
+import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.common.exceptions.UnsupportedGrantTypeException;
+import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+
+import com.hk.commons.util.SpringContextHolder;
 
 
 /**
@@ -19,8 +24,9 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
  *
  * @author kevin
  * @date 2018-08-20 08:55
+ * @see DefaultWebResponseExceptionTranslator
  */
-public class Oauth2DefaultWebResponseExceptionTranslator implements WebResponseExceptionTranslator {
+public class Oauth2DefaultWebResponseExceptionTranslator implements WebResponseExceptionTranslator<OAuth2Exception> {
 
     private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 

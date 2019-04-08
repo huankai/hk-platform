@@ -1,11 +1,11 @@
 package com.hk.solr.api.response;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author huangkai
@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Getter
 @Setter
+@SuppressWarnings("serial")
 public class CommodityResponse implements Serializable {
 
     /**

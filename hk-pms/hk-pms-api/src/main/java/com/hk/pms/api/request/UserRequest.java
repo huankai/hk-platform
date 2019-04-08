@@ -1,10 +1,10 @@
 package com.hk.pms.api.request;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 import java.time.LocalDate;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author huangkai
@@ -12,6 +12,7 @@ import java.time.LocalDate;
  */
 @Setter
 @Getter
+@SuppressWarnings("serial")
 public class UserRequest implements Serializable {
 
     private String id;
