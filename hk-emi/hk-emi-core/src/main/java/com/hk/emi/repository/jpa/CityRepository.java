@@ -12,4 +12,6 @@ import java.util.List;
 public interface CityRepository extends StringIdJpaRepository<City> {
 
     List<City> findByParentIdOrderByCodeAsc(String parentId);
+
+    List<City> findByCityType(byte cityType);
 }

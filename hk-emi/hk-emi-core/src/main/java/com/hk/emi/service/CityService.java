@@ -1,12 +1,12 @@
 package com.hk.emi.service;
 
-import java.io.InputStream;
-import java.util.List;
-
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.emi.domain.City;
 import com.hk.emi.vo.CityExcelVo;
+
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * @author kevin
@@ -37,4 +37,11 @@ public interface CityService extends JpaBaseService<City, String> {
      * @return Excel byte[] 数据
      */
     byte[] exportExcelData(City city);
+
+    /**
+     * 根据类型查询城市
+     *
+     * @param cityType 城市等级类型
+     */
+    List<City> findByCityType(byte cityType);
 }

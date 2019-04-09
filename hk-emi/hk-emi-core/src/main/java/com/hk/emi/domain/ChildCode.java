@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @SuppressWarnings("serial")
+@Entity
 @Table(name = "emi_child_code")
 @EqualsAndHashCode(callSuper = true)
 public class ChildCode extends AbstractAuditable {

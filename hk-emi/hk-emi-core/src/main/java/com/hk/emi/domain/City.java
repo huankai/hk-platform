@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
  * @date 2017年12月24日下午8:14:32
  */
 @Data
+@Entity
 @Table(name = "emi_city")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)

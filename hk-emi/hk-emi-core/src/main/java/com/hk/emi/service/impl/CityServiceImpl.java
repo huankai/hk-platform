@@ -118,4 +118,9 @@ public class CityServiceImpl extends JpaServiceImpl<City, String> implements Cit
         writeAbleExcel.write(param, outputStream);
         return outputStream.toByteArray();
     }
+
+    @Override
+    public List<City> findByCityType(byte cityType) {
+        return cityRepository.findByCityType(cityType);
+    }
 }

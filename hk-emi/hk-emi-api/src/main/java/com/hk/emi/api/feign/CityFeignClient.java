@@ -3,9 +3,7 @@ package com.hk.emi.api.feign;
 import com.hk.emi.api.feign.fallback.CityFeignClientFallback;
 import com.hk.emi.api.response.CityResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -54,7 +52,7 @@ public interface CityFeignClient {
         return getList(4);
     }
 
-    @GetMapping("level")
-    List<CityResponse> getList(int level);
+    @RequestMapping(path = {"level"},method = RequestMethod.GET)
+    List<CityResponse> getList(@RequestParam(value = "level") int level);
 
 }
