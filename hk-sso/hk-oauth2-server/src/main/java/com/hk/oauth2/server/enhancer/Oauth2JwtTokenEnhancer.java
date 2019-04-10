@@ -12,7 +12,7 @@ import com.hk.oauth2.server.service.RoleService;
 import com.hk.oauth2.server.service.SysAppService;
 import com.hk.oauth2.server.service.SysPermissionService;
 import com.hk.platform.commons.enums.SexEnum;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * @author kevin
  * @date 2018-08-01 14:44
  */
-@Log4j2
+@Slf4j
 @Component
 public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
 

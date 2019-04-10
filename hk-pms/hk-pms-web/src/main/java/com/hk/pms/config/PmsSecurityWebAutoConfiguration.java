@@ -11,7 +11,7 @@ import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationA
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 import com.hk.emi.api.feign.SysCodeFeignClient;
 import com.hk.platform.commons.role.RoleNamed;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2SsoProperties;
@@ -48,7 +48,6 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     private ApplicationContext applicationContext;
 
     /**
-     * @see
      */
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPath;
@@ -56,7 +55,6 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     /**
      * @see SecurityAuthenticationAutoConfiguration#requestCache()
      */
-    @Autowired(required = false)
     private RequestCache requestCache;
 
     @Bean
@@ -64,8 +62,10 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
         return new FeignDictCodeServiceImpl(codeFeignClient);
     }
 
-    public PmsSecurityWebAutoConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {
+    public PmsSecurityWebAutoConfiguration(AuthenticationProperties properties, ObjectProvider<RequestCache> requestCaches,
+                                           ApplicationContext applicationContext) {
         this.properties = properties;
+        this.requestCache = requestCaches.getIfAvailable();
         this.applicationContext = applicationContext;
     }
 
