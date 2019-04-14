@@ -37,10 +37,10 @@
             <version>${project.version}</version>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-stream-kafka</artifactId>
-        </dependency>-->
+            <artifactId>hk-core-stream-rabbitmq</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-spring-boot-autoconfigure</artifactId>

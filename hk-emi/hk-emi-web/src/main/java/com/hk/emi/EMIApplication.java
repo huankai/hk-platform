@@ -1,11 +1,12 @@
 package com.hk.emi;
 
-import java.time.LocalDateTime;
-
+import com.hk.stream.order.OrderOutput;
+import lombok.Data;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.cloud.stream.annotation.EnableBinding;
 
-import lombok.Data;
+import java.time.LocalDateTime;
 
 /**
  * EMI Start
@@ -14,7 +15,7 @@ import lombok.Data;
  * @date 2018-07-13 14:06
  */
 @SpringCloudApplication
-//@EnableBinding(Sink.class)
+@EnableBinding(OrderOutput.class)
 public class EMIApplication {
 
 //    private final Logger logger = LoggerFactory.getLogger(EMIApplication.class);

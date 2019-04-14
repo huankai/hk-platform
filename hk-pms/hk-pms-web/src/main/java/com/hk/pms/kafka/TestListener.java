@@ -1,18 +1,16 @@
 package com.hk.pms.kafka;
 
-import java.time.LocalDateTime;
-
+import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-import lombok.Data;
+import java.time.LocalDateTime;
 
 /**
  * @author huangkai
  * @date 2018-11-03 15:21
  */
-@Component
+//@Component
 public class TestListener {
 
     private Logger logger = LoggerFactory.getLogger(TestListener.class);
