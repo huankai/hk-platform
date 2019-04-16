@@ -8,6 +8,9 @@ ENV SERVER_NAME=hk-cas-server-2.1.3.RELEASE.jar
 
 COPY target/$SERVER_NAME /app/$SERVER_NAME
 
+# 指定用户，可以是用户名，也可以是用户id
+USER 1000
+
 # 指定工作目录
 WORKDIR /app
 
