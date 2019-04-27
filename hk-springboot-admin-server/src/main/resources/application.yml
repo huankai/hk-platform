@@ -8,12 +8,12 @@ spring:
     allow-bean-definition-overriding: true
   application:
     name: hk-springboot-admin-server
-  security:
-    user:
-      # 登陆用户名
-      name: user
-      # 登陆密码
-      password: user#1350
+#  security:
+#    user:
+#      # 登陆用户名
+#      name: user
+#      # 登陆密码
+#      password: user#1350
 ######################################################### eureka 配置
 eureka:
   instance:

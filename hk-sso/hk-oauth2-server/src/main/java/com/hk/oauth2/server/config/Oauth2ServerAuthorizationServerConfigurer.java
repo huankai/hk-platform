@@ -1,12 +1,17 @@
 package com.hk.oauth2.server.config;
 
 import com.hk.commons.JsonResult;
+import com.hk.core.authentication.api.SecurityContextUtils;
+import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
 import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
 import com.hk.core.authentication.security.UserDetailClientService;
 import com.hk.core.web.Webs;
 import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
 import com.hk.oauth2.server.exception.Oauth2DefaultWebResponseExceptionTranslator;
+import com.hk.oauth2.server.logout.HttpSessionLogoutManager;
+import com.hk.oauth2.server.logout.LogoutManager;
+import com.hk.oauth2.server.logout.LogoutRequest;
 import com.hk.oauth2.server.provider.code.RedisAuthorizationCodeServices;
 import com.hk.oauth2.server.provider.token.AppStatusTokenServices;
 import com.hk.oauth2.server.service.SysAppService;
@@ -34,9 +39,15 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,6 +145,24 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
+
+        // TODO 拦截器
+        endpoints.addInterceptor(new HandlerInterceptorAdapter() {
+
+            private LogoutManager logoutManager = new HttpSessionLogoutManager();
+
+            @Override
+            public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws ServletRequestBindingException {
+                String redirectUri = ServletRequestUtils.getStringParameter(request, "redirect_uri");
+                if (StringUtils.equals(StringUtils.substringAfter(request.getRequestURI(), request.getContextPath()), "/oauth/authorize") && StringUtils.isNotEmpty(redirectUri)) {
+                    UserPrincipal principal = SecurityContextUtils.getPrincipal();
+                    // TODO 这里不能使用 userId，需要生成唯一的 id
+                    logoutManager.save(request, (LogoutRequest) () -> new URI(redirectUri + "/logout?logoutRequest=" + principal.getUserId()));
+
+                }
+            }
+        });
+
         JwtAccessTokenConverter jwtAccessTokenConverter = accessTokenConverter();
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 

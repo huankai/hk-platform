@@ -4,6 +4,7 @@ import com.hk.business.validator.dict.FeignDictCodeServiceImpl;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.validator.DictService;
+import com.hk.core.authentication.oauth2.filter.SingleSignOutFilter;
 import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
@@ -29,6 +30,7 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticat
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.savedrequest.RequestCache;
 
 import java.util.Set;
@@ -48,6 +50,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     private ApplicationContext applicationContext;
 
     /**
+     *
      */
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPath;
@@ -71,6 +74,10 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        OAuth2SsoProperties ssoProperties = applicationContext.getBean(OAuth2SsoProperties.class);
+        // TODO 添加单点退出拦截器
+        http.addFilterAfter(new SingleSignOutFilter(ssoProperties.getLoginPath() + "/logout"), UsernamePasswordAuthenticationFilter.class);
+
         AuthenticationProperties.LoginProperties browser = properties.getLogin();
         if (null != requestCache) {//默认使用的是 HttpSessionRequestCache
             http.requestCache().requestCache(requestCache);
@@ -117,7 +124,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .anyRequest().authenticated();
 
         //通过源码分析，好像没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
-        http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));
+        http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(ssoProperties)));
     }
 
     private OAuth2ClientAuthenticationProcessingFilter oauth2SsoFilter(OAuth2SsoProperties ssoProperties) {

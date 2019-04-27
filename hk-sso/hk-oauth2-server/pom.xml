@@ -95,7 +95,6 @@
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!--

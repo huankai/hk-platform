@@ -16,8 +16,8 @@ spring:
       server:
         native:
           search-locations:
-#            - "file:///G:/worksplace/hk/src/hk-config/platform-config"
-            - "file:///Users/huangkai/worksplace/hk-config/platform-config"
+            - "file:///G:/worksplace/hk/src/hk-config/platform-config"
+#            - "file:///Users/huangkai/worksplace/hk-config/platform-config"
 #        git:
 #          uri: https://github.com/huankai/hk-config.git
 #          search-paths:
