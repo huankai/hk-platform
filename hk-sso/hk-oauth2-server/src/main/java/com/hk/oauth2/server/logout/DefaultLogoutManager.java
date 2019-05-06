@@ -1,8 +1,10 @@
 package com.hk.oauth2.server.logout;
 
-import com.hk.commons.util.CompressionUtils;
+import com.hk.commons.util.Base64Utils;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author kevin
@@ -19,7 +21,7 @@ public class DefaultLogoutManager implements LogoutManager {
     @Override
     public String createFrontChannelLogoutMessage(LogoutRequest logoutRequest) {
         String logoutMessage = logoutMessageBuilder.create(logoutRequest);
-        return CompressionUtils.compress(logoutMessage);
+        return Base64Utils.encodeToString(logoutMessage.getBytes(StandardCharsets.UTF_8));
     }
 
 //    @Override

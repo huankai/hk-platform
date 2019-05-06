@@ -1,6 +1,7 @@
 package com.hk.oauth2.server.ticket;
 
 import com.hk.commons.util.IDGenerator;
+import com.hk.commons.util.StringUtils;
 
 /**
  * @author kevin
@@ -10,6 +11,6 @@ public class DefaultUniqueTicketIdGenerator implements UniqueTicketIdGenerator {
 
     @Override
     public String getNewTicketId(String prefix) {
-        return prefix + IDGenerator.STRING_UUID.generate();
+        return StringUtils.defaultIfEmpty(prefix, StringUtils.EMPTY) + IDGenerator.STRING_UUID.generate();
     }
 }

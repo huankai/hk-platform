@@ -9,6 +9,7 @@ import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
 import com.hk.oauth2.server.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import com.hk.oauth2.server.provider.code.RedisAuthorizationCodeServices;
 import com.hk.oauth2.server.provider.token.AppStatusTokenServices;
+import com.hk.oauth2.server.provider.token.IpAuthenticationKeyGenerator;
 import com.hk.oauth2.server.service.SysAppService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -189,7 +190,10 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
      */
     private TokenStore tokenStore() {
         //使用 redis store
-        return new RedisTokenStore(connectionFactory);
+        RedisTokenStore tokenStore = new RedisTokenStore(connectionFactory);
+        //生成随机Key
+        tokenStore.setAuthenticationKeyGenerator(new IpAuthenticationKeyGenerator());
+        return tokenStore;
 //        return new JwtTokenStore(accessTokenConverter());
     }
 

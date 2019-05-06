@@ -83,10 +83,14 @@ public class AppStatusTokenServices implements AuthorizationServerTokenServices,
         }
     }
 
+    @Override
     @Transactional
     public OAuth2AccessToken createAccessToken(OAuth2Authentication authentication) throws AuthenticationException {
         OAuth2AccessToken existingAccessToken = tokenStore.getAccessToken(authentication);
         checkAppStatus(existingAccessToken, authentication.getOAuth2Request().getClientId());
+
+        // TODO 记录客户端信息
+
         OAuth2RefreshToken refreshToken = null;
         if (existingAccessToken != null) {
             if (existingAccessToken.isExpired()) {

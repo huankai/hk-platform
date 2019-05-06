@@ -15,6 +15,10 @@
     <dependencies>
         <dependency>
             <groupId>com.hk</groupId>
+            <artifactId>hk-core-httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
         </dependency>
         <dependency>
