@@ -1,5 +1,6 @@
 package com.hk.oauth2.server.config;
 
+import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
@@ -7,9 +8,9 @@ import com.hk.core.autoconfigure.authentication.security.AuthenticationPropertie
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
 import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
+import com.hk.oauth2.server.constants.ClientEquipment;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
 import com.hk.platform.commons.role.RoleNamed;
-
 import com.hk.weixin.WechatMpProperties;
 import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -28,10 +29,15 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -42,6 +48,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableConfigurationProperties(value = {WechatMpProperties.class, AuthenticationProperties.class})
 public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
+
 
     private AuthenticationProperties authenticationProperties;
 
@@ -98,7 +105,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.LoginProperties browser = authenticationProperties.getLogin();
+        AuthenticationProperties.LoginProperties login = authenticationProperties.getLogin();
         AuthenticationProperties.SMSProperties sms = authenticationProperties.getSms();
         if (sms.isEnabled()) {
             http
@@ -116,26 +123,26 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
                 .formLogin()
 
-                .loginPage(browser.getLoginUrl()).permitAll() // 登陆 请求地址不需要认证可以访问，配置在这里
-                .usernameParameter(browser.getUsernameParameter())
-                .passwordParameter(browser.getPasswordParameter())
-                .loginProcessingUrl(browser.getLoginProcessingUrl())
+                .loginPage(login.getLoginUrl()).permitAll() // 登陆 请求地址不需要认证可以访问，配置在这里
+                .usernameParameter(login.getUsernameParameter())
+                .passwordParameter(login.getPasswordParameter())
+                .loginProcessingUrl(login.getLoginProcessingUrl())
 
                 .and()
 //                .rememberMe().disable()//禁用remember-me功能
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .enableSessionUrlRewriting(false)
-                .maximumSessions(browser.getMaximumSessions())
+                .maximumSessions(login.getMaximumSessions())
                 .sessionRegistry(sessionRegistry())
-                .expiredUrl(browser.getSessionInvalidUrl())
-                .maxSessionsPreventsLogin(browser.isMaxSessionsPreventsLogin())
+                .expiredUrl(login.getSessionInvalidUrl())
+                .maxSessionsPreventsLogin(login.isMaxSessionsPreventsLogin())
                 .and()
                 .and()
                 .logout().clearAuthentication(true)
-                .logoutUrl(browser.getLogoutUrl())
+                .logoutUrl(login.getLogoutUrl())
                 .invalidateHttpSession(true)
-                .addLogoutHandler(new RedirectLogoutHandler(browser.getLogoutSuccessUrl()))
+                .addLogoutHandler(new RedirectLogoutHandler(login.getLogoutSuccessUrl()))
                 .and()
                 // 使用 zuul登陆地址
 //                .addObjectPostProcessor(new ObjectPostProcessor<LoginUrlAuthenticationEntryPoint>() {
@@ -150,6 +157,18 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 //                        return (O) entryPoint;
 //                    }
 //                });
+                .exceptionHandling().authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint(login.getLoginUrl()) {
+
+            @Override
+            protected String determineUrlToUseForThisRequest(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
+                String value = request.getParameter(ClientEquipment.CLIENT_EQUIPMENT_PARAMETER_NAME);
+                String url = super.determineUrlToUseForThisRequest(request, response, exception);
+                if (StringUtils.equalsIgnoreCase(value, ClientEquipment.PHONE)) {//如果是手机端访问，跳转到手机端登陆页
+                    url = String.format("/%s%s", ClientEquipment.CLIENT_EQUIPMENT_PARAMETER_NAME, url);
+                }
+                return url;
+            }
+        }).and()
 
 
                 .authorizeRequests().expressionHandler(new AdminAccessWebSecurityExpressionHandler())// admin 角色的用户、admin权限、保护的用户拥有所有访问权限

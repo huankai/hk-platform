@@ -9,7 +9,6 @@ import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
 import com.hk.oauth2.server.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import com.hk.oauth2.server.provider.code.RedisAuthorizationCodeServices;
 import com.hk.oauth2.server.provider.token.AppStatusTokenServices;
-import com.hk.oauth2.server.provider.token.IpAuthenticationKeyGenerator;
 import com.hk.oauth2.server.service.SysAppService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -163,8 +162,21 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         AppStatusTokenServices tokenServices = new AppStatusTokenServices();
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSysAppService(appService);
+        /*
+         *
+         *  http://127.0.0.1:7100/oauth2/oauth/token?grant_type=refresh_token
+         *  &client_secret=client_secret
+         *  &client_id=client_id
+         *  &refresh_token=refresh_token_value
+         *
+         * supportRefreshToken 与 reuseRefreshToken 不能相同
+         * 如果 supportRefreshToken 配置配置为false 时，不支持 refresh_token，调用 refresh_token 抛出异常; @see  AppStatusTokenServices 中的 if (!supportRefreshToken)  逻辑
+         * 如果 supportRefreshToken 配置为 true ,且 reuseRefreshToken 也配置为true 时，刷新 token 接口能调用成功，但生成的新的 refresh_token 不会替换老的 refresh_token，
+         *      将不能使用 新的 refresh_token 再次刷新 token。 @see AppStatusTokenServices 中的  if (!reuseRefreshToken) 逻辑
+         */
         tokenServices.setSupportRefreshToken(true);
-        tokenServices.setReuseRefreshToken(true);
+        tokenServices.setReuseRefreshToken(false);
+
         tokenServices.setClientDetailsService(jdbcClientDetailsService());
         tokenServices.setTokenEnhancer(tokenEnhancerChain);
 
@@ -172,7 +184,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         endpoints.authenticationManager(authenticationManager)
                 .exceptionTranslator(new Oauth2DefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
                 .accessTokenConverter(jwtAccessTokenConverter)
-                .reuseRefreshTokens(true)
+//                .reuseRefreshTokens(true) 这个是配置默认的 reuseRefreshToken，因为这里自己创建了，所以不需要设置了
                 .tokenEnhancer(tokenEnhancerChain)
                 .tokenServices(tokenServices)
 
@@ -190,10 +202,9 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
      */
     private TokenStore tokenStore() {
         //使用 redis store
-        RedisTokenStore tokenStore = new RedisTokenStore(connectionFactory);
-        //生成随机Key
-        tokenStore.setAuthenticationKeyGenerator(new IpAuthenticationKeyGenerator());
-        return tokenStore;
+        return new RedisTokenStore(connectionFactory);
+//        //生成随机Key
+//        tokenStore.setAuthenticationKeyGenerator(new IpAuthenticationKeyGenerator());
 //        return new JwtTokenStore(accessTokenConverter());
     }
 
