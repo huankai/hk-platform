@@ -25,6 +25,9 @@ spring:
           generate_order_output:
             producer:
               exchange-type: fanout
+  jpa:
+    hibernate:
+      ddl-auto: create
 ########################################################################### spring cloud stream 配置
 #    stream:
 #      default-binder: kafka
@@ -44,4 +47,3 @@ spring:
 #          destination: destination-01
 #          # 组名，如果不指定组名，会生成一个匿名组名，在kafka中，不同组的实例都会消费生产者发送的消息
 #          group: group99
-

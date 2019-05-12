@@ -1,13 +1,10 @@
 package com.hk.emi.controller;
 
-import com.hk.commons.util.IDGenerator;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.stream.order.OrderOutput;
-import com.hk.stream.order.OrderPayload;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,10 +30,10 @@ public class IndexController extends BaseController {
     @ApiOperation(value = "首页")
     @GetMapping({"/", "/index"})
     public String index(ModelMap modelMap) {
-        OrderPayload orderPayload = new OrderPayload();
-        orderPayload.setId(IDGenerator.STRING_UUID.generate());
-        orderPayload.setBody("body");
-        orderOutput.generateOrder().send(MessageBuilder.withPayload(orderPayload).build());
+//        OrderPayload orderPayload = new OrderPayload();
+//        orderPayload.setId(IDGenerator.STRING_UUID.generate());
+//        orderPayload.setBody("body");
+//        orderOutput.generateOrder().send(MessageBuilder.withPayload(orderPayload).build());
         return "index";
     }
 }

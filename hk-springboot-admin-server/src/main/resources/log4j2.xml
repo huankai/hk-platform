@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?><Configuration status="off">
     <properties>
-        <property name="LOG_HOME">${sys:user.home}/logs/springboot-admin</property>
+        <property name="LOG_HOME">${sys:user.dir}/logs</property>
     </properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">

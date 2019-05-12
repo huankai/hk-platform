@@ -86,4 +86,7 @@ eureka:
       defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@${eureka.instance.hostname}:${server.port}${server.servlet.context-path}/eureka
 #  server:
 #    enable-self-preservation: false
+logging:
+  level:
+    root: debug
 #    eviction-interval-timer-in-ms: 2000

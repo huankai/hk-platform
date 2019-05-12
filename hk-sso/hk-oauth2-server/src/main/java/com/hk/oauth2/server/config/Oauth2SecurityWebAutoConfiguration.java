@@ -1,6 +1,8 @@
 package com.hk.oauth2.server.config;
 
 import com.hk.commons.util.StringUtils;
+import com.hk.core.authentication.api.UserPrincipal;
+import com.hk.core.authentication.api.UserPrincipalService;
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
+import org.springframework.boot.autoconfigure.security.StaticResourceLocation;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -90,6 +93,20 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * 手机号验证处理，当开启了手机号认证时，必须注入此 Bean
+     */
+    @Autowired(required = false)
+    @Qualifier(value = "smsUserPrincipalService")
+    private UserPrincipalService<UserPrincipal, String> smsUserPrincipalService;
+
+    /**
+     * 微信验证处理，当开启了微信认证时，必须注入此 Bean
+     */
+    @Autowired(required = false)
+    @Qualifier(value = "wechatUserPrincipalService")
+    private UserPrincipalService<UserPrincipal, UserPrincipal> wechatUserPrincipalService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
@@ -103,21 +120,46 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
         return new SessionRegistryImpl();
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.LoginProperties login = authenticationProperties.getLogin();
+    /**
+     * 配置手机号登陆 处理
+     *
+     * @param http
+     * @throws Exception
+     */
+    private void configureSms(HttpSecurity http) throws Exception {
         AuthenticationProperties.SMSProperties sms = authenticationProperties.getSms();
         if (sms.isEnabled()) {
             http
-                    .apply(new SmsAuthenticationSecurityConfiguration(sms, userDetailsService))
+                    .apply(new SmsAuthenticationSecurityConfiguration(sms, smsUserPrincipalService))
                     .and().apply(new ValidateCodeSecurityConfiguration(sms, processor, null));
         }
+    }
+
+    /**
+     * 配置微信登陆 处理
+     *
+     * @param http
+     * @throws Exception
+     */
+    private void configureWechat(HttpSecurity http) throws Exception {
         if (wechatProperties.isEnabled()) {
             if (null == wxMpService) {
                 throw new NullPointerException("wechat is enabled ,But wxMpService is null.");
             }
-            http.apply(new WechatAuthenticationSecurityConfigurer(wxMpService, wechatProperties.getAuthentication()));
+            if (null == wechatUserPrincipalService) {
+                throw new NullPointerException("wechat is enabled ,But wechatUserPrincipalService is null");
+            }
+            http.apply(new WechatAuthenticationSecurityConfigurer(wxMpService, wechatProperties.getAuthentication(),
+                    wechatUserPrincipalService));
         }
+    }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        configureSms(http);
+        configureWechat(http);
+        AuthenticationProperties.LoginProperties login = authenticationProperties.getLogin();
         http
                 .csrf().disable()
 
@@ -185,7 +227,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 "/actuator/health",  // 健康检查
                 "/sms/sender",  // 短信登陆
                 "/wechat/login", // 微信登陆
-                "/favicon.ico"); // ico
+                StaticResourceLocation.FAVICON.name()); // ico
     }
 
     /**

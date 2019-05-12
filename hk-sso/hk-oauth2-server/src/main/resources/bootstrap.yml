@@ -18,4 +18,3 @@ spring:
     # 要激活的属性，默认为 default, 文件名为 ${spring.application.name}-${spring.cloud.config.profile}.yml
       profile: dev
       uri: http://127.0.0.1:8770
-

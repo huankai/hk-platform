@@ -57,6 +57,21 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
     }
 
     @Override
+    public Optional<SysUser> findByPhone(String phone) {
+        return userRepository.findByPhone(phone);
+    }
+
+    @Override
+    public SysUser registerUser(SysUser user) {
+        return super.insert(user, sysUser -> {
+            if (null == sysUser.getIsProtect()) {
+                sysUser.setIsProtect(false);
+            }
+            return sysUser;
+        });
+    }
+
+    @Override
     public void deleteById(String s) {
         throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
     }
