@@ -1,6 +1,7 @@
 package com.hk.oauth2.server.config;
 
 import com.hk.commons.JsonResult;
+import com.hk.commons.util.IDGenerator;
 import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
 import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
 import com.hk.core.authentication.security.UserDetailClientService;
@@ -9,7 +10,7 @@ import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
 import com.hk.oauth2.server.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import com.hk.oauth2.server.provider.code.RedisAuthorizationCodeServices;
 import com.hk.oauth2.server.provider.token.AppStatusTokenServices;
-import com.hk.oauth2.server.provider.token.IpAuthenticationKeyGenerator;
+import com.hk.oauth2.server.provider.token.ClientEquipmentAuthenticationKeyGenerator;
 import com.hk.oauth2.server.service.SysAppService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -135,24 +136,6 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-
-//        // TODO 拦截器
-//        endpoints.addInterceptor(new HandlerInterceptorAdapter() {
-//
-//            private LogoutManager logoutManager = new DefaultLogoutManager();
-//
-//            @Override
-//            public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws ServletRequestBindingException {
-//                String redirectUri = ServletRequestUtils.getStringParameter(request, "redirect_uri");
-//                if (StringUtils.equals(StringUtils.substringAfter(request.getRequestURI(), request.getContextPath()), "/oauth/authorize") && StringUtils.isNotEmpty(redirectUri)) {
-//                    UserPrincipal principal = SecurityContextUtils.getPrincipal();
-//                    // TODO 这里不能使用 userId，需要生成唯一的 id
-////                    logoutManager.save(request, (LogoutRequest) () -> new URI(redirectUri + "/logout?logoutRequest=" + principal.getUserId()));
-//
-//                }
-//            }
-//        });
-
         JwtAccessTokenConverter jwtAccessTokenConverter = accessTokenConverter();
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 
@@ -204,7 +187,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     private TokenStore tokenStore() {
         //使用 redis store
         RedisTokenStore tokenStore = new RedisTokenStore(connectionFactory);
-        tokenStore.setAuthenticationKeyGenerator(new IpAuthenticationKeyGenerator());
+        tokenStore.setAuthenticationKeyGenerator(new ClientEquipmentAuthenticationKeyGenerator());
         return tokenStore;
 //        return new JwtTokenStore(accessTokenConverter());
     }
@@ -225,7 +208,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
         defaultAccessTokenConverter.setUserTokenConverter(new LocalUserAuthenticationConverter(userDetailClientService));
         jwtAccessTokenConverter.setAccessTokenConverter(defaultAccessTokenConverter);
-        jwtAccessTokenConverter.setSigningKey("8d1f6ddf6ef341deb6ff654e93179d6c"); // 配置签名token,先随便写个值
+        jwtAccessTokenConverter.setSigningKey(IDGenerator.STRING_UUID.generate()); // 配置签名token,先随便写个值
         return jwtAccessTokenConverter;
     }
 
