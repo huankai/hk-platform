@@ -1,5 +1,6 @@
 package com.hk.oauth2.server.provider.token;
 
+import com.hk.commons.util.Algorithm;
 import com.hk.commons.util.CollectionUtils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.AuthenticationKeyGenerator;
@@ -39,7 +40,7 @@ public class ClientEquipmentAuthenticationKeyGenerator implements Authentication
         values = CollectionUtils.sortMapByKey(values);
         MessageDigest digest;
         try {
-            digest = MessageDigest.getInstance("MD5");
+            digest = MessageDigest.getInstance(Algorithm.MD5.getName());
             byte[] bytes = digest.digest(values.toString().getBytes(StandardCharsets.UTF_8));
             return String.format("%032x", new BigInteger(1, bytes));
         } catch (NoSuchAlgorithmException nsae) {

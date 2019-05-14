@@ -15,6 +15,7 @@ import org.springframework.security.oauth2.provider.code.RandomValueAuthorizatio
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,27 +78,33 @@ public class RedisAuthorizationCodeServices extends RandomValueAuthorizationCode
     protected OAuth2Authentication remove(String code) {
         RedisConnection connection = redisConnectionFactory.getConnection();
         try {
-            byte[] bytes = connection.get(code.getBytes(StandardCharsets.UTF_8));
-            if (ArrayUtils.isNotEmpty(bytes)) {
-                byte[] clientEquipmentKey = obtainClientEquipmentKey(code).getBytes(StandardCharsets.UTF_8);
-                byte[] clientEquipmentBytes = connection.get(clientEquipmentKey);
-                connection.del(code.getBytes(StandardCharsets.UTF_8));
-                connection.del(clientEquipmentKey);
+            byte[] clientEquipmentKey = obtainClientEquipmentKey(code).getBytes(StandardCharsets.UTF_8);
+            byte[] codeBytes = code.getBytes(StandardCharsets.UTF_8);
+            connection.openPipeline();
+            connection.get(codeBytes);
+            connection.get(clientEquipmentKey);
+            connection.del(codeBytes);
+            connection.del(clientEquipmentKey);
 
-                /*
-                 * 将客户端 使用的ip 与 user_agent 存放在 认证的扩展信息中，
-                 *
-                 * @see  com.hk.oauth2.server.provider.token.ClientEquipmentAuthenticationKeyGenerator#extractKey() 从扩展信息中生成 Key
-                 * */
-                ClientAuthorizationEquipment authorizationEquipment = SerializationUtils.deserialize(clientEquipmentBytes);
-                OAuth2Authentication deserialize = SerializationUtils.deserialize(bytes);
-                OAuth2Request oAuth2Request = deserialize.getOAuth2Request();
-                Map<String, Serializable> extensions = oAuth2Request.getExtensions();
-                extensions.put(HOST, authorizationEquipment.getRemoteAddr());
-                extensions.put(USER_AGENT, authorizationEquipment.getUserAgent());
-                return deserialize;
+            List<Object> results = connection.closePipeline();
+            byte[] codeResult = (byte[]) results.get(0);
+            byte[] equipmentResult = (byte[]) results.get(1);
+            if (ArrayUtils.isEmpty(codeResult) || ArrayUtils.isEmpty(equipmentResult)) {
+                return null;
             }
-            return null;
+            OAuth2Authentication deserialize = SerializationUtils.deserialize(codeResult);
+
+            /*
+             * 将客户端 使用的ip 与 user_agent 存放在 认证的扩展信息中，
+             *
+             * @see  com.hk.oauth2.server.provider.token.ClientEquipmentAuthenticationKeyGenerator#extractKey() 从扩展信息中生成 Key
+             * */
+            ClientAuthorizationEquipment authorizationEquipment = SerializationUtils.deserialize(equipmentResult);
+            OAuth2Request oAuth2Request = deserialize.getOAuth2Request();
+            Map<String, Serializable> extensions = oAuth2Request.getExtensions();
+            extensions.put(HOST, authorizationEquipment.getRemoteAddr());
+            extensions.put(USER_AGENT, authorizationEquipment.getUserAgent());
+            return deserialize;
         } finally {
             connection.close();
         }

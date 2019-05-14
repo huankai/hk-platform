@@ -78,7 +78,7 @@
                 若是additivity设为false，则子Logger只会在自己的appender里输出，而不会在父Logger的appender里输出
          -->
         <Logger name="com.hk" additivity="true" level="INFO"/>
-        <Logger name="org.springframework.security" additivity="true" level="ERROR"/>
+        <Logger name="org.springframework.security" additivity="true" level="DEBUG"/>
         <Logger name="org.springframework.jdbc.core.JdbcTemplate" additivity="true" level="DEBUG"/>
         <Logger name="org.springframework.jdbc.core.StatementCreatorUtils" additivity="true" level="DEBUG"/>
         <Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"
