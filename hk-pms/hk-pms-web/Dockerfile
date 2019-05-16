@@ -1,4 +1,4 @@
-FROM docker.io/java:8-jre-alpine
+FROM anapsix/alpine-java
 #指定作者
 MAINTAINER huangkai huankai@139.com
 

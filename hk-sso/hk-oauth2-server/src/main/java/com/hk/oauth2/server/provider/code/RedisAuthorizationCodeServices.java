@@ -33,14 +33,14 @@ public class RedisAuthorizationCodeServices extends RandomValueAuthorizationCode
     /**
      * 过期时间，30  秒
      */
-    private static final long expire = 30;
-
-    @Setter
-    private String prefix = RedisAuthorizationCodeServices.class.getSimpleName() + ".Code";
+    private static final long EXPIRE = 30;
 
     private static final String HOST = "client_host";
 
     private static final String USER_AGENT = "user_agent";
+
+    @Setter
+    private String prefix = RedisAuthorizationCodeServices.class.getSimpleName() + ".Code";
 
     private final RedisConnectionFactory redisConnectionFactory;
 
@@ -62,8 +62,8 @@ public class RedisAuthorizationCodeServices extends RandomValueAuthorizationCode
             String userAgent = Webs.getUserAgent(request);
             String key = obtainClientEquipmentKey(code);
 
-            connection.setEx(code.getBytes(StandardCharsets.UTF_8), expire, SerializationUtils.serialize(authentication));
-            connection.setEx(key.getBytes(StandardCharsets.UTF_8), expire, SerializationUtils.serialize(new ClientAuthorizationEquipment(remoteAddr, userAgent)));
+            connection.setEx(code.getBytes(StandardCharsets.UTF_8), EXPIRE, SerializationUtils.serialize(authentication));
+            connection.setEx(key.getBytes(StandardCharsets.UTF_8), EXPIRE, SerializationUtils.serialize(new ClientAuthorizationEquipment(remoteAddr, userAgent)));
             connection.closePipeline();
         } finally {
             connection.close();
