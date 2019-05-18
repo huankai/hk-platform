@@ -14,10 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
             <artifactId>hk-fs-core</artifactId>
             <version>${project.version}</version>
         </dependency>

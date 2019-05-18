@@ -1,7 +1,6 @@
 package com.hk.oauth2.server.controller;
 
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import com.hk.oauth2.server.constants.ClientEquipment;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,15 +32,5 @@ public class LoginController extends BaseController {
         }
         modelMap.put("smsEnabled", authenticationProperties.getSms().isEnabled());
         return "login";
-    }
-
-    /**
-     * 手机端登陆页面
-     *
-     * @return
-     */
-    @GetMapping(path = ClientEquipment.PHONE + "/login")
-    public String phoneLogin() {
-        return "phoneLogin";
     }
 }

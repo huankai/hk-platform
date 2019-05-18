@@ -1,6 +1,5 @@
 package com.hk.oauth2.server.config;
 
-import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.core.authentication.api.UserPrincipalService;
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
@@ -10,7 +9,6 @@ import com.hk.core.autoconfigure.authentication.security.AuthenticationPropertie
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
 import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
-import com.hk.oauth2.server.constants.ClientEquipment;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
 import com.hk.platform.commons.role.RoleNamed;
 import com.hk.weixin.WechatMpProperties;
@@ -51,7 +49,6 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 @EnableConfigurationProperties(value = {WechatMpProperties.class, AuthenticationProperties.class})
 public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
-
 
     private AuthenticationProperties authenticationProperties;
 
@@ -141,7 +138,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
      * @param http
      * @throws Exception
      */
-    private void configureWechat(HttpSecurity http) throws Exception {
+    private void configureWeChat(HttpSecurity http) throws Exception {
         if (wechatProperties.isEnabled()) {
             if (null == wxMpService) {
                 throw new NullPointerException("wechat is enabled ,But wxMpService is null.");
@@ -158,7 +155,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         configureSms(http);
-        configureWechat(http);
+        configureWeChat(http);
         AuthenticationProperties.LoginProperties login = authenticationProperties.getLogin();
         http
                 .csrf().disable()
@@ -203,11 +200,11 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
             @Override
             protected String determineUrlToUseForThisRequest(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) {
-                String value = request.getParameter(ClientEquipment.CLIENT_EQUIPMENT_PARAMETER_NAME);
+//                String value = request.getParameter(ClientEquipment.CLIENT_EQUIPMENT_PARAMETER_NAME);
                 String url = super.determineUrlToUseForThisRequest(request, response, exception);
-                if (StringUtils.equalsIgnoreCase(value, ClientEquipment.PHONE)) {//如果是手机端访问，跳转到手机端登陆页
-                    url = String.format("/%s%s", ClientEquipment.CLIENT_EQUIPMENT_PARAMETER_NAME, url);
-                }
+//                if (StringUtils.equalsIgnoreCase(value, ClientEquipment.PHONE)) {//如果是手机端访问，跳转到手机端登陆页
+//                    url = String.format("/%s%s", ClientEquipment.CLIENT_EQUIPMENT_PARAMETER_NAME, url);
+//                }
                 return url;
             }
         }).and()

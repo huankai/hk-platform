@@ -25,10 +25,6 @@
 
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
             <artifactId>hk-core-redis</artifactId>
         </dependency>
         <dependency>

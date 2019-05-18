@@ -4,7 +4,7 @@ import com.hk.business.validator.dict.FeignDictCodeServiceImpl;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.validator.DictService;
-import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
+import com.hk.core.authentication.oauth2.matcher.NoAccessTokenRequestMatcher;
 import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
@@ -92,7 +92,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .logoutSuccessUrl(browser.getLogoutSuccessUrl())
 
                 .and()
-                .requestMatcher(NoBearerMatcher.INSTANCE);
+                .requestMatcher(NoAccessTokenRequestMatcher.getInstance());
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler()); // admin 角色的用户、admin权限、保护的用户拥有所有访问权限
 

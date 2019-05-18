@@ -41,11 +41,7 @@
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-authentication-security-oauth2</artifactId>
+            <artifactId>hk-core-authentication-security-oauth2-server</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
@@ -64,7 +60,7 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
         <dependency>
