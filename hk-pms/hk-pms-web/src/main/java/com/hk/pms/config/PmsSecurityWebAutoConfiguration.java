@@ -5,7 +5,6 @@ import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.validator.DictService;
 import com.hk.core.authentication.oauth2.matcher.NoAccessTokenRequestMatcher;
-import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
@@ -30,7 +29,6 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticat
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.savedrequest.RequestCache;
 
 import java.util.Set;
@@ -76,7 +74,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     public void configure(HttpSecurity http) throws Exception {
         OAuth2SsoProperties ssoProperties = applicationContext.getBean(OAuth2SsoProperties.class);
         // TODO 添加单点退出拦截器
-        http.addFilterBefore(new SingleSignOutFilter(), LogoutFilter.class);
+//        http.addFilterBefore(new SingleSignOutFilter(), LogoutFilter.class);
 
         AuthenticationProperties.LoginProperties browser = properties.getLogin();
         if (null != requestCache) {//默认使用的是 HttpSessionRequestCache

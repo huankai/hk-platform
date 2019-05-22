@@ -1,8 +1,7 @@
 package com.hk.oauth2.server.config;
 
 import com.hk.oauth2.http.HttpClient;
-import com.hk.oauth2.logout.HashMapLogoutManager;
-import com.hk.oauth2.logout.LogoutManager;
+import com.hk.oauth2.http.SimpleHttpClientFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,10 +24,10 @@ public class Oauth2LogoutAutoConfiguration {
         return c.getObject();
     }
 
-    @Bean
-    public LogoutManager logoutManager() {
-        return new HashMapLogoutManager();
-    }
+//    @Bean
+//    public LogoutManager logoutManager() {
+////        return new HashMapLogoutManager();
+//    }
 
 
 }

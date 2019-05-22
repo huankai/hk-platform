@@ -67,17 +67,21 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
 
     private SysAppService appService;
 
+    private Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer;
+
     public Oauth2ServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
                                                      ObjectProvider<AuthenticationManager> authenticationManager,
                                                      UserDetailClientService userDetailClientService,
                                                      DataSource dataSource,
                                                      SysAppService appService,
+                                                     Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer,
                                                      PasswordEncoder passwordEncoder) {
         this.authorizationServerProperties = authorizationServerProperties;
         this.authenticationManager = authenticationManager.getIfAvailable();
         this.userDetailClientService = userDetailClientService;
         this.dataSource = dataSource;
         this.appService = appService;
+        this.oauth2JwtTokenEnhancer = oauth2JwtTokenEnhancer;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -191,9 +195,6 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         return tokenStore;
 //        return new JwtTokenStore(accessTokenConverter());
     }
-
-    @Autowired
-    private Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer;
 
     /**
      * 這個Bean 一定要注入
