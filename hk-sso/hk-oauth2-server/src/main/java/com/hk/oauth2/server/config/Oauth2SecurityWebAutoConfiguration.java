@@ -1,28 +1,19 @@
 package com.hk.oauth2.server.config;
 
-import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.authentication.api.UserPrincipalService;
-import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
-import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
-import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
-import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
-import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
-import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
-import com.hk.platform.commons.role.RoleNamed;
-import com.hk.weixin.WechatMpProperties;
-import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
-import me.chanjar.weixin.mp.api.WxMpService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.boot.autoconfigure.security.StaticResourceLocation;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,9 +27,25 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.authentication.session.SessionFixationProtectionEvent;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.hk.core.authentication.api.UserPrincipal;
+import com.hk.core.authentication.api.UserPrincipalService;
+import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
+import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
+import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
+import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
+import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
+import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
+import com.hk.core.web.Webs;
+import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
+import com.hk.platform.commons.role.RoleNamed;
+import com.hk.weixin.WechatMpProperties;
+import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
+
+import me.chanjar.weixin.mp.api.WxMpService;
 
 
 /**
@@ -74,6 +81,14 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
         this.processor = validateCodeProcessors.getIfAvailable();
     }
 
+    
+    @Bean
+    public ApplicationListener<SessionFixationProtectionEvent> sessionFixationProtectionEvent(){
+    	return event -> {
+    		AbstractAuthenticationToken authentication = (AbstractAuthenticationToken)event.getAuthentication();
+    		authentication.setDetails(new WebAuthenticationDetails(Webs.getHttpServletRequest()));
+    		};
+    }
     /**
      * password Encoder
      *

@@ -37,6 +37,7 @@
             <!--org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）  -->
             <!--格式说明pattern中的参数都以%开始，后面不同的参数代表不同的格式化信息（参数按字母表顺序列出）：  -->
             <!--%c 输出所属类的全名，可在修改为 %d{Num} ,Num类名输出的维（如："org.apache.elathen.ClassName",%C{2}将输出elathen.ClassName） -->
+            <!--%t 输出线程名  -->
             <!--%d 输出日志时间其格式为 %d{yyyy-MM-dd HH:mm:ss,SSS}，可指定格式 如 %d{HH:mm:ss}  -->
             <!--%l 输出日志事件发生位置，包括类目名、发生线程，在代码中的行数  -->
             <!--%n 换行符  -->
@@ -45,14 +46,14 @@
             <!--%r 输出从启动到显示该log信息所耗费的毫秒数  -->
             <!--%t 输出产生该日志事件的线程名 -->
             <PatternLayout
-                    pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %c{1.} %M() @%L - %msg%n"/>
+                    pattern="%d{yyyy-MM-dd HH:mm:ss} %t %-5level [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %c{1.} %M() @%L - %msg%n"/>
         </Console>
 
         <!--RollingFile 表示以文件方式记录  -->
         <!--  filePattern当log文件超出SizeBasedTriggeringPolicy size的范围时 就将其压缩进D:/logs/年-用/log-月-日-年-序列号.log.gz压缩包中-->
         <RollingFile name="myRollingFile" fileName="${LOG_HOME}/pms.log"
                      filePattern="${LOG_HOME}/$${date:yyyy-MM}/log-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %c{1.} %M() @%L - %msg%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %t %-5level %c{1.} %M() @%L - %msg%n"/>
             <Policies>
                 <!-- 这一触发策略不需要参数设置，它会自行判断log文件的创建时间和JVM的启动时间。若log文件的创建时间早于JVM的启动时间，则将原来的log文件封存，然后创建一个新的空白log文件 -->
                 <!--<OnStartupTriggeringPolicy/>-->

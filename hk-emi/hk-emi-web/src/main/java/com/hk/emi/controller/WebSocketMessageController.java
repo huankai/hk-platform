@@ -1,15 +1,10 @@
 package com.hk.emi.controller;
 
-import com.hk.commons.util.JsonUtils;
-import com.hk.core.authentication.security.SecurityUserPrincipal;
-import com.hk.commons.JsonResult;
-import com.hk.message.api.ChatMessage;
-import com.hk.message.api.OnLineUserMessage;
-import com.hk.message.api.subject.SimpleTopicMessageSubject;
-import com.hk.message.api.subject.SimpleUserMessageSubject;
-import com.hk.message.websocket.WebsocketMessager;
-import com.hk.message.websocket.handlers.PrincipalHandshakeHandler;
-import com.hk.platform.commons.web.BaseController;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.server.ServerHttpRequest;
@@ -21,10 +16,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.socket.WebSocketHandler;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.hk.commons.JsonResult;
+import com.hk.commons.util.JsonUtils;
+import com.hk.core.authentication.security.SecurityUserPrincipal;
+import com.hk.message.api.ChatMessage;
+import com.hk.message.api.OnLineUserMessage;
+import com.hk.message.api.subject.SimpleTopicMessageSubject;
+import com.hk.message.api.subject.SimpleUserMessageSubject;
+import com.hk.message.websocket.WebsocketMessager;
+import com.hk.platform.commons.web.BaseController;
 
 /**
  * webSocket Test
@@ -67,7 +67,7 @@ public class WebSocketMessageController extends BaseController {
     /**
      * 使用 @MessageMapping 这里的 principal 是 websocket 中的 principal
      * principal 的值默认为 {@link SecurityUserPrincipal#getUsername()}，
-     * 但这边里重写了，请查看 {@link PrincipalHandshakeHandler#determineUser(ServerHttpRequest, WebSocketHandler, Map)}方法
+     * 但这边里重写了，请查看 {@link com.hk.message.websocket.handlers.PrincipalHandshakeHandler#determineUser(ServerHttpRequest, WebSocketHandler, Map)}方法
      *
      * @param principal webSocket principal
      * @param message   发送的消息
@@ -94,7 +94,7 @@ public class WebSocketMessageController extends BaseController {
      * <p>
      * 使用 @MessageMapping 这里的 principal 是 websocket 中的 principal
      * principal 的值默认为 {@link SecurityUserPrincipal#getUsername()}，
-     * 但这边里重写了，请查看 {@link PrincipalHandshakeHandler#determineUser(ServerHttpRequest, WebSocketHandler, Map)}方法
+     * 但这边里重写了，请查看 {@link com.hk.message.websocket.handlers.PrincipalHandshakeHandler#determineUser(ServerHttpRequest, WebSocketHandler, Map)}方法
      *
      * @param principal webSocket principal
      */

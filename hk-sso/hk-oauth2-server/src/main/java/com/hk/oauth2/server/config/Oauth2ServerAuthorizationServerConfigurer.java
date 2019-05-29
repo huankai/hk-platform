@@ -1,17 +1,11 @@
 package com.hk.oauth2.server.config;
 
-import com.hk.commons.JsonResult;
-import com.hk.commons.util.IDGenerator;
-import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
-import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
-import com.hk.core.authentication.security.UserDetailClientService;
-import com.hk.core.web.Webs;
-import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
-import com.hk.oauth2.server.exception.Oauth2DefaultWebResponseExceptionTranslator;
-import com.hk.oauth2.server.provider.code.RedisAuthorizationCodeServices;
-import com.hk.oauth2.server.provider.token.AppStatusTokenServices;
-import com.hk.oauth2.server.provider.token.ClientEquipmentAuthenticationKeyGenerator;
-import com.hk.oauth2.server.service.SysAppService;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +31,17 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
+import com.hk.commons.JsonResult;
+import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
+import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
+import com.hk.core.authentication.security.UserDetailClientService;
+import com.hk.core.web.Webs;
+import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
+import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
+import com.hk.oauth2.provider.token.ClientEquipmentAuthenticationKeyGenerator;
+import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
+import com.hk.oauth2.server.provider.token.AppStatusTokenServices;
+import com.hk.oauth2.server.service.SysAppService;
 
 /**
  * @author kevin
@@ -144,7 +145,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
 
         List<TokenEnhancer> enhancers = new ArrayList<>();
-        enhancers.add(oauth2JwtTokenEnhancer); //注意 顺序
+        enhancers.add(oauth2JwtTokenEnhancer); //注意顺序
         enhancers.add(jwtAccessTokenConverter);
 
         AppStatusTokenServices tokenServices = new AppStatusTokenServices();
@@ -209,7 +210,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
         defaultAccessTokenConverter.setUserTokenConverter(new LocalUserAuthenticationConverter(userDetailClientService));
         jwtAccessTokenConverter.setAccessTokenConverter(defaultAccessTokenConverter);
-        jwtAccessTokenConverter.setSigningKey(IDGenerator.STRING_UUID.generate()); // 配置签名token,先随便写个值
+        jwtAccessTokenConverter.setSigningKey("abcdefg"); // 配置签名token,先随便写个值
         return jwtAccessTokenConverter;
     }
 

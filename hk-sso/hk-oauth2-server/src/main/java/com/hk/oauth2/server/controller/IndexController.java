@@ -1,5 +1,13 @@
 package com.hk.oauth2.server.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+
 import com.hk.commons.util.ListResult;
 import com.hk.core.data.jdbc.query.CompositeCondition;
 import com.hk.core.data.jdbc.query.SimpleCondition;
@@ -7,13 +15,6 @@ import com.hk.core.query.Order;
 import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.service.SysAppService;
 import com.hk.platform.commons.web.BaseController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.List;
 
 /**
  * 首页
