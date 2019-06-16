@@ -1,8 +1,8 @@
 package com.hk.oauth2.server.service.impl;
 
 import com.hk.commons.util.ByteConstants;
+import com.hk.core.authentication.api.PostAuthenticaionHandler;
 import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.authentication.api.UserPrincipalService;
 import com.hk.oauth2.server.entity.SysUser;
 import com.hk.oauth2.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +16,14 @@ import java.util.Optional;
  * @author huangkai
  * @date 2019-05-11 23:04
  */
-@Service(value = "smsUserPrincipalService")
-public class SmsUserPrincipalService implements UserPrincipalService<UserPrincipal, String> {
+@Service(value = "smsPostAuthenticaionHandler")
+public class SmsPostAuthenticaionHandler implements PostAuthenticaionHandler<UserPrincipal, String> {
 
     @Autowired
     private UserService userService;
 
     @Override
-    public UserPrincipal processAuthentication(String phone) {
+    public UserPrincipal handler(String phone) {
         Optional<SysUser> phoneUser = userService.findByPhone(phone);
         UserPrincipal principal = new UserPrincipal();
         SysUser user;

@@ -33,8 +33,6 @@ import java.util.stream.Collectors;
 @Component
 public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
 
-//    private static final Logger LOGGER = LoggerFactory.getLogger(SSOJwtTokenEnhancer.class);
-
     private RoleService roleService;
 
     private SysPermissionService permissionService;
@@ -58,7 +56,7 @@ public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        UserPrincipal principal = UserPrincipal.class.cast(authentication.getPrincipal());
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         String clientId = authentication.getOAuth2Request().getClientId();
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();

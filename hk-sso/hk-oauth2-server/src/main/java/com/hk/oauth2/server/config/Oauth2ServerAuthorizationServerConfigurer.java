@@ -1,11 +1,17 @@
 package com.hk.oauth2.server.config;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
-
+import com.hk.commons.JsonResult;
+import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
+import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
+import com.hk.core.authentication.security.UserDetailClientService;
+import com.hk.core.web.Webs;
+import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
+import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
+import com.hk.oauth2.provider.token.ClientEquipmentAuthenticationKeyGenerator;
+import com.hk.oauth2.provider.token.CustomTokenServices;
+import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
+import com.hk.oauth2.server.service.SysAppService;
+import com.hk.oauth2.server.service.impl.CustomJdbcClientDetailsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +29,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint;
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
@@ -31,17 +36,10 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
-import com.hk.commons.JsonResult;
-import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConverter;
-import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
-import com.hk.core.authentication.security.UserDetailClientService;
-import com.hk.core.web.Webs;
-import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
-import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
-import com.hk.oauth2.provider.token.ClientEquipmentAuthenticationKeyGenerator;
-import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
-import com.hk.oauth2.server.provider.token.AppStatusTokenServices;
-import com.hk.oauth2.server.service.SysAppService;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author kevin
@@ -93,8 +91,8 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     private RedisConnectionFactory connectionFactory;
 
     @Bean
-    public JdbcClientDetailsService jdbcClientDetailsService() {
-        return new JdbcClientDetailsService(dataSource);
+    public CustomJdbcClientDetailsService jdbcClientDetailsService() {
+        return new CustomJdbcClientDetailsService(appService, dataSource);
     }
 
     /**
@@ -148,9 +146,8 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         enhancers.add(oauth2JwtTokenEnhancer); //注意顺序
         enhancers.add(jwtAccessTokenConverter);
 
-        AppStatusTokenServices tokenServices = new AppStatusTokenServices();
+        CustomTokenServices tokenServices = new CustomTokenServices();
         tokenServices.setTokenStore(tokenStore());
-        tokenServices.setSysAppService(appService);
         /*
          *
          *  http://127.0.0.1:7100/oauth2/oauth/token?grant_type=refresh_token
@@ -166,8 +163,8 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setReuseRefreshToken(false);
 
-        tokenServices.setClientDetailsService(jdbcClientDetailsService());
-        tokenServices.setTokenEnhancer(tokenEnhancerChain);
+        tokenServices.setClientDetailsCheckService(jdbcClientDetailsService());
+        tokenServices.setAccessTokenEnhancer(tokenEnhancerChain);
 
         tokenEnhancerChain.setTokenEnhancers(enhancers);
         endpoints.authenticationManager(authenticationManager)

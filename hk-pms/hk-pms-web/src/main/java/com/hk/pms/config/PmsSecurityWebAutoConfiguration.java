@@ -4,6 +4,7 @@ import com.hk.business.validator.dict.FeignDictCodeServiceImpl;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.validator.DictService;
+import com.hk.core.authentication.api.PermitMatcher;
 import com.hk.core.authentication.oauth2.matcher.NoAccessTokenRequestMatcher;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
@@ -106,9 +107,9 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 //                        return (O) new AdminAccessWebSecurityExpressionHandler();
 //                    }
 //                });
-        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitMatchers();
+        Set<PermitMatcher> permitAllMatchers = browser.getPermitMatchers();
         if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
-            for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
+            for (PermitMatcher permitMatcher : permitAllMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
                     urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
                 } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {

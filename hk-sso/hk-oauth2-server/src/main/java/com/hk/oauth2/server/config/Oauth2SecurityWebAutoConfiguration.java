@@ -1,8 +1,20 @@
 package com.hk.oauth2.server.config;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.hk.core.authentication.api.PostAuthenticaionHandler;
+import com.hk.core.authentication.api.UserPrincipal;
+import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
+import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
+import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
+import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
+import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
+import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
+import com.hk.core.web.Webs;
+import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
+import com.hk.platform.commons.role.RoleNamed;
+import com.hk.weixin.WechatMpProperties;
+import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,22 +42,8 @@ import org.springframework.security.web.authentication.LoginUrlAuthenticationEnt
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionEvent;
 
-import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.authentication.api.UserPrincipalService;
-import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
-import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
-import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
-import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
-import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
-import com.hk.core.web.Webs;
-import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
-import com.hk.platform.commons.role.RoleNamed;
-import com.hk.weixin.WechatMpProperties;
-import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
-
-import me.chanjar.weixin.mp.api.WxMpService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 
 /**
@@ -109,15 +107,15 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
      * 手机号验证处理，当开启了手机号认证时，必须注入此 Bean
      */
     @Autowired(required = false)
-    @Qualifier(value = "smsUserPrincipalService")
-    private UserPrincipalService<UserPrincipal, String> smsUserPrincipalService;
+    @Qualifier(value = "smsPostAuthenticaionHandler")
+    private PostAuthenticaionHandler<UserPrincipal, String> smsPostAuthenticaionHandler;
 
     /**
      * 微信验证处理，当开启了微信认证时，必须注入此 Bean
      */
     @Autowired(required = false)
     @Qualifier(value = "wechatUserPrincipalService")
-    private UserPrincipalService<UserPrincipal, UserPrincipal> wechatUserPrincipalService;
+    private PostAuthenticaionHandler<UserPrincipal, UserPrincipal> wechatPostAuthenticaionHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -142,7 +140,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
         AuthenticationProperties.SMSProperties sms = authenticationProperties.getSms();
         if (sms.isEnabled()) {
             http
-                    .apply(new SmsAuthenticationSecurityConfiguration(sms, smsUserPrincipalService))
+                    .apply(new SmsAuthenticationSecurityConfiguration(sms, smsPostAuthenticaionHandler))
                     .and().apply(new ValidateCodeSecurityConfiguration(sms, processor, null));
         }
     }
@@ -158,11 +156,11 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
             if (null == wxMpService) {
                 throw new NullPointerException("wechat is enabled ,But wxMpService is null.");
             }
-            if (null == wechatUserPrincipalService) {
+            if (null == wechatPostAuthenticaionHandler) {
                 throw new NullPointerException("wechat is enabled ,But wechatUserPrincipalService is null");
             }
             http.apply(new WechatAuthenticationSecurityConfigurer(wxMpService, wechatProperties.getAuthentication(),
-                    wechatUserPrincipalService));
+                    wechatPostAuthenticaionHandler));
         }
     }
 

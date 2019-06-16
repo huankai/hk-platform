@@ -46,14 +46,14 @@
             <!--%r 输出从启动到显示该log信息所耗费的毫秒数  -->
             <!--%t 输出产生该日志事件的线程名 -->
             <PatternLayout
-                    pattern="%d{yyyy-MM-dd HH:mm:ss} %t %-5level [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %c{1.} %M() @%L - %msg%n"/>
+                    pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %c{1.} %M() @%L - %msg%n"/>
         </Console>
 
         <!--RollingFile 表示以文件方式记录  -->
         <!--  filePattern当log文件超出SizeBasedTriggeringPolicy size的范围时 就将其压缩进D:/logs/年-用/log-月-日-年-序列号.log.gz压缩包中-->
         <RollingFile name="myRollingFile" fileName="${LOG_HOME}/pms.log"
                      filePattern="${LOG_HOME}/$${date:yyyy-MM}/log-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %t %-5level %c{1.} %M() @%L - %msg%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1.} %M() @%L - %msg%n"/>
             <Policies>
                 <!-- 这一触发策略不需要参数设置，它会自行判断log文件的创建时间和JVM的启动时间。若log文件的创建时间早于JVM的启动时间，则将原来的log文件封存，然后创建一个新的空白log文件 -->
                 <!--<OnStartupTriggeringPolicy/>-->
@@ -63,7 +63,7 @@
                  -->
                 <!--<TimeBasedTriggeringPolicy  interval="1" modulate="true"/>-->
                 <!-- 这一触发策略基于对log文件大小的判断。当log文件大于设定的阈值时，将触发封存动作。200MB的信息压缩后其实很小，因为日志文件有大量的重复信息所以压缩后的大小会变得很小方便存储 -->
-                <SizeBasedTriggeringPolicy size="200MB"/>
+                <SizeBasedTriggeringPolicy size="1GB"/>
             </Policies>
         </RollingFile>
     </Appenders>

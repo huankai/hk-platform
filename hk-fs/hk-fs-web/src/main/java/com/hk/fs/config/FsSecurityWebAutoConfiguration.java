@@ -3,6 +3,7 @@ package com.hk.fs.config;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
+import com.hk.core.authentication.api.PermitMatcher;
 import com.hk.core.authentication.oauth2.matcher.NoAccessTokenRequestMatcher;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
@@ -72,9 +73,9 @@ public class FsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter
                         return (O) new AdminAccessWebSecurityExpressionHandler();// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
                     }
                 })*/;
-        Set<AuthenticationProperties.PermitMatcher> permitMatchers = browser.getPermitMatchers();
+        Set<PermitMatcher> permitMatchers = browser.getPermitMatchers();
         if (CollectionUtils.isNotEmpty(permitMatchers)) {
-            for (AuthenticationProperties.PermitMatcher permitMatcher : permitMatchers) {
+            for (PermitMatcher permitMatcher : permitMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
                     urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
                 } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {
