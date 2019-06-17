@@ -4,9 +4,12 @@ import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.PermitMatcher;
-import com.hk.core.authentication.oauth2.matcher.NoAccessTokenRequestMatcher;
+import com.hk.core.authentication.oauth2.matcher.NoPermitMatcher;
+import com.hk.core.authentication.oauth2.session.Oauth2UrlLogoutSuccessHandler;
+import com.hk.core.authentication.oauth2.session.SessionMappingStorage;
+import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
+import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
-import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
@@ -30,6 +33,7 @@ import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import java.util.Set;
 
@@ -50,6 +54,9 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private SessionMappingStorage sessionMappingStorage;
+
     public EMISecurityWebAutoConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {
         this.properties = properties;
         this.applicationContext = applicationContext;
@@ -65,17 +72,18 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.LoginProperties browser = properties.getLogin();
-        if (StringUtils.isNotEmpty(browser.getGateWayHost())) {
-            http.requestCache().requestCache(new GateWayHttpSessionRequestCache(browser.getGateWayHost()));
+        AuthenticationProperties.LoginProperties login = properties.getLogin();
+        Set<PermitMatcher> permitMatchers = login.getPermitMatchers();
+        http.addFilterBefore(new SingleSignOutFilter(new SingleSignOutHandler(login.getLogoutUrl(), sessionMappingStorage)), LogoutFilter.class);
+        if (StringUtils.isNotEmpty(login.getGateWayHost())) {
+            http.requestCache().requestCache(new GateWayHttpSessionRequestCache(login.getGateWayHost()));
         }
         http
                 .csrf().disable()
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .logoutUrl(browser.getLogoutUrl())
-//                .logoutSuccessUrl(browser.getLogoutSuccessUrl())//如果 配置了 addLogoutHandler，不需要配置 logoutSuccessUrl了
+                .logoutUrl(login.getLogoutUrl())
                 .addLogoutHandler((request, response, authentication) -> { // 退出成功处理器
                     messager.publish(OnLineUserMessage
                             .builder()
@@ -84,9 +92,10 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                             .to(SimpleTopicMessageSubject.builder().topic("/queue/onlineuser").build())
                             .send(); // 在线用户统计 websocket推送
 
-                }).addLogoutHandler(new RedirectLogoutHandler(browser.getLogoutSuccessUrl()))
+                })
+                .logoutSuccessHandler(new Oauth2UrlLogoutSuccessHandler(login.getLogoutSuccessUrl()))
                 .and()
-                .requestMatcher(NoAccessTokenRequestMatcher.getInstance());
+                .requestMatcher(new NoPermitMatcher(login.getPermitMatchers()));
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler());// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
                 /*.withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
@@ -96,7 +105,6 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                     }
                 })*/
         ;
-        Set<PermitMatcher> permitMatchers = browser.getPermitMatchers();
         if (CollectionUtils.isNotEmpty(permitMatchers)) {
             for (PermitMatcher permitMatcher : permitMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {

@@ -22,9 +22,9 @@ public class CustomJdbcClientDetailsService extends JdbcClientDetailsService imp
     }
 
     @Override
-    public boolean isEnabled(String clinetId) throws Oauth2ClientStatusException {
-        return appService.findById(clinetId)
-                .orElseThrow(() -> new Oauth2ClientStatusException("client 不存在 ：" + clinetId))
-                .getAppStatus() == ByteConstants.ONE;
+    public boolean isEnabled(String clientId) throws Oauth2ClientStatusException {
+        return ByteConstants.ONE.equals(appService.findById(clientId)
+                .orElseThrow(() -> new Oauth2ClientStatusException("client 不存在 ：" + clientId))
+                .getAppStatus());
     }
 }

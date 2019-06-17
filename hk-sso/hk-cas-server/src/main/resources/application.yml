@@ -4,9 +4,9 @@ server:
   context-path: /cas
   ssl:
     enabled: false
-#    key-store: "classpath:thekeystore"
-#    key-password: changeit
-#    key-store-password: changeit
+  #    key-store: "classpath:thekeystore"
+  #    key-password: changeit
+  #    key-store-password: changeit
   max-http-header-size: 2097152
   use-forward-headers: true
   connection-timeout: 20000
@@ -15,9 +15,9 @@ server:
   compression:
     enabled: true
     mime-types: "application/javascript,application/json,application/xml,text/html,text/xml,text/plain"
-  tomcat: 
+  tomcat:
     max-http-post-size: 2097152
-#    basedir: build/tomcat
+    #    basedir: build/tomcat
     accesslog:
       enabled: false
       pattern: "%t %a '%r' %s (%D ms)"
@@ -31,49 +31,49 @@ server:
     uri-encoding: UTF-8
   context-parameters:
     isLog4jAutoInitializationDisabled: true
-##
-# CAS Web Application Session Configuration
-#
+  ##
+  # CAS Web Application Session Configuration
+  #
   session:
-    timeout: 3600
+    timeout: 60
     cookie:
       http-only: true
     tracking-modes: COOKIE
 spring:
   http:
-    encoding: 
+    encoding:
       enabled: true
       charset: UTF-8
       force: true
-##
-# CAS AspectJ Configuration
-#
+  ##
+  # CAS AspectJ Configuration
+  #
   aop:
     auto: true
     proxy-target-class: true
-##
-# CAS Thymeleaf View Configuration
-#
-  thymeleaf: 
+  ##
+  # CAS Thymeleaf View Configuration
+  #
+  thymeleaf:
     encoding: UTF-8
     cache: true
     mode: HTML
     template-resolver-order: 100
   cloud:
-# CAS Cloud Bus Configuration
-#    bus:
-#      enabled: false
+    # CAS Cloud Bus Configuration
+    #    bus:
+    #      enabled: false
 
-# Indicates that systemPropertiesOverride can be used.
-# Set to false to prevent users from changing the default accidentally. Default true.
+    # Indicates that systemPropertiesOverride can be used.
+    # Set to false to prevent users from changing the default accidentally. Default true.
     config:
       allow-override: true
 
-# External properties should override system properties.
+      # External properties should override system properties.
       override-system-properties: false
 
-# When allowOverride is true, external properties should take lowest priority, and not override any
-# existing property sources (including local config files).
+      # When allowOverride is true, external properties should take lowest priority, and not override any
+      # existing property sources (including local config files).
       override-none: false
 
 # spring.cloud.bus.refresh.enabled=true
@@ -99,7 +99,7 @@ management:
   context-path: /status
   add-application-context-header: false
 
-# Define a CAS-specific "WARN" status code and its order
+  # Define a CAS-specific "WARN" status code and its order
   health:
     status:
       order: WARN, DOWN, OUT_OF_SERVICE, UNKNOWN, UP
@@ -133,10 +133,10 @@ cas:
   logout:
     follow-service-redirects: true
   authn:
-#    accept:
-      # 静态认证配置用户名与密码
-#      users: admin::admin
-   jdbc:
+    #    accept:
+    # 静态认证配置用户名与密码
+    #      users: admin::admin
+    jdbc:
       query:
         - sql: SELECT * FROM sys_user WHERE account = ?
           url: jdbc:mysql://182.61.40.18:3705/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true

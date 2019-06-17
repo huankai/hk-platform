@@ -1,7 +1,11 @@
 package com.hk.oauth2.server.config;
 
+import com.hk.oauth2.InvalidHttpSessionListener;
+import com.hk.oauth2.SessionTokenRegistry;
+import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.http.HttpClient;
 import com.hk.oauth2.http.SimpleHttpClientFactoryBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,10 +28,17 @@ public class Oauth2LogoutAutoConfiguration {
         return c.getObject();
     }
 
-//    @Bean
-//    public LogoutManager logoutManager() {
-////        return new HashMapLogoutManager();
-//    }
+    @Bean
+    public TokenRegistry tokenRegistry() {
+        return new SessionTokenRegistry();
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean<InvalidHttpSessionListener> singleSignOutHttpSessionListener(TokenRegistry tokenRegistry) {
+        ServletListenerRegistrationBean<InvalidHttpSessionListener> registrationBean = new ServletListenerRegistrationBean<>();
+        registrationBean.setListener(new InvalidHttpSessionListener(tokenRegistry));
+        return registrationBean;
+    }
 
 
 }

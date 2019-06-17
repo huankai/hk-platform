@@ -5,6 +5,7 @@ import com.hk.core.authentication.oauth2.converter.LocalUserAuthenticationConver
 import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
 import com.hk.core.authentication.security.UserDetailClientService;
 import com.hk.core.web.Webs;
+import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
 import com.hk.oauth2.provider.token.ClientEquipmentAuthenticationKeyGenerator;
@@ -67,6 +68,9 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     private SysAppService appService;
 
     private Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer;
+
+    @Autowired
+    private TokenRegistry tokenRegistry;
 
     public Oauth2ServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
                                                      ObjectProvider<AuthenticationManager> authenticationManager,
@@ -148,6 +152,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
 
         CustomTokenServices tokenServices = new CustomTokenServices();
         tokenServices.setTokenStore(tokenStore());
+        tokenServices.setTokenRegistry(tokenRegistry);
         /*
          *
          *  http://127.0.0.1:7100/oauth2/oauth/token?grant_type=refresh_token

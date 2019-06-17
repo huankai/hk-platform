@@ -4,12 +4,17 @@ import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.PermitMatcher;
-import com.hk.core.authentication.oauth2.matcher.NoAccessTokenRequestMatcher;
+import com.hk.core.authentication.oauth2.matcher.NoPermitMatcher;
+import com.hk.core.authentication.oauth2.session.Oauth2UrlLogoutSuccessHandler;
+import com.hk.core.authentication.oauth2.session.SessionMappingStorage;
+import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
+import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 import com.hk.platform.commons.role.RoleNamed;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.client.OAuth2SsoProperties;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoRestTemplateFactory;
@@ -24,6 +29,7 @@ import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import java.util.Set;
 
@@ -44,6 +50,9 @@ public class FsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter
 
     private ApplicationContext applicationContext;
 
+    @Autowired
+    private SessionMappingStorage sessionMappingStorage;
+
     public FsSecurityWebAutoConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {
         this.properties = properties;
         this.applicationContext = applicationContext;
@@ -51,20 +60,23 @@ public class FsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.LoginProperties browser = properties.getLogin();
-        if (StringUtils.isNotEmpty(browser.getGateWayHost())) {
-            http.requestCache().requestCache(new GateWayHttpSessionRequestCache(browser.getGateWayHost()));
+        AuthenticationProperties.LoginProperties login = properties.getLogin();
+        http.addFilterBefore(new SingleSignOutFilter(new SingleSignOutHandler(login.getLogoutUrl(), sessionMappingStorage)), LogoutFilter.class);
+        if (StringUtils.isNotEmpty(login.getGateWayHost())) {
+            http.requestCache().requestCache(new GateWayHttpSessionRequestCache(login.getGateWayHost()));
         }
         http
                 .csrf().disable()
+                .formLogin().disable()
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .logoutUrl(browser.getLogoutUrl())
-                .logoutSuccessUrl(browser.getLogoutSuccessUrl())
+                .logoutUrl(login.getLogoutUrl())
+                .logoutUrl(login.getLogoutUrl())
+                .logoutSuccessHandler(new Oauth2UrlLogoutSuccessHandler(login.getLogoutSuccessUrl()))
 
                 .and()
-                .requestMatcher(NoAccessTokenRequestMatcher.getInstance());
+                .requestMatcher(new NoPermitMatcher(login.getPermitMatchers()));
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler()) // admin 角色的用户、admin权限、保护的用户拥有所有访问权限
                 /*.withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
@@ -73,7 +85,7 @@ public class FsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter
                         return (O) new AdminAccessWebSecurityExpressionHandler();// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
                     }
                 })*/;
-        Set<PermitMatcher> permitMatchers = browser.getPermitMatchers();
+        Set<PermitMatcher> permitMatchers = login.getPermitMatchers();
         if (CollectionUtils.isNotEmpty(permitMatchers)) {
             for (PermitMatcher permitMatcher : permitMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {

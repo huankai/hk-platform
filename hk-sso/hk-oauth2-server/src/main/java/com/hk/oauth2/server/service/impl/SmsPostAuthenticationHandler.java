@@ -1,7 +1,7 @@
 package com.hk.oauth2.server.service.impl;
 
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.authentication.api.PostAuthenticaionHandler;
+import com.hk.core.authentication.api.PostAuthenticationHandler;
 import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.oauth2.server.entity.SysUser;
 import com.hk.oauth2.server.service.UserService;
@@ -16,8 +16,8 @@ import java.util.Optional;
  * @author huangkai
  * @date 2019-05-11 23:04
  */
-@Service(value = "smsPostAuthenticaionHandler")
-public class SmsPostAuthenticaionHandler implements PostAuthenticaionHandler<UserPrincipal, String> {
+@Service(value = "smsPostAuthenticationHandler")
+public class SmsPostAuthenticationHandler implements PostAuthenticationHandler<UserPrincipal, String> {
 
     @Autowired
     private UserService userService;
