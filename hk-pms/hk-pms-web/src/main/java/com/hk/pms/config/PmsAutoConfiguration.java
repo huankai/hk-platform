@@ -1,5 +1,9 @@
 package com.hk.pms.config;
 
+import com.hk.business.validator.dict.FeignDictCodeServiceImpl;
+import com.hk.commons.validator.DictService;
+import com.hk.emi.api.feign.SysCodeFeignClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -18,4 +22,9 @@ public class PmsAutoConfiguration {
 //    public Dialect dialect() {
 //        return new PostgreSqlDialect();
 //    }
+
+    @Bean
+    public DictService dictService(SysCodeFeignClient codeFeignClient) {
+        return new FeignDictCodeServiceImpl(codeFeignClient);
+    }
 }

@@ -1,5 +1,6 @@
 package com.hk.oauth2.server.endpoint;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +17,8 @@ import java.util.Map;
  */
 //@RestController
 //@SessionAttributes("authorizationRequest")
+@Slf4j
 public class Oauth2WhitelabelApprovalEndpoint {
-
-//    private static final Logger LOGGER = LoggerFactory.getLogger(SSOWhitelabelApprovalEndpoint.class);
 
 	@RequestMapping("/oauth/confirm_access")
 	public void getAccessConfirmation(Map<String, Object> model, HttpServletRequest request,
