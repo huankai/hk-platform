@@ -3,7 +3,7 @@ FROM anapsix/alpine-java
 MAINTAINER huangkai huankai@139.com
 
 # 定义变量，会在环境变量中
-ENV SERVER_NAME=hk-discover-eureka-2.1.3.RELEASE.jar
+ENV SERVER_NAME=hk-discover-eureka-2.1.5.RELEASE.jar
 
 COPY target/$SERVER_NAME /app/$SERVER_NAME
 
@@ -18,6 +18,6 @@ WORKDIR /app
 EXPOSE 8761
 
 # 执行命令，配置JVM 初始内存(-Xms) ，最大内存(-Xmx)
-ENTRYPOINT java -Xms512m -Xmx1024m -jar $SERVER_NAME
+ENTRYPOINT java -Xms512m -Xmx512m -jar $SERVER_NAME
 
 
