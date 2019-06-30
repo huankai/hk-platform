@@ -1,19 +1,24 @@
 server:
   port: 8780
   servlet:
-    context-path: /
+    context-path: /admin
+  undertow:
+    worker-threads: 256
+    io-threads: 16
+    buffer-size: 1024
+    direct-buffers: true
 spring:
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true
   application:
     name: hk-springboot-admin-server
-#  security:
-#    user:
-#      # 登陆用户名
-#      name: user
-#      # 登陆密码
-#      password: user#1350
+  security:
+    user:
+      # 登陆用户名
+      name: user
+      # 登陆密码
+      password: user#1350
 ######################################################### eureka 配置
 eureka:
   instance:
@@ -22,6 +27,6 @@ eureka:
   client:
     register-with-eureka: false
     service-url:
-      defaultZone: http://root:root123@127.0.0.1:8761/eureka-server/eureka
+      defaultZone: http://root:root123@182.61.40.18:8761/eureka-server/eureka
 logging:
   config: 'classpath:log4j2.xml'
