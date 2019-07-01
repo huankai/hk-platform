@@ -22,7 +22,7 @@ import com.hk.oauth2.server.service.UserService;
  * @author kevin
  * @date 2018-07-31 12:56
  */
-@Component
+@Component(value = "ssoUserDetailService")
 public class SSOUserDetailServiceImpl implements UserDetailClientService {
 
     private final UserService userService;

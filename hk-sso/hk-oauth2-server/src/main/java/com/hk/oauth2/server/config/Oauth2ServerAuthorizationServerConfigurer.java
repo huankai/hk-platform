@@ -18,12 +18,12 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.*;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.configuration.ClientDetailsServiceConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -94,7 +94,12 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     @Autowired
     private RedisConnectionFactory connectionFactory;
 
+    /**
+     * @see ClientDetailsServiceConfiguration#clientDetailsService()
+     * @return
+     */
     @Bean
+    @Primary
     public CustomJdbcClientDetailsService jdbcClientDetailsService() {
         return new CustomJdbcClientDetailsService(appService, dataSource);
     }

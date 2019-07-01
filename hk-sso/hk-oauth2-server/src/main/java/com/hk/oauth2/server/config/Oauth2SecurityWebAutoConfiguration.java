@@ -1,9 +1,11 @@
 package com.hk.oauth2.server.config;
 
+import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.PostAuthenticationHandler;
 import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
+import com.hk.core.authentication.security.handler.login.LoginAuthenticationFailureHandler;
 import com.hk.core.authentication.security.handler.logout.EquipmentLogoutHandler;
 import com.hk.core.autoconfigure.authentication.security.*;
 import com.hk.core.web.Webs;
@@ -14,6 +16,7 @@ import com.hk.oauth2.logout.ConsumerTokenLogoutHandler;
 import com.hk.oauth2.logout.DefaultSingleLogoutServiceMessageHandler;
 import com.hk.oauth2.logout.SingleLogoutHandler;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
+import com.hk.oauth2.web.authentication.PhoneAuthenticationSuccessHandler;
 import com.hk.platform.commons.role.RoleNamed;
 import com.hk.weixin.WechatMpProperties;
 import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
@@ -42,6 +45,8 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionEvent;
@@ -111,6 +116,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
      * @see SSOUserDetailServiceImpl
      */
     @Autowired
+    @Qualifier("ssoUserDetailService")
     private UserDetailsService userDetailsService;
 
     /**
@@ -149,8 +155,17 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     private void configureSms(HttpSecurity http) throws Exception {
         AuthenticationProperties.SMSProperties sms = authenticationProperties.getSms();
         if (sms.isEnabled()) {
+            SmsAuthenticationSecurityConfiguration configuration = new SmsAuthenticationSecurityConfiguration(sms, smsPostAuthenticationHandler);
+            if (StringUtils.isNotEmpty(sms.getClientId()) && StringUtils.isNotEmpty(sms.getClientSecret())) {
+                configuration.setAuthenticationSuccessHandler(new PhoneAuthenticationSuccessHandler(sms.getClientId(),
+                        sms.getClientSecret(),
+                        applicationContext.getBean(AuthorizationServerTokenServices.class),
+                        applicationContext.getBean(ClientDetailsService.class),
+                        passwordEncoder));
+            }
+            configuration.setAuthenticationFailureHandler(new LoginAuthenticationFailureHandler(authenticationProperties.getLogin().getFailureUrl()));
             http
-                    .apply(new SmsAuthenticationSecurityConfiguration(sms, smsPostAuthenticationHandler))
+                    .apply(configuration)
                     .and().apply(new ValidateCodeSecurityConfiguration(sms, validateCodeProcessor, null));
         }
     }

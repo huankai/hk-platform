@@ -11,12 +11,12 @@ import com.hk.oauth2.server.service.SysAppService;
 import com.hk.oauth2.server.service.SysOrgDeptService;
 import com.hk.oauth2.server.service.SysOrgService;
 import com.hk.oauth2.server.service.UserService;
+import com.hk.oauth2.server.service.impl.CustomJdbcClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
-import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -44,7 +44,7 @@ public class InitDbCommandLineRunner implements CommandLineRunner {
     private SysAppService appService;
 
     @Autowired
-    private JdbcClientDetailsService clientDetailsService;
+    private CustomJdbcClientDetailsService clientDetailsService;
 
     @Autowired
     private SysOrgService orgService;
