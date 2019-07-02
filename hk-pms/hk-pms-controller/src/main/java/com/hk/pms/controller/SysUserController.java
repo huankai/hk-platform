@@ -67,8 +67,8 @@ public class SysUserController extends BaseController {
     /**
      * 重设密码
      *
-     * @param oldPassword 原密码
-     * @param newPassword 新密码
+     * @param oldPassword  原密码
+     * @param newPassword  新密码
      * @param newPassword2 新密码2
      * @return jsonResult
      */

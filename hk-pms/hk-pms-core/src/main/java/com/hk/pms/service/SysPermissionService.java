@@ -5,9 +5,11 @@ import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.SecurityContextUtils;
 import com.hk.core.authentication.api.UserPrincipal;
+import com.hk.core.data.jdbc.domain.AbstractUUIDPersistable;
 import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.pms.domain.SysPermission;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -65,7 +67,7 @@ public interface SysPermissionService extends JdbcBaseService<SysPermission, Str
      */
     default Map<String, Collection<String>> getCurrentUserAllRoleListAsString() {
         List<SysPermission> permissionList = getPermissionList(SecurityContextUtils.getPrincipal().getUserId(), null);
-        Map<String, List<SysPermission>> byAppIdMap = permissionList.stream().collect(Collectors.groupingBy((permission) -> permission.getId()));
+        Map<String, List<SysPermission>> byAppIdMap = permissionList.stream().collect(Collectors.groupingBy(AbstractUUIDPersistable::getId));
         Map<String, Collection<String>> result = new HashMap<>();
         byAppIdMap
                 .forEach((key, value) -> result.put(key, value.stream().map(SysPermission::getPermissionCode).collect(Collectors.toList())));

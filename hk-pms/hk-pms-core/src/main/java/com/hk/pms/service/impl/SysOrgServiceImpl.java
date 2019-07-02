@@ -1,7 +1,7 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.commons.util.StringUtils;
+import com.hk.commons.util.ObjectUtils;
 import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
@@ -42,7 +42,7 @@ public class SysOrgServiceImpl extends EnableJdbcCacheServiceImpl<SysOrg, String
     public SysOrg updateById(SysOrg org) {
         SysOrg sysOrg = getById(org.getId());
         UserPrincipal principal = getPrincipal();
-        if (!principal.isAdministrator() && StringUtils.notEquals(principal.getUserId(), sysOrg.getResponsibleId())) {
+        if (!principal.isAdministrator() && ObjectUtils.nullSafeEquals(principal.getUserId(), sysOrg.getResponsibleId())) {
             throw new ServiceException(getMessage("no.admin.disable.operation"));
         }
         return super.updateById(org);
