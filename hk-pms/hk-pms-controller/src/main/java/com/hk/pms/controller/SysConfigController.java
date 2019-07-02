@@ -35,13 +35,13 @@ public class SysConfigController extends BaseController {
     }
 
     @GetMapping(path = "{id}", name = "config-get")
-    public JsonResult<SysConfig> get(@PathVariable String id) {
-        return JsonResult.success(configService.getById(id));
+    public JsonResult<SysConfig> get(@PathVariable Long id) {
+        return JsonResult.success(configService.getOne(id));
     }
 
     @DeleteMapping(path = "{id}", name = "config-delete")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> delete(@PathVariable String id) {
+    public JsonResult<Void> delete(@PathVariable Long id) {
         configService.deleteById(id);
         return JsonResult.success();
     }

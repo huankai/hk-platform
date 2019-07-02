@@ -36,7 +36,7 @@ public class FileInfoController {
      * @return JsonResult
      */
     @GetMapping("{id}")
-    public JsonResult<FileInfo> get(@PathVariable String id) {
+    public JsonResult<FileInfo> get(@PathVariable Long id) {
         return JsonResult.success(fileInfoService.getOne(id));
     }
 
@@ -61,7 +61,7 @@ public class FileInfoController {
      * @return InputStreamResource
      */
     @GetMapping(path = "down/{id}")
-    public ResponseEntity<InputStreamResource> downFile(@PathVariable String id) {
+    public ResponseEntity<InputStreamResource> downFile(@PathVariable Long id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
         return Webs.toResponseEntity(fileInfo.getFileName(), StringUtils.createResource(
                 fileInfoService.getFullPath(fileInfo.getBucketName(), fileInfo.getFilePath())));
@@ -74,7 +74,7 @@ public class FileInfoController {
      * @return ResponseEntity
      */
     @GetMapping(path = "/view/{id}")
-    public ResponseEntity<InputStreamResource> viewImage(@PathVariable String id) {
+    public ResponseEntity<InputStreamResource> viewImage(@PathVariable Long id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
         return Webs.toResponseEntity(StringUtils.createResource(
                 fileInfoService.getFullPath(fileInfo.getBucketName(), fileInfo.getFilePath())));
@@ -87,7 +87,7 @@ public class FileInfoController {
      * @return JsonResult
      */
     @DeleteMapping(path = "{id}")
-    public JsonResult<Void> deleteFile(@PathVariable String id) {
+    public JsonResult<Void> deleteFile(@PathVariable Long id) {
         fileInfoService.deleteById(id);
         return JsonResult.success();
     }

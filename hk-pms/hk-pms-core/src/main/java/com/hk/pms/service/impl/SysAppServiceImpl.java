@@ -1,19 +1,18 @@
 package com.hk.pms.service.impl;
 
 
-import java.util.Optional;
-
+import com.hk.commons.util.AssertUtils;
+import com.hk.commons.util.ByteConstants;
+import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.pms.domain.SysApp;
+import com.hk.pms.repository.jpa.SysAppRepository;
+import com.hk.pms.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
-import com.hk.commons.util.AssertUtils;
-import com.hk.commons.util.ByteConstants;
-import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.pms.domain.SysApp;
-import com.hk.pms.repository.jdbc.SysAppRepository;
-import com.hk.pms.service.SysAppService;
+import java.util.Optional;
 
 /**
  * @author kevin
@@ -21,7 +20,7 @@ import com.hk.pms.service.SysAppService;
  */
 @Service
 @CacheConfig(cacheNames = {"app_Cache"})
-public class SysAppServiceImpl extends EnableJdbcCacheServiceImpl<SysApp, String> implements SysAppService {
+public class SysAppServiceImpl extends EnableJpaCacheServiceImpl<SysApp, Long> implements SysAppService {
 
     private final SysAppRepository sysAppRepository;
 
@@ -40,7 +39,7 @@ public class SysAppServiceImpl extends EnableJdbcCacheServiceImpl<SysApp, String
     }
 
     @Override
-    protected JdbcRepository<SysApp, String> getBaseRepository() {
+    protected BaseJpaRepository<SysApp, Long> getBaseRepository() {
         return sysAppRepository;
     }
 
@@ -57,16 +56,16 @@ public class SysAppServiceImpl extends EnableJdbcCacheServiceImpl<SysApp, String
     }
 
     @Override
-    public void enable(String id) {
+    public void enable(Long id) {
         updateStatus(id, ByteConstants.ONE);
     }
 
     @Override
-    public void disable(String id) {
+    public void disable(Long id) {
         updateStatus(id, ByteConstants.ZERO);
     }
 
-    private void updateStatus(String appId, Byte status) {
+    private void updateStatus(Long appId, Byte status) {
         findById(appId).ifPresent(app -> {
             app.setAppStatus(status);
             updateById(app);

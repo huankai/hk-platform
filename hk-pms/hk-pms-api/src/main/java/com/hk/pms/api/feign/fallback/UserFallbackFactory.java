@@ -35,7 +35,7 @@ public class UserFallbackFactory implements FallbackFactory<UserFeignClient> {
             }
 
             @Override
-            public Optional<UserResponse> findByUserId(String userId) {
+            public Optional<UserResponse> findByUserId(Long userId) {
                 return Optional.empty();
             }
 
@@ -60,7 +60,7 @@ public class UserFallbackFactory implements FallbackFactory<UserFeignClient> {
             }
 
             @Override
-            public void deleteByIds(String... userIds) {
+            public void deleteByIds(Long... userIds) {
 
             }
         };

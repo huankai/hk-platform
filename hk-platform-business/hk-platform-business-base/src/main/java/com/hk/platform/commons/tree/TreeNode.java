@@ -16,7 +16,7 @@ public abstract class TreeNode<T> implements Serializable {
     /**
      * id
      */
-    private String id;
+    private Long id;
 
     /**
      * 名称

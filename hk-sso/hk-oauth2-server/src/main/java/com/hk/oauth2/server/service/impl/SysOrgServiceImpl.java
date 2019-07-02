@@ -1,9 +1,9 @@
 package com.hk.oauth2.server.service.impl;
 
-import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.oauth2.server.entity.SysOrg;
-import com.hk.oauth2.server.repository.jdbc.SysOrgRepository;
+import com.hk.oauth2.server.repository.jpa.SysOrgRepository;
 import com.hk.oauth2.server.service.SysOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @CacheConfig(cacheNames = {"SysOrg"})
-public class SysOrgServiceImpl extends EnableJdbcCacheServiceImpl<SysOrg, String> implements SysOrgService {
+public class SysOrgServiceImpl extends EnableJpaCacheServiceImpl<SysOrg, Long> implements SysOrgService {
 
     private SysOrgRepository sysOrgRepository;
 
@@ -25,7 +25,7 @@ public class SysOrgServiceImpl extends EnableJdbcCacheServiceImpl<SysOrg, String
     }
 
     @Override
-    protected JdbcRepository<SysOrg, String> getBaseRepository() {
+    protected BaseJpaRepository<SysOrg, Long> getBaseRepository() {
         return sysOrgRepository;
     }
 }

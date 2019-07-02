@@ -4,10 +4,10 @@ package com.hk.pms.service.impl;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.CollectionUtils;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.pms.domain.SysUserRole;
-import com.hk.pms.repository.jdbc.SysUserRoleRepository;
+import com.hk.pms.repository.jpa.SysUserRoleRepository;
 import com.hk.pms.service.SysUserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @date 2018-04-12 17:02
  */
 @Service
-public class SysUserRoleServiceImpl extends JdbcServiceImpl<SysUserRole, String> implements SysUserRoleService {
+public class SysUserRoleServiceImpl extends JpaServiceImpl<SysUserRole, Long> implements SysUserRoleService {
 
     private final SysUserRoleRepository sysUserRoleRepository;
 
@@ -36,12 +36,12 @@ public class SysUserRoleServiceImpl extends JdbcServiceImpl<SysUserRole, String>
      * @return
      */
     @Override
-    protected JdbcRepository<SysUserRole, String> getBaseRepository() {
+    protected BaseJpaRepository<SysUserRole, Long> getBaseRepository() {
         return sysUserRoleRepository;
     }
 
     @Override
-    public void deleteByUserIdAndRoleId(String userId, String roleId) {
+    public void deleteByUserIdAndRoleId(Long userId, Long roleId) {
         sysUserRoleRepository.deleteByUserIdAndRoleId(userId, roleId);
     }
 
@@ -52,12 +52,12 @@ public class SysUserRoleServiceImpl extends JdbcServiceImpl<SysUserRole, String>
      * @param roleIds roleIds
      */
     @Override
-    public void updateUserRole(String userId, String[] roleIds) {
-        AssertUtils.notEmptyWithI18n(userId, "userId");
+    public void updateUserRole(Long userId, Long[] roleIds) {
+        AssertUtils.notNull(userId, "userId");
         deleteByUserId(userId);
         if (ArrayUtils.isNotEmpty(roleIds)) {
             List<SysUserRole> addList = new ArrayList<>();
-            for (String roleId : roleIds) {
+            for (Long roleId : roleIds) {
                 addList.add(SysUserRole.builder().userId(userId).roleId(roleId).build());
             }
             batchInsert(addList);
@@ -71,14 +71,14 @@ public class SysUserRoleServiceImpl extends JdbcServiceImpl<SysUserRole, String>
      * @param userIds userIds
      */
     @Override
-    public void addRoleUser(String roleId, String[] userIds) {
-        AssertUtils.notEmptyWithI18n(roleId, "roleId");
+    public void addRoleUser(Long roleId, Long[] userIds) {
+        AssertUtils.notNull(roleId, "roleId");
         if (ArrayUtils.isNotEmpty(userIds)) {
             List<SysUserRole> userRoleList = findByRoleId(roleId);
             if (CollectionUtils.isNotEmpty(userRoleList)) {
                 List<SysUserRole> addList = new ArrayList<>();
-                List<String> userIdList = userRoleList.stream().map(SysUserRole::getUserId).collect(Collectors.toList());
-                for (String userId : userIds) {
+                List<Long> userIdList = userRoleList.stream().map(SysUserRole::getUserId).collect(Collectors.toList());
+                for (Long userId : userIds) {
                     if (!userIdList.contains(userId)) {
                         addList.add(SysUserRole.builder().userId(userId).roleId(roleId).build());
                     }
@@ -88,11 +88,11 @@ public class SysUserRoleServiceImpl extends JdbcServiceImpl<SysUserRole, String>
         }
     }
 
-    private void deleteByUserId(String userId) {
+    private void deleteByUserId(Long userId) {
         sysUserRoleRepository.deleteByUserId(userId);
     }
 
-    private List<SysUserRole> findByRoleId(String roleId) {
+    private List<SysUserRole> findByRoleId(Long roleId) {
         return sysUserRoleRepository.findByRoleId(roleId);
     }
 }

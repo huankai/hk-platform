@@ -43,13 +43,13 @@ public class SysOrgController extends BaseController {
     }
 
     @GetMapping(path = "{id}", name = "org-get")
-    public JsonResult<SysOrg> get(@PathVariable String id) {
-        return JsonResult.success(orgService.getById(id));
+    public JsonResult<SysOrg> get(@PathVariable Long id) {
+        return JsonResult.success(orgService.getOne(id));
     }
 
     @DeleteMapping(path = "{id}", name = "org-delete")
     @PreAuthorize("hasRole('org_admin')")
-    public JsonResult<Void> delete(@PathVariable String id) {
+    public JsonResult<Void> delete(@PathVariable Long id) {
         orgService.deleteById(id);
         return JsonResult.success();
     }

@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = true)
 public class City extends AbstractAuditable {
 
-    public static final String CITY_TYPE_DICT_ID = "4028c081655a3a5a01655a3acd160000";
+    public static final long CITY_TYPE_DICT_ID = 12132424324L;
 
     /**
      * 行政代码

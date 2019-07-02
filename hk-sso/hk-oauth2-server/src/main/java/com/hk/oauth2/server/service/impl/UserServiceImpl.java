@@ -1,14 +1,15 @@
 package com.hk.oauth2.server.service.impl;
 
 import com.hk.commons.util.SpringContextHolder;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.oauth2.server.entity.SysUser;
-import com.hk.oauth2.server.repository.jdbc.UserRepository;
+import com.hk.oauth2.server.repository.jpa.UserRepository;
 import com.hk.oauth2.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ import java.util.Optional;
  * @date 2018-07-31 12:54
  */
 @Service
-public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements UserService {
+public class UserServiceImpl extends JpaServiceImpl<SysUser, Long> implements UserService {
 
     private final UserRepository userRepository;
 
@@ -30,7 +31,7 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
     }
 
     @Override
-    protected JdbcRepository<SysUser, String> getBaseRepository() {
+    protected BaseJpaRepository<SysUser, Long> getBaseRepository() {
         return userRepository;
     }
 
@@ -48,8 +49,9 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
 
 
     @Override
-    public void resetPassword(String userId, String newPass) {
-        SysUser user = getById(userId);
+    @Transactional
+    public void resetPassword(Long userId, String newPass) {
+        SysUser user = getOne(userId);
         user.setPassword(passwordEncoder.encode(newPass));
 //        updateByIdSelective(user);
         updateById(user);
@@ -72,7 +74,7 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
     }
 
     @Override
-    public void deleteById(String s) {
+    public void deleteById(Long id) {
         throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
     }
 
@@ -82,7 +84,7 @@ public class UserServiceImpl extends JdbcServiceImpl<SysUser, String> implements
     }
 
     @Override
-    public void deleteByIds(Iterable<String> strings) {
+    public void deleteByIds(Iterable<Long> strings) {
         throw new UnsupportedOperationException(SpringContextHolder.getMessage("unSupportOperation.message"));
 
     }

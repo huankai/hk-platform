@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.domain.Persistable;
-import org.springframework.data.relational.core.mapping.Column;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * @author huangkai
@@ -17,40 +20,42 @@ import org.springframework.data.relational.core.mapping.Column;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "oauth_client_details")
 public class OauthClientDetails implements Persistable<String> {
 
     @Id
-    @Column(value = "client_id")
+    @Column(name = "client_id")
     private String clientId;
 
-    @Column(value = "client_secret")
+    @Column(name = "client_secret")
     private String clientSecret;
 
-    @Column(value = "resource_ids")
+    @Column(name = "resource_ids")
     private String resourceIds;
 
-    @Column(value = "scope")
+    @Column(name = "scope")
     private String scope;
 
-    @Column(value = "authorized_grant_types")
+    @Column(name = "authorized_grant_types")
     private String authorizedGrantTypes;
 
-    @Column(value = "web_server_redirect_uri")
+    @Column(name = "web_server_redirect_uri")
     private String webServerRedirectUri;
 
-    @Column(value = "authorities")
+    @Column(name = "authorities")
     private String authorities;
 
-    @Column(value = "access_token_validity")
+    @Column(name = "access_token_validity")
     private String accessTokenValidity;
 
-    @Column(value = "refresh_token_validity")
+    @Column(name = "refresh_token_validity")
     private Integer refreshTokenValidity;
 
-    @Column(value = "additional_information")
+    @Column(name = "additional_information")
     private Integer additionalInformation;
 
-    @Column(value = "autoapprove")
+    @Column(name = "autoapprove")
     private String autoapprove;
 
     @Override

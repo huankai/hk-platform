@@ -11,6 +11,7 @@ import com.hk.oauth2.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -54,15 +55,16 @@ public class RegisterServiceImpl implements RegisterService {
         emailFeign.asyncSend(EmailMessageRequest.builder()
                 .subject("账号注册")
                 .text("尊敬的用户：您收到此邮件是因为你在 XXX 平台注册了账号，请点击 <a href='" + HOST + "/email/register-3/"
-                        + encodeToString(sysUser.getId())
+                        + sysUser.getId()
                         + "'> 这里 </a> 激活账号。")
                 .to(new String[]{email})
                 .build());
     }
 
     @Override
-    public void completeRegister(String id, String realName, Byte sex, LocalDate birthday, String iconPath) {
-        SysUser user = userService.getById(decodeToString(id));
+    @Transactional
+    public void completeRegister(Long id, String realName, Byte sex, LocalDate birthday, String iconPath) {
+        SysUser user = userService.getOne(id);
         user.setRealName(realName);
         user.setBirth(birthday);
         user.setSex(sex);
@@ -72,8 +74,8 @@ public class RegisterServiceImpl implements RegisterService {
     }
 
     @Override
-    public void checkEmailValidate(String id) {
-        Optional<SysUser> optionalUser = userService.findById(decodeToString(id));
+    public void checkEmailValidate(Long id) {
+        Optional<SysUser> optionalUser = userService.findById(id);
         AssertUtils.isTrue(optionalUser.isPresent(), "账号信息不存在");
     }
 

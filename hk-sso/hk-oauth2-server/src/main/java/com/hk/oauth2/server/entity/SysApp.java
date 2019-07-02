@@ -1,11 +1,12 @@
 package com.hk.oauth2.server.entity;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDateTime;
 
 /**
@@ -13,35 +14,39 @@ import java.time.LocalDateTime;
  * @date 2018-08-02 16:51
  */
 @Data
-@Table(value = "sys_app")
+@Entity
+@Table(name = "sys_app")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysApp extends AbstractAuditable {
+public class SysApp extends AbstractSnowflakeAuditable {
 
-    @Column(value = "app_code")
+    @Column(name = "app_code")
     private String appCode;
 
-    @Column(value = "app_name")
+    @Column(name = "app_name")
     private String appName;
 
-    @Column(value = "app_host")
+    @Column(name = "client_id")
+    private Long clientId;
+
+    @Column(name = "app_host")
     private String appHost;
 
-    @Column(value = "app_icon")
+    @Column(name = "app_icon")
     private String appIcon;
 
-    @Column(value = "start_date")
+    @Column(name = "start_date")
     private LocalDateTime startDate;
 
-    @Column(value = "expire_date")
+    @Column(name = "expire_date")
     private LocalDateTime expireDate;
 
-    @Column(value = "app_status")
+    @Column(name = "app_status")
     private Byte appStatus;
 
-    @Column(value = "description")
+    @Column(name = "description")
     private String description;
 
-    @Column(value = "local_app")
+    @Column(name = "local_app")
     private Boolean localApp;
 }

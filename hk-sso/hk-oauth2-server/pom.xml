@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-data-jdbc</artifactId>
+            <artifactId>hk-core-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>

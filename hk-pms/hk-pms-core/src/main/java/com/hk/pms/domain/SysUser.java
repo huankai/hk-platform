@@ -4,14 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hk.commons.util.EnumDisplayUtils;
 import com.hk.commons.validator.constraints.EnumByte;
 import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import com.hk.platform.commons.enums.UserStateEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -21,77 +22,78 @@ import java.time.LocalDate;
  * @date 2018-04-12 11:42
  */
 @Data
-@Table(value = "sys_user")
+@Entity
+@Table(name = "sys_user")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysUser extends AbstractAuditable {
+public class SysUser extends AbstractSnowflakeAuditable {
 
     /**
      * 用户类型
      */
-    private static final String USER_TYPE_DICT_BASE_ID = "4028c081658f05b301658f0bf9b70005";
+    private static final long USER_TYPE_DICT_BASE_ID = 70005L;
 
     @NotEmpty
-    @Column(value = "org_id")
-    private String orgId;
+    @Column(name = "org_id")
+    private Long orgId;
 
     @NotEmpty
-    @Column(value = "dept_id")
-    private String deptId;
+    @Column(name = "dept_id")
+    private Long deptId;
 
     @NotEmpty
     @Length(max = 20)
-    @Column(value = "account")
+    @Column(name = "account")
     private String account;
 
     @NotEmpty
     @Length(max = 11)
-    @Column(value = "phone")
+    @Column(name = "phone")
     private String phone;
 
-    @Column(value = "email")
+    @Column(name = "email")
     private String email;
 
     @NotEmpty
     @Length(max = 20)
-    @Column(value = "real_name")
+    @Column(name = "real_name")
     private String realName;
 
     @NotNull
-    @Column(value = "password")
+    @Column(name = "password")
     @JsonIgnore
     private String password;
 
     @NotEmpty
     @EnumDict(codeId = USER_TYPE_DICT_BASE_ID)
-    @Column(value = "user_type")
+    @Column(name = "user_type")
     private Byte userType;
 
     @NotNull
-    @Column(value = "is_protect")
+    @Column(name = "is_protect")
     private Boolean isProtect;
 
     @NotNull
-    @Column(value = "sex")
+    @Column(name = "sex")
     private Byte sex;
 
-    @Column(value = "icon_path")
+    @Column(name = "icon_path")
     private String iconPath;
 
-    @Column(value = "birth")
+    @Column(name = "birth")
     private LocalDate birth;
 
-    @Column(value = "province_id")
-    private String provinceId;
+    @Column(name = "province_id")
+    private Long provinceId;
 
-    @Column(value = "city_id")
-    private String cityId;
+    @Column(name = "city_id")
+    private Long cityId;
 
     /**
      * 用户状态
      * @see UserStateEnum
      */
-    @Column(value = "user_status")
+    @Column(name = "user_status")
     @EnumByte(values = {1, 2, 8, 9}, notNull = true)
     private Byte userStatus;
 

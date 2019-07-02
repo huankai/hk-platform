@@ -1,9 +1,9 @@
 package com.hk.platform.commons.tree;
 
+import com.hk.commons.util.CollectionUtils;
+
 import java.util.List;
 import java.util.Map;
-
-import com.hk.commons.util.CollectionUtils;
 
 /**
  * @author kevin
@@ -26,7 +26,7 @@ public interface TreeGenerator<T extends TreeNode<?>> {
      * @param params   参数
      * @return 子节点
      */
-    List<T> childList(String parentId, Map<String, Object> params);
+    List<T> childList(Long parentId, Map<String, Object> params);
 
     /**
      * 当前节点是否为根节点

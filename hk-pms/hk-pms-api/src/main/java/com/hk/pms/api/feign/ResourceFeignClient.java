@@ -22,7 +22,7 @@ public interface ResourceFeignClient {
      * @param appId appId
      */
     @GetMapping("{appId}")
-    List<ResourceTree> myResourceList(@PathVariable("appId") String appId);
+    List<ResourceTree> myResourceList(@PathVariable("appId") Long appId);
 
 
 }

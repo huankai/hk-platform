@@ -1,10 +1,10 @@
 package com.hk.oauth2.server.service.impl;
 
 import com.hk.commons.util.CollectionUtils;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.oauth2.server.entity.SysPermission;
-import com.hk.oauth2.server.repository.jdbc.SysPermissionRepository;
+import com.hk.oauth2.server.repository.jpa.SysPermissionRepository;
 import com.hk.oauth2.server.service.SysPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.Set;
  * @date 2018-08-03 08:59
  */
 @Service
-public class SysPermissionServiceImpl extends JdbcServiceImpl<SysPermission, String> implements SysPermissionService {
+public class SysPermissionServiceImpl extends JpaServiceImpl<SysPermission, Long> implements SysPermissionService {
 
     private final SysPermissionRepository permissionRepository;
 
@@ -28,7 +28,7 @@ public class SysPermissionServiceImpl extends JdbcServiceImpl<SysPermission, Str
     }
 
     @Override
-    public List<SysPermission> findByAppIdAndRoleIds(String appId, Set<String> roleIds) {
+    public List<SysPermission> findByAppIdAndRoleIds(Long appId, Set<Long> roleIds) {
         if (CollectionUtils.isEmpty(roleIds)) {//必须不能为空
             return Collections.emptyList();
         }
@@ -36,7 +36,7 @@ public class SysPermissionServiceImpl extends JdbcServiceImpl<SysPermission, Str
     }
 
     @Override
-    protected JdbcRepository<SysPermission, String> getBaseRepository() {
+    protected BaseJpaRepository<SysPermission, Long> getBaseRepository() {
         return permissionRepository;
     }
 }

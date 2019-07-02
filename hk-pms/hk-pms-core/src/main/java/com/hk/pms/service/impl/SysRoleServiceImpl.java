@@ -2,15 +2,16 @@ package com.hk.pms.service.impl;
 
 
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.pms.domain.SysRole;
 import com.hk.pms.mappers.SysRoleMapper;
-import com.hk.pms.repository.jdbc.SysRoleRepository;
+import com.hk.pms.repository.jpa.SysRoleRepository;
 import com.hk.pms.service.SysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = {"SYS_ROLE"})
-public class SysRoleServiceImpl extends JdbcServiceImpl<SysRole, String> implements SysRoleService {
+public class SysRoleServiceImpl extends JpaServiceImpl<SysRole, Long> implements SysRoleService {
 
     private final SysRoleRepository sysRoleRepository;
 
@@ -42,29 +43,31 @@ public class SysRoleServiceImpl extends JdbcServiceImpl<SysRole, String> impleme
      * 返回 BaseRepository
      */
     @Override
-    protected JdbcRepository<SysRole, String> getBaseRepository() {
+    protected BaseJpaRepository<SysRole, Long> getBaseRepository() {
         return sysRoleRepository;
     }
 
     @Override
-    public List<SysRole> getRoleList(String userId, String appId) {
+    public List<SysRole> getRoleList(Long userId, Long appId) {
         List<SysRole> roleList = roleMapper.getRoleList(userId, appId);
         List<SysRole> deptRoleList = roleMapper.getUserDeptRoleList(userId, appId);
-        Set<String> idSet = roleList.stream().map(SysRole::getId).collect(Collectors.toSet());
+        Set<Long> idSet = roleList.stream().map(SysRole::getId).collect(Collectors.toSet());
         roleList.addAll(deptRoleList.stream().filter(item -> idSet.contains(item.getId())).collect(Collectors.toList()));
         return roleList;
     }
 
     @Override
-    public void disable(String id) {
-        SysRole role = getById(id);
+    @Transactional
+    public void disable(Long id) {
+        SysRole role = getOne(id);
         role.setRoleStatus(ByteConstants.ZERO);
         insertOrUpdate(role);
     }
 
     @Override
-    public void enable(String id) {
-        SysRole role = getById(id);
+    @Transactional
+    public void enable(Long id) {
+        SysRole role = getOne(id);
         role.setRoleStatus(ByteConstants.ONE);
         insertOrUpdate(role);
     }

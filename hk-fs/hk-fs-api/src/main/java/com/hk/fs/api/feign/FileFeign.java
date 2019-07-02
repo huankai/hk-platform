@@ -32,7 +32,7 @@ import java.util.List;
 public interface FileFeign {
 
     @GetMapping("{id}")
-    FileInfoResponse get(@PathVariable("id") String id);
+    FileInfoResponse get(@PathVariable("id") Long id);
 
     @GetMapping("server-url")
     String getFileServerUrl();

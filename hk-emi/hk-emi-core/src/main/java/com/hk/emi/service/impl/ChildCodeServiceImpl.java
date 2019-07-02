@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = "ChildCode")
-public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, String> implements ChildCodeService, DictService {
+public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, Long> implements ChildCodeService, DictService {
 
     private final ChildCodeRepository childCodeRepository;
 
@@ -33,7 +33,7 @@ public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, S
     }
 
     @Override
-    protected BaseJpaRepository<ChildCode, String> getBaseRepository() {
+    protected BaseJpaRepository<ChildCode, Long> getBaseRepository() {
         return childCodeRepository;
     }
 
@@ -45,7 +45,7 @@ public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, S
      * @return childCodeList
      */
     @Override
-    public List<ChildCode> findByBaseCodeIgnoreChildCodes(String baseCodeId, String... ignoreChildCodes) {
+    public List<ChildCode> findByBaseCodeIgnoreChildCodes(Long baseCodeId, String... ignoreChildCodes) {
         List<ChildCode> childCodeList = childCodeRepository.findByBaseCodeIdOrderByCodeValueAsc(baseCodeId);
         if (ArrayUtils.isNotEmpty(ignoreChildCodes)) {
             childCodeList = childCodeList
@@ -57,13 +57,13 @@ public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, S
     }
 
     @Override
-    public List<Byte> getDictValueListByCodeId(String codeId) {
+    public List<Byte> getDictValueListByCodeId(Long codeId) {
         List<ChildCode> list = findByBaseCodeIgnoreChildCodes(codeId);
         return list.stream().map(ChildCode::getCodeValue).collect(Collectors.toList());
     }
 
     @Override
-    public String getCodeName(String baseCodeId, Number value) {
+    public String getCodeName(Long baseCodeId, Number value) {
         return childCodeRepository.findByBaseCodeIdAndCodeValue(baseCodeId, value);
     }
 

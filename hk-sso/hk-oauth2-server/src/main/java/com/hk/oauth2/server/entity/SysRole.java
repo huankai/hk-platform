@@ -1,10 +1,12 @@
 package com.hk.oauth2.server.entity;
 
-import com.hk.core.data.jdbc.domain.AbstractUUIDPersistable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -12,24 +14,25 @@ import org.springframework.data.relational.core.mapping.Table;
  * @date 2018-07-31 12:45
  */
 @Data
-@Table(value = "sys_role")
+@Entity
+@Table(name = "sys_role")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysRole extends AbstractUUIDPersistable {
+public class SysRole extends AbstractSnowflakeAuditable {
 
-    @Column(value = "app_id")
-    private String appId;
+    @Column(name = "app_id")
+    private Long appId;
 
-    @Column(value = "role_name")
+    @Column(name = "role_name")
     private String roleName;
 
-    @Column(value = "role_code")
+    @Column(name = "role_code")
     private String roleCode;
 
-    @Column(value = "role_status")
+    @Column(name = "role_status")
     private Byte roleStatus;
 
-    @Column(value = "description")
+    @Column(name = "description")
     private String description;
 
 }

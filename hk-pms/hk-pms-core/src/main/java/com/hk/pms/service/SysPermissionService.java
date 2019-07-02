@@ -5,11 +5,10 @@ import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.SecurityContextUtils;
 import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.data.jdbc.domain.AbstractUUIDPersistable;
-import com.hk.core.service.jdbc.JdbcBaseService;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeIdPersistable;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.pms.domain.SysPermission;
 
-import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,7 @@ import java.util.stream.Collectors;
  * @author kevin
  * @date 2018-04-12 16:53
  */
-public interface SysPermissionService extends JdbcBaseService<SysPermission, String> {
+public interface SysPermissionService extends JpaBaseService<SysPermission, Long> {
 
     /**
      * 获取指定用户的所有权限
@@ -25,14 +24,14 @@ public interface SysPermissionService extends JdbcBaseService<SysPermission, Str
      * @param userId userId
      * @return
      */
-    List<SysPermission> getPermissionList(String userId, String appId);
+    List<SysPermission> getPermissionList(Long userId, Long appId);
 
     /**
      * 获取当前登陆用户的所有权限
      *
      * @return
      */
-    default List<SysPermission> getCurrentUserPermissionList(String appId) {
+    default List<SysPermission> getCurrentUserPermissionList(Long appId) {
         UserPrincipal principal = SecurityContextUtils.getPrincipal();
         return principal.isAdministrator() ? Collections.emptyList() : getPermissionList(principal.getUserId(), appId);
     }
@@ -45,7 +44,7 @@ public interface SysPermissionService extends JdbcBaseService<SysPermission, Str
      * @param permissionCode permissionCode
      * @return
      */
-    default boolean hasPermission(String userId, String appId, String permissionCode) {
+    default boolean hasPermission(Long userId, Long appId, String permissionCode) {
         return StringUtils.isNotBlank(permissionCode) && getPermissionListAsString(userId, appId).contains(permissionCode);
     }
 
@@ -56,7 +55,7 @@ public interface SysPermissionService extends JdbcBaseService<SysPermission, Str
      * @param appId          appId
      * @param permissionCode 权限编号
      */
-    default void checkPermissioin(String userId, String appId, String permissionCode) {
+    default void checkPermissioin(Long userId, Long appId, String permissionCode) {
         AssertUtils.isTrue(hasPermission(userId, appId, permissionCode), String.format("userId[%s],appId[%s], No Permission:[%s]", userId, appId, permissionCode));
     }
 
@@ -65,10 +64,10 @@ public interface SysPermissionService extends JdbcBaseService<SysPermission, Str
      *
      * @return
      */
-    default Map<String, Collection<String>> getCurrentUserAllRoleListAsString() {
+    default Map<Long, Collection<String>> getCurrentUserAllRoleListAsString() {
         List<SysPermission> permissionList = getPermissionList(SecurityContextUtils.getPrincipal().getUserId(), null);
-        Map<String, List<SysPermission>> byAppIdMap = permissionList.stream().collect(Collectors.groupingBy(AbstractUUIDPersistable::getId));
-        Map<String, Collection<String>> result = new HashMap<>();
+        Map<Long, List<SysPermission>> byAppIdMap = permissionList.stream().collect(Collectors.groupingBy(AbstractSnowflakeIdPersistable::getId));
+        Map<Long, Collection<String>> result = new HashMap<>();
         byAppIdMap
                 .forEach((key, value) -> result.put(key, value.stream().map(SysPermission::getPermissionCode).collect(Collectors.toList())));
         return result;
@@ -79,7 +78,7 @@ public interface SysPermissionService extends JdbcBaseService<SysPermission, Str
      *
      * @return
      */
-    default List<String> getCurrentUserPermissionListAsString(String appId) {
+    default List<String> getCurrentUserPermissionListAsString(Long appId) {
         return getPermissionListAsString(SecurityContextUtils.getPrincipal().getUserId(), appId);
     }
 
@@ -90,7 +89,7 @@ public interface SysPermissionService extends JdbcBaseService<SysPermission, Str
      * @param appId  appId
      * @return 权限列表
      */
-    default List<String> getPermissionListAsString(String userId, String appId) {
+    default List<String> getPermissionListAsString(Long userId, Long appId) {
         return getPermissionList(userId, appId)
                 .stream()
                 .map(SysPermission::getPermissionCode)

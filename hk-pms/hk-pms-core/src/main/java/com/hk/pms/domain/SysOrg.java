@@ -1,61 +1,63 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
  * @author kevin
  * @date 2018-04-12 11:41
  */
-@Table(value = "sys_org")
 @Data
+@Entity
+@Table(name = "sys_org")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysOrg extends AbstractAuditable {
+public class SysOrg extends AbstractSnowflakeAuditable {
 
-    @Column(value = "parent_id")
-    private String parentId;
+    @Column(name = "parent_id")
+    private Long parentId;
 
     @NotEmpty
     @Length(max = 20)
-    @Column(value = "org_code")
+    @Column(name = "org_code")
     private String orgCode;
 
-    @Column(value = "org_name")
+    @Column(name = "org_name")
     @Length(max = 20)
     @NotEmpty
     private String orgName;
 
-    @Column(value = "description")
+    @Column(name = "description")
     @Length(max = 200)
     @NotEmpty
     private String description;
 
-    @Column(value = "org_icon")
+    @Column(name = "org_icon")
     private String orgIcon;
 
-    @Column(value = "responsible_id")
-    private String responsibleId;
+    @Column(name = "responsible_id")
+    private Long responsibleId;
 
-    @Column(value = "org_tag")
+    @Column(name = "org_tag")
     private String orgTag;
 
-    @Column(value = "province_id")
-    private String provinceId;
+    @Column(name = "province_id")
+    private Long provinceId;
 
-    @Column(value = "city_id")
-    private String cityId;
+    @Column(name = "city_id")
+    private Long cityId;
 
-    @Column(value = "area_id")
-    private String areaId;
+    @Column(name = "area_id")
+    private Long areaId;
 
-    @Column(value = "address")
+    @Column(name = "address")
     private String address;
 
 

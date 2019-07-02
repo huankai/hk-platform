@@ -46,7 +46,7 @@ public class ChildCodeController extends BaseController {
      * @return {@link ChildCode}
      */
     @GetMapping(path = "{id}", name = "childcode-get")
-    public JsonResult<ChildCode> get(@PathVariable String id) {
+    public JsonResult<ChildCode> get(@PathVariable Long id) {
         return JsonResult.success(childCodeService.getOne(id));
     }
 
@@ -57,7 +57,7 @@ public class ChildCodeController extends BaseController {
      * @return {@link ChildCode}
      */
     @GetMapping(path = "{baseCodeId}", name = "childcode-child")
-    public JsonResult<List<ChildCode>> childList(@PathVariable String baseCodeId) {
+    public JsonResult<List<ChildCode>> childList(@PathVariable Long baseCodeId) {
         return JsonResult.success(childCodeService.findByBaseCodeId(baseCodeId));
     }
 
@@ -69,7 +69,7 @@ public class ChildCodeController extends BaseController {
      */
     @DeleteMapping(path = "{id}", name = "childcode-delete")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> deleteById(@PathVariable String id) {
+    public JsonResult<Void> deleteById(@PathVariable Long id) {
         childCodeService.deleteById(id);
         return JsonResult.success();
     }

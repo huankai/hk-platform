@@ -33,27 +33,27 @@ public class SysResourceController extends BaseController {
     }
 
     @GetMapping(path = "{id}", name = "menu-get")
-    public JsonResult<SysResource> get(@PathVariable String id) {
-        return JsonResult.success(resourceService.getById(id));
+    public JsonResult<SysResource> get(@PathVariable Long id) {
+        return JsonResult.success(resourceService.getOne(id));
     }
 
     @DeleteMapping(path = "{id}", name = "menu-delete")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> delete(@PathVariable String id) {
+    public JsonResult<Void> delete(@PathVariable Long id) {
         resourceService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping("disabled")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> disabled(@RequestParam String id) {
+    public JsonResult<Void> disabled(@RequestParam Long id) {
         resourceService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "enabled")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> enabled(@RequestParam String id) {
+    public JsonResult<Void> enabled(@RequestParam Long id) {
         resourceService.enable(id);
         return JsonResult.success();
     }

@@ -17,6 +17,7 @@ import com.hk.oauth2.server.service.SysAppService;
 import com.hk.oauth2.server.service.SysOrgDeptService;
 import com.hk.oauth2.server.service.SysOrgService;
 import com.hk.oauth2.server.service.UserService;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author kevin
@@ -42,21 +43,23 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
     }
 
     @Override
+    @Transactional
     public SecurityUserPrincipal loadUserByLoginUsername(String username) {
         SysUser user = userService.findByLoginName(username)
                 .orElseThrow(() -> new UsernameNotFoundException(SpringContextHolder.getMessage("user.notFound.message", username)));
-        SysOrg sysOrg = sysOrgService.getById(user.getOrgId());
+        SysOrg sysOrg = sysOrgService.getOne(user.getOrgId());
         if (!ByteConstants.ONE.equals(sysOrg.getState())) {
             throw new DisabledException(SpringContextHolder.getMessage("org.disabled.message", sysOrg.getOrgName()));
         }
-        return new SecurityUserPrincipal(user.getId(), user.getOrgId(), sysOrg.getOrgName(), user.getDeptId(), orgDeptService.getById(user.getDeptId()).getDeptName(),
+        return new SecurityUserPrincipal(user.getId(), user.getOrgId(), sysOrg.getOrgName(), user.getDeptId(), orgDeptService.getOne(user.getDeptId()).getDeptName(),
                 user.getAccount(), user.getIsProtect(), user.getRealName(),
                 user.getUserType(), user.getPhone(), user.getEmail(), user.getSex(), user.getIconPath(), user.getPassword(), user.getUserStatus(), null, null);
     }
 
     @Override
+    @Transactional
     public ClientAppInfo getClientInfoById(String clientId) {
-        SysApp app = appService.getById(clientId);
+        SysApp app = appService.getByClientId(clientId);
         return new ClientAppInfo(app.getId(), app.getAppCode(), app.getAppName(), app.getAppIcon());
     }
 }

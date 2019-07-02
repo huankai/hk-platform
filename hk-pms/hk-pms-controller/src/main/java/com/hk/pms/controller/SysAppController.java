@@ -32,26 +32,26 @@ public class SysAppController extends BaseController {
     }
 
     @GetMapping(path = "{id}", name = "app-get")
-    public JsonResult<SysApp> get(@PathVariable String id) {
-        return JsonResult.success(appService.getById(id));
+    public JsonResult<SysApp> get(@PathVariable Long id) {
+        return JsonResult.success(appService.getOne(id));
     }
 
     @DeleteMapping(path = "{id}", name = "app-delete")
-    public JsonResult<Void> delete(@PathVariable String id) {
+    public JsonResult<Void> delete(@PathVariable Long id) {
         appService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "disabled")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> disabled(@RequestParam String id) {
+    public JsonResult<Void> disabled(@RequestParam Long id) {
         appService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "enabled")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> enabled(@RequestParam String id) {
+    public JsonResult<Void> enabled(@RequestParam Long id) {
         appService.enable(id);
         return JsonResult.success();
     }

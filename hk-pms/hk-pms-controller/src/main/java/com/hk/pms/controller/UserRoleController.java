@@ -28,7 +28,7 @@ public class UserRoleController extends BaseController {
      * @param roleIds 角色id
      */
     @PostMapping(path = "update")
-    public JsonResult<Void> updateUserRole(@RequestParam String userId, @RequestParam String[] roleIds) {
+    public JsonResult<Void> updateUserRole(@RequestParam Long userId, @RequestParam Long[] roleIds) {
         userRoleService.updateUserRole(userId, roleIds);
         return JsonResult.success();
     }
@@ -40,13 +40,13 @@ public class UserRoleController extends BaseController {
      * @param userIds userId
      */
     @PostMapping(path = "addUser")
-    public JsonResult<Void> addRoleUser(@RequestParam String roleId, @RequestParam String[] userIds) {
+    public JsonResult<Void> addRoleUser(@RequestParam Long roleId, @RequestParam Long[] userIds) {
         userRoleService.addRoleUser(roleId, userIds);
         return JsonResult.success();
     }
 
     @DeleteMapping(path = "{id}", name = "userRole-delete")
-    public JsonResult<Void> deleteById(@PathVariable String id) {
+    public JsonResult<Void> deleteById(@PathVariable Long id) {
         userRoleService.deleteById(id);
         return JsonResult.success();
     }

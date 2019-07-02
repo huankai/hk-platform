@@ -1,12 +1,12 @@
 package com.hk.pms.domain;
 
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
-
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -18,34 +18,35 @@ import lombok.EqualsAndHashCode;
 @SuppressWarnings("serial")
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(value = "sys_config")
-public class SysConfig extends AbstractAuditable {
+@Entity
+@Table(name = "sys_config")
+public class SysConfig extends AbstractSnowflakeAuditable {
 
-	@Column(value = "app_id")
-	private String appId;
+    @Column(name = "app_id")
+    private Long appId;
 
     /**
      * 名称
      */
-    @Column(value = "name_")
+    @Column(name = "name_")
     private String name;
 
     /**
      * 值
      */
-    @Column(value = "value_")
+    @Column(name = "value_")
     private String value;
 
     /**
      * 值类型
      */
-    @Column(value = "value_type")
+    @Column(name = "value_type")
     private Byte valueType;
 
     /**
      *
      */
-    @Column(value = "description")
+    @Column(name = "description")
     private String description;
 
 

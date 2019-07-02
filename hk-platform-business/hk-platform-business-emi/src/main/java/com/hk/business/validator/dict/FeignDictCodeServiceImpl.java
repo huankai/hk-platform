@@ -20,13 +20,13 @@ public class FeignDictCodeServiceImpl implements DictService {
     }
 
     @Override
-    public List<Byte> getDictValueListByCodeId(String codeId) {
+    public List<Byte> getDictValueListByCodeId(Long codeId) {
         List<SysCodeResponse> sysCodeList = codeFeignClient.childListByParentId(codeId);
         return sysCodeList.stream().map(SysCodeResponse::getCodeValue).collect(Collectors.toList());
     }
 
     @Override
-    public String getCodeName(String baseCodeId, Number value) {
+    public String getCodeName(Long baseCodeId, Number value) {
         return codeFeignClient.childCodeName(baseCodeId, value);
     }
 }

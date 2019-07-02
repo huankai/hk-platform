@@ -1,22 +1,22 @@
 package com.hk.pms.service;
 
 
-import com.hk.core.service.jdbc.JdbcBaseService;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.pms.domain.SysRolePermission;
 
 /**
  * @author kevin
  * @date 2018-04-12 16:56
  */
-public interface SysRolePermissionService extends JdbcBaseService<SysRolePermission, String> {
+public interface SysRolePermissionService extends JpaBaseService<SysRolePermission, Long> {
 
     /**
      * @param roleId       roleId
      * @param permissionId permissionId
      */
-    void deleteByRoleIdAndPermissionId(String roleId, String permissionId);
+    void deleteByRoleIdAndPermissionId(Long roleId, Long permissionId);
 
-    void updateRolePermission(String roleId, String[] permissionIds);
+    void updateRolePermission(Long roleId, Long[] permissionIds);
 
-    void addPermissionRole(String permissionId, String[] roleIds);
+    void addPermissionRole(Long permissionId, Long[] roleIds);
 }

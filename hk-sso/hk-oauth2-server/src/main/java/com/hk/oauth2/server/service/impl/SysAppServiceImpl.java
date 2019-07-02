@@ -1,9 +1,9 @@
 package com.hk.oauth2.server.service.impl;
 
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.oauth2.server.entity.SysApp;
-import com.hk.oauth2.server.repository.jdbc.SysAppRepository;
+import com.hk.oauth2.server.repository.jpa.SysAppRepository;
 import com.hk.oauth2.server.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 //@CacheConfig(cacheNames = "SysApp")
-public class SysAppServiceImpl extends JdbcServiceImpl<SysApp, String> implements SysAppService {
+public class SysAppServiceImpl extends JpaServiceImpl<SysApp, Long> implements SysAppService {
 
     private final SysAppRepository appRepository;
 
@@ -24,7 +24,12 @@ public class SysAppServiceImpl extends JdbcServiceImpl<SysApp, String> implement
     }
 
     @Override
-    protected JdbcRepository<SysApp, String> getBaseRepository() {
+    protected BaseJpaRepository<SysApp, Long> getBaseRepository() {
         return appRepository;
+    }
+
+    @Override
+    public SysApp getByClientId(String clientId) {
+        return appRepository.getByClientId(clientId);
     }
 }
