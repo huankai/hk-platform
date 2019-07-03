@@ -1,31 +1,31 @@
 package com.hk.message.web.domain;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
-
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(value = "t_message_user")
+@Entity
+@Table(name = "t_message_user")
 @SuppressWarnings("serial")
-public class MessageUser extends AbstractAuditable {
+public class MessageUser extends AbstractSnowflakeAuditable {
 
-    @Column(value = "message_id")
-    private String messageId;
+    @Column(name = "message_id")
+    private Long messageId;
 
-    @Column(value = "user_id")
-    private String userId;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @Column(value = "is_read")
+    @Column(name = "is_read")
     private Boolean isRead;
 
-    @Column(value = "read_date")
+    @Column(name = "read_date")
     private LocalDateTime readDate;
 }

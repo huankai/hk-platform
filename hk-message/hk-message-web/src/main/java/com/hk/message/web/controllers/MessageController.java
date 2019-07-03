@@ -67,8 +67,8 @@ public class MessageController {
      * @return {@link Message}
      */
     @GetMapping(path = "{id}", name = "message-get")
-    public JsonResult<Message> get(@PathVariable String id) {
-        return JsonResult.success(messageService.getById(id));
+    public JsonResult<Message> get(@PathVariable Long id) {
+        return JsonResult.success(messageService.getOne(id));
     }
 
     /**
@@ -78,7 +78,7 @@ public class MessageController {
      * @return {@link MessageAttachmentDTO}
      */
     @GetMapping(value = "read/{messageId}", name = "read-message")
-    public JsonResult<MessageAttachmentDTO> read(@PathVariable String messageId) {
+    public JsonResult<MessageAttachmentDTO> read(@PathVariable Long messageId) {
         return JsonResult.success(messageService.read(messageId));
     }
 

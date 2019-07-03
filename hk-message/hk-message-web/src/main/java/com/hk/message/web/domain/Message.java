@@ -1,67 +1,67 @@
 package com.hk.message.web.domain;
 
-import java.time.LocalDateTime;
-
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
-
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(value = "t_message")
+@Entity
+@Table(name = "t_message")
 @SuppressWarnings("serial")
-public class Message extends AbstractAuditable {
+public class Message extends AbstractSnowflakeAuditable {
 
     /**
      * 标题
      */
-    @Column(value = "title")
+    @Column(name = "title")
     private String title;
 
     /**
      * 消息内容
      */
-    @Column(value = "msg_content")
+    @Column(name = "msg_content")
     private String msgContent;
 
     /**
      * 发送者机构id
      */
-    @Column(value = "school_id")
+    @Column(name = "school_id")
     private String schoolId;
 
     /**
      * 发送者机构学期Id
      */
-    @Column(value = "semester_id")
-    private String semesterId;
+    @Column(name = "semester_id")
+    private Long semesterId;
 
     /**
      * 发送者id
      */
-    @Column(value = "sender_by")
-    private String senderBy;
+    @Column(name = "sender_by")
+    private Long senderBy;
 
     /**
      * 发送者名称
      */
-    @Column(value = "sender_name")
+    @Column(name = "sender_name")
     private String senderName;
 
     /**
      * 发送时间
      */
-    @Column(value = "sender_date")
+    @Column(name = "sender_date")
     private LocalDateTime senderDate;
 
     /**
      * 发送的用户类型
      */
-    @Column(value = "sender_to")
+    @Column(name = "sender_to")
     private String senderTo;
 }

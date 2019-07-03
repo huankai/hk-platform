@@ -24,7 +24,7 @@ public class IndexController extends BaseController {
 
     @GetMapping({"/", "/index"})
     public JsonResult<UserPrincipal> test() {
-        List<CityResponse> childList = cityFeignClient.getChildList("0");
+        List<CityResponse> childList = cityFeignClient.getChildList(0L);
         System.out.println(JsonUtils.serialize(childList, true));
         return JsonResult.success(getPrincipal());
     }

@@ -61,7 +61,7 @@ public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();
         Map<String, Object> info = new HashMap<>();
-        SysApp sysApp = sysAppService.getById(clientId);
+        SysApp sysApp = sysAppService.getByClientId(clientId);
         //这里不用再判断，查看 com.hk.oauth2.server.provider.token.AppStatusTokenServices#createAccessToken
         /*if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
             throw new Oauth2AppStatusException(SpringContextHolder.getMessageWithDefault("app.disable.message", sysApp.getAppName(), sysApp.getAppName()));
@@ -97,14 +97,14 @@ public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
         } else {
             Collection<String> roles = null;
             Set<String> permissions = null;
-            List<SysRole> roleList = roleService.findRoleByAppIdAndUserId(clientId, principal.getUserId());
+            List<SysRole> roleList = roleService.findRoleByAppIdAndUserId(sysApp.getId(), principal.getUserId());
             if (CollectionUtils.isNotEmpty(roleList)) {
                 if (debugEnabled) {
                     log.debug("查询到用户 {} 的角色:{}", principal.getAccount(), JsonUtils.serialize(roleList, true));
                 }
-                Map<String, String> roleIdCodeMap = roleList.stream().collect(Collectors.toMap(SysRole::getId, SysRole::getRoleCode));
+                Map<Long, String> roleIdCodeMap = roleList.stream().collect(Collectors.toMap(SysRole::getId, SysRole::getRoleCode));
                 roles = roleIdCodeMap.values();
-                List<SysPermission> permissionList = permissionService.findByAppIdAndRoleIds(clientId, roleIdCodeMap.keySet());
+                List<SysPermission> permissionList = permissionService.findByAppIdAndRoleIds(sysApp.getId(), roleIdCodeMap.keySet());
                 if (debugEnabled) {
                     log.debug("查询到用户 {} 的权限:{}", principal.getAccount(), JsonUtils.serialize(permissionList, true));
                 }

@@ -1,4 +1,4 @@
-package com.hk.message.web.repository.jdbc.custom;
+package com.hk.message.web.repository.jpa.custom;
 
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;

@@ -48,7 +48,7 @@ public class BaseCodeServiceTest extends LoginBaseTest {
         byte index = 1;
         for (String item : status) {
             ChildCode childCode = new ChildCode();
-            childCode.setBaseCodeId(baseCode.getId());
+//            childCode.setBaseCodeId(baseCode.getId());
             childCode.setChildCode(codes.get(index - 1));
             childCode.setCodeName(item);
             childCode.setCodeValue(index);

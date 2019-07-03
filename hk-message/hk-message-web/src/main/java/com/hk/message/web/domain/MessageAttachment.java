@@ -1,29 +1,30 @@
 package com.hk.message.web.domain;
 
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
-
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
-
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 
 @Data
+@Entity
 @EqualsAndHashCode(callSuper = true)
-@Table(value = "t_message_attachment")
+@Table(name = "t_message_attachment")
 @SuppressWarnings("serial")
-public class MessageAttachment extends AbstractAuditable {
+public class MessageAttachment extends AbstractSnowflakeAuditable {
 
-    @Column(value = "message_id")
-    private String messageId;
+    @Column(name = "message_id")
+    private Long messageId;
 
-    @Column(value = "attachment_id")
-    private String attachmentId;
+    @Column(name = "attachment_id")
+    private Long attachmentId;
 
-    @Column(value = "attachment_path")
+    @Column(name = "attachment_path")
     private String attachmentPath;
 
-    @Column(value = "attachment_name")
+    @Column(name = "attachment_name")
     private String attachmentName;
 }

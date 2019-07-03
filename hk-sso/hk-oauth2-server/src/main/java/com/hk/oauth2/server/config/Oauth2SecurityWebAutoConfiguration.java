@@ -8,6 +8,7 @@ import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpr
 import com.hk.core.authentication.security.handler.login.LoginAuthenticationFailureHandler;
 import com.hk.core.authentication.security.handler.logout.EquipmentLogoutHandler;
 import com.hk.core.autoconfigure.authentication.security.*;
+import com.hk.core.autoconfigure.weixin.WechatMpProperties;
 import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.authentication.session.CreateSessionAuthenticationStrategy;
@@ -18,9 +19,8 @@ import com.hk.oauth2.logout.SingleLogoutHandler;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
 import com.hk.oauth2.web.authentication.PhoneAuthenticationSuccessHandler;
 import com.hk.platform.commons.role.RoleNamed;
-import com.hk.weixin.WechatMpProperties;
-import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -131,7 +131,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
      */
     @Autowired(required = false)
     @Qualifier(value = "wechatPostAuthenticationHandler")
-    private PostAuthenticationHandler<UserPrincipal, UserPrincipal> wechatPostAuthenticationHandler;
+    private PostAuthenticationHandler<UserPrincipal, WxMpUser> wechatPostAuthenticationHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

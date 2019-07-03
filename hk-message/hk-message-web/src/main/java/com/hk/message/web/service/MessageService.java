@@ -2,13 +2,13 @@ package com.hk.message.web.service;
 
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
-import com.hk.core.service.jdbc.JdbcBaseService;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.message.web.domain.Message;
 import com.hk.message.web.dto.MessageAttachmentDTO;
 import com.hk.message.web.dto.MessageAttachmentUserDTO;
 import com.hk.message.web.dto.MessageUserDTO;
 
-public interface MessageService extends JdbcBaseService<Message, String> {
+public interface MessageService extends JpaBaseService<Message, Long> {
 
     /**
      * 用户读取消息
@@ -16,7 +16,7 @@ public interface MessageService extends JdbcBaseService<Message, String> {
      * @param messageId messageId
      * @return {@link MessageAttachmentDTO}
      */
-    MessageAttachmentDTO read(String messageId);
+    MessageAttachmentDTO read(Long messageId);
 
     /**
      * @param query 查询用户消息列表

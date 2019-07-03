@@ -1,10 +1,14 @@
 package com.hk.emi.controller;
 
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import com.hk.commons.JsonResult;
+import com.hk.commons.util.JsonUtils;
+import com.hk.core.authentication.security.SecurityUserPrincipal;
+import com.hk.message.api.ChatMessage;
+import com.hk.message.api.OnLineUserMessage;
+import com.hk.message.api.subject.SimpleTopicMessageSubject;
+import com.hk.message.api.subject.SimpleUserMessageSubject;
+import com.hk.message.websocket.WebsocketMessager;
+import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.server.ServerHttpRequest;
@@ -16,15 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.socket.WebSocketHandler;
 
-import com.hk.commons.JsonResult;
-import com.hk.commons.util.JsonUtils;
-import com.hk.core.authentication.security.SecurityUserPrincipal;
-import com.hk.message.api.ChatMessage;
-import com.hk.message.api.OnLineUserMessage;
-import com.hk.message.api.subject.SimpleTopicMessageSubject;
-import com.hk.message.api.subject.SimpleUserMessageSubject;
-import com.hk.message.websocket.WebsocketMessager;
-import com.hk.platform.commons.web.BaseController;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * webSocket Test
@@ -51,7 +50,7 @@ public class WebSocketMessageController extends BaseController {
      * @return JsonResult
      */
     @RequestMapping("/chat2")
-    public JsonResult<Void> handlerChat(Principal principal, String message, String toUser) {
+    public JsonResult<Void> handlerChat(Principal principal, String message, Long toUser) {
         websocketMessager.publish(ChatMessage
                 .builder().
                         formUser(getPrincipal().getUserId())
@@ -75,10 +74,10 @@ public class WebSocketMessageController extends BaseController {
     @MessageMapping("/chat")
     public void handlerChat2(Principal principal, @RequestParam String message) {
         Map<?, ?> map = JsonUtils.deserialize(message, Map.class);
-        String toUser = (String) map.get("toUser");
+        Long toUser = (Long) map.get("toUser");
         websocketMessager.publish(ChatMessage
-                .builder().
-                        formUser(principal.getName())
+                .builder()
+//                        .formUser(principal.getName())
                 .toUser(toUser)
                 .content(map.get("message")).build()
         ).to(SimpleUserMessageSubject.builder().

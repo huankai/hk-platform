@@ -8,6 +8,8 @@ import com.hk.pms.service.SysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author kevin
  * @date 2018-09-20 20:07
@@ -25,5 +27,10 @@ public class SysConfigServiceImpl extends JpaServiceImpl<SysConfig, Long> implem
     @Override
     protected BaseJpaRepository<SysConfig, Long> getBaseRepository() {
         return sysConfigRepository;
+    }
+
+    @Override
+    public List<SysConfig> findByAppId(Long appId) {
+        return sysConfigRepository.findByAppId(appId);
     }
 }

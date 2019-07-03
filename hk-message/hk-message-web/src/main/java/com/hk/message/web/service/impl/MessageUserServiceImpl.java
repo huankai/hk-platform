@@ -1,11 +1,11 @@
 package com.hk.message.web.service.impl;
 
 import com.hk.commons.util.CollectionUtils;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.core.service.exception.ServiceException;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.message.web.domain.MessageUser;
-import com.hk.message.web.repository.jdbc.MessageUserRepository;
+import com.hk.message.web.repository.jpa.MessageUserRepository;
 import com.hk.message.web.service.MessageUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,27 +17,27 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
-public class MessageUserServiceImpl extends JdbcServiceImpl<MessageUser, String> implements MessageUserService {
+public class MessageUserServiceImpl extends JpaServiceImpl<MessageUser, Long> implements MessageUserService {
 
     @Autowired
     private MessageUserRepository messageUserRepository;
 
     @Override
-    protected JdbcRepository<MessageUser, String> getBaseRepository() {
+    protected BaseJpaRepository<MessageUser, Long> getBaseRepository() {
         return messageUserRepository;
     }
 
     @Override
-    public Optional<MessageUser> findByMessageIdAndUserId(String messageId, String userId) {
+    public Optional<MessageUser> findByMessageIdAndUserId(Long messageId, Long userId) {
         return messageUserRepository.findByMessageIdAndUserId(messageId, userId);
     }
 
     @Override
-    public void batchInsertMessageUser(String messageId, Set<String> userIds) {
+    public void batchInsertMessageUser(Long messageId, Set<Long> userIds) {
         if (CollectionUtils.isNotEmpty(userIds)) {
             List<MessageUser> messageUsers = new ArrayList<>(userIds.size());
             MessageUser messageUser;
-            for (String userId : userIds) {
+            for (Long userId : userIds) {
                 messageUser = new MessageUser();
                 messageUser.setIsRead(Boolean.FALSE);
                 messageUser.setMessageId(messageId);
@@ -49,7 +49,7 @@ public class MessageUserServiceImpl extends JdbcServiceImpl<MessageUser, String>
     }
 
     @Override
-    public MessageUser read(String messageId, String userId) {
+    public MessageUser read(Long messageId, Long userId) {
         MessageUser messageUser = findByMessageIdAndUserId(messageId, getPrincipal().getUserId())
                 .orElseThrow(() -> new ServiceException("消息不存在"));
         if (!messageUser.getIsRead()) {

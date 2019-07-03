@@ -2,7 +2,7 @@ package com.hk.oauth2.server.repository.jpa;
 
 import com.hk.core.data.jpa.repository.LongIdJpaRepository;
 import com.hk.oauth2.server.entity.SysUser;
-import com.hk.oauth2.server.repository.jdbc.custom.CustomUserRepository;
+import com.hk.oauth2.server.repository.jpa.custom.CustomUserRepository;
 
 import java.util.Optional;
 

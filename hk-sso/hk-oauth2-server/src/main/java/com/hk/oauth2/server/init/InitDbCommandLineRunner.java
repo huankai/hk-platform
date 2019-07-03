@@ -1,8 +1,6 @@
 package com.hk.oauth2.server.init;
 
 import com.hk.commons.util.*;
-import com.hk.core.data.jdbc.query.CompositeCondition;
-import com.hk.core.data.jdbc.query.SimpleCondition;
 import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.entity.SysOrg;
 import com.hk.oauth2.server.entity.SysOrgDept;
@@ -81,7 +79,7 @@ public class InitDbCommandLineRunner implements CommandLineRunner {
             Iterable<SysApp> result = appService.batchInsert(sysApps);
             for (SysApp sysApp : result) {
                 BaseClientDetails details = new BaseClientDetails();
-                details.setClientId(sysApp.getId());
+                details.setClientId(sysApp.getId().toString());
                 details.setClientSecret("{noop}" + sysApp.getId());
                 details.setScope(ArrayUtils.asArrayList("all"));
                 details.setAuthorizedGrantTypes(ArrayUtils.asArrayList("authorization_code", "refresh_token"));
@@ -94,7 +92,7 @@ public class InitDbCommandLineRunner implements CommandLineRunner {
 
     }
 
-    private void createUser(String orgId, String deptId) {
+    private void createUser(Long orgId, Long deptId) {
         if (userService.count() == 0) {
             List<SysUser> users = new ArrayList<>();
             SysUser user;
@@ -118,17 +116,18 @@ public class InitDbCommandLineRunner implements CommandLineRunner {
         }
     }
 
-    private SysOrgDept getOrCreateSysDept(String orgId) {
-        ListResult<SysOrgDept> orgDeptResult = orgDeptService.findAll(new CompositeCondition()
-                .addCondition(new SimpleCondition("org_id", orgId)));
-        Optional<SysOrgDept> optionalOrgDept = CollectionUtils.getFirstOrDefault(orgDeptResult.getResult());
+    private SysOrgDept getOrCreateSysDept(Long orgId) {
+        SysOrgDept param = new SysOrgDept();
+        param.setOrgId(orgId);
+        List<SysOrgDept> orgDeptResult = orgDeptService.findAll(param);
+        Optional<SysOrgDept> optionalOrgDept = CollectionUtils.getFirstOrDefault(orgDeptResult);
         SysOrgDept orgDept;
         if (optionalOrgDept.isPresent()) {
             orgDept = optionalOrgDept.get();
         } else {
             orgDept = new SysOrgDept();
             orgDept.setOrgId(orgId);
-            orgDept.setParentId(Contants.DEFAULT_VALUE);
+            orgDept.setParentId(0L);
             orgDept.setDeptName("根机构部门");
             orgDept = orgDeptService.insert(orgDept);
         }
@@ -142,15 +141,15 @@ public class InitDbCommandLineRunner implements CommandLineRunner {
         if (orgOptional.isPresent()) {
             sysOrg = orgOptional.get();
         } else {
-            sysOrg.setParentId(Contants.DEFAULT_VALUE);
+            sysOrg.setParentId(Contants.DEFAULT_VALUE_LONG);
             sysOrg.setOrgName("根节点");
             sysOrg.setOrgIcon(IDGenerator.STRING_UUID.generate() + ".png");
-            sysOrg.setResponsibleId(Contants.DEFAULT_VALUE);
-            sysOrg.setParentId(Contants.DEFAULT_VALUE);
+            sysOrg.setResponsibleId(Contants.DEFAULT_VALUE_LONG);
+            sysOrg.setParentId(Contants.DEFAULT_VALUE_LONG);
             sysOrg.setOrgTag(Contants.DEFAULT_VALUE);
-            sysOrg.setProvinceId(Contants.DEFAULT_VALUE);
-            sysOrg.setCityId(Contants.DEFAULT_VALUE);
-            sysOrg.setAreaId(Contants.DEFAULT_VALUE);
+            sysOrg.setProvinceId(Contants.DEFAULT_VALUE_LONG);
+            sysOrg.setCityId(Contants.DEFAULT_VALUE_LONG);
+            sysOrg.setAreaId(Contants.DEFAULT_VALUE_LONG);
             sysOrg.setAddress(Contants.DEFAULT_VALUE);
             sysOrg = orgService.insert(sysOrg);
         }

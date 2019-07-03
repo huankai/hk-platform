@@ -1,10 +1,10 @@
 package com.hk.message.web.dto;
 
-import java.util.Set;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 
 /**
@@ -16,5 +16,5 @@ import lombok.NoArgsConstructor;
 @SuppressWarnings("serial")
 public class MessageAttachmentUserDTO extends MessageAttachmentDTO {
 
-    private Set<String> userIds;
+    private Set<Long> userIds;
 }
