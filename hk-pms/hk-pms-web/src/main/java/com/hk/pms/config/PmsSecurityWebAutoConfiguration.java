@@ -12,6 +12,7 @@ import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
 import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.HttpSecurityUtils;
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 import com.hk.emi.api.feign.SysCodeFeignClient;
@@ -115,19 +116,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 //                    }
 //                });
         Set<PermitMatcher> permitAllMatchers = login.getPermitMatchers();
-        if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
-            for (PermitMatcher permitMatcher : permitAllMatchers) {
-                if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
-                } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyRole(permitMatcher.getRoles());
-                } else {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).permitAll();
-                }
-            }
-        }
-        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasRole(RoleNamed.ADMIN)
-                .anyRequest().authenticated();
+        HttpSecurityUtils.buildPermitMatchers(urlRegistry, permitAllMatchers);
 
         //通过源码分析，好像没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(ssoProperties)));

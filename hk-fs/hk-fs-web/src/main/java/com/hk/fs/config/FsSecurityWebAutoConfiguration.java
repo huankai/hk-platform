@@ -12,6 +12,7 @@ import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.HttpSecurityUtils;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 import com.hk.platform.commons.role.RoleNamed;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,19 +87,7 @@ public class FsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter
                     }
                 })*/;
         Set<PermitMatcher> permitMatchers = login.getPermitMatchers();
-        if (CollectionUtils.isNotEmpty(permitMatchers)) {
-            for (PermitMatcher permitMatcher : permitMatchers) {
-                if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
-                } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyRole(permitMatcher.getRoles());
-                } else {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).permitAll();
-                }
-            }
-        }
-        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasRole(RoleNamed.ADMIN)
-                .anyRequest().authenticated();
+        HttpSecurityUtils.buildPermitMatchers(urlRegistry, permitMatchers);
 
         //通过源码分析，没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));

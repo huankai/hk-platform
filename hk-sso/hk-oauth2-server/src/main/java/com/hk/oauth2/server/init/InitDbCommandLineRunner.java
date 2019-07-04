@@ -23,8 +23,8 @@ import java.util.Optional;
  * @author huangkai
  * @date 2018-12-18 17:06
  */
-@Component
-@Order(value = 1)
+//@Component
+//@Order(value = 1)
 public class InitDbCommandLineRunner implements CommandLineRunner {
 
     @Autowired
