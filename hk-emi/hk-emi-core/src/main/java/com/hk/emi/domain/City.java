@@ -1,7 +1,7 @@
 package com.hk.emi.domain;
 
 import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -23,21 +23,21 @@ import javax.validation.constraints.NotNull;
 @Table(name = "emi_city")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
-public class City extends AbstractAuditable {
+public class City extends AbstractSnowflakeAuditable {
 
     public static final long CITY_TYPE_DICT_ID = 12132424324L;
 
     /**
      * 行政代码
      */
-    @Column(name = "code")
     @NotEmpty
     @Length(max = 20)
+    @Column(name = "code")
     private String code;
 
     @Column(name = "parent_id")
-    @NotEmpty
-    private String parentId;
+    @NotNull
+    private Long parentId;
 
     /**
      * <pre>

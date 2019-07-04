@@ -50,7 +50,7 @@ public class BaseCodeController extends BaseController {
      * @return JsonResult
      */
     @GetMapping(path = "{id}", name = "basecode-get")
-    public JsonResult<BaseCode> get(@PathVariable String id) {
+    public JsonResult<BaseCode> get(@PathVariable Long id) {
         return JsonResult.success(baseCodeService.getOne(id));
     }
 
@@ -62,7 +62,7 @@ public class BaseCodeController extends BaseController {
      */
     @DeleteMapping(path = "{id}", name = "basecode-delete")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> deleteById(@PathVariable String id) {
+    public JsonResult<Void> deleteById(@PathVariable Long id) {
         baseCodeService.deleteById(id);
         return JsonResult.success();
     }

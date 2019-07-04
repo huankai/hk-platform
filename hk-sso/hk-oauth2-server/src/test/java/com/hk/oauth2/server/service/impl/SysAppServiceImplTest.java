@@ -1,21 +1,9 @@
 package com.hk.oauth2.server.service.impl;
 
-import com.hk.commons.util.ByteConstants;
-import com.hk.commons.util.JsonUtils;
-import com.hk.core.page.QueryPage;
-import com.hk.core.query.Order;
-import com.hk.core.query.QueryModel;
 import com.hk.core.test.BaseTest;
 import com.hk.oauth2.server.Oauth2ServerApplication;
-import com.hk.oauth2.server.entity.SysApp;
-import com.hk.oauth2.server.service.SysAppService;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -24,40 +12,40 @@ import java.util.List;
 @SpringBootTest(classes = {Oauth2ServerApplication.class})
 public class SysAppServiceImplTest extends BaseTest {
 
-    @Autowired
-    private SysAppService sysAppService;
+//    @Autowired
+//    private SysAppService sysAppService;
 
     /* ********************** insert test *****************************************/
 
     @Test
     public void testInsert() {
-        SysApp sysApp = new SysApp();
-        sysApp.setAppIcon("a.png");
-        sysApp.setAppHost("127.0.0.1");
-        sysApp.setLocalApp(false);
-        sysApp.setAppStatus(ByteConstants.ONE);
-        sysApp.setStartDate(LocalDateTime.now());
-        sysApp.setAppCode("TEST-0");
-        sysApp.setAppName(sysApp.getAppCode());
-        sysAppService.insert(sysApp);
+//        SysApp sysApp = new SysApp();
+//        sysApp.setAppIcon("a.png");
+//        sysApp.setAppHost("127.0.0.1");
+//        sysApp.setLocalApp(false);
+//        sysApp.setAppStatus(ByteConstants.ONE);
+//        sysApp.setStartDate(LocalDateTime.now());
+//        sysApp.setAppCode("TEST-0");
+//        sysApp.setAppName(sysApp.getAppCode());
+//        sysAppService.insert(sysApp);
     }
 
     @Test
     public void testBatchInsert() {
-        List<SysApp> list = new ArrayList<>();
-        SysApp item;
-        for (int i = 0; i < 50; i++) {
-            item = new SysApp();
-            item.setAppIcon("a.png");
-            item.setAppHost("127.0.0.1");
-            item.setLocalApp(false);
-            item.setAppStatus(ByteConstants.ONE);
-            item.setStartDate(LocalDateTime.now());
-            item.setAppCode("TEST_BATCH-" + i);
-            item.setAppName(item.getAppCode());
-            list.add(item);
-        }
-        sysAppService.batchInsert(list);
+//        List<SysApp> list = new ArrayList<>();
+//        SysApp item;
+//        for (int i = 0; i < 50; i++) {
+//            item = new SysApp();
+//            item.setAppIcon("a.png");
+//            item.setAppHost("127.0.0.1");
+//            item.setLocalApp(false);
+//            item.setAppStatus(ByteConstants.ONE);
+//            item.setStartDate(LocalDateTime.now());
+//            item.setAppCode("TEST_BATCH-" + i);
+//            item.setAppName(item.getAppCode());
+//            list.add(item);
+//        }
+//        sysAppService.batchInsert(list);
     }
 
     /* ********************** delete test **************************************** */
@@ -136,10 +124,10 @@ public class SysAppServiceImplTest extends BaseTest {
 
     @Test
     public void testQueryForPageQueryModelOfT() {
-        QueryModel<SysApp> queryModel = new QueryModel<>();
-        queryModel.addOrders(Order.asc("start_date"));
-        QueryPage<SysApp> pageResult = sysAppService.queryForPage(queryModel);
-        System.out.println(JsonUtils.serialize(pageResult, true));
+//        QueryModel<SysApp> queryModel = new QueryModel<>();
+//        queryModel.addOrders(Order.asc("start_date"));
+//        QueryPage<SysApp> pageResult = sysAppService.queryForPage(queryModel);
+//        System.out.println(JsonUtils.serialize(pageResult, true));
     }
 
     @Test
@@ -231,14 +219,14 @@ public class SysAppServiceImplTest extends BaseTest {
 
     @Test
     public void testExists() {
-        SysApp app = new SysApp();
-        System.out.println(sysAppService.exists(app));
+//        SysApp app = new SysApp();
+//        System.out.println(sysAppService.exists(app));
 
     }
 
     @Test
     public void testCount() {
-        System.out.println(sysAppService.count());
+//        System.out.println(sysAppService.count());
     }
 
 }

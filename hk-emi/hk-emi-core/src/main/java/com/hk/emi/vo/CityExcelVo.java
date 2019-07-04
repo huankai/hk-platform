@@ -1,19 +1,16 @@
 package com.hk.emi.vo;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.Length;
-
 import com.hk.commons.poi.excel.annotations.ReadExcelField;
 import com.hk.commons.poi.excel.annotations.WriteExcelField;
 import com.hk.commons.util.StringUtils;
 import com.hk.commons.validator.constraints.EnumDict;
 import com.hk.emi.domain.City;
-
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * 城市导入Vo
@@ -78,7 +75,6 @@ public class CityExcelVo implements Serializable {
 	private String description;
 
 	/**
-	 * @return
 	 */
 	public String getShortName() {
 		return StringUtils.isEmpty(shortName) ? StringUtils.substring(fullName, 0, fullName.length() - 1) : shortName;

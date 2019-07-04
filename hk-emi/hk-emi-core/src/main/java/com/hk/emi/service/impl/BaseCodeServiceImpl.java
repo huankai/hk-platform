@@ -18,7 +18,7 @@ import java.util.Optional;
  */
 @Service
 @CacheConfig(cacheNames = {"BaseCode"})
-public class BaseCodeServiceImpl extends EnableJpaCacheServiceImpl<BaseCode, String> implements BaseCodeService {
+public class BaseCodeServiceImpl extends EnableJpaCacheServiceImpl<BaseCode, Long> implements BaseCodeService {
 
     private final BaseCodeRepository baseCodeRepository;
 
@@ -28,7 +28,7 @@ public class BaseCodeServiceImpl extends EnableJpaCacheServiceImpl<BaseCode, Str
     }
 
     @Override
-    protected BaseJpaRepository<BaseCode, String> getBaseRepository() {
+    protected BaseJpaRepository<BaseCode, Long> getBaseRepository() {
         return baseCodeRepository;
     }
 

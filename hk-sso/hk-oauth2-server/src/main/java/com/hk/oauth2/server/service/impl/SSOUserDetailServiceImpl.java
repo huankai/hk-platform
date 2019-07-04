@@ -1,22 +1,21 @@
 package com.hk.oauth2.server.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
-
 import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.SpringContextHolder;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.security.SecurityUserPrincipal;
 import com.hk.core.authentication.security.UserDetailClientService;
-import com.hk.oauth2.server.entity.SysApp;
+import com.hk.oauth2.server.entity.Oauth2ClientDetails;
 import com.hk.oauth2.server.entity.SysOrg;
 import com.hk.oauth2.server.entity.SysUser;
-import com.hk.oauth2.server.service.SysAppService;
+import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
 import com.hk.oauth2.server.service.SysOrgDeptService;
 import com.hk.oauth2.server.service.SysOrgService;
 import com.hk.oauth2.server.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -28,7 +27,7 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
 
     private final UserService userService;
 
-    private SysAppService appService;
+    private Oauth2ClientDetailsService oauth2ClientDetailsService;
 
     @Autowired
     private SysOrgDeptService orgDeptService;
@@ -37,9 +36,9 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
     private SysOrgService sysOrgService;
 
     @Autowired
-    public SSOUserDetailServiceImpl(UserService userService, SysAppService appService) {
+    public SSOUserDetailServiceImpl(UserService userService, Oauth2ClientDetailsService oauth2ClientDetailsService) {
         this.userService = userService;
-        this.appService = appService;
+        this.oauth2ClientDetailsService = oauth2ClientDetailsService;
     }
 
     @Override
@@ -59,7 +58,7 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
     @Override
     @Transactional
     public ClientAppInfo getClientInfoById(String clientId) {
-        SysApp app = appService.getByClientId(clientId);
-        return new ClientAppInfo(app.getId(), app.getAppCode(), app.getAppName(), app.getAppIcon());
+        Oauth2ClientDetails clientDetails = oauth2ClientDetailsService.getOne(Long.parseLong(clientId));
+        return new ClientAppInfo(clientDetails.getId(), clientDetails.getAppCode(), clientDetails.getAppName(), clientDetails.getAppIcon());
     }
 }

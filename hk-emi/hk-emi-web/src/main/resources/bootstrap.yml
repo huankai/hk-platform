@@ -47,3 +47,4 @@ spring:
 #          destination: destination-01
 #          # 组名，如果不指定组名，会生成一个匿名组名，在kafka中，不同组的实例都会消费生产者发送的消息
 #          group: group99
+

@@ -54,7 +54,7 @@ public class CityController extends BaseController {
      * @return {@link City}
      */
     @GetMapping(path = "{id}", name = "city-get")
-    public JsonResult<City> get(@PathVariable String id) {
+    public JsonResult<City> get(@PathVariable Long id) {
         return JsonResult.success(cityService.getOne(id));
     }
 
@@ -65,7 +65,7 @@ public class CityController extends BaseController {
      * @return {@link City}
      */
     @GetMapping(path = "child/{parentId}", name = "city-child")
-    public JsonResult<List<City>> childList(@PathVariable String parentId) {
+    public JsonResult<List<City>> childList(@PathVariable Long parentId) {
         return JsonResult.success(cityService.findChildList(parentId));
     }
 
@@ -77,7 +77,7 @@ public class CityController extends BaseController {
      */
     @DeleteMapping(path = "{id}", name = "city-delete")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> deleteById(@PathVariable String id) {
+    public JsonResult<Void> deleteById(@PathVariable Long id) {
         cityService.deleteById(id);
         return JsonResult.success();
     }

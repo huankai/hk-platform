@@ -12,7 +12,7 @@ import java.util.List;
  * @author kevin
  * @date 2018-07-17 16:49
  */
-public interface CityService extends JpaBaseService<City, String> {
+public interface CityService extends JpaBaseService<City, Long> {
 
     /**
      * 查询下级City
@@ -20,7 +20,7 @@ public interface CityService extends JpaBaseService<City, String> {
      * @param parentId parentId
      * @return 子级城市
      */
-    List<City> findChildList(String parentId);
+    List<City> findChildList(Long parentId);
 
     /**
      * 导入

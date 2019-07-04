@@ -24,10 +24,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.StreamSupport;
 
 /**
@@ -35,7 +32,7 @@ import java.util.stream.StreamSupport;
  */
 @Service
 @CacheConfig(cacheNames = "City")
-public class CityServiceImpl extends JpaServiceImpl<City, String> implements CityService {
+public class CityServiceImpl extends JpaServiceImpl<City, Long> implements CityService {
 
     private final CityRepository cityRepository;
 
@@ -52,7 +49,7 @@ public class CityServiceImpl extends JpaServiceImpl<City, String> implements Cit
     }
 
     @Override
-    protected BaseJpaRepository<City, String> getBaseRepository() {
+    protected BaseJpaRepository<City, Long> getBaseRepository() {
         return cityRepository;
     }
 
@@ -63,8 +60,8 @@ public class CityServiceImpl extends JpaServiceImpl<City, String> implements Cit
      * @return List<City>
      */
     @Override
-    public List<City> findChildList(String parentId) {
-        return StringUtils.isEmpty(parentId) ? Collections.emptyList() : cityRepository.findByParentIdOrderByCodeAsc(parentId);
+    public List<City> findChildList(Long parentId) {
+        return Objects.isNull(parentId) ? Collections.emptyList() : cityRepository.findByParentIdOrderByCodeAsc(parentId);
     }
 
     /**

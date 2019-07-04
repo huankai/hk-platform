@@ -8,17 +8,19 @@ import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
-import com.hk.oauth2.provider.token.ClientEquipmentAuthenticationKeyGenerator;
+import com.hk.oauth2.provider.token.CompositeAuthenticationKeyGenerator;
 import com.hk.oauth2.provider.token.CustomTokenServices;
 import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
-import com.hk.oauth2.server.service.SysAppService;
+import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
 import com.hk.oauth2.server.service.impl.CustomJdbcClientDetailsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.authserver.AuthorizationServerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -65,7 +67,8 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
 
     private UserDetailClientService userDetailClientService;
 
-    private SysAppService appService;
+    @Autowired
+    private Oauth2ClientDetailsService oauth2ClientDetailsService;
 
     private Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer;
 
@@ -75,15 +78,11 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     public Oauth2ServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
                                                      ObjectProvider<AuthenticationManager> authenticationManager,
                                                      UserDetailClientService userDetailClientService,
-                                                     DataSource dataSource,
-                                                     SysAppService appService,
                                                      Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer,
                                                      PasswordEncoder passwordEncoder) {
         this.authorizationServerProperties = authorizationServerProperties;
         this.authenticationManager = authenticationManager.getIfAvailable();
         this.userDetailClientService = userDetailClientService;
-        this.dataSource = dataSource;
-        this.appService = appService;
         this.oauth2JwtTokenEnhancer = oauth2JwtTokenEnhancer;
         this.passwordEncoder = passwordEncoder;
     }
@@ -95,13 +94,13 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     private RedisConnectionFactory connectionFactory;
 
     /**
-     * @see ClientDetailsServiceConfiguration#clientDetailsService()
      * @return
+     * @see ClientDetailsServiceConfiguration#clientDetailsService()
      */
     @Bean
     @Primary
     public CustomJdbcClientDetailsService jdbcClientDetailsService() {
-        return new CustomJdbcClientDetailsService(appService, dataSource);
+        return new CustomJdbcClientDetailsService(oauth2ClientDetailsService);
     }
 
     /**
@@ -199,7 +198,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     private TokenStore tokenStore() {
         //使用 redis store
         RedisTokenStore tokenStore = new RedisTokenStore(connectionFactory);
-        tokenStore.setAuthenticationKeyGenerator(new ClientEquipmentAuthenticationKeyGenerator());
+        tokenStore.setAuthenticationKeyGenerator(new CompositeAuthenticationKeyGenerator());
         return tokenStore;
 //        return new JwtTokenStore(accessTokenConverter());
     }

@@ -1,7 +1,5 @@
 package com.hk.emi.config;
 
-import com.hk.commons.util.ArrayUtils;
-import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.PermitMatcher;
 import com.hk.core.authentication.oauth2.matcher.NoPermitMatcher;
@@ -12,6 +10,7 @@ import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.HttpSecurityUtils;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 import com.hk.message.api.OnLineUserMessage;
 import com.hk.message.api.subject.SimpleTopicMessageSubject;
@@ -80,6 +79,7 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
         }
         http
                 .csrf().disable()
+                .formLogin().disable()
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
@@ -95,7 +95,7 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 })
                 .logoutSuccessHandler(new Oauth2UrlLogoutSuccessHandler(login.getLogoutSuccessUrl()))
                 .and()
-                .requestMatcher(new NoPermitMatcher(login.getPermitMatchers()));
+                .requestMatcher(new NoPermitMatcher(permitMatchers));
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler());// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
                 /*.withObjectPostProcessor(new ObjectPostProcessor<AbstractSecurityExpressionHandler>() {
@@ -104,21 +104,7 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                         return (O) new AdminAccessWebSecurityExpressionHandler();// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
                     }
                 })*/
-        ;
-        if (CollectionUtils.isNotEmpty(permitMatchers)) {
-            for (PermitMatcher permitMatcher : permitMatchers) {
-                if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
-                } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyRole(permitMatcher.getRoles());
-                } else {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).permitAll();
-                }
-            }
-        }
-        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasAuthority("admin")
-                .anyRequest().authenticated();
-
+        HttpSecurityUtils.buildPermitMatchers(urlRegistry, permitMatchers);
         //通过源码分析，没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));
     }

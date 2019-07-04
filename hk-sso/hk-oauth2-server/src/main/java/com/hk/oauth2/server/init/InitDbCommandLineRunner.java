@@ -1,23 +1,18 @@
 package com.hk.oauth2.server.init;
 
 import com.hk.commons.util.*;
-import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.entity.SysOrg;
 import com.hk.oauth2.server.entity.SysOrgDept;
 import com.hk.oauth2.server.entity.SysUser;
-import com.hk.oauth2.server.service.SysAppService;
 import com.hk.oauth2.server.service.SysOrgDeptService;
 import com.hk.oauth2.server.service.SysOrgService;
 import com.hk.oauth2.server.service.UserService;
-import com.hk.oauth2.server.service.impl.CustomJdbcClientDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -37,12 +32,12 @@ public class InitDbCommandLineRunner implements CommandLineRunner {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private SysAppService appService;
-
-    @Autowired
-    private CustomJdbcClientDetailsService clientDetailsService;
+//
+//    @Autowired
+//    private SysAppService appService;
+//
+//    @Autowired
+//    private CustomJdbcClientDetailsService clientDetailsService;
 
     @Autowired
     private SysOrgService orgService;
@@ -59,36 +54,36 @@ public class InitDbCommandLineRunner implements CommandLineRunner {
     }
 
     private void createLocalApp() {
-        if (appService.count() == 0) {
-            List<SysApp> sysApps = new ArrayList<>();
-            List<String> appNameList = ArrayUtils.asArrayList("字典管理系统", "权限管理系统", "文件管理系统");
-            List<String> appCodeList = ArrayUtils.asArrayList("HK-EMI", "HK-PMS", "HK-FS");
-            SysApp app;
-            int index = 0;
-            for (String appName : appNameList) {
-                app = new SysApp();
-                app.setAppCode(appCodeList.get(index++));
-                app.setAppName(appName);
-                app.setAppHost("127.0.0.1");
-                app.setAppIcon(IDGenerator.STRING_UUID.generate() + ".png");
-                app.setAppStatus(ByteConstants.ONE);
-                app.setStartDate(LocalDateTime.now());
-                app.setLocalApp(true);
-                sysApps.add(app);
-            }
-            Iterable<SysApp> result = appService.batchInsert(sysApps);
-            for (SysApp sysApp : result) {
-                BaseClientDetails details = new BaseClientDetails();
-                details.setClientId(sysApp.getId().toString());
-                details.setClientSecret("{noop}" + sysApp.getId());
-                details.setScope(ArrayUtils.asArrayList("all"));
-                details.setAuthorizedGrantTypes(ArrayUtils.asArrayList("authorization_code", "refresh_token"));
-                details.setAccessTokenValiditySeconds(7200);
-                details.setRefreshTokenValiditySeconds(72000);
-                details.setAutoApproveScopes(ArrayUtils.asArrayList("true"));
-                clientDetailsService.addClientDetails(details);
-            }
-        }
+//        if (appService.count() == 0) {
+//            List<SysApp> sysApps = new ArrayList<>();
+//            List<String> appNameList = ArrayUtils.asArrayList("字典管理系统", "权限管理系统", "文件管理系统");
+//            List<String> appCodeList = ArrayUtils.asArrayList("HK-EMI", "HK-PMS", "HK-FS");
+//            SysApp app;
+//            int index = 0;
+//            for (String appName : appNameList) {
+//                app = new SysApp();
+//                app.setAppCode(appCodeList.get(index++));
+//                app.setAppName(appName);
+//                app.setAppHost("127.0.0.1");
+//                app.setAppIcon(IDGenerator.STRING_UUID.generate() + ".png");
+//                app.setAppStatus(ByteConstants.ONE);
+//                app.setStartDate(LocalDateTime.now());
+//                app.setLocalApp(true);
+//                sysApps.add(app);
+//            }
+//            Iterable<SysApp> result = appService.batchInsert(sysApps);
+////            for (SysApp sysApp : result) {
+////                BaseClientDetails details = new BaseClientDetails();
+////                details.setClientId(sysApp.getId().toString());
+////                details.setClientSecret("{noop}" + sysApp.getId());
+////                details.setScope(ArrayUtils.asArrayList("all"));
+////                details.setAuthorizedGrantTypes(ArrayUtils.asArrayList("authorization_code", "refresh_token"));
+////                details.setAccessTokenValiditySeconds(7200);
+////                details.setRefreshTokenValiditySeconds(72000);
+////                details.setAutoApproveScopes(ArrayUtils.asArrayList("true"));
+////                clientDetailsService.addClientDetails(details);
+////            }
+//        }
 
     }
 

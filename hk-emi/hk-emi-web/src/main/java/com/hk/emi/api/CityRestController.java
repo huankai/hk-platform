@@ -20,7 +20,7 @@ public class CityRestController extends BaseController {
     private CityService cityService;
 
     @GetMapping(path = "/child/{parentId}")
-    public List<City> findByParentId(@PathVariable("parentId") String parentId) {
+    public List<City> findByParentId(@PathVariable("parentId") Long parentId) {
         return cityService.findChildList(parentId);
     }
 
