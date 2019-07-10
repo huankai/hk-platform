@@ -2,6 +2,7 @@ package com.hk.oauth2.server.service.impl;
 
 import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.oauth2.server.entity.Oauth2ClientDetails;
 import com.hk.oauth2.server.repository.jpa.Oauth2ClientDetailsRepository;
 import com.hk.oauth2.server.service.Oauth2ClientDetailsService;

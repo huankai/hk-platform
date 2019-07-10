@@ -1,33 +1,51 @@
 package com.hk.oauth2.server.service.impl;
 
+import com.hk.commons.util.ArrayUtils;
+import com.hk.commons.util.ByteConstants;
+import com.hk.commons.util.IDGenerator;
+import com.hk.commons.util.JsonUtils;
+import com.hk.core.authentication.oauth2.AuthenticationType;
 import com.hk.core.test.BaseTest;
 import com.hk.oauth2.server.Oauth2ServerApplication;
+import com.hk.oauth2.server.entity.Oauth2ClientDetails;
+import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 /**
  * Junit Test
  */
 @SpringBootTest(classes = {Oauth2ServerApplication.class})
-public class SysAppServiceImplTest extends BaseTest {
+public class ClientDetailServiceImplTest extends BaseTest {
 
-//    @Autowired
-//    private SysAppService sysAppService;
+    @Autowired
+    private Oauth2ClientDetailsService oauth2ClientDetailsService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     /* ********************** insert test *****************************************/
 
     @Test
     public void testInsert() {
-//        SysApp sysApp = new SysApp();
-//        sysApp.setAppIcon("a.png");
-//        sysApp.setAppHost("127.0.0.1");
-//        sysApp.setLocalApp(false);
-//        sysApp.setAppStatus(ByteConstants.ONE);
-//        sysApp.setStartDate(LocalDateTime.now());
-//        sysApp.setAppCode("TEST-0");
-//        sysApp.setAppName(sysApp.getAppCode());
-//        sysAppService.insert(sysApp);
+        Oauth2ClientDetails clientDetails = new Oauth2ClientDetails();
+        String secret = IDGenerator.STRING_UUID.generate();
+        System.out.println(secret);
+        clientDetails.setClientSecret(passwordEncoder.encode(secret));
+        clientDetails.setScope(ArrayUtils.asHashSet("all"));
+        clientDetails.setAuthorizedGrantTypes(ArrayUtils.asHashSet(AuthenticationType.authorization_code.name(),
+                AuthenticationType.password.name()));
+        clientDetails.setRedirectUri(ArrayUtils.asHashSet("http://127.0.0.1:8681/login"));
+        clientDetails.setAutoapprove(ArrayUtils.asHashSet("true"));
+        clientDetails.setAccessTokenValidity(7200);
+        clientDetails.setRefreshTokenValidity(3600 * 24 * 7);
+        clientDetails.setAppCode("APP-01");
+        clientDetails.setAppName("app-01");
+        clientDetails.setAppStatus(ByteConstants.ONE);
+        System.out.println(oauth2ClientDetailsService.insert(clientDetails));
     }
 
     @Test
@@ -143,7 +161,11 @@ public class SysAppServiceImplTest extends BaseTest {
 
     @Test
     public void testGetById() {
-//        System.out.println(JsonUtils.serialize(sysAppService.getById("4c36393dfb56420ba9cc7d34a1d3c196"), true));
+        Oauth2ClientDetails details = oauth2ClientDetailsService.findById(306757202583097344L).orElse(null);
+        String json = JsonUtils.serialize(details, true);
+        System.out.println(json);
+        Oauth2ClientDetails deserialize = JsonUtils.deserialize(json, Oauth2ClientDetails.class);
+        System.out.println(deserialize.getAppName());
     }
 
     @Test
