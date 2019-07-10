@@ -31,7 +31,7 @@ public class SysUser extends AbstractSnowflakeAuditable {
     /**
      * 用户类型
      */
-    private static final long USER_TYPE_DICT_BASE_ID = 70005L;
+    private static final long USER_TYPE_DICT_BASE_ID = 308497981525594112L;
 
     @NotEmpty
     @Column(name = "org_id")
@@ -91,6 +91,7 @@ public class SysUser extends AbstractSnowflakeAuditable {
 
     /**
      * 用户状态
+     *
      * @see UserStateEnum
      */
     @Column(name = "user_status")

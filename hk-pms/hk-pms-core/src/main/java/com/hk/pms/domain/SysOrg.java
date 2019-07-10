@@ -60,5 +60,8 @@ public class SysOrg extends AbstractSnowflakeAuditable {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "state")
+    private Byte state;
+
 
 }

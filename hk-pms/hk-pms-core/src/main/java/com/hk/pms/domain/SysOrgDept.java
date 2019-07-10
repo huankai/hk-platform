@@ -34,10 +34,6 @@ public class SysOrgDept extends AbstractSnowflakeAuditable {
     @Length(max = 20)
     private String deptName;
 
-//    @Column(value = "responsible_id")
-//    @NotEmpty
-//    private String responsibleId;
-
     @Column(name = "description")
     @Length(max = 200)
     private String description;

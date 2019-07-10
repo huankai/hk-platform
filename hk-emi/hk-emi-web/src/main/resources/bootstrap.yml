@@ -4,30 +4,29 @@ spring:
   main:
     banner-mode: 'off'
     allow-bean-definition-overriding: true
-  rabbitmq:
-    host: 182.61.40.18
-    username: guest
-    password: guest
-    virtual-host: /
+#  rabbitmq:
+#    host: 182.61.40.18
+#    username: guest
+#    password: guest
+#    virtual-host: /
   cloud:
-######################################################### config 配置
+    ######################################################### config 配置
     config:
       label: "2.1.5.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
-    stream:
-      default-binder: rabbit
-      bindings:
-        generate_order_output:
-          destination: generate_order
-      rabbit:
-        bindings:
-          generate_order_output:
-            producer:
-              exchange-type: fanout
-  jpa:
-    hibernate:
-      ddl-auto: create
+
+#    stream:
+#      default-binder: rabbit
+#      bindings:
+#        generate_order_output:
+#          destination: generate_order
+#      rabbit:
+#        bindings:
+#          generate_order_output:
+#            producer:
+#              exchange-type: fanout
+
 ########################################################################### spring cloud stream 配置
 #    stream:
 #      default-binder: kafka

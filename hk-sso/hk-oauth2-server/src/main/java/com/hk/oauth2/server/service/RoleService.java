@@ -1,6 +1,5 @@
 package com.hk.oauth2.server.service;
 
-import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.oauth2.server.entity.SysRole;
 

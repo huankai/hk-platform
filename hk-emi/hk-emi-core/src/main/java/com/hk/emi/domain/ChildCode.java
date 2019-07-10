@@ -52,8 +52,8 @@ public class ChildCode extends AbstractSnowflakeAuditable {
     /**
      * 是否为国标
      */
-    @Column(name = "is_gb")
     @NotNull
+    @Column(name = "is_gb")
     private Boolean isGb;
 
     @Column(name = "description")

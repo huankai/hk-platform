@@ -57,8 +57,8 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
 
     @Override
     @Transactional
-    public ClientAppInfo getClientInfoById(String clientId) {
-        Oauth2ClientDetails clientDetails = oauth2ClientDetailsService.getOne(Long.parseLong(clientId));
+    public ClientAppInfo getClientInfoById(Long clientId) {
+        Oauth2ClientDetails clientDetails = oauth2ClientDetailsService.getOne(clientId);
         return new ClientAppInfo(clientDetails.getId(), clientDetails.getAppCode(), clientDetails.getAppName(), clientDetails.getAppIcon());
     }
 }

@@ -26,17 +26,17 @@ public class BaseCode extends AbstractSnowflakeAuditable {
     /**
      *
      */
-    @Column(name = "base_code")
     @NotEmpty
     @Length(max = 20)
+    @Column(name = "base_code")
     private String baseCode;
 
     /**
      *
      */
-    @Column(name = "code_name")
     @NotEmpty
     @Length(max = 20)
+    @Column(name = "code_name")
     private String codeName;
 
     @Column(name = "is_gb")

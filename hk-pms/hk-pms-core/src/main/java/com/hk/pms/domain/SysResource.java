@@ -41,16 +41,16 @@ public class SysResource extends AbstractSnowflakeAuditable {
      * 菜单名称
      */
     @NotEmpty
-    @Column(name = "resource_name")
     @Length(max = 30)
+    @Column(name = "resource_name")
     private String resourceName;
 
     /**
      * uri
      */
     @NotEmpty
-    @Column(name = "resource_uri")
     @Length(max = 20)
+    @Column(name = "resource_uri")
     private String resourceUri;
 
     /**
@@ -71,7 +71,7 @@ public class SysResource extends AbstractSnowflakeAuditable {
      */
     @NotNull
     @Column(name = "ordered")
-    private Byte ordered;
+    private Integer ordered;
 
     /**
      * 资源菜单类型

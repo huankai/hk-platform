@@ -31,13 +31,13 @@ public class SysUserCard extends AbstractSnowflakeAuditable {
      */
     @NotNull
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     /**
      * 卡编号
      */
     @NotEmpty
-    @Length(max = 18)
+    @Length(max = 20)
     @Column(name = "id_card")
     private String idCard;
 

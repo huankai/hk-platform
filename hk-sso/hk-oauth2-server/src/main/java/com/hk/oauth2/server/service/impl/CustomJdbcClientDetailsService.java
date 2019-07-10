@@ -3,11 +3,14 @@ package com.hk.oauth2.server.service.impl;
 import com.hk.commons.util.ByteConstants;
 import com.hk.oauth2.exception.Oauth2ClientStatusException;
 import com.hk.oauth2.provider.ClientDetailsCheckService;
+import com.hk.oauth2.server.entity.Oauth2ClientDetails;
 import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
 import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
 import org.springframework.security.oauth2.provider.NoSuchClientException;
+
+import java.time.LocalDate;
 
 /**
  * @author huangkai
@@ -22,9 +25,15 @@ public class CustomJdbcClientDetailsService implements ClientDetailsCheckService
     }
 
     @Override
-    public boolean isEnabled(String clientId) throws Oauth2ClientStatusException {
-        return ByteConstants.ONE.equals(oauth2ClientDetailsService.findById(Long.parseLong(clientId))
-                .orElseThrow(() -> new OAuth2AccessDeniedException("client状态异常")).getAppStatus());
+    public void check(String clientId) throws Oauth2ClientStatusException {
+        Oauth2ClientDetails clientDetails = oauth2ClientDetailsService.findById(Long.parseLong(clientId))
+                .orElseThrow(() -> new OAuth2AccessDeniedException("client状态异常"));
+        if (clientDetails.getExpireDate() != null && LocalDate.now().isAfter(clientDetails.getExpireDate())) {
+            throw new Oauth2ClientStatusException("当前客户端应用已过期，请与管理员联系");
+        }
+        if (!ByteConstants.ONE.equals(clientDetails.getAppStatus())) {
+            throw new Oauth2ClientStatusException("当前客户端应用已禁用，请与管理员联系");
+        }
     }
 
     @Override

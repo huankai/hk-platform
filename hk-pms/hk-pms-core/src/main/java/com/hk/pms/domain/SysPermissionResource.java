@@ -20,11 +20,11 @@ import javax.validation.constraints.NotNull;
 @SuppressWarnings("serial")
 public class SysPermissionResource extends AbstractSnowflakeAuditable {
 
-    @Column(name = "permission_id")
     @NotNull
+    @Column(name = "permission_id")
     private Long permissionId;
 
-    @Column(name = "resource_id")
     @NotNull
+    @Column(name = "resource_id")
     private Long resourceId;
 }

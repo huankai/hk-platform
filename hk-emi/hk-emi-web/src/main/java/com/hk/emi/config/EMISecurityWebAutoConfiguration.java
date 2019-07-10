@@ -107,6 +107,7 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
         HttpSecurityUtils.buildPermitMatchers(urlRegistry, permitMatchers);
         //通过源码分析，没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));
+        urlRegistry.anyRequest().authenticated();
     }
 
     private OAuth2ClientAuthenticationProcessingFilter oauth2SsoFilter(OAuth2SsoProperties ssoProperties) {

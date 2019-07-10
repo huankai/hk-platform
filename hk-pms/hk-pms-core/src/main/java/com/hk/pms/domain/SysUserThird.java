@@ -1,6 +1,6 @@
 package com.hk.pms.domain;
 
-import com.hk.commons.validator.constraints.EnumByte;
+import com.hk.commons.validator.constraints.EnumDict;
 import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -22,6 +22,8 @@ import javax.validation.constraints.NotEmpty;
 @SuppressWarnings("serial")
 public class SysUserThird extends AbstractSnowflakeAuditable {
 
+    private static final long ACCOUNT_TYPE = 308498909662154752L;
+
     @NotEmpty
     @Column(name = "user_id")
     private Long userId;
@@ -38,7 +40,10 @@ public class SysUserThird extends AbstractSnowflakeAuditable {
     @Column(name = "icon_url")
     private String iconUrl;
 
-    @EnumByte(values = {0, 1, 2, 3, 4})
+    /**
+     *
+     */
+    @EnumDict(codeId = ACCOUNT_TYPE)
     @Column(name = "account_type")
     private Byte accountType;
 }

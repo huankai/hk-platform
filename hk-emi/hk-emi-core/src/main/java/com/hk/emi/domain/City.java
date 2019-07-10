@@ -1,6 +1,5 @@
 package com.hk.emi.domain;
 
-import com.hk.commons.validator.constraints.EnumDict;
 import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -36,7 +35,6 @@ public class City extends AbstractSnowflakeAuditable {
     private String code;
 
     @Column(name = "parent_id")
-    @NotNull
     private Long parentId;
 
     /**
@@ -50,7 +48,7 @@ public class City extends AbstractSnowflakeAuditable {
      */
     @Column(name = "city_type")
     @NotNull
-    @EnumDict(codeId = CITY_TYPE_DICT_ID)
+//    @EnumDict(codeId = CITY_TYPE_DICT_ID)
     private Byte cityType;
 
     /**

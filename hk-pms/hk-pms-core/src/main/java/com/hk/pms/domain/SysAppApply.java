@@ -51,7 +51,7 @@ public class SysAppApply extends AbstractSnowflakeAuditable {
      * 法人代表
      */
     @Column(name = "representative")
-    private String representative;
+    private Long representative;
 
     /**
      * 法人手机号

@@ -26,14 +26,14 @@ public class SysPermission extends AbstractSnowflakeAuditable {
     @Column(name = "app_id")
     private Long appId;
 
-    @Column(name = "permission_code")
     @NotEmpty
     @Length(max = 20)
+    @Column(name = "permission_code")
     private String permissionCode;
 
-    @Column(name = "permission_name")
     @NotEmpty
     @Length(max = 30)
+    @Column(name = "permission_name")
     private String permissionName;
 
     @Column(name = "description")

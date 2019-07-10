@@ -1,22 +1,5 @@
 package com.hk.oauth2.server.init;
 
-import com.hk.commons.util.*;
-import com.hk.oauth2.server.entity.SysOrg;
-import com.hk.oauth2.server.entity.SysOrgDept;
-import com.hk.oauth2.server.entity.SysUser;
-import com.hk.oauth2.server.service.SysOrgDeptService;
-import com.hk.oauth2.server.service.SysOrgService;
-import com.hk.oauth2.server.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 /**
  * 初始化
  *
@@ -25,33 +8,34 @@ import java.util.Optional;
  */
 //@Component
 //@Order(value = 1)
-public class InitDbCommandLineRunner implements CommandLineRunner {
+@Deprecated
+public class InitDbCommandLineRunner /*implements CommandLineRunner*/ {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private UserService userService;
 //
 //    @Autowired
-//    private SysAppService appService;
+//    private PasswordEncoder passwordEncoder;
+////
+////    @Autowired
+////    private SysAppService appService;
+////
+////    @Autowired
+////    private CustomJdbcClientDetailsService clientDetailsService;
 //
 //    @Autowired
-//    private CustomJdbcClientDetailsService clientDetailsService;
-
-    @Autowired
-    private SysOrgService orgService;
-
-    @Autowired
-    private SysOrgDeptService orgDeptService;
-
-    @Override
-    public void run(String... args) {
-        SysOrg sysOrg = getOrCreateSysOrg();
-        SysOrgDept orgDept = getOrCreateSysDept(sysOrg.getId());
-        createUser(orgDept.getOrgId(), orgDept.getId());
-        createLocalApp();
-    }
+//    private SysOrgService orgService;
+//
+//    @Autowired
+//    private SysOrgDeptService orgDeptService;
+//
+//    @Override
+//    public void run(String... args) {
+////        SysOrg sysOrg = getOrCreateSysOrg();
+////        SysOrgDept orgDept = getOrCreateSysDept(sysOrg.getId());
+////        createUser(orgDept.getOrgId(), orgDept.getId());
+////        createLocalApp();
+//    }
 
     private void createLocalApp() {
 //        if (appService.count() == 0) {
@@ -87,68 +71,68 @@ public class InitDbCommandLineRunner implements CommandLineRunner {
 
     }
 
-    private void createUser(Long orgId, Long deptId) {
-        if (userService.count() == 0) {
-            List<SysUser> users = new ArrayList<>();
-            SysUser user;
-            List<String> accounts = ArrayUtils.asArrayList("18820136090", "18820132014");
-            for (String account : accounts) {
-                user = new SysUser();
-                user.setOrgId(orgId);
-                user.setDeptId(deptId);
-                user.setAccount(account);
-                user.setPhone(account);
-                user.setPassword(passwordEncoder.encode(account));
-                user.setEmail(account);
-                user.setRealName(account);
-                user.setUserType(ByteConstants.ZERO);
-                user.setIsProtect(true);
-                user.setSex(ByteConstants.ONE);
-                user.setUserStatus(ByteConstants.ONE);
-                users.add(user);
-            }
-            userService.batchInsert(users);
-        }
-    }
-
-    private SysOrgDept getOrCreateSysDept(Long orgId) {
-        SysOrgDept param = new SysOrgDept();
-        param.setOrgId(orgId);
-        List<SysOrgDept> orgDeptResult = orgDeptService.findAll(param);
-        Optional<SysOrgDept> optionalOrgDept = CollectionUtils.getFirstOrDefault(orgDeptResult);
-        SysOrgDept orgDept;
-        if (optionalOrgDept.isPresent()) {
-            orgDept = optionalOrgDept.get();
-        } else {
-            orgDept = new SysOrgDept();
-            orgDept.setOrgId(orgId);
-            orgDept.setParentId(0L);
-            orgDept.setDeptName("根机构部门");
-            orgDept = orgDeptService.insert(orgDept);
-        }
-        return orgDept;
-    }
-
-    private SysOrg getOrCreateSysOrg() {
-        SysOrg sysOrg = new SysOrg();
-        sysOrg.setOrgCode("ADMIN");
-        Optional<SysOrg> orgOptional = orgService.findOne(sysOrg);
-        if (orgOptional.isPresent()) {
-            sysOrg = orgOptional.get();
-        } else {
-            sysOrg.setParentId(Contants.DEFAULT_VALUE_LONG);
-            sysOrg.setOrgName("根节点");
-            sysOrg.setOrgIcon(IDGenerator.STRING_UUID.generate() + ".png");
-            sysOrg.setResponsibleId(Contants.DEFAULT_VALUE_LONG);
-            sysOrg.setParentId(Contants.DEFAULT_VALUE_LONG);
-            sysOrg.setOrgTag(Contants.DEFAULT_VALUE);
-            sysOrg.setProvinceId(Contants.DEFAULT_VALUE_LONG);
-            sysOrg.setCityId(Contants.DEFAULT_VALUE_LONG);
-            sysOrg.setAreaId(Contants.DEFAULT_VALUE_LONG);
-            sysOrg.setAddress(Contants.DEFAULT_VALUE);
-            sysOrg = orgService.insert(sysOrg);
-        }
-        return sysOrg;
-
-    }
+//    private void createUser(Long orgId, Long deptId) {
+//        if (userService.count() == 0) {
+//            List<SysUser> users = new ArrayList<>();
+//            SysUser user;
+//            List<String> accounts = ArrayUtils.asArrayList("18820136090", "18820132014");
+//            for (String account : accounts) {
+//                user = new SysUser();
+//                user.setOrgId(orgId);
+//                user.setDeptId(deptId);
+//                user.setAccount(account);
+//                user.setPhone(account);
+//                user.setPassword(passwordEncoder.encode(account));
+//                user.setEmail(account);
+//                user.setRealName(account);
+//                user.setUserType(ByteConstants.ZERO);
+//                user.setIsProtect(true);
+//                user.setSex(ByteConstants.ONE);
+//                user.setUserStatus(ByteConstants.ONE);
+//                users.add(user);
+//            }
+//            userService.batchInsert(users);
+//        }
+//    }
+//
+//    private SysOrgDept getOrCreateSysDept(Long orgId) {
+//        SysOrgDept param = new SysOrgDept();
+//        param.setOrgId(orgId);
+//        List<SysOrgDept> orgDeptResult = orgDeptService.findAll(param);
+//        Optional<SysOrgDept> optionalOrgDept = CollectionUtils.getFirstOrDefault(orgDeptResult);
+//        SysOrgDept orgDept;
+//        if (optionalOrgDept.isPresent()) {
+//            orgDept = optionalOrgDept.get();
+//        } else {
+//            orgDept = new SysOrgDept();
+//            orgDept.setOrgId(orgId);
+//            orgDept.setParentId(0L);
+//            orgDept.setDeptName("根机构部门");
+//            orgDept = orgDeptService.insert(orgDept);
+//        }
+//        return orgDept;
+//    }
+//
+//    private SysOrg getOrCreateSysOrg() {
+//        SysOrg sysOrg = new SysOrg();
+//        sysOrg.setOrgCode("ADMIN");
+//        Optional<SysOrg> orgOptional = orgService.findOne(sysOrg);
+//        if (orgOptional.isPresent()) {
+//            sysOrg = orgOptional.get();
+//        } else {
+//            sysOrg.setParentId(Contants.DEFAULT_VALUE_LONG);
+//            sysOrg.setOrgName("根节点");
+//            sysOrg.setOrgIcon(IDGenerator.STRING_UUID.generate() + ".png");
+//            sysOrg.setResponsibleId(Contants.DEFAULT_VALUE_LONG);
+//            sysOrg.setParentId(Contants.DEFAULT_VALUE_LONG);
+//            sysOrg.setOrgTag(Contants.DEFAULT_VALUE);
+//            sysOrg.setProvinceId(Contants.DEFAULT_VALUE_LONG);
+//            sysOrg.setCityId(Contants.DEFAULT_VALUE_LONG);
+//            sysOrg.setAreaId(Contants.DEFAULT_VALUE_LONG);
+//            sysOrg.setAddress(Contants.DEFAULT_VALUE);
+//            sysOrg = orgService.insert(sysOrg);
+//        }
+//        return sysOrg;
+//
+//    }
 }
