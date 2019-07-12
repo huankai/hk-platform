@@ -120,6 +120,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
         //通过源码分析，好像没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(ssoProperties)));
+        urlRegistry.anyRequest().authenticated();
     }
 
     private OAuth2ClientAuthenticationProcessingFilter oauth2SsoFilter(OAuth2SsoProperties ssoProperties) {

@@ -13,6 +13,7 @@ import com.hk.oauth2.server.service.SysOrgDeptService;
 import com.hk.oauth2.server.service.SysOrgService;
 import com.hk.oauth2.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -46,7 +47,8 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
     public SecurityUserPrincipal loadUserByLoginUsername(String username) {
         SysUser user = userService.findByLoginName(username)
                 .orElseThrow(() -> new UsernameNotFoundException(SpringContextHolder.getMessage("user.notFound.message", username)));
-        SysOrg sysOrg = sysOrgService.getOne(user.getOrgId());
+        SysOrg sysOrg = sysOrgService.findById(user.getOrgId())
+                .orElseThrow(() -> new AuthorizationServiceException("该机构不存在 !"));
         if (!ByteConstants.ONE.equals(sysOrg.getState())) {
             throw new DisabledException(SpringContextHolder.getMessage("org.disabled.message", sysOrg.getOrgName()));
         }
