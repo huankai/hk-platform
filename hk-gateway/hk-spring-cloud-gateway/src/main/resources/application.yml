@@ -60,19 +60,15 @@ spring:
                   replenish-rate: 1
 #                 令牌桶总容量hostAddrKeyResolver
                   burst-capacity: 3
-############# 使用 redis 限流
+    nacos:
+      discovery:
+        server-addr: 182.61.40.18:8848
+        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe
+  ############# 使用 redis 限流
   redis:
     host: 192.168.64.128
     database: 5
 
-eureka:
-  instance:
-    hostname: 127.0.0.1
-    prefer-ip-address: false
-  client:
-    register-with-eureka: false
-    service-url:
-      defaultZone: http://root:root123@127.0.0.1:8761/eureka-server/eureka
 logging:
   level:
     root: error

@@ -1,0 +1,228 @@
+server:
+  port: 7110
+  servlet:
+    context-path: /pms
+    session:
+      cookie:
+        http-only: true
+spring:
+  servlet:
+    multipart:
+      enabled: false # 禁用文件上传功能
+  autoconfigure:
+    exclude:
+      # 默认情况下，spring boot web 应用会装配一些功能组件 bean,大多数情况下，可以选择性关闭自动装配的组件bean,以提升性能。
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
+  mvc:
+    throw-exception-if-no-handler-found: true
+    formcontent:
+      filter:
+        # 关闭 org.springframework.web.filter.HttpPutFormContentFilter
+        enabled: false
+  resources:
+    add-mappings: true
+  messages:
+    basename: com/hk/pms/messages,com/hk/core/i18n/messages,org/springframework/security/messages
+    encoding: utf-8
+    cache-duration: -1ms
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+        enable_lazy_load_no_trans: true
+  ######################################################### datasource 配置
+  datasource:
+    name: hikari
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/hk_pms?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    ######################################################### hikari datasource 配置
+    hikari:
+      maximum-pool-size: 50
+      max-lifetime: 600000
+      minimum-idle: 10
+      connection-timeout: 30000
+      read-only: false
+      connection-test-query: SELECT 1
+  ################################################################### redis
+  cache:
+    type: redis
+  redis:
+    host: 127.0.0.1
+    password:
+    port: 6379
+    database: 2
+    timeout: 2m
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 20
+        max-active: 1000
+        max-wait: 2m
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+  cloud:
+    stream:
+      default-binder: rabbit
+      bindings:
+        generate_order_input:
+          destination: generate_order
+          group: ${spring.application.name}
+          consumer:
+            max-attempts: 1
+      rabbit:
+        bindings:
+          generate_order_input:
+            consumer:
+              exchange-type: fanout
+              auto-bind-dlq: true
+              requeue-rejected: true
+    nacos:
+      discovery:
+        # 是否注册到 nacos 中
+        register-enabled: true
+        # ip:
+        weight: 1
+        server-addr: 182.61.40.18:8848
+        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe
+  ########################################################################### spring cloud stream 配置
+  #    stream:
+  #      default-binder:
+  #      # 准备启动多少个应用实例，
+  ##      instance-count: 1
+  #      # 当前应用实体的 index
+  ##      instance-index: 0
+  #      kafka:
+  #        binder:
+  #          brokers:
+  #            - sjq-01:9092
+  #            - sjq-02:9092
+  #            - sjq-03:9092
+  #          min-partition-count: 2
+  #          replication-factor: 2
+  #          configuration:
+  #            isolation.level: read_committed
+  #          # required-acks: 3
+  #      bindings:
+  #        input:
+  #          # 消息接收的主题，见生产者 （hk-sso-server） 配置文件中的 spring.cloud.stream.bindings.output.destination 参数值
+  #          destination: test-event
+  #          # 组名，如果不指定组名，会生成一个匿名组名，在kafka中，不同组的实例都会消费生产者发送的消息
+  #          group: group1
+  ########################################################################### spring boot admin 配置
+  boot:
+    admin:
+      client:
+        url: "http://182.61.40.18:8780"
+        username: user
+        password: user#1350
+        instance:
+          prefer-ip: false
+          service-url: "http://127.0.0.1:${server.port}${server.servlet.context-path}"
+  ########################################################################### zipkin 配置
+  zipkin:
+    base-url: http://182.61.40.18:9411
+  sleuth:
+    sampler:
+      probability: 1.0
+########################################################################### management 配置
+management:
+  endpoints:
+    web:
+      exposure:
+        #启动所有监控端口
+        include: "*"
+      #endpoint:
+      #  health:
+      #查看详细的应用健康信息，如数据库的连接、redis的连接等，默认为 never
+      # show-details: always
+######################################################### mybatis 配置
+mybatis:
+  mapper-locations: classpath:mybatis/mappers/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+
+######################################################### mybatis pageHelper 配置
+pagehelper:
+  reasonable: false
+  support-methods-arguments: true
+  params: count=countSql
+################################################################### security oauth2
+# 特别注意：
+#  1.这里配置的url如果是 127.0.0.1，登陆成功后访问sso 认证服务器时也只能以这个ip地址访问，不能用 localhost，
+#    除非你配置的是localhost,否则，在访问认证服务器的时候，sso会让你重新登陆，具体原因未查明，但经过测试结果是这样的
+#    这句话的意思就是：
+#     如下面的 access-token-url  和 user-authorization-uri 配置的ip 是127.0.0.1,
+#     在登陆成功后，也只能是 http://127.0.0.1:8080来访问认证服务器，如果用 http://localhost:8080来访问认证服务器， 认证服务器会让你登陆。
+#  2. 以本项目中的 pms 与 emi 举例，如果 pms 中配置的是 127.0.0.1 ,而 emi 中配置的是 localhost,
+#     如果 pms通过认证， 在访问emi时，也需要再登陆一次，即不会实现单点,
+#     通过浏览器查看cookie可知，使用 127.0.0.1  和  localhost 访问的时候， 浏览器带上的cookie信息是不一样的
+security:
+  oauth2:
+    client:
+      client-id: 308397690327273472
+      client-secret: f991055f013443faaf3d6b421ca03ae0
+      # 不知道为什么，如果配置成gateway 的url (http://127.0.0.1:8771/oauth2/oauth/token) 会有传递的参数丢失的问题
+      access-token-uri: http://127.0.0.1:7100/oauth2/oauth/token
+      user-authorization-uri: http://127.0.0.1:7100/oauth2/oauth/authorize
+    #      use-current-uri: false
+    #      pre-established-redirect-uri: http://127.0.0.1:8771/pms/login
+    resource:
+      jwt:
+        key-uri: http://127.0.0.1:7100/oauth2/oauth/token_key
+    sso:
+      login-path: /login
+#ribbon:
+#  ConnectTimeout: 3000
+#  ReadTimeout: 60000
+# 超时重试次数，注意：如果在执行Insert 时，需要保证唯一性，有可能会出现重复Insert
+#  MaxAutoRetries: 1
+#  OkToRetryOnAllOperations: true
+#  MaxAutoRetriesNextServer: 1
+#
+#hystrix:
+#  command:
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 60000
+hk:
+  snowflake:
+    data-center-id: 2
+    worker-id: 1
+  authentication:
+    login:
+      logout-url: /logout
+      logout-success-url: http://127.0.0.1:7100/oauth2/logout
+      # 配置 gateway host
+      # gate-way-host: ${hk.gate-way-host}/${server.servlet.context-path}
+#      permit-matchers:
+#        - method: GET
+#          uris:
+#            - /api/**
+#          permission: admin
+#        - method: GET
+#          uris:
+#            - /aaaa/**
+#          permission: admin
+
+#    default-failure-url: http://127.0.0.1:8771/pms/error  #使用了gateway这里写上gateway访问的路径，如果是前后端分离项目，可以不需要这样写
+######################################################### log4j2 配置
+logging:
+  config: 'classpath:log4j2.xml'

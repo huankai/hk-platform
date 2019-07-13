@@ -19,14 +19,10 @@ spring:
       name: user
       # 登陆密码
       password: user#1350
-######################################################### eureka 配置
-eureka:
-  instance:
-    prefer-ip-address: false
-    hostname: 127.0.0.1
-  client:
-    register-with-eureka: false
-    service-url:
-      defaultZone: http://root:root123@182.61.40.18:8761/eureka-server/eureka
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 182.61.40.18:8848
+        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe
 logging:
   config: 'classpath:log4j2.xml'
