@@ -91,7 +91,6 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     private RedisConnectionFactory connectionFactory;
 
     /**
-     * @return
      * @see ClientDetailsServiceConfiguration#clientDetailsService()
      */
     @Bean

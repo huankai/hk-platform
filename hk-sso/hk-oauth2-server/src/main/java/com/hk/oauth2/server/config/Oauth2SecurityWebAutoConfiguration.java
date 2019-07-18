@@ -155,7 +155,8 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     private void configureSms(HttpSecurity http) throws Exception {
         AuthenticationProperties.SMSProperties sms = authenticationProperties.getSms();
         if (sms.isEnabled()) {
-            SmsAuthenticationSecurityConfiguration configuration = new SmsAuthenticationSecurityConfiguration(sms, smsPostAuthenticationHandler);
+            SmsAuthenticationSecurityConfiguration configuration = new SmsAuthenticationSecurityConfiguration(sms, validateCodeProcessor,
+                    smsPostAuthenticationHandler);
             if (StringUtils.isNotEmpty(sms.getClientId()) && StringUtils.isNotEmpty(sms.getClientSecret())) {
                 configuration.setAuthenticationSuccessHandler(new PhoneAuthenticationSuccessHandler(sms.getClientId(),
                         sms.getClientSecret(),
@@ -164,9 +165,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                         passwordEncoder));
             }
             configuration.setAuthenticationFailureHandler(new LoginAuthenticationFailureHandler(authenticationProperties.getLogin().getFailureUrl()));
-            http
-                    .apply(configuration)
-                    .and().apply(new ValidateCodeSecurityConfiguration(sms, validateCodeProcessor, null));
+            http.apply(configuration);
         }
     }
 
@@ -259,7 +258,6 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 "email/register/**",// 邮箱号注册
                 "/error", // 错误页面
                 "/actuator/health",  // 健康检查
-                "/sms/sender",  // 短信登陆
                 "/wechat/login", // 微信登陆
                 StaticResourceLocation.FAVICON.name()); // ico
     }
