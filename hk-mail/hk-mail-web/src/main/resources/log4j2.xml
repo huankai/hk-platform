@@ -6,7 +6,7 @@
 <Configuration status="off">
     <!-- 配置一些属性  -->
     <properties>
-        <property name="LOG_HOME">${sys:user.dir}/logs</property>
+        <property name="LOG_HOME">${sys:user.home}/logs</property>
     </properties>
     <Appenders>
         <!--

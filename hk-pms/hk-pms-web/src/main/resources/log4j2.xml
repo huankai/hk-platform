@@ -11,7 +11,7 @@
                 sys:user.home 表示用户的家目录，在 docker 部署环境中，如果以最小 jre 镜像 作为基础镜像，
                 获取 user.home 的值可能为 ? 或获取不到，而 user.dir 目录就是指Dockerfile 中的 WORKDIR 指令所在目录
         -->
-        <property name="LOG_HOME">${sys:user.dir}/logs</property>
+        <property name="LOG_HOME">${sys:user.home}/logs</property>
     </properties>
     <Appenders>
         <!--

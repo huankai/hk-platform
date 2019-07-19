@@ -2,10 +2,7 @@ FROM anapsix/alpine-java
 #指定作者
 MAINTAINER huangkai huankai@139.com
 
-# 定义变量，会在环境变量中
-ENV SERVER_NAME=hk-fs-web-2.1.5.RELEASE.jar
-
-COPY target/$SERVER_NAME /app/$SERVER_NAME
+COPY target/hk-fs-web-2.1.5.RELEASE.jar /app/hk-fs-web-2.1.5.RELEASE.jar
 
 # 指定用户，可以是用户名，也可以是用户id
 USER 1000
@@ -18,6 +15,7 @@ WORKDIR /app
 EXPOSE 7130
 
 # 执行命令，配置JVM 初始内存(-Xms) ，最大内存(-Xmx)
-ENTRYPOINT java -Xms512m -Xmx512m -jar $SERVER_NAME
+# -Duser.home 指定用户家目录，这里只是一个虚拟目录，在容器中的 1000 用户并不存在，对应的是宿主机中的 uid 为 1000的用户
+ENTRYPOINT ["java","-Xms512m","-Xmx512m","-jar","-Duser.home=/app","hk-fs-web-2.1.5.RELEASE.jar"]
 
 

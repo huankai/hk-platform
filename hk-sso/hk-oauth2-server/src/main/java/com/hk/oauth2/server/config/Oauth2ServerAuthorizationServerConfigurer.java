@@ -172,7 +172,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         tokenServices.setAccessTokenEnhancer(tokenEnhancerChain);
 
         tokenEnhancerChain.setTokenEnhancers(enhancers);
-        endpoints.authenticationManager(authenticationManager)
+        endpoints.authenticationManager(authenticationManager) // 如果 authenticationManager 为 null时 没有 password grant_type 模式认证
                 .exceptionTranslator(new Oauth2DefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
                 .accessTokenConverter(jwtAccessTokenConverter)
 //                .reuseRefreshTokens(true) 这个是配置默认的 reuseRefreshToken，因为这里自己创建了，所以不需要设置了

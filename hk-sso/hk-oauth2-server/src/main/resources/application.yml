@@ -312,6 +312,15 @@ wechat:
       callback-url: /wechat/callback
       call-host: http://sqn62q.natappfree.cc
       state: 3d6be0a4685d839573b04816624a415e
+######################################################### 支付宝登陆配置
+alipay:
+  dev: true
+  enabled: false
+  app-id: ""
+  call-host: ""
+  callback-url: ""
+  public-key: ""
+  private-key: ""
 ######################################################### logging 配置
 logging:
   config: classpath:log4j2.xml
