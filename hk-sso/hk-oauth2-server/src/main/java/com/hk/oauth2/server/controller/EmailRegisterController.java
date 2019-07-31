@@ -4,6 +4,7 @@ import com.hk.commons.util.AssertUtils;
 import com.hk.oauth2.server.service.RegisterService;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;

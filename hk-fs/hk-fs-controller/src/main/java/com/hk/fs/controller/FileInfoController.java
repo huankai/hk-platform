@@ -1,6 +1,7 @@
 package com.hk.fs.controller;
 
 import com.hk.commons.JsonResult;
+import com.hk.commons.Status;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.web.Webs;
 import com.hk.fs.domain.FileInfo;
@@ -51,7 +52,7 @@ public class FileInfoController {
     @PostMapping(path = "upload")
     public JsonResult<?> upload(String group,MultipartHttpServletRequest request) throws IOException {
         List<FileInfo> fileInfoList = fileInfoService.uploadFile(group, request.getMultiFileMap());
-        return new JsonResult<>(JsonResult.Status.SUCCESS, "文件上传成功", fileInfoList);
+        return new JsonResult<>(Status.SUCCESS, "文件上传成功", fileInfoList);
     }
 
     /**
