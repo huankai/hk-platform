@@ -1,30 +1,20 @@
 package com.hk.platform.commons.tree;
 
-import java.io.Serializable;
-import java.util.List;
-
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * @author kevin
  * @date 2018-08-29 08:50
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public abstract class TreeNode<T> implements Serializable {
+public class TreeNode<T> extends BaseTreeNode<T, Long> {
 
-    /**
-     * id
-     */
-    private Long id;
-
-    /**
-     * 名称
-     */
     private String name;
 
-    /**
-     * 子节点
-     */
-    private List<T> childs;
+    private boolean open;
+
+    private boolean checked;
 }

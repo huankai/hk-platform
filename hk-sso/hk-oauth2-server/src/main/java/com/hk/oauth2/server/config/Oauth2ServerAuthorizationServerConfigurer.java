@@ -72,6 +72,11 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     @Autowired
     private TokenRegistry tokenRegistry;
 
+    /**
+     * 声明 TokenEnhancerChain ，此 bean 没有注入到 Spring 容器中
+     */
+    private TokenEnhancerChain tokenEnhancerChain;
+
     public Oauth2ServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
                                                      ObjectProvider<AuthenticationManager> authenticationManager,
                                                      UserDetailClientService userDetailClientService,
@@ -98,6 +103,43 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     public CustomJdbcClientDetailsService jdbcClientDetailsService() {
         return new CustomJdbcClientDetailsService(oauth2ClientDetailsService);
     }
+
+    @Bean
+    @Primary
+    public CustomTokenServices tokenServices() {
+        CustomTokenServices tokenServices = new CustomTokenServices();
+        /*
+         *
+         *  http://127.0.0.1:7100/oauth2/oauth/token?grant_type=refresh_token
+         *  &client_secret=client_secret
+         *  &client_id=client_id
+         *  &refresh_token=refresh_token_value
+         *
+         * supportRefreshToken 与 reuseRefreshToken 不能相同
+         * 如果 supportRefreshToken 配置配置为false 时，不支持 refresh_token，调用 refresh_token 抛出异常; @see  AppStatusTokenServices 中的 if (!supportRefreshToken)  逻辑
+         * 如果 supportRefreshToken 配置为 true ,且 reuseRefreshToken 也配置为true 时，刷新 token 接口能调用成功，但生成的新的 refresh_token 不会替换老的 refresh_token，
+         *      将不能使用 新的 refresh_token 再次刷新 token。 @see AppStatusTokenServices 中的  if (!reuseRefreshToken) 逻辑
+         */
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setReuseRefreshToken(false);
+        tokenServices.setClientDetailsCheckService(jdbcClientDetailsService());
+        tokenServices.setTokenRegistry(tokenRegistry);
+        tokenServices.setAccessTokenEnhancer(enhancerChain());
+        return tokenServices;
+    }
+
+    private TokenEnhancerChain enhancerChain() {
+        if (null == tokenEnhancerChain) {
+            tokenEnhancerChain = new TokenEnhancerChain();
+            List<TokenEnhancer> enhancers = new ArrayList<>();
+            enhancers.add(oauth2JwtTokenEnhancer);//注意顺序
+            enhancers.add(accessTokenConverter());
+            tokenEnhancerChain.setTokenEnhancers(enhancers);
+        }
+        return tokenEnhancerChain;
+    }
+
 
     /**
      * 配置Client 信息
@@ -143,46 +185,17 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        JwtAccessTokenConverter jwtAccessTokenConverter = accessTokenConverter();
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-
-        List<TokenEnhancer> enhancers = new ArrayList<>();
-        enhancers.add(oauth2JwtTokenEnhancer); //注意顺序
-        enhancers.add(jwtAccessTokenConverter);
-
-        CustomTokenServices tokenServices = new CustomTokenServices();
-        tokenServices.setTokenStore(tokenStore());
-        tokenServices.setTokenRegistry(tokenRegistry);
-        /*
-         *
-         *  http://127.0.0.1:7100/oauth2/oauth/token?grant_type=refresh_token
-         *  &client_secret=client_secret
-         *  &client_id=client_id
-         *  &refresh_token=refresh_token_value
-         *
-         * supportRefreshToken 与 reuseRefreshToken 不能相同
-         * 如果 supportRefreshToken 配置配置为false 时，不支持 refresh_token，调用 refresh_token 抛出异常; @see  AppStatusTokenServices 中的 if (!supportRefreshToken)  逻辑
-         * 如果 supportRefreshToken 配置为 true ,且 reuseRefreshToken 也配置为true 时，刷新 token 接口能调用成功，但生成的新的 refresh_token 不会替换老的 refresh_token，
-         *      将不能使用 新的 refresh_token 再次刷新 token。 @see AppStatusTokenServices 中的  if (!reuseRefreshToken) 逻辑
-         */
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setReuseRefreshToken(false);
-
-        tokenServices.setClientDetailsCheckService(jdbcClientDetailsService());
-        tokenServices.setAccessTokenEnhancer(tokenEnhancerChain);
-
-        tokenEnhancerChain.setTokenEnhancers(enhancers);
-        endpoints.authenticationManager(authenticationManager) // 如果 authenticationManager 为 null时 没有 password grant_type 模式认证
-                .exceptionTranslator(new Oauth2DefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
-                .accessTokenConverter(jwtAccessTokenConverter)
-//                .reuseRefreshTokens(true) 这个是配置默认的 reuseRefreshToken，因为这里自己创建了，所以不需要设置了
-                .tokenEnhancer(tokenEnhancerChain)
+        CustomTokenServices tokenServices = tokenServices();
+        endpoints.authenticationManager(authenticationManager)
+                .accessTokenConverter(accessTokenConverter())
+                .tokenEnhancer(enhancerChain())
                 .tokenServices(tokenServices)
-
-                /* 使用Jdbc authorization 存储，需要 创建数据库表 oauth_code */
-//              endpoints.authorizationCodeServices(new JdbcAuthorizationCodeServices(dataSource));
-                /* 使用 redis  */
+                .exceptionTranslator(new Oauth2DefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
+                //                /* 使用Jdbc authorization 存储，需要 创建数据库表 oauth_code */
+//              authorizationCodeServices(new JdbcAuthorizationCodeServices(dataSource));
+//                /* 使用 redis  */
                 .authorizationCodeServices(new RedisAuthorizationCodeServices(connectionFactory))
+//                .reuseRefreshTokens(false) // 这个是配置默认的 reuseRefreshToken，因为这里自己创建了，所以不需要设置了
                 .tokenStore(tokenStore());
     }
 

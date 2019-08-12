@@ -2,6 +2,7 @@ package com.hk.platform.commons.tree;
 
 import com.hk.commons.util.CollectionUtils;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import java.util.Map;
  * @author kevin
  * @date 2018-08-29 08:55
  */
-public interface TreeGenerator<T extends TreeNode<?>> {
+public interface TreeGenerator<T extends BaseTreeNode<T, ID>, ID extends Serializable> {
 
     /**
      * 获取根节点
@@ -26,7 +27,11 @@ public interface TreeGenerator<T extends TreeNode<?>> {
      * @param params   参数
      * @return 子节点
      */
-    List<T> childList(Long parentId, Map<String, Object> params);
+    List<T> childList(ID parentId, Map<String, Object> params);
+
+    default boolean hasChild(ID parentId, Map<String, Object> params) {
+        return CollectionUtils.isNotEmpty(childList(parentId, params));
+    }
 
     /**
      * 当前节点是否为根节点
