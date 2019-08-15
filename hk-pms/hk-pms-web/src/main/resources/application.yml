@@ -152,7 +152,7 @@ management:
       # show-details: always
 ######################################################### mybatis 配置
 mybatis:
-  mapper-locations: classpath:mybatis/mappers/*.xml
+  mapper-locations: classpath*:mybatis/mappers/*.xml
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
