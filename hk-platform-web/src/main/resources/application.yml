@@ -56,7 +56,7 @@ spring:
       minimum-idle: 10
       connection-timeout: 30000
       read-only: false
-      connection-test-query: SELECT 1 FROM DUAL
+      connection-test-query: SELECT 1
   cache:
     type: redis
 ######################################################### redis 配置

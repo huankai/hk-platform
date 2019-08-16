@@ -1,0 +1,49 @@
+server:
+  port: 8889
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: hk-quartz-ms
+  datasource:
+    name: hikari
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/qrtz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    hikari:
+      maximum-pool-size: 50
+      max-lifetime: 600000
+      minimum-idle: 10
+      connection-timeout: 30000
+      read-only: false
+      connection-test-query: SELECT 1
+  quartz:
+    #    使用 Jdbc 存储
+    job-store-type: jdbc
+    startup-delay: 30
+    auto-startup: true
+    jdbc:
+      initialize-schema: never
+    properties:
+      org:
+        scheduler:
+          instanceId: AUTO
+        quartz:
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 20
+            threadPriority: 5
+          jobStore:
+            class: org.quartz.impl.jdbcjobstore.JobStoreTX
+            isClustered: true
+            clusterCheckinInterval: 15000
+            maxMisfiresToHandleAtATime: 1
+            misfireThreshold: 12000
+            tablePrefix: qrtz_
+            selectWithLockSQL: SELECT * FROM {0}LOCKS UPDLOCK WHERE LOCK_NAME = ?
+logging:
+  level:
+    root: error
+    com.hk: debug

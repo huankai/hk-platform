@@ -28,6 +28,7 @@
         <module>hk-message</module>
         <module>hk-springboot-admin-server</module>
         <module>hk-platform-web</module>
+        <module>hk-quartz-ms</module>
     </modules>
 
     <!--发布到私服地址-->
