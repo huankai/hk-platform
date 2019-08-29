@@ -99,6 +99,6 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/actuator/**", "/static/**", "/favicon.ico", properties.getDefaultFailureUrl());
+        web.ignoring().antMatchers("/actuator/**", "/**", "/static/**", "/favicon.ico", properties.getDefaultFailureUrl());
     }
 }

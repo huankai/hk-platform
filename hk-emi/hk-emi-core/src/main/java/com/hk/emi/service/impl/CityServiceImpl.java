@@ -18,8 +18,8 @@ import com.hk.emi.mappers.CityExcelVoMapper;
 import com.hk.emi.repository.jpa.CityRepository;
 import com.hk.emi.service.CityService;
 import com.hk.emi.vo.CityExcelVo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -31,26 +31,23 @@ import java.util.stream.StreamSupport;
  * @author kevin
  */
 @Service
-@CacheConfig(cacheNames = "City")
+@RequiredArgsConstructor
 public class CityServiceImpl extends JpaServiceImpl<City, Long> implements CityService {
 
     private final CityRepository cityRepository;
 
-    private CityExcelVoMapper cityExcelVoMapper;
-
-    @Autowired
-    public CityServiceImpl(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
-
-    @Autowired
-    public void setCityExcelVoMapper(CityExcelVoMapper cityExcelVoMapper) {
-        this.cityExcelVoMapper = cityExcelVoMapper;
-    }
+    private final CityExcelVoMapper cityExcelVoMapper;
 
     @Override
     protected BaseJpaRepository<City, Long> getBaseRepository() {
         return cityRepository;
+    }
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("code", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("fullName", ExampleMatcher.GenericPropertyMatchers.contains());
     }
 
     /**

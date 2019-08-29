@@ -9,9 +9,9 @@ spring:
     name: hikari
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/qrtz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
-    username: root
-    password:
+    url: jdbc:mysql://182.61.40.18:3705/qrtz?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: emi
+    password: emiadmin
     hikari:
       maximum-pool-size: 50
       max-lifetime: 600000
@@ -36,6 +36,7 @@ spring:
             threadCount: 20
             threadPriority: 5
           jobStore:
+#            配置参数参考 org.quartz.impl.StdSchedulerFactory
             class: org.quartz.impl.jdbcjobstore.JobStoreTX
             isClustered: true
             clusterCheckinInterval: 15000

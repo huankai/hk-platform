@@ -132,7 +132,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     private TokenEnhancerChain enhancerChain() {
         if (null == tokenEnhancerChain) {
             tokenEnhancerChain = new TokenEnhancerChain();
-            List<TokenEnhancer> enhancers = new ArrayList<>();
+            List<TokenEnhancer> enhancers = new ArrayList<>(2);
             enhancers.add(oauth2JwtTokenEnhancer);//注意顺序
             enhancers.add(accessTokenConverter());
             tokenEnhancerChain.setTokenEnhancers(enhancers);

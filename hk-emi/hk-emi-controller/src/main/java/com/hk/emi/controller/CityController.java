@@ -3,6 +3,7 @@ package com.hk.emi.controller;
 import com.hk.commons.JsonResult;
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.JsonUtils;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
 import com.hk.core.web.Webs;
@@ -44,7 +45,9 @@ public class CityController extends BaseController {
      */
     @PostMapping(path = "list")
     public JsonResult<QueryPage<City>> list(@RequestBody QueryModel<City> query) {
-        return JsonResult.success(cityService.queryForPage(query));
+        JsonResult<QueryPage<City>> result = JsonResult.success(cityService.queryForPage(query));
+        System.out.println(JsonUtils.serialize(result, true));
+        return result;
     }
 
     /**
