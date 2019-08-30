@@ -4,6 +4,7 @@ import com.hk.commons.JsonResult;
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.JsonUtils;
+import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
 import com.hk.core.web.Webs;
@@ -35,6 +36,12 @@ public class CityController extends BaseController {
     @Autowired
     public CityController(CityService cityService) {
         this.cityService = cityService;
+    }
+
+    @PostMapping(path = "list2")
+    public JsonResult<QueryPage<City>> list2(@RequestBody ConditionQueryModel queryModel) {
+        QueryPage<City> page = cityService.queryForPage(queryModel);
+        return JsonResult.success(page);
     }
 
     /**
