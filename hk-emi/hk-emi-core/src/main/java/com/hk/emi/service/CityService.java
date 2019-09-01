@@ -44,4 +44,5 @@ public interface CityService extends JpaBaseService<City, Long> {
      * @param cityType 城市等级类型
      */
     List<City> findByCityType(byte cityType);
+
 }
