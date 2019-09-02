@@ -46,8 +46,7 @@ public class ChildCode extends AbstractSnowflakeAuditable {
      */
     @Column(name = "state")
     @NotNull
-    @EnumByte(values = {0, 1})
-    private Byte state;
+    private Boolean state;
 
     /**
      * 是否为国标

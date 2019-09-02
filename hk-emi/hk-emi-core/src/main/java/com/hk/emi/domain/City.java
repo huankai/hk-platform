@@ -1,6 +1,7 @@
 package com.hk.emi.domain;
 
 import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
+import com.hk.emi.enums.CityTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -94,5 +95,9 @@ public class City extends AbstractSnowflakeAuditable {
      */
     @Column(name = "description")
     private String description;
+
+    public String getCityTypeText() {
+        return CityTypeEnum.getName(this.cityType);
+    }
 
 }

@@ -3,30 +3,34 @@ package com.hk.emi.controller;
 import com.hk.commons.JsonResult;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
+import com.hk.emi.domain.BaseCode;
 import com.hk.emi.domain.ChildCode;
+import com.hk.emi.service.BaseCodeService;
 import com.hk.emi.service.ChildCodeService;
 import com.hk.platform.commons.web.BaseController;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author kevin
  * @date 2018-08-20 11:01
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("childCode")
 public class ChildCodeController extends BaseController {
 
     private final ChildCodeService childCodeService;
 
-    @Autowired
-    public ChildCodeController(ChildCodeService childCodeService) {
-        this.childCodeService = childCodeService;
-    }
+    private final BaseCodeService baseCodeService;
 
     /**
      * 列表
@@ -46,8 +50,15 @@ public class ChildCodeController extends BaseController {
      * @return {@link ChildCode}
      */
     @GetMapping(path = "{id}", name = "childcode-get")
-    public JsonResult<ChildCode> get(@PathVariable Long id) {
-        return JsonResult.success(childCodeService.getOne(id));
+    public JsonResult<Map<String, Object>> get(@PathVariable Long id) {
+        ChildCode childCode = childCodeService.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("记录不存在:" + id));
+        BaseCode baseCode = baseCodeService.getOne(childCode.getBaseCodeId());
+        Map<String, Object> result = new HashMap<>();
+        result.put("baseCodeName", baseCode.getCodeName());
+        result.put("childCode", childCode);
+        return JsonResult.success(result);
+
     }
 
     /**
@@ -56,8 +67,8 @@ public class ChildCodeController extends BaseController {
      * @param baseCodeId baseCodeId
      * @return {@link ChildCode}
      */
-    @GetMapping(path = "{baseCodeId}", name = "childcode-child")
-    public JsonResult<List<ChildCode>> childList(@PathVariable Long baseCodeId) {
+    @GetMapping(path = "findClild")
+    public JsonResult<List<ChildCode>> childList(@RequestParam Long baseCodeId) {
         return JsonResult.success(childCodeService.findByBaseCodeId(baseCodeId));
     }
 
@@ -67,8 +78,8 @@ public class ChildCodeController extends BaseController {
      * @param id id
      * @return {@link JsonResult}
      */
-    @DeleteMapping(path = "{id}", name = "childcode-delete")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+    @PostMapping(path = "{id}", name = "childcode-delete")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> deleteById(@PathVariable Long id) {
         childCodeService.deleteById(id);
         return JsonResult.success();
@@ -81,7 +92,7 @@ public class ChildCodeController extends BaseController {
      * @return {@link JsonResult}
      */
     @PostMapping
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody ChildCode childCode) {
         childCodeService.insertOrUpdateSelective(childCode);
         return JsonResult.success();

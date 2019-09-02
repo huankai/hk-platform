@@ -7,6 +7,7 @@ import com.hk.emi.repository.jpa.BaseCodeRepository;
 import com.hk.emi.service.BaseCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -25,6 +26,13 @@ public class BaseCodeServiceImpl extends EnableJpaCacheServiceImpl<BaseCode, Lon
     @Autowired
     public BaseCodeServiceImpl(BaseCodeRepository baseCodeRepository) {
         this.baseCodeRepository = baseCodeRepository;
+    }
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("baseCode",ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("codeName",ExampleMatcher.GenericPropertyMatchers.contains());
     }
 
     @Override

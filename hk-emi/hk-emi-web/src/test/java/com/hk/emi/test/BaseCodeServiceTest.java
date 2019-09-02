@@ -52,7 +52,7 @@ public class BaseCodeServiceTest extends LoginBaseTest {
             childCode.setChildCode(codes.get(index - 1));
             childCode.setCodeName(item);
             childCode.setCodeValue(index);
-            childCode.setState(ByteConstants.ONE);
+            childCode.setState(true);
             childCode.setIsGb(Boolean.FALSE);
             list.add(childCode);
             index++;

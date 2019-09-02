@@ -71,4 +71,8 @@ public class QuartzJob extends AbstractSnowflakeIdPersistable {
         return QuartzJobStatus.getText(state);
     }
 
+    public String getStateColor(){
+        return QuartzJobStatus.getColor(state);
+    }
+
 }

@@ -11,6 +11,7 @@ import com.hk.emi.repository.jpa.ChildCodeRepository;
 import com.hk.emi.service.ChildCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +36,13 @@ public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, L
     @Override
     protected BaseJpaRepository<ChildCode, Long> getBaseRepository() {
         return childCodeRepository;
+    }
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("childCode",ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("codeName",ExampleMatcher.GenericPropertyMatchers.contains());
     }
 
     /**
@@ -71,7 +79,7 @@ public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, L
     public ChildCode insert(ChildCode childCode) {
         return insert(childCode, item -> {
             if (Objects.isNull(item.getState())) {
-                item.setState(ByteConstants.ONE);
+                item.setState(true);
             }
             if (Objects.isNull(item.getIsGb())) {
                 item.setIsGb(Boolean.FALSE);

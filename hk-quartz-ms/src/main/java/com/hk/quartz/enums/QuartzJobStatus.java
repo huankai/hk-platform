@@ -8,11 +8,11 @@ import lombok.Getter;
  */
 public enum QuartzJobStatus {
 
-    DELETE((byte) 0, "已删除"),
+    DELETE((byte) 0, "已删除", "red"),
 
-    START((byte) 1, "已启用"),
+    START((byte) 1, "已启用", "blue"),
 
-    STOP((byte) 2, "已停止");
+    STOP((byte) 2, "已停止", "gray");
 
     @Getter
     private byte state;
@@ -20,15 +20,28 @@ public enum QuartzJobStatus {
     @Getter
     private String text;
 
-    QuartzJobStatus(byte state, String text) {
+    @Getter
+    private String color;
+
+    QuartzJobStatus(byte state, String text, String color) {
         this.state = state;
         this.text = text;
+        this.color = color;
     }
 
     public static String getText(byte state) {
         for (QuartzJobStatus status : values()) {
             if (status.state == state) {
                 return status.getText();
+            }
+        }
+        return null;
+    }
+
+    public static String getColor(byte state) {
+        for (QuartzJobStatus status : values()) {
+            if (status.state == state) {
+                return status.getColor();
             }
         }
         return null;
