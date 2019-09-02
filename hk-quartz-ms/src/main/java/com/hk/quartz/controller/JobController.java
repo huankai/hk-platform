@@ -19,7 +19,7 @@ public class JobController {
 
     private final JobService jobService;
 
-    @PostMapping("page")
+    @PostMapping("list")
     public JsonResult<QueryPage<QuartzJob>> queryForPage(QueryModel<QuartzJob> query) {
         return JsonResult.success(jobService.queryForPage(query));
     }

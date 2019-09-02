@@ -1,7 +1,7 @@
 server:
   port: 8889
   servlet:
-    context-path: /
+    context-path: /quartz
 spring:
   application:
     name: hk-quartz-ms

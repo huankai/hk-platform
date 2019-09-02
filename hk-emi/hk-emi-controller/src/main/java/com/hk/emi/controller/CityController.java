@@ -3,14 +3,14 @@ package com.hk.emi.controller;
 import com.hk.commons.JsonResult;
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.commons.util.CollectionUtils;
-import com.hk.commons.util.JsonUtils;
+import com.hk.commons.util.StringUtils;
 import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
 import com.hk.core.web.Webs;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
-import com.hk.emi.vo.CityExcelVo;
+import com.hk.emi.vo.CityExportVo;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -52,9 +52,7 @@ public class CityController extends BaseController {
      */
     @PostMapping(path = "list")
     public JsonResult<QueryPage<City>> list(@RequestBody QueryModel<City> query) {
-        JsonResult<QueryPage<City>> result = JsonResult.success(cityService.queryForPage(query));
-        System.out.println(JsonUtils.serialize(result, true));
-        return result;
+        return JsonResult.success(cityService.queryForPage(query));
     }
 
     /**
@@ -113,8 +111,8 @@ public class CityController extends BaseController {
      */
     @PostMapping(path = "excel/import")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<List<ErrorLog<CityExcelVo>>> excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-        List<ErrorLog<CityExcelVo>> errorLogs = cityService.importExcel(multipartFile.getInputStream());
+    public JsonResult<List<ErrorLog<CityExportVo>>> excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        List<ErrorLog<CityExportVo>> errorLogs = cityService.importExcel(multipartFile.getInputStream());
         return CollectionUtils.isEmpty(errorLogs) ? new JsonResult<>() : JsonResult.failure(errorLogs);
     }
 
@@ -124,9 +122,13 @@ public class CityController extends BaseController {
      * @param city city
      * @return {@link ResponseEntity}
      */
-    @GetMapping(path = "excel/export")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
-    public ResponseEntity<InputStreamResource> excelExport(City city) {
-        return Webs.toResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
+    @GetMapping(path = "export")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
+    public ResponseEntity<InputStreamResource> excelExport(City city, String exportType) {
+        if (StringUtils.equals(exportType, "excel")) {
+            return Webs.toResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
+        } else {
+            return Webs.toResponseEntity("城市数据.json", cityService.exportJsonData(city));
+        }
     }
 }

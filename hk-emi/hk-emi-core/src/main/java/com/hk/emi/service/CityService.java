@@ -3,7 +3,7 @@ package com.hk.emi.service;
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.emi.domain.City;
-import com.hk.emi.vo.CityExcelVo;
+import com.hk.emi.vo.CityExportVo;
 
 import java.io.InputStream;
 import java.util.List;
@@ -28,7 +28,7 @@ public interface CityService extends JpaBaseService<City, Long> {
      * @param excelInput excel文件
      * @return 如果解析出错，返回错误信息 {@link ErrorLog}
      */
-    List<ErrorLog<CityExcelVo>> importExcel(InputStream excelInput);
+    List<ErrorLog<CityExportVo>> importExcel(InputStream excelInput);
 
     /**
      * 根据条件查询生成Excel Byte
@@ -37,6 +37,8 @@ public interface CityService extends JpaBaseService<City, Long> {
      * @return Excel byte[] 数据
      */
     byte[] exportExcelData(City city);
+
+    byte[] exportJsonData(City city);
 
     /**
      * 根据类型查询城市

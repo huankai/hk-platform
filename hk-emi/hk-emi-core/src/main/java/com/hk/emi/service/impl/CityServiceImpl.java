@@ -10,14 +10,14 @@ import com.hk.commons.poi.excel.read.SaxReadExcel;
 import com.hk.commons.poi.excel.write.WriteableExcel;
 import com.hk.commons.poi.excel.write.XSSFWriteableExcel;
 import com.hk.commons.util.BeanUtils;
+import com.hk.commons.util.JsonUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.emi.domain.City;
-import com.hk.emi.mappers.CityExcelVoMapper;
 import com.hk.emi.repository.jpa.CityRepository;
 import com.hk.emi.service.CityService;
-import com.hk.emi.vo.CityExcelVo;
+import com.hk.emi.vo.CityExportVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -35,8 +35,6 @@ import java.util.stream.StreamSupport;
 public class CityServiceImpl extends JpaServiceImpl<City, Long> implements CityService {
 
     private final CityRepository cityRepository;
-
-    private final CityExcelVoMapper cityExcelVoMapper;
 
     @Override
     protected BaseJpaRepository<City, Long> getBaseRepository() {
@@ -67,23 +65,23 @@ public class CityServiceImpl extends JpaServiceImpl<City, Long> implements CityS
      * @param in excel文件
      */
     @Override
-    public List<ErrorLog<CityExcelVo>> importExcel(InputStream in) {
-        ReadParam<CityExcelVo> readableParam = ReadParam.<CityExcelVo>builder()
-                .beanClazz(CityExcelVo.class)
+    public List<ErrorLog<CityExportVo>> importExcel(InputStream in) {
+        ReadParam<CityExportVo> readableParam = ReadParam.<CityExportVo>builder()
+                .beanClazz(CityExportVo.class)
                 .parseAll(false)
                 .sheetStartIndex(0)
                 .sheetMaxIndex(1)
                 .build();
-        ReadableExcel<CityExcelVo> readableExcel = new SaxReadExcel<>(readableParam);
-        ReadResult<CityExcelVo> result = readableExcel.read(in);
+        ReadableExcel<CityExportVo> readableExcel = new SaxReadExcel<>(readableParam);
+        ReadResult<CityExportVo> result = readableExcel.read(in);
         if (result.hasErrors()) {
             return result.getErrorLogList();
         }
-        List<CityExcelVo> resultList = result.getAllSheetData();
+        List<CityExportVo> resultList = result.getAllSheetData();
         Iterable<City> cityList = findAll();
         List<City> cityInsertList = new ArrayList<>();
         City city;
-        for (CityExcelVo item : resultList) {
+        for (CityExportVo item : resultList) {
             city = new City();
             BeanUtils.copyProperties(item, city);
             if (StringUtils.isNotEmpty(item.getParentName())) {
@@ -102,15 +100,21 @@ public class CityServiceImpl extends JpaServiceImpl<City, Long> implements CityS
 
     @Override
     public byte[] exportExcelData(City city) {
-        List<CityExcelVo> list = cityExcelVoMapper.findExportList(city);
-        WriteParam<CityExcelVo> param = WriteParam.<CityExcelVo>builder()
-                .beanClazz(CityExcelVo.class)
+        List<CityExportVo> list = cityRepository.findExportList(city);
+        WriteParam<CityExportVo> param = WriteParam.<CityExportVo>builder()
+                .beanClazz(CityExportVo.class)
                 .data(list)
                 .build();
-        WriteableExcel<CityExcelVo> writeAbleExcel = new XSSFWriteableExcel<>();
+        WriteableExcel<CityExportVo> writeAbleExcel = new XSSFWriteableExcel<>();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         writeAbleExcel.write(param, outputStream);
         return outputStream.toByteArray();
+    }
+
+    @Override
+    public byte[] exportJsonData(City city) {
+        List<CityExportVo> dataList = cityRepository.findExportList(city);
+        return JsonUtils.serializeToByte(dataList, true);
     }
 
     @Override

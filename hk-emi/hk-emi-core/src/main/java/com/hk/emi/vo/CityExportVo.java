@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 @Data
 @SuppressWarnings("serial")
-public class CityExcelVo implements Serializable {
+public class CityExportVo implements Serializable {
 
     /**
      * 上级名称
@@ -37,7 +37,7 @@ public class CityExcelVo implements Serializable {
      * 全称
      */
     @ReadExcelField(start = 2)
-	@WriteExcelField(index = 1, value = "区域编号")
+    @WriteExcelField(index = 1, value = "区域编号")
     @NotEmpty
     @Length(max = 50)
     private String areaCode;
@@ -78,5 +78,7 @@ public class CityExcelVo implements Serializable {
 
     @ReadExcelField(start = 9)
     private Double latitude;
+
+    private String mergerName;
 
 }

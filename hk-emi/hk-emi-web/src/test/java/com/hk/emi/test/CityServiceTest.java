@@ -11,7 +11,7 @@ import com.hk.core.test.BaseTest;
 import com.hk.emi.EMIApplication;
 import com.hk.emi.domain.City;
 import com.hk.emi.service.CityService;
-import com.hk.emi.vo.CityExcelVo;
+import com.hk.emi.vo.CityExportVo;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,18 +48,18 @@ public class CityServiceTest extends BaseTest {
 
     @Test
     public void importProvinceTest() {
-        ReadParam<CityExcelVo> readParam = ReadParam.<CityExcelVo>builder()
-                .beanClazz(CityExcelVo.class)
+        ReadParam<CityExportVo> readParam = ReadParam.<CityExportVo>builder()
+                .beanClazz(CityExportVo.class)
                 .sheetMaxIndex(1)
                 .build();
-        ReadableExcel<CityExcelVo> readableExcel = new DomReadExcel<>(readParam);
-        ReadResult<CityExcelVo> result = readableExcel.read(new File("C:/Users/kevin/Desktop/全国地区.xlsx"));
+        ReadableExcel<CityExportVo> readableExcel = new DomReadExcel<>(readParam);
+        ReadResult<CityExportVo> result = readableExcel.read(new File("C:/Users/kevin/Desktop/全国地区.xlsx"));
         if (result.hasErrors()) {
             System.out.println(JsonUtils.serialize(result.getErrorLogList(), true));
         }
         List<City> countryList = cityService.findByCityType(ByteConstants.ZERO);
         City city;
-        for (CityExcelVo item : result.getAllSheetData()) {
+        for (CityExportVo item : result.getAllSheetData()) {
             city = new City();
             city.setParentId(countryList.stream()
                     .filter(country -> StringUtils.equals(country.getFullName(), item.getParentName())).findFirst().get().getId());
