@@ -3,7 +3,11 @@ package com.hk.quartz.service.impl;
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.ObjectUtils;
+import com.hk.core.data.commons.utils.OrderUtils;
+import com.hk.core.data.jpa.query.specification.Criteria;
+import com.hk.core.data.jpa.query.specification.Restrictions;
 import com.hk.core.page.QueryPage;
+import com.hk.core.query.Order;
 import com.hk.core.query.QueryModel;
 import com.hk.quartz.ScheduleJob;
 import com.hk.quartz.entity.QuartzJob;
@@ -13,11 +17,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,6 +40,11 @@ public class JobServiceImpl implements JobService {
     @Override
     public QuartzJob findById(Long id) {
         return quartzJobRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<QuartzJob> findAll(Order... orders) {
+        return quartzJobRepository.findAll(OrderUtils.toSort(orders));
     }
 
     @Override
@@ -89,9 +98,11 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public QueryPage<QuartzJob> queryForPage(QueryModel<QuartzJob> query) {
-        QuartzJob param = ObjectUtils.defaultIfNull(query.getParam(), new QuartzJob());
-        return quartzJobRepository.findByPage(Example.of(param),
-                query.getOrders(), query.getStartRowIndex(), query.getPageSize());
+        QuartzJob quartzJob = ObjectUtils.defaultIfNull(query.getParam(), new QuartzJob());
+        Criteria<QuartzJob> criteria = new Criteria<>();
+        criteria.add(Restrictions.eq("state", quartzJob.getState()));
+        criteria.add(Restrictions.like("jobName", quartzJob.getJobName()));
+        return quartzJobRepository.queryForPage(criteria, query.getOrders(), query.getStartRowIndex(), query.getPageSize());
     }
 
     @Override
@@ -99,7 +110,7 @@ public class JobServiceImpl implements JobService {
         try {
             QuartzJob quartzJob = findById(id);
             AssertUtils.notNull(quartzJob, "任务不存在");
-            AssertUtils.isTrue(ByteConstants.ONE.equals(quartzJob.getState()), "任务非启动状态，无法执行");
+//            AssertUtils.isTrue(ByteConstants.ONE.equals(quartzJob.getState()), "任务非启动状态，无法执行");
             JobDataMap jobDataMap = new JobDataMap();
             jobDataMap.put(ScheduleJob.JOB_PARAM_KEY, quartzJob);
             scheduler.triggerJob(getJobKey(id, quartzJob.getJobGroup()), jobDataMap);

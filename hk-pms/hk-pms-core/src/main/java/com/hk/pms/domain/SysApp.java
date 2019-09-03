@@ -31,7 +31,6 @@ public class SysApp extends AbstractSnowflakeAuditable {
     /**
      * 原 secret
      */
-    @JsonIgnore
     @Column(name = "original_secret")
     private String originalSecret;
 

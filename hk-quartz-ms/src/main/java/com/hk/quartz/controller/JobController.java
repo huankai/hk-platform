@@ -1,12 +1,18 @@
 package com.hk.quartz.controller;
 
 import com.hk.commons.JsonResult;
+import com.hk.commons.util.SpringContextHolder;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
 import com.hk.quartz.entity.QuartzJob;
 import com.hk.quartz.service.JobService;
+import com.hk.quartz.task.TaskExecutor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author kevin
@@ -20,7 +26,7 @@ public class JobController {
     private final JobService jobService;
 
     @PostMapping("list")
-    public JsonResult<QueryPage<QuartzJob>> queryForPage(QueryModel<QuartzJob> query) {
+    public JsonResult<QueryPage<QuartzJob>> queryForPage(@RequestBody QueryModel<QuartzJob> query) {
         return JsonResult.success(jobService.queryForPage(query));
     }
 
@@ -30,9 +36,23 @@ public class JobController {
     }
 
     @PostMapping
-    public JsonResult<Boolean> saveJob(QuartzJob job) {
+    public JsonResult<Boolean> saveJob(@RequestBody QuartzJob job) {
         jobService.saveJob(job);
         return JsonResult.success(true);
+    }
+
+    @GetMapping(path = "getTasks")
+    public JsonResult<Set<String>> getTaskBean(Long id) {
+        List<QuartzJob> list = jobService.findAll();
+        List<String> usedTaskList = list.stream().map(QuartzJob::getBeanName).collect(Collectors.toList());
+        Set<String> allTasks = SpringContextHolder.getBeanOfType(TaskExecutor.class).keySet();
+        allTasks.removeAll(usedTaskList);
+        if (null != id) {
+            list.stream().filter(item -> id.equals(item.getId()))
+                    .findFirst()
+                    .ifPresent(item -> allTasks.add(item.getBeanName()));
+        }
+        return JsonResult.success(allTasks);
     }
 
     /**
