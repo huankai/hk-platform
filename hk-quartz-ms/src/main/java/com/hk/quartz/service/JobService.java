@@ -1,9 +1,12 @@
 package com.hk.quartz.service;
 
+import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
+import com.hk.core.query.Order;
 import com.hk.core.query.QueryModel;
 import com.hk.quartz.entity.QuartzJob;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -13,6 +16,8 @@ import java.util.Optional;
 public interface JobService {
 
     QuartzJob findById(Long id);
+
+    List<QuartzJob> findAll(Order... orders);
 
     Optional<QuartzJob> findByBeanName(String beanName);
 

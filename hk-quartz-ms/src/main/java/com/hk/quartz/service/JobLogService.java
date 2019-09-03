@@ -1,5 +1,6 @@
 package com.hk.quartz.service;
 
+import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
 import com.hk.quartz.entity.QuartzJobLog;
@@ -10,5 +11,5 @@ import com.hk.quartz.entity.QuartzJobLog;
  */
 public interface JobLogService {
 
-    QueryPage<QuartzJobLog> queryForPage(QueryModel<QuartzJobLog> query);
+    QueryPage<QuartzJobLog> queryForPage(ConditionQueryModel query);
 }

@@ -8,7 +8,6 @@ import com.hk.emi.domain.BaseCode;
 import com.hk.emi.service.BaseCodeService;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,8 +59,8 @@ public class BaseCodeController extends BaseController {
      * @param id id
      * @return JsonResult
      */
-    @DeleteMapping(path = "{id}", name = "basecode-delete")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+    @PostMapping(path = "{id}", name = "basecode-delete")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> deleteById(@PathVariable Long id) {
         baseCodeService.deleteById(id);
         return JsonResult.success();

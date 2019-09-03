@@ -3,6 +3,8 @@ server:
   servlet:
     context-path: /quartz
 spring:
+  main:
+    banner-mode: 'off'
   application:
     name: hk-quartz-ms
   datasource:
@@ -48,3 +50,5 @@ logging:
   level:
     root: error
     com.hk: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
