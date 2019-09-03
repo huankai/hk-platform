@@ -39,7 +39,7 @@ public class ClientDetailServiceImplTest extends BaseTest {
         clientDetails.setAuthorizedGrantTypes(ArrayUtils.asHashSet(AuthenticationType.authorization_code.name(),
                 AuthenticationType.password.name()));
         clientDetails.setRedirectUri(ArrayUtils.asHashSet("http://127.0.0.1:8681/login"));
-        clientDetails.setAutoapprove(ArrayUtils.asHashSet("true"));
+        clientDetails.setAutoapprove(true);
         clientDetails.setAccessTokenValidity(7200);
         clientDetails.setRefreshTokenValidity(3600 * 24 * 7);
         clientDetails.setAppCode("APP-01");

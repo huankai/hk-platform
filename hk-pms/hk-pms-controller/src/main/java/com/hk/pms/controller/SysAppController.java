@@ -7,7 +7,6 @@ import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,28 +35,28 @@ public class SysAppController extends BaseController {
         return JsonResult.success(appService.getOne(id));
     }
 
-    @DeleteMapping(path = "{id}", name = "app-delete")
-    public JsonResult<Void> delete(@PathVariable Long id) {
+    @PostMapping(path = "delete")
+    public JsonResult<Void> delete(@RequestParam Long id) {
         appService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "disabled")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> disabled(@RequestParam Long id) {
         appService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "enabled")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> enabled(@RequestParam Long id) {
         appService.enable(id);
         return JsonResult.success();
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysApp app) {
         appService.insertOrUpdateSelective(app);
         return JsonResult.success();

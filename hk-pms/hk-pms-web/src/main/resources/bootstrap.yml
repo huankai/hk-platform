@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       config:
-        enabled: false
+        enabled: true
         file-extension: yml
         shared-dataids: nacos-discover-common.yml
         server-addr: 182.61.40.18:8848

@@ -112,6 +112,6 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/actuator/health", "/favicon.ico", errorPath, properties.getDefaultFailureUrl());
+        web.ignoring().antMatchers("/static/**", "/**", "/actuator/health", "/favicon.ico", errorPath, properties.getDefaultFailureUrl());
     }
 }

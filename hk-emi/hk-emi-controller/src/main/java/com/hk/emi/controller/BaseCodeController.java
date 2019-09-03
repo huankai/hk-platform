@@ -74,7 +74,7 @@ public class BaseCodeController extends BaseController {
      * @return JsonResult
      */
     @PostMapping
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody BaseCode baseCode) {
         baseCodeService.insertOrUpdateSelective(baseCode);
         return JsonResult.success();

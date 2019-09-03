@@ -2,7 +2,6 @@ package com.hk.pms.service.impl;
 
 
 import com.hk.commons.util.AssertUtils;
-import com.hk.commons.util.ByteConstants;
 import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.pms.domain.SysApp;
@@ -10,6 +9,8 @@ import com.hk.pms.repository.jpa.SysAppRepository;
 import com.hk.pms.service.SysAppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -23,6 +24,13 @@ import java.util.Optional;
 public class SysAppServiceImpl extends EnableJpaCacheServiceImpl<SysApp, Long> implements SysAppService {
 
     private final SysAppRepository sysAppRepository;
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher().withIgnorePaths("originalSecret", "clientSecret")
+                .withMatcher("appCode", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("appName", ExampleMatcher.GenericPropertyMatchers.contains());
+    }
 
     /*
      * oauth2 client注册
@@ -56,16 +64,18 @@ public class SysAppServiceImpl extends EnableJpaCacheServiceImpl<SysApp, Long> i
     }
 
     @Override
+    @CacheEvict(key = "'id'+#id")
     public void enable(Long id) {
-        updateStatus(id, ByteConstants.ONE);
+        updateStatus(id, true);
     }
 
     @Override
+    @CacheEvict(key = "'id'+#id")
     public void disable(Long id) {
-        updateStatus(id, ByteConstants.ZERO);
+        updateStatus(id, false);
     }
 
-    private void updateStatus(Long appId, Byte status) {
+    private void updateStatus(Long appId, boolean status) {
         findById(appId).ifPresent(app -> {
             app.setAppStatus(status);
             updateById(app);

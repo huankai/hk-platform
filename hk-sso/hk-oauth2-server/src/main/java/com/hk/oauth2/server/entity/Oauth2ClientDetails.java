@@ -54,8 +54,7 @@ public class Oauth2ClientDetails extends AbstractSnowflakeAuditable implements C
     private Set<String> redirectUri;
 
     @Column(name = "autoapprove")
-    @Type(type = JsonTypeDef.json)
-    private Set<String> autoapprove;
+    private Boolean autoapprove;
 
     @Column(name = "access_token_validity")
     private Integer accessTokenValidity;
@@ -149,14 +148,6 @@ public class Oauth2ClientDetails extends AbstractSnowflakeAuditable implements C
     @Transient
     @JsonIgnore
     public boolean isAutoApprove(String scope) {
-        if (CollectionUtils.isEmpty(autoapprove)) {
-            return false;
-        }
-        for (String auto : autoapprove) {
-            if ("true".equals(auto) || scope.matches(auto)) {
-                return true;
-            }
-        }
-        return false;
+        return this.autoapprove;
     }
 }
