@@ -97,6 +97,9 @@ public class SysApp extends AbstractSnowflakeAuditable {
     @Column(name = "expire_date")
     private LocalDate expireDate;
 
+    @Column(name = "delete_status")
+    private Boolean deleteStatus;
+
     @Column(name = "description")
     private String description;
 

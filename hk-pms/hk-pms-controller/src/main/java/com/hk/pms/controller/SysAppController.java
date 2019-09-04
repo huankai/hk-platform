@@ -6,7 +6,7 @@ import com.hk.core.query.QueryModel;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.service.SysAppService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +16,10 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("app")
+@RequiredArgsConstructor
 public class SysAppController extends BaseController {
 
-    private SysAppService appService;
-
-    @Autowired
-    public SysAppController(SysAppService appService) {
-        this.appService = appService;
-    }
+    private final SysAppService appService;
 
     @PostMapping(path = "list")
     public JsonResult<QueryPage<SysApp>> userPage(@RequestBody QueryModel<SysApp> query) {
@@ -37,7 +33,13 @@ public class SysAppController extends BaseController {
 
     @PostMapping(path = "delete")
     public JsonResult<Void> delete(@RequestParam Long id) {
-        appService.deleteById(id);
+        appService.markDelete(id);
+        return JsonResult.success();
+    }
+
+    @PostMapping(path = "recovery")
+    public JsonResult<Void> recovery(@RequestParam Long id) {
+        appService.markRecovery(id);
         return JsonResult.success();
     }
 

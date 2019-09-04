@@ -1,6 +1,7 @@
 package com.hk.pms.domain;
 
 import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
+import com.hk.platform.commons.enums.YesNoEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -61,7 +62,15 @@ public class SysOrg extends AbstractSnowflakeAuditable {
     private String address;
 
     @Column(name = "state")
-    private Byte state;
+    private Boolean state;
+
+    public String getStateText() {
+        return YesNoEnum.getText(this.state);
+    }
+
+    public String getStateColor() {
+        return YesNoEnum.getColor(this.state);
+    }
 
 
 }

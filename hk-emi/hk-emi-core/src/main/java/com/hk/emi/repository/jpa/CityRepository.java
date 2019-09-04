@@ -15,4 +15,6 @@ public interface CityRepository extends LongIdJpaRepository<City>, CustomCityRep
     List<City> findByParentIdOrderByCodeAsc(Long parentId);
 
     List<City> findByCityType(byte cityType);
+
+
 }

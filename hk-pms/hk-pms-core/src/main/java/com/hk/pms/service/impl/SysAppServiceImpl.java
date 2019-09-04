@@ -1,19 +1,25 @@
 package com.hk.pms.service.impl;
 
 
+import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.AssertUtils;
+import com.hk.commons.util.IDGenerator;
+import com.hk.commons.util.ObjectUtils;
 import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.repository.jpa.SysAppRepository;
 import com.hk.pms.service.SysAppService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author kevin
@@ -21,9 +27,14 @@ import java.util.Optional;
  */
 @Service
 @CacheConfig(cacheNames = {"app_Cache"})
+@RequiredArgsConstructor
 public class SysAppServiceImpl extends EnableJpaCacheServiceImpl<SysApp, Long> implements SysAppService {
 
     private final SysAppRepository sysAppRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    private static final Set<String> DEFAULT_SCOPE = ArrayUtils.asHashSet("all");
 
     @Override
     protected ExampleMatcher ofExampleMatcher() {
@@ -38,14 +49,8 @@ public class SysAppServiceImpl extends EnableJpaCacheServiceImpl<SysApp, Long> i
 //    @Autowired
 //    private ClientRegistrationService clientRegistrationService;
 
-//    @Autowired
+    //    @Autowired
 //    private OauthClientDetailsService oauthClientDetailsService;
-
-    @Autowired
-    public SysAppServiceImpl(SysAppRepository sysAppRepository) {
-        this.sysAppRepository = sysAppRepository;
-    }
-
     @Override
     protected BaseJpaRepository<SysApp, Long> getBaseRepository() {
         return sysAppRepository;
@@ -67,6 +72,20 @@ public class SysAppServiceImpl extends EnableJpaCacheServiceImpl<SysApp, Long> i
     @CacheEvict(key = "'id'+#id")
     public void enable(Long id) {
         updateStatus(id, true);
+    }
+
+    @Override
+    public SysApp insert(SysApp sysApp) {
+        return super.insert(sysApp, app -> {
+            String secret = IDGenerator.UUID_32.generate();
+            app.setAppStatus(ObjectUtils.defaultIfNull(sysApp.getAppStatus(), true));
+            app.setOriginalSecret(secret);
+            app.setStartDate(LocalDate.now());
+            sysApp.setDeleteStatus(false);
+            app.setScope(ObjectUtils.defaultIfNull(sysApp.getScope(), DEFAULT_SCOPE));
+            app.setClientSecret(passwordEncoder.encode(secret));
+            return app;
+        });
     }
 
     @Override

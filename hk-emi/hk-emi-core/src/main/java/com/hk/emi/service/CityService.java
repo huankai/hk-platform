@@ -4,6 +4,7 @@ import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.emi.domain.City;
 import com.hk.emi.vo.CityExportVo;
+import com.hk.platform.commons.ui.Cascader;
 
 import java.io.InputStream;
 import java.util.List;
@@ -46,5 +47,9 @@ public interface CityService extends JpaBaseService<City, Long> {
      * @param cityType 城市等级类型
      */
     List<City> findByCityType(byte cityType);
+
+    List<Cascader> findChildByCityType(byte cityType);
+
+    List<Cascader> findChildByParentIdAndMaxCityType(Long parentId, Byte maxCityType);
 
 }

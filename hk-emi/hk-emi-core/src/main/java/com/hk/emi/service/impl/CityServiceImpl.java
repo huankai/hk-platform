@@ -18,6 +18,7 @@ import com.hk.emi.domain.City;
 import com.hk.emi.repository.jpa.CityRepository;
 import com.hk.emi.service.CityService;
 import com.hk.emi.vo.CityExportVo;
+import com.hk.platform.commons.ui.Cascader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -120,5 +121,15 @@ public class CityServiceImpl extends JpaServiceImpl<City, Long> implements CityS
     @Override
     public List<City> findByCityType(byte cityType) {
         return cityRepository.findByCityType(cityType);
+    }
+
+    @Override
+    public List<Cascader> findChildByCityType(byte cityType) {
+        return cityRepository.findChildByCityType(cityType);
+    }
+
+    @Override
+    public List<Cascader> findChildByParentIdAndMaxCityType(Long parentId, Byte maxCityType) {
+        return cityRepository.findChildByParentIdAndMaxCityType(parentId, maxCityType);
     }
 }

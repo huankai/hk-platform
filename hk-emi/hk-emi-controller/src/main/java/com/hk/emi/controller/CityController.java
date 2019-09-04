@@ -3,6 +3,7 @@ package com.hk.emi.controller;
 import com.hk.commons.JsonResult;
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.commons.util.BeanUtils;
+import com.hk.commons.util.ByteConstants;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.jdbc.query.ConditionQueryModel;
@@ -14,8 +15,6 @@ import com.hk.emi.enums.CityTypeEnum;
 import com.hk.emi.service.CityService;
 import com.hk.emi.vo.CityExportVo;
 import com.hk.platform.commons.web.BaseController;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +23,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotEmpty;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,9 +96,12 @@ public class CityController extends BaseController {
      * @param parentId parentId
      * @return {@link City}
      */
-    @GetMapping(path = "child/{parentId}", name = "city-child")
-    public JsonResult<List<City>> childList(@PathVariable Long parentId) {
-        return JsonResult.success(cityService.findChildList(parentId));
+    @GetMapping(path = "child")
+    public JsonResult<List<?>> childList(@RequestParam(required = false) Long parentId, Byte maxCityType) {
+        if (null == parentId) {
+            return JsonResult.success(cityService.findChildByCityType(ByteConstants.ONE));// 省级
+        }
+        return JsonResult.success(cityService.findChildByParentIdAndMaxCityType(parentId, maxCityType));
     }
 
     /**

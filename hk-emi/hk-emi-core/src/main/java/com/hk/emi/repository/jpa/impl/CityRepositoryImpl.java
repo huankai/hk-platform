@@ -1,14 +1,17 @@
 package com.hk.emi.repository.jpa.impl;
 
+import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.data.commons.query.Operator;
 import com.hk.core.jdbc.JdbcDaoSupport;
 import com.hk.core.jdbc.SelectArguments;
 import com.hk.core.jdbc.query.CompositeCondition;
 import com.hk.core.jdbc.query.SimpleCondition;
+import com.hk.core.query.Order;
 import com.hk.emi.domain.City;
 import com.hk.emi.repository.jpa.custom.CustomCityRepository;
 import com.hk.emi.vo.CityExportVo;
+import com.hk.platform.commons.ui.Cascader;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,5 +38,29 @@ public class CityRepositoryImpl extends JdbcDaoSupport implements CustomCityRepo
             conditions.addConditions(new SimpleCondition("full_name", Operator.LIKEANYWHERE, city.getFullName()));
         }
         return jdbcSession.queryForList(arguments, false, CityExportVo.class).getResult();
+    }
+
+    @Override
+    public List<Cascader> findChildByCityType(byte cityType) {
+        SelectArguments arguments = new SelectArguments();
+        arguments.setFrom("emi_city");
+        arguments.setFields(ArrayUtils.asArrayList("id AS value,full_name AS label"));
+        arguments.getConditions().addConditions(new SimpleCondition("city_type", cityType));
+        arguments.setOrders(ArrayUtils.asArrayList(Order.asc("code")));
+        return jdbcSession.queryForList(arguments, false, Cascader.class).getResult();
+    }
+
+    @Override
+    public List<Cascader> findChildByParentIdAndMaxCityType(Long parentId, Byte maxCityType) {
+        SelectArguments arguments = new SelectArguments();
+        arguments.setFrom("emi_city");
+        arguments.setFields(ArrayUtils.asArrayList("id AS value,city_type AS level,full_name AS label"));
+        arguments.getConditions().addConditions(new SimpleCondition("parent_id", parentId));
+        arguments.setOrders(ArrayUtils.asArrayList(Order.asc("code")));
+        List<Cascader> cascaders = jdbcSession.queryForList(arguments, false, Cascader.class).getResult();
+        if (null != maxCityType) {
+            cascaders.forEach(item -> item.setIsLeaf(maxCityType.equals(item.getLevel())));
+        }
+        return cascaders;
     }
 }
