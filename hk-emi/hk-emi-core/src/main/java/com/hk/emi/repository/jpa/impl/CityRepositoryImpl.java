@@ -15,6 +15,7 @@ import com.hk.platform.commons.ui.Cascader;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author kevin
@@ -41,10 +42,10 @@ public class CityRepositoryImpl extends JdbcDaoSupport implements CustomCityRepo
     }
 
     @Override
-    public List<Cascader> findChildByCityType(byte cityType) {
+    public List<Cascader> findChildByCityType(byte cityType, boolean isLeaf) {
         SelectArguments arguments = new SelectArguments();
         arguments.setFrom("emi_city");
-        arguments.setFields(ArrayUtils.asArrayList("id AS value,full_name AS label"));
+        arguments.setFields(ArrayUtils.asArrayList("id AS value", "full_name AS label", isLeaf ? "1 AS is_leaf" : "0 AS is_leaf"));
         arguments.getConditions().addConditions(new SimpleCondition("city_type", cityType));
         arguments.setOrders(ArrayUtils.asArrayList(Order.asc("code")));
         return jdbcSession.queryForList(arguments, false, Cascader.class).getResult();
@@ -62,5 +63,25 @@ public class CityRepositoryImpl extends JdbcDaoSupport implements CustomCityRepo
             cascaders.forEach(item -> item.setIsLeaf(maxCityType.equals(item.getLevel())));
         }
         return cascaders;
+    }
+
+    @Override
+    public Optional<Cascader> findCascaderById(Long parentId) {
+        SelectArguments arguments = new SelectArguments();
+        arguments.setFields(ArrayUtils.asArrayList("id AS value,city_type AS level,full_name AS label"));
+        arguments.setFrom("emi_city");
+        arguments.getConditions().addConditions(new SimpleCondition("id", parentId));
+        arguments.setOrders(ArrayUtils.asArrayList(Order.asc("code")));
+        return jdbcSession.queryForOne(arguments, Cascader.class);
+    }
+
+    @Override
+    public List<Cascader.ChildCascader> findCascaderByParentId(Long parentId, boolean isLeaf) {
+        SelectArguments arguments = new SelectArguments();
+        arguments.setFields(ArrayUtils.asArrayList("id AS value", "city_type AS level", "full_name AS label", isLeaf ? "1 AS is_leaf" : "0 AS is_leaf"));
+        arguments.setFrom("emi_city");
+        arguments.getConditions().addConditions(new SimpleCondition("parent_id", parentId));
+        arguments.setOrders(ArrayUtils.asArrayList(Order.asc("code")));
+        return jdbcSession.queryForList(arguments, false, Cascader.ChildCascader.class).getResult();
     }
 }

@@ -9,10 +9,9 @@ import com.hk.commons.poi.excel.read.ReadableExcel;
 import com.hk.commons.poi.excel.read.SaxReadExcel;
 import com.hk.commons.poi.excel.write.WriteableExcel;
 import com.hk.commons.poi.excel.write.XSSFWriteableExcel;
-import com.hk.commons.util.BeanUtils;
-import com.hk.commons.util.JsonUtils;
-import com.hk.commons.util.StringUtils;
+import com.hk.commons.util.*;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.exception.ServiceException;
 import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.emi.domain.City;
 import com.hk.emi.repository.jpa.CityRepository;
@@ -124,12 +123,41 @@ public class CityServiceImpl extends JpaServiceImpl<City, Long> implements CityS
     }
 
     @Override
-    public List<Cascader> findChildByCityType(byte cityType) {
-        return cityRepository.findChildByCityType(cityType);
+    public List<Cascader> findChildByCityType(byte cityType, boolean isLeaf) {
+        return cityRepository.findChildByCityType(cityType, isLeaf);
     }
 
     @Override
     public List<Cascader> findChildByParentIdAndMaxCityType(Long parentId, Byte maxCityType) {
         return cityRepository.findChildByParentIdAndMaxCityType(parentId, maxCityType);
     }
+
+    @Override
+    public List<Cascader.ChildCascader> findAllClildsList(Long[] parentIds) {
+        List<Cascader.ChildCascader> result = null;
+        if (ArrayUtils.length(parentIds) > 0) {
+            City city = findById(parentIds[0]).orElseThrow(() -> new ServiceException("地址不存在"));
+            result = cityRepository.findCascaderByParentId(city.getParentId(), false);
+            Cascader.ChildCascader firstCascader = new Cascader.ChildCascader(city.getId().toString(), city.getFullName(), null);
+            for (int i = 0, length = parentIds.length; i < length; i++) {
+                Long parentId = parentIds[i];
+                Cascader.ChildCascader currentChildCascader = CollectionUtils.isEmpty(firstCascader.getChildren()) ? firstCascader : firstCascader.getChildren().stream()
+                        .filter(item -> Long.parseLong(item.getValue()) == parentId).findFirst().orElse(null);
+                if (currentChildCascader != null) {
+                    List<Cascader.ChildCascader> childList = cityRepository.findCascaderByParentId(parentId, i == length - 2);
+                    currentChildCascader.setChildren(childList);
+                }
+            }
+            for (int i = 0, size = result.size(); i < size; i++) {
+                Cascader item = result.get(i);
+                if (StringUtils.equals(item.getValue(), firstCascader.getValue())) {
+                    result.set(i, firstCascader);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+
 }

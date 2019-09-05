@@ -12,11 +12,20 @@ import java.util.List;
  */
 @Getter
 @Setter
-public abstract class BaseTreeNode<E, ID extends Serializable> implements Serializable {
+public abstract class BaseTreeNode<T extends BaseTreeNode> implements Serializable {
 
-    private ID id;
+    /**
+     * 名称
+     */
+    private String title;
 
-    private ID parentId;
+    /**
+     * id 值，唯一
+     */
+    private Serializable key;
 
-    private List<E> childs;
+    /**
+     * 子节点
+     */
+    private List<T> children;
 }

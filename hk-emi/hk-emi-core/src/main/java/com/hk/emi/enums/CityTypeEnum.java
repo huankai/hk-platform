@@ -2,6 +2,8 @@ package com.hk.emi.enums;
 
 import lombok.Getter;
 
+import java.util.*;
+
 
 /**
  * @author huangkai
@@ -37,5 +39,20 @@ public enum CityTypeEnum {
             }
         }
         return null;
+    }
+
+    public static final List<Map<String, Object>> LIST;
+
+    static {
+        CityTypeEnum[] values = values();
+        LIST = new ArrayList<>(values.length);
+        Map<String, Object> value;
+        for (CityTypeEnum item : values) {
+            value = new HashMap<>(2);
+            value.put("name", item.getName());
+            value.put("value", item.getValue());
+            LIST.add(value);
+        }
+
     }
 }

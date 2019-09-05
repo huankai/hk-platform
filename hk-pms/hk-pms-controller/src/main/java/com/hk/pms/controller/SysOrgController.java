@@ -8,7 +8,6 @@ import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysOrg;
 import com.hk.pms.service.SysOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,9 +46,9 @@ public class SysOrgController extends BaseController {
         return JsonResult.success(orgService.getOne(id));
     }
 
-    @DeleteMapping(path = "{id}", name = "org-delete")
-    @PreAuthorize("hasRole('org_admin')")
-    public JsonResult<Void> delete(@PathVariable Long id) {
+    @PostMapping(path = "delete", name = "org-delete")
+//    @PreAuthorize("hasRole('org_admin')")
+    public JsonResult<Void> delete(@RequestParam Long id) {
         orgService.deleteById(id);
         return JsonResult.success();
     }
@@ -61,7 +60,7 @@ public class SysOrgController extends BaseController {
      * @return {@link JsonResult}
      */
     @PostMapping
-    @PreAuthorize("hasRole('org_admin')")
+//    @PreAuthorize("hasRole('org_admin')")
     public JsonResult<Void> update(@Validated @RequestBody SysOrg org) {
         orgService.insertOrUpdateSelective(org);
         return JsonResult.success();

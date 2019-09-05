@@ -62,7 +62,7 @@ public class SysResourceServiceImpl extends JpaServiceImpl<SysResource, Long> im
                 .collect(Collectors.toList());
         firstResourceList.forEach(item -> {
             ResourceTree resourceTree = toResourceTree(item);
-            resourceTree.setChilds(getChildList(item.getId(), resourceList));
+//            resourceTree.setChilds(getChildList(item.getId(), resourceList));
             result.add(resourceTree);
         });
         return result;
@@ -76,7 +76,7 @@ public class SysResourceServiceImpl extends JpaServiceImpl<SysResource, Long> im
                 .collect(Collectors.toList());
         childTreeList.forEach(item -> {
             ResourceTree resourceTree = toResourceTree(item);
-            resourceTree.setChilds(getChildList(item.getId(), allResourceList));
+//            resourceTree.setChilds(getChildList(item.getId(), allResourceList));
             childList.add(resourceTree);
         });
         return childList;
@@ -86,8 +86,8 @@ public class SysResourceServiceImpl extends JpaServiceImpl<SysResource, Long> im
         ResourceTree resourceTree = ResourceTree.builder().icon(resource.getIcon())
                 .resourceType(resource.getResourceType()).resourceUri(resource.getResourceUri())
                 .target(resource.getTarget()).build();
-        resourceTree.setId(resource.getId());
-        resourceTree.setName(resource.getResourceName());
+//        resourceTree.setId(resource.getId());
+//        resourceTree.setName(resource.getResourceName());
         return resourceTree;
     }
 

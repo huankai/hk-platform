@@ -2,10 +2,7 @@ package com.hk.emi.controller;
 
 import com.hk.commons.JsonResult;
 import com.hk.commons.poi.excel.model.ErrorLog;
-import com.hk.commons.util.BeanUtils;
-import com.hk.commons.util.ByteConstants;
-import com.hk.commons.util.CollectionUtils;
-import com.hk.commons.util.StringUtils;
+import com.hk.commons.util.*;
 import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
@@ -14,6 +11,7 @@ import com.hk.emi.domain.City;
 import com.hk.emi.enums.CityTypeEnum;
 import com.hk.emi.service.CityService;
 import com.hk.emi.vo.CityExportVo;
+import com.hk.platform.commons.ui.Cascader;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -24,10 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author kevin
@@ -44,6 +39,12 @@ public class CityController extends BaseController {
         this.cityService = cityService;
     }
 
+    /**
+     * 测试 {@link ConditionQueryModel}
+     *
+     * @param queryModel
+     * @return
+     */
     @PostMapping(path = "list2")
     public JsonResult<QueryPage<City>> list2(@RequestBody ConditionQueryModel queryModel) {
         QueryPage<City> page = cityService.queryForPage(queryModel);
@@ -78,16 +79,17 @@ public class CityController extends BaseController {
 
     @GetMapping(path = "cityType")
     public JsonResult<?> getCityType() {
-        CityTypeEnum[] values = CityTypeEnum.values();
-        List<Map<String, Object>> result = new ArrayList<>(values.length);
-        Map<String, Object> itemMap;
-        for (CityTypeEnum item : values) {
-            itemMap = new HashMap<>();
-            itemMap.put("name", item.getName());
-            itemMap.put("value", item.getValue());
-            result.add(itemMap);
-        }
-        return JsonResult.success(result);
+        return JsonResult.success(CityTypeEnum.LIST);
+    }
+
+    /**
+     * 获取所有省级
+     *
+     * @return
+     */
+    @GetMapping(path = "provinces")
+    public JsonResult<List<?>> getProvinceList() {
+        return JsonResult.success(cityService.findChildByCityType(CityTypeEnum.PROVINCE.getValue(), false));
     }
 
     /**
@@ -97,11 +99,14 @@ public class CityController extends BaseController {
      * @return {@link City}
      */
     @GetMapping(path = "child")
-    public JsonResult<List<?>> childList(@RequestParam(required = false) Long parentId, Byte maxCityType) {
-        if (null == parentId) {
-            return JsonResult.success(cityService.findChildByCityType(ByteConstants.ONE));// 省级
-        }
+    public JsonResult<List<?>> childList(@RequestParam Long parentId, @RequestParam Byte maxCityType) {
         return JsonResult.success(cityService.findChildByParentIdAndMaxCityType(parentId, maxCityType));
+    }
+
+
+    @GetMapping("childs")
+    public JsonResult<List<Cascader.ChildCascader>> clildsList(@RequestParam(value = "parentIds") Long[] parentIds) {
+        return JsonResult.success(cityService.findAllClildsList(parentIds));
     }
 
     /**
@@ -111,7 +116,7 @@ public class CityController extends BaseController {
      * @return {@link JsonResult}
      */
     @PostMapping(path = "{id}", name = "city-delete")
-//    @PreAuthorize("hasRole('" + ADMIN + "')")
+    //    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> deleteById(@PathVariable Long id) {
         cityService.deleteById(id);
         return JsonResult.success();

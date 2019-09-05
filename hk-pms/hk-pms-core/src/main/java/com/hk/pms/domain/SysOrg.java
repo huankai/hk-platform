@@ -37,14 +37,13 @@ public class SysOrg extends AbstractSnowflakeAuditable {
 
     @Column(name = "description")
     @Length(max = 200)
-    @NotEmpty
     private String description;
 
     @Column(name = "org_icon")
     private String orgIcon;
 
-    @Column(name = "responsible_id")
-    private Long responsibleId;
+//    @Column(name = "responsible_id")
+//    private Long responsibleId;
 
     @Column(name = "org_tag")
     private String orgTag;
@@ -60,6 +59,18 @@ public class SysOrg extends AbstractSnowflakeAuditable {
 
     @Column(name = "address")
     private String address;
+
+    /**
+     * 法人姓名
+     */
+    @Column(name = "legal_name")
+    private String legalName;
+    /**
+     * 法人手机号
+     */
+    @Column(name = "legal_phone")
+    private String legalPhone;
+
 
     @Column(name = "state")
     private Boolean state;

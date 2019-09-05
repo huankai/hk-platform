@@ -2,10 +2,8 @@ package com.hk.pms.service.impl;
 
 
 import com.hk.commons.util.ObjectUtils;
-import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
-import com.hk.core.service.exception.ServiceException;
 import com.hk.pms.domain.SysOrg;
 import com.hk.pms.repository.jpa.SysOrgRepository;
 import com.hk.pms.service.SysOrgService;
@@ -40,13 +38,21 @@ public class SysOrgServiceImpl extends EnableJpaCacheServiceImpl<SysOrg, Long> i
     }
 
     @Override
+    public SysOrg insert(SysOrg sysOrg) {
+        return insert(sysOrg, item -> {
+            item.setParentId(ObjectUtils.defaultIfNull(item.getParentId(), 0L));
+            return item;
+        });
+    }
+
+    @Override
     @Transactional
     public SysOrg updateById(SysOrg org) {
-        SysOrg sysOrg = getOne(org.getId());
-        UserPrincipal principal = getPrincipal();
-        if (!principal.isAdministrator() && ObjectUtils.nullSafeEquals(principal.getUserId(), sysOrg.getResponsibleId())) {
-            throw new ServiceException(getMessage("no.admin.disable.operation"));
-        }
+//        SysOrg sysOrg = getOne(org.getId());
+//        UserPrincipal principal = getPrincipal();
+//        if (!principal.isAdministrator() && ObjectUtils.nullSafeEquals(principal.getUserId(), sysOrg.getResponsibleId())) {
+//            throw new ServiceException(getMessage("no.admin.disable.operation"));
+//        }
         return super.updateById(org);
     }
 }
