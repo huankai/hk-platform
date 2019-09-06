@@ -41,6 +41,6 @@ public interface TreeGenerator<T extends BaseTreeNode> {
      * @return true or false
      */
     default boolean isRootNode(T t, Map<String, Object> params) {
-        return CollectionUtils.isEmpty(childList(t.getKey(), params));
+        return CollectionUtils.isEmpty(childList(t.getValue(), params));
     }
 }

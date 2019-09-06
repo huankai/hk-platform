@@ -22,7 +22,7 @@ public abstract class BaseTreeNode<T extends BaseTreeNode> implements Serializab
     /**
      * id 值，唯一
      */
-    private Serializable key;
+    private Serializable value;
 
     /**
      * 子节点

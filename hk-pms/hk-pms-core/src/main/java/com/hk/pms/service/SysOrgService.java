@@ -2,7 +2,10 @@ package com.hk.pms.service;
 
 
 import com.hk.core.service.jpa.JpaBaseService;
+import com.hk.platform.commons.tree.AntDesignTreeNode;
 import com.hk.pms.domain.SysOrg;
+
+import java.util.List;
 
 /**
  * @author kevin
@@ -10,4 +13,7 @@ import com.hk.pms.domain.SysOrg;
  */
 public interface SysOrgService extends JpaBaseService<SysOrg, Long> {
 
+    List<AntDesignTreeNode> findRootList(Long currentOrgId);
+
+    List<AntDesignTreeNode> findChildList(Long parentId, Long currentId);
 }

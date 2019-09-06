@@ -3,6 +3,7 @@ package com.hk.platform.commons.tree;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * @author kevin
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
  * @see https://vue.ant.design/components/tree-cn/
  */
 @Data
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class AntDesignTreeNode extends BaseTreeNode<AntDesignTreeNode> {
@@ -17,7 +19,9 @@ public class AntDesignTreeNode extends BaseTreeNode<AntDesignTreeNode> {
     /**
      * 是否禁用
      */
-    private boolean disabled;
+    private Boolean disabled = false;
+
+    private Boolean isLeaf = false;
 
     /**
      * 复选框是否禁用

@@ -1,9 +1,11 @@
 package com.hk.pms.service.impl;
 
 
+import com.hk.commons.util.Contants;
 import com.hk.commons.util.ObjectUtils;
 import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.platform.commons.tree.AntDesignTreeNode;
 import com.hk.pms.domain.SysOrg;
 import com.hk.pms.repository.jpa.SysOrgRepository;
 import com.hk.pms.service.SysOrgService;
@@ -12,6 +14,8 @@ import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * @author kevin
@@ -48,9 +52,15 @@ public class SysOrgServiceImpl extends EnableJpaCacheServiceImpl<SysOrg, Long> i
     @Override
     public SysOrg insert(SysOrg sysOrg) {
         return insert(sysOrg, item -> {
-            item.setParentId(ObjectUtils.defaultIfNull(item.getParentId(), 0L));
+            item.setParentId(ObjectUtils.defaultIfNull(item.getParentId(), Contants.DEFAULT_VALUE_LONG));
             return item;
         });
+    }
+
+    @Override
+    public SysOrg updateByIdSelective(SysOrg sysOrg) {
+        sysOrg.setParentId(ObjectUtils.defaultIfNull(sysOrg.getParentId(), Contants.DEFAULT_VALUE_LONG));
+        return super.updateByIdSelective(sysOrg);
     }
 
     @Override
@@ -62,5 +72,15 @@ public class SysOrgServiceImpl extends EnableJpaCacheServiceImpl<SysOrg, Long> i
 //            throw new ServiceException(getMessage("no.admin.disable.operation"));
 //        }
         return super.updateById(org);
+    }
+
+    @Override
+    public List<AntDesignTreeNode> findRootList(Long currentOrgId) {
+        return sysOrgRepository.findRootList(currentOrgId);
+    }
+
+    @Override
+    public List<AntDesignTreeNode> findChildList(Long parentId, Long currentId) {
+        return sysOrgRepository.findChildList(parentId, currentId);
     }
 }
