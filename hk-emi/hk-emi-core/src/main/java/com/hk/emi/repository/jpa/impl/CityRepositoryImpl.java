@@ -76,12 +76,12 @@ public class CityRepositoryImpl extends JdbcDaoSupport implements CustomCityRepo
     }
 
     @Override
-    public List<Cascader.ChildCascader> findCascaderByParentId(Long parentId, boolean isLeaf) {
+    public List<Cascader> findCascaderByParentId(Long parentId, boolean isLeaf) {
         SelectArguments arguments = new SelectArguments();
         arguments.setFields(ArrayUtils.asArrayList("id AS value", "city_type AS level", "full_name AS label", isLeaf ? "1 AS is_leaf" : "0 AS is_leaf"));
         arguments.setFrom("emi_city");
         arguments.getConditions().addConditions(new SimpleCondition("parent_id", parentId));
         arguments.setOrders(ArrayUtils.asArrayList(Order.asc("code")));
-        return jdbcSession.queryForList(arguments, false, Cascader.ChildCascader.class).getResult();
+        return jdbcSession.queryForList(arguments, false, Cascader.class).getResult();
     }
 }

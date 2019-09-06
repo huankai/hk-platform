@@ -53,7 +53,7 @@ public class SSOUserDetailServiceImpl implements UserDetailClientService {
             throw new DisabledException(SpringContextHolder.getMessage("org.disabled.message", sysOrg.getOrgName()));
         }
         return new SecurityUserPrincipal(user.getId(), user.getOrgId(), sysOrg.getOrgName(), user.getDeptId(), orgDeptService.getOne(user.getDeptId()).getDeptName(),
-                user.getAccount(), user.getIsProtect(), user.getRealName(),
+                user.getAccount(), user.getRealName(),
                 user.getUserType(), user.getPhone(), user.getEmail(), user.getSex(), user.getIconPath(), user.getPassword(), user.getUserStatus(), null, null);
     }
 

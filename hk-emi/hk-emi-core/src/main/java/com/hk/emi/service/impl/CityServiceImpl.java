@@ -133,18 +133,19 @@ public class CityServiceImpl extends JpaServiceImpl<City, Long> implements CityS
     }
 
     @Override
-    public List<Cascader.ChildCascader> findAllClildsList(Long[] parentIds) {
-        List<Cascader.ChildCascader> result = null;
+    public List<Cascader> findAllClildsList(Long[] parentIds) {
+        List<Cascader> result = null;
         if (ArrayUtils.length(parentIds) > 0) {
-            City city = findById(parentIds[0]).orElseThrow(() -> new ServiceException("地址不存在"));
+            Long parentId = parentIds[0];
+            City city = findById(parentId).orElseThrow(() -> new ServiceException("地址不存在"));
             result = cityRepository.findCascaderByParentId(city.getParentId(), false);
-            Cascader.ChildCascader firstCascader = new Cascader.ChildCascader(city.getId().toString(), city.getFullName(), null);
+            Cascader firstCascader = new Cascader(parentId.toString(), city.getFullName());
             for (int i = 0, length = parentIds.length; i < length; i++) {
-                Long parentId = parentIds[i];
-                Cascader.ChildCascader currentChildCascader = CollectionUtils.isEmpty(firstCascader.getChildren()) ? firstCascader : firstCascader.getChildren().stream()
-                        .filter(item -> Long.parseLong(item.getValue()) == parentId).findFirst().orElse(null);
+                Long itemId = parentIds[i];
+                Cascader currentChildCascader = CollectionUtils.isEmpty(firstCascader.getChildren()) ? firstCascader : firstCascader.getChildren().stream()
+                        .filter(item -> Long.parseLong(item.getValue()) == itemId).findFirst().orElse(null);
                 if (currentChildCascader != null) {
-                    List<Cascader.ChildCascader> childList = cityRepository.findCascaderByParentId(parentId, i == length - 2);
+                    List<Cascader> childList = cityRepository.findCascaderByParentId(itemId, i == length - 2);
                     currentChildCascader.setChildren(childList);
                 }
             }

@@ -24,7 +24,7 @@ public class UserDetailClientServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SysUser user = userService.findByLoginUsername(username).orElseThrow(() -> new UsernameNotFoundException("账号不存在:" + username));
-        SecurityUserPrincipal userPrincipal = new SecurityUserPrincipal(user.getId(), user.getOrgId(), null, user.getDeptId(), null, user.getAccount(), user.getIsProtect(), user.getRealName(),
+        SecurityUserPrincipal userPrincipal = new SecurityUserPrincipal(user.getId(), user.getOrgId(), null, null, null, user.getAccount(), user.getRealName(),
                 user.getUserType(), user.getPhone(), user.getEmail(), user.getSex(), user.getIconPath(), user.getPassword(), user.getUserStatus(), null, null);
 //        userPrincipal.setOrgId(user.getOrgId());
 //        userPrincipal.setDeptId(user.getDeptId());

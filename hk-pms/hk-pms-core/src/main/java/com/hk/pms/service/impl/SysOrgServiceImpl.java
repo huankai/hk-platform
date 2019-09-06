@@ -9,6 +9,7 @@ import com.hk.pms.repository.jpa.SysOrgRepository;
 import com.hk.pms.service.SysOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,13 @@ public class SysOrgServiceImpl extends EnableJpaCacheServiceImpl<SysOrg, Long> i
     @Autowired
     public SysOrgServiceImpl(SysOrgRepository sysOrgRepository) {
         this.sysOrgRepository = sysOrgRepository;
+    }
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("orgCode", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("orgName", ExampleMatcher.GenericPropertyMatchers.contains());
     }
 
     /**

@@ -2,15 +2,19 @@ package com.hk.pms.controller;
 
 import com.hk.commons.JsonResult;
 import com.hk.commons.util.StringUtils;
+import com.hk.commons.util.TextValueItem;
+import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
-import com.hk.core.query.QueryModel;
+import com.hk.platform.commons.enums.UserStateEnum;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysUser;
+import com.hk.pms.enums.UserTypeEnum;
 import com.hk.pms.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author kevin
@@ -28,7 +32,7 @@ public class SysUserController extends BaseController {
     }
 
     @PostMapping(path = "list")
-    public JsonResult<QueryPage<SysUser>> userPage(@RequestBody QueryModel<SysUser> query) {
+    public JsonResult<QueryPage<SysUser>> userPage(@RequestBody ConditionQueryModel query) {
         QueryPage<SysUser> page = userService.queryForPage(query);
         return JsonResult.success(page);
     }
@@ -45,17 +49,27 @@ public class SysUserController extends BaseController {
     }
 
     @PostMapping(path = "disabled")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> disabled(@RequestParam Long id) {
         userService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "enabled")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> enabled(@RequestParam Long id) {
         userService.enable(id);
         return JsonResult.success();
+    }
+
+    @GetMapping("status")
+    public JsonResult<List<TextValueItem>> getUserStatus() {
+        return JsonResult.success(UserStateEnum.LIST);
+    }
+
+    @GetMapping("usertypes")
+    public JsonResult<List<TextValueItem>> getUserTypes() {
+        return JsonResult.success(UserTypeEnum.LIST);
     }
 
     @PostMapping

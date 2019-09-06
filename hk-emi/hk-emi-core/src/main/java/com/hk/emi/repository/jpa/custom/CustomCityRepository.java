@@ -21,5 +21,5 @@ public interface CustomCityRepository {
 
     Optional<Cascader> findCascaderById(Long parentId);
 
-    List<Cascader.ChildCascader> findCascaderByParentId(Long parentId, boolean isLeaf);
+    List<Cascader> findCascaderByParentId(Long parentId, boolean isLeaf);
 }

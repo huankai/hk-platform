@@ -83,14 +83,13 @@ public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
         info.put("orgName", principal.getOrgName());
         info.put("deptId", principal.getDeptId());
         info.put("deptName", principal.getDeptName());
-        info.put("protectUser", principal.isProtectUser());
 
         final boolean debugEnabled = log.isDebugEnabled();
         if (debugEnabled) {
             log.debug("返回用户附加信息: {} ", info);
         }
-        if (principal.isProtectUser() && debugEnabled) {
-            log.debug("当前用户{}是系统保护用户，拥有所有角色与权限！ ", principal.getAccount());
+        if (principal.isAdministrator() && debugEnabled) {
+            log.debug("当前用户{}是系统管理员用户，拥有所有角色与权限！ ", principal.getAccount());
         } else {
             Collection<String> roles = null;
             Set<String> permissions = null;

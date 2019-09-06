@@ -105,13 +105,15 @@ public class SysUserServiceImpl extends JpaServiceImpl<SysUser, Long> implements
     }
 
     @Override
+    @Transactional
     public void disable(Long userId) {
-        updateStatus(userId, ByteConstants.ONE);
+        updateStatus(userId, ByteConstants.ZERO);
     }
 
     @Override
+    @Transactional
     public void enable(Long userId) {
-        updateStatus(userId, ByteConstants.TWO);
+        updateStatus(userId, ByteConstants.ONE);
     }
 
     @Override
@@ -152,7 +154,7 @@ public class SysUserServiceImpl extends JpaServiceImpl<SysUser, Long> implements
     private void updateStatus(Long userId, Byte userStatus) {
         findById(userId).ifPresent(user -> {
             user.setUserStatus(userStatus);
-            insertOrUpdate(user);
+            updateById(user);
             logger.info("用户[{}]状态已更新,更新后的状态为：{}", userId, userStatus);
         });
     }
@@ -165,9 +167,9 @@ public class SysUserServiceImpl extends JpaServiceImpl<SysUser, Long> implements
             if (Objects.isNull(item.getUserStatus())) {
                 item.setUserStatus(ByteConstants.TWO);
             }
-            if (Objects.isNull(item.getUserType())) {
-                item.setUserStatus(ByteConstants.NINE);
-            }
+//            if (Objects.isNull(item.getUserType())) {
+//                item.setUserStatus(ByteConstants.NINE);
+//            }
             return item;
         });
     }

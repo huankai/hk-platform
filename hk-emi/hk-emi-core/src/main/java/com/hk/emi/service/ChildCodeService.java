@@ -30,4 +30,5 @@ public interface ChildCodeService extends JpaCacheService<ChildCode, Long> {
      */
     List<ChildCode> findByBaseCodeIgnoreChildCodes(Long baseCodeId, String... childCodes);
 
+    long countByBaseCodeId(Long baseCodeId);
 }

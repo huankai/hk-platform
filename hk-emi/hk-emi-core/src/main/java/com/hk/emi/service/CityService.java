@@ -52,5 +52,5 @@ public interface CityService extends JpaBaseService<City, Long> {
 
     List<Cascader> findChildByParentIdAndMaxCityType(Long parentId, Byte maxCityType);
 
-    List<Cascader.ChildCascader> findAllClildsList(Long[] parentIds);
+    List<Cascader> findAllClildsList(Long[] parentIds);
 }

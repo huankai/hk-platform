@@ -105,7 +105,7 @@ public class CityController extends BaseController {
 
 
     @GetMapping("childs")
-    public JsonResult<List<Cascader.ChildCascader>> clildsList(@RequestParam(value = "parentIds") Long[] parentIds) {
+    public JsonResult<List<Cascader>> clildsList(@RequestParam(value = "parentIds") Long[] parentIds) {
         return JsonResult.success(cityService.findAllClildsList(parentIds));
     }
 

@@ -1,6 +1,7 @@
 package com.hk.platform.commons.enums;
 
 import com.hk.commons.util.BooleanUtils;
+import com.hk.platform.commons.ui.TagColor;
 import lombok.Getter;
 
 /**
@@ -10,9 +11,9 @@ import lombok.Getter;
 @Getter
 public enum YesNoEnum {
 
-    YES(true, StatusUtils.BLUE, BooleanUtils.TRUE_CHINESE),
+    YES(true, TagColor.BLUE, BooleanUtils.TRUE_CHINESE),
 
-    NO(false, StatusUtils.RED, BooleanUtils.FALSE_CHINESE);
+    NO(false, TagColor.RED, BooleanUtils.FALSE_CHINESE);
 
     private boolean state;
 

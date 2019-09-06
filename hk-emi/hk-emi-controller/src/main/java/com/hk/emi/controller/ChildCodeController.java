@@ -9,8 +9,6 @@ import com.hk.emi.service.BaseCodeService;
 import com.hk.emi.service.ChildCodeService;
 import com.hk.platform.commons.web.BaseController;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +56,6 @@ public class ChildCodeController extends BaseController {
         result.put("baseCodeName", baseCode.getCodeName());
         result.put("childCode", childCode);
         return JsonResult.success(result);
-
     }
 
     /**

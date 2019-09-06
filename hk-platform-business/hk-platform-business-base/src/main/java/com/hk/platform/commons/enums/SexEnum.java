@@ -1,19 +1,26 @@
 package com.hk.platform.commons.enums;
 
-import com.hk.commons.annotations.EnumDisplay;
+import lombok.Getter;
 
 /**
  * @author kevin
  * @date 2018-08-29 16:42
  */
+@Getter
 public enum SexEnum {
 
-    @EnumDisplay(order = 1, value = "男")
-    MAN,
+    MAN((byte) 1, "男"),
 
-    @EnumDisplay(order = 2, value = "女")
-    WUMAN,
+    WUMAN((byte) 2, "女"),
 
-    @EnumDisplay(order = 9, value = "未采集")
-    UNKNOWN;
+    UNKNOWN((byte) 9, "未采集");
+
+    private byte value;
+
+    private String text;
+
+    SexEnum(byte value, String text) {
+        this.value = value;
+        this.text = text;
+    }
 }

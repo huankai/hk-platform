@@ -1,25 +1,23 @@
 package com.hk.pms.enums;
 
-import com.hk.platform.commons.enums.StatusUtils;
+import com.hk.platform.commons.ui.TagColor;
 import lombok.Getter;
 
 /**
  * @author kevin
  * @date 2019-9-3 12:56
  */
+@Getter
 public enum AppStatusEnum {
 
-    DISABLED(false, "已禁用", StatusUtils.RED),
+    DISABLED(false, "已禁用", TagColor.RED),
 
-    ENABLED(true, "已启用", StatusUtils.BLUE);
+    ENABLED(true, "已启用", TagColor.BLUE);
 
-    @Getter
     private boolean state;
 
-    @Getter
     private String text;
 
-    @Getter
     private String color;
 
     AppStatusEnum(boolean state, String text, String color) {

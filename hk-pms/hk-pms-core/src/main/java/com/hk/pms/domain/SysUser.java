@@ -1,9 +1,6 @@
 package com.hk.pms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hk.commons.util.EnumDisplayUtils;
-import com.hk.commons.validator.constraints.EnumByte;
-import com.hk.commons.validator.constraints.EnumDict;
 import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import com.hk.platform.commons.enums.UserStateEnum;
 import lombok.Data;
@@ -16,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * @author kevin
@@ -33,13 +31,13 @@ public class SysUser extends AbstractSnowflakeAuditable {
      */
     private static final long USER_TYPE_DICT_BASE_ID = 308497981525594112L;
 
-    @NotEmpty
+    @NotNull
     @Column(name = "org_id")
     private Long orgId;
 
-    @NotEmpty
-    @Column(name = "dept_id")
-    private Long deptId;
+//    @NotEmpty
+//    @Column(name = "dept_id")
+//    private Long deptId;
 
     @NotEmpty
     @Length(max = 20)
@@ -59,19 +57,13 @@ public class SysUser extends AbstractSnowflakeAuditable {
     @Column(name = "real_name")
     private String realName;
 
-    @NotNull
     @Column(name = "password")
     @JsonIgnore
     private String password;
 
-    @NotEmpty
-    @EnumDict(codeId = USER_TYPE_DICT_BASE_ID)
+    @NotNull
     @Column(name = "user_type")
     private Byte userType;
-
-    @NotNull
-    @Column(name = "is_protect")
-    private Boolean isProtect;
 
     @NotNull
     @Column(name = "sex")
@@ -83,11 +75,14 @@ public class SysUser extends AbstractSnowflakeAuditable {
     @Column(name = "birth")
     private LocalDate birth;
 
-    @Column(name = "province_id")
-    private Long provinceId;
-
-    @Column(name = "city_id")
-    private Long cityId;
+//    @Column(name = "province_id")
+//    private Long provinceId;
+//
+//    @Column(name = "city_id")
+//    private Long cityId;
+//
+//    @Column(name = "area_id")
+//    private Long areaId;
 
     /**
      * 用户状态
@@ -95,10 +90,19 @@ public class SysUser extends AbstractSnowflakeAuditable {
      * @see UserStateEnum
      */
     @Column(name = "user_status")
-    @EnumByte(values = {1, 2, 8, 9}, notNull = true)
+//    @EnumByte(values = {1, 2, 8, 9}, notNull = true)
     private Byte userStatus;
 
-    public String getUserStatusChinese() {
-        return EnumDisplayUtils.getDisplayText(UserStateEnum.class, userStatus);
+    public LocalDateTime getRegisterDate() {
+        return getCreatedDate().orElse(null);
     }
+
+    public String getUserStatusText() {
+        return UserStateEnum.getText(userStatus);
+    }
+
+    public String getUserStatusColor() {
+        return UserStateEnum.getColor(userStatus);
+    }
+
 }
