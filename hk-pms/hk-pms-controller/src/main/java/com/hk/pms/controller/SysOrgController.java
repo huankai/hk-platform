@@ -1,6 +1,7 @@
 package com.hk.pms.controller;
 
 import com.hk.commons.JsonResult;
+import com.hk.commons.util.BeanUtils;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.Order;
 import com.hk.core.query.QueryModel;
@@ -10,6 +11,9 @@ import com.hk.pms.service.SysOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author kevin
@@ -42,8 +46,14 @@ public class SysOrgController extends BaseController {
     }
 
     @GetMapping(path = "{id}", name = "org-get")
-    public JsonResult<SysOrg> get(@PathVariable Long id) {
-        return JsonResult.success(orgService.getOne(id));
+    public JsonResult<?> get(@PathVariable Long id) {
+        SysOrg org = orgService.getOne(id);
+        if (org.getParentId() != 0) {
+            Map<String, Object> result = BeanUtils.beanToMapIgnoreEntityProperties(org);
+            result.put("parentName", orgService.getOne(org.getParentId()).getOrgName());
+            return JsonResult.success(result);
+        }
+        return JsonResult.success(org);
     }
 
     @PostMapping(path = "delete", name = "org-delete")
@@ -51,6 +61,16 @@ public class SysOrgController extends BaseController {
     public JsonResult<Void> delete(@RequestParam Long id) {
         orgService.deleteById(id);
         return JsonResult.success();
+    }
+
+    @GetMapping(path = "root")
+    public JsonResult<List<?>> getRootList(Long currentOrgId) {
+        return JsonResult.success(orgService.findRootList(currentOrgId));
+    }
+
+    @GetMapping(path = "child")
+    public JsonResult<List<?>> getChildList(@RequestParam Long parentId, Long currentId) {
+        return JsonResult.success(orgService.findChildList(parentId, currentId));
     }
 
     /**
