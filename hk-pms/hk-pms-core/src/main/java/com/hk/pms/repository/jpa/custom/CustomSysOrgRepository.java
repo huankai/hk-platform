@@ -10,7 +10,10 @@ import java.util.List;
  */
 public interface CustomSysOrgRepository {
 
+    List<AntDesignTreeNode> findRootList();
+
     List<AntDesignTreeNode> findRootList(Long currentOrgId);
 
     List<AntDesignTreeNode> findChildList(Long parentId, Long currentId);
+
 }

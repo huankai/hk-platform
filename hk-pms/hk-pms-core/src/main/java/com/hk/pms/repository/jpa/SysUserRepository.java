@@ -3,6 +3,8 @@ package com.hk.pms.repository.jpa;
 
 import com.hk.core.data.jpa.repository.LongIdJpaRepository;
 import com.hk.pms.domain.SysUser;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
@@ -32,4 +34,8 @@ public interface SysUserRepository extends LongIdJpaRepository<SysUser> {
      */
 //    @Query(value = "select * from sys_user where email = :email")
     Optional<SysUser> findByEmail(String email);
+
+    @Modifying
+    @Query(value = "UPDATE sys_user SET password = ?2 WHERE id = ?1", nativeQuery = true)
+    int updatePassword(Long id, String newPassword);
 }

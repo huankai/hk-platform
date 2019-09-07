@@ -58,6 +58,8 @@ public interface SysUserService extends JpaBaseService<SysUser, Long> {
      */
     void enable(Long userId);
 
+    void resetPassword(Long userId, String newPassword);
+
     /**
      * 重设新密码
      *
@@ -88,4 +90,6 @@ public interface SysUserService extends JpaBaseService<SysUser, Long> {
     default void resetPasswordByPhone(Long id, String phoneCode, String newPassword) {
         throw new UnsupportedOperationException("未实现...");
     }
+
+    void markDeleted(Long id);
 }

@@ -63,9 +63,13 @@ public class SysOrgController extends BaseController {
         return JsonResult.success();
     }
 
+    /**
+     * @param currentOrgId 当前机构id
+     * @param statusCheck  状态检查，如果检查，会将不可以状态的机构显示 为 disabled（不可选）　状态
+     */
     @GetMapping(path = "root")
-    public JsonResult<List<?>> getRootList(Long currentOrgId) {
-        return JsonResult.success(orgService.findRootList(currentOrgId));
+    public JsonResult<List<?>> getRootList(Long currentOrgId, boolean statusCheck) {
+        return JsonResult.success(statusCheck ? orgService.findRootList(currentOrgId) : orgService.findRootList());
     }
 
     @GetMapping(path = "child")

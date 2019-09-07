@@ -21,6 +21,9 @@ public class AntDesignTreeNode extends BaseTreeNode<AntDesignTreeNode> {
      */
     private Boolean disabled = false;
 
+    /**
+     * 是否没有子级
+     */
     private Boolean isLeaf = false;
 
     /**

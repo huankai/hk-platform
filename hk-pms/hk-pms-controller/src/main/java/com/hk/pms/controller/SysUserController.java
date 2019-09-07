@@ -1,6 +1,7 @@
 package com.hk.pms.controller;
 
 import com.hk.commons.JsonResult;
+import com.hk.commons.util.BeanUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.commons.util.TextValueItem;
 import com.hk.core.jdbc.query.ConditionQueryModel;
@@ -9,12 +10,14 @@ import com.hk.platform.commons.enums.UserStateEnum;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysUser;
 import com.hk.pms.enums.UserTypeEnum;
+import com.hk.pms.service.SysOrgService;
 import com.hk.pms.service.SysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author kevin
@@ -22,14 +25,12 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class SysUserController extends BaseController {
 
-    private SysUserService userService;
+    private final SysUserService userService;
 
-    @Autowired
-    public SysUserController(SysUserService userService) {
-        this.userService = userService;
-    }
+    private final SysOrgService orgService;
 
     @PostMapping(path = "list")
     public JsonResult<QueryPage<SysUser>> userPage(@RequestBody ConditionQueryModel query) {
@@ -38,13 +39,16 @@ public class SysUserController extends BaseController {
     }
 
     @GetMapping(path = "{id}", name = "user-get")
-    public JsonResult<SysUser> get(@PathVariable Long id) {
-        return JsonResult.success(userService.getOne(id));
+    public JsonResult<Map<String, Object>> get(@PathVariable Long id) {
+        SysUser sysUser = userService.getOne(id);
+        Map<String, Object> data = BeanUtils.beanToMapIgnoreEntityProperties(sysUser, "password");
+        data.put("orgName", orgService.getOne(sysUser.getOrgId()).getOrgName());
+        return JsonResult.success(data);
     }
 
-    @DeleteMapping(path = "{id}", name = "user-delete")
-    public JsonResult<Void> delete(@PathVariable Long id) {
-        userService.deleteById(id);
+    @PostMapping(path = "deleted")
+    public JsonResult<Void> delete(@RequestParam Long id) {
+        userService.markDeleted(id);
         return JsonResult.success();
     }
 
@@ -76,6 +80,18 @@ public class SysUserController extends BaseController {
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody SysUser user) {
         userService.insertOrUpdateSelective(user);
         return JsonResult.success();
+    }
+
+    @PostMapping(path = "reset_pwd")
+    public JsonResult<Void> resetPassword(@RequestParam Long id, @RequestParam String password, @RequestParam String confirm) {
+        if (StringUtils.isBlank(password)) {
+            return JsonResult.badRequest("密码不能为空");
+        }
+        if (StringUtils.notEquals(password, confirm)) {
+            return JsonResult.badRequest("两次输入密码不一致");
+        }
+        userService.resetPassword(id, password);
+        return JsonResult.success("重设密码成功");
     }
 
     /**

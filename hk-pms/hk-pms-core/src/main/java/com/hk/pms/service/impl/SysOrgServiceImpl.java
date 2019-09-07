@@ -75,6 +75,11 @@ public class SysOrgServiceImpl extends EnableJpaCacheServiceImpl<SysOrg, Long> i
     }
 
     @Override
+    public List<AntDesignTreeNode> findRootList() {
+        return sysOrgRepository.findRootList();
+    }
+
+    @Override
     public List<AntDesignTreeNode> findRootList(Long currentOrgId) {
         return sysOrgRepository.findRootList(currentOrgId);
     }

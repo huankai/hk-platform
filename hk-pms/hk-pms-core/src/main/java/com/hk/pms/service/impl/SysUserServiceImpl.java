@@ -1,11 +1,14 @@
 package com.hk.pms.service.impl;
 
 
+import com.hk.commons.util.BeanUtils;
 import com.hk.commons.util.ByteConstants;
-import com.hk.commons.util.StringUtils;
+import com.hk.commons.util.Contants;
+import com.hk.commons.util.ObjectUtils;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.core.service.exception.ServiceException;
 import com.hk.core.service.jpa.impl.JpaServiceImpl;
+import com.hk.platform.commons.enums.UserStateEnum;
 import com.hk.pms.domain.SysUser;
 import com.hk.pms.repository.jpa.SysUserRepository;
 import com.hk.pms.service.SysUserService;
@@ -14,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -107,13 +109,13 @@ public class SysUserServiceImpl extends JpaServiceImpl<SysUser, Long> implements
     @Override
     @Transactional
     public void disable(Long userId) {
-        updateStatus(userId, ByteConstants.ZERO);
+        updateStatus(userId, UserStateEnum.DISABLED.getValue());
     }
 
     @Override
     @Transactional
     public void enable(Long userId) {
-        updateStatus(userId, ByteConstants.ONE);
+        updateStatus(userId, UserStateEnum.ENABLED.getValue());
     }
 
     @Override
@@ -121,8 +123,18 @@ public class SysUserServiceImpl extends JpaServiceImpl<SysUser, Long> implements
     public void resetPassword(Long id, String oldPassword, String newPassword) {
         SysUser user = getOne(id);
         checkOldPassword(user, oldPassword);
-        user.setPassword(passwordEncoder.encode(newPassword));
-        updateById(user);
+        sysUserRepository.updatePassword(id, passwordEncoder.encode(newPassword));
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(Long userId, String newPassword) {
+        sysUserRepository.updatePassword(userId, passwordEncoder.encode(newPassword));
+    }
+
+    @Override
+    public void markDeleted(Long id) {
+        updateStatus(id, UserStateEnum.DELETED.getValue());
     }
 
     private void checkOldPassword(SysUser user, String oldPassword) {
@@ -161,16 +173,18 @@ public class SysUserServiceImpl extends JpaServiceImpl<SysUser, Long> implements
 
     @Override
     public SysUser insert(SysUser sysUser) {
-        return insert(sysUser, item -> {
-            item.setPassword(passwordEncoder.encode(StringUtils.isEmpty(item.getPassword()) ?
-                    item.getAccount() : item.getPassword()));
-            if (Objects.isNull(item.getUserStatus())) {
-                item.setUserStatus(ByteConstants.TWO);
+        Optional<SysUser> find = findByAccount(sysUser.getAccount());
+        if (find.isPresent()) {
+            SysUser user = find.get();
+            if (user.getUserStatus() != UserStateEnum.DELETED.getValue()) {
+                throw new ServiceException("用户已存在:" + sysUser.getAccount());
             }
-//            if (Objects.isNull(item.getUserType())) {
-//                item.setUserStatus(ByteConstants.NINE);
-//            }
-            return item;
-        });
+            BeanUtils.copyNotNullProperties(user, sysUser);
+        } else {
+            sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+        }
+        sysUser.setOrgId(ObjectUtils.defaultIfNull(sysUser.getOrgId(), Contants.DEFAULT_VALUE_LONG));
+        sysUser.setUserStatus(UserStateEnum.ENABLED.getValue());
+        return super.insert(sysUser);
     }
 }

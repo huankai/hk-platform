@@ -1,6 +1,6 @@
 package com.hk.pms.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import com.hk.platform.commons.enums.UserStateEnum;
 import lombok.Data;
@@ -58,7 +58,7 @@ public class SysUser extends AbstractSnowflakeAuditable {
     private String realName;
 
     @Column(name = "password")
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotNull
