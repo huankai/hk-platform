@@ -3,6 +3,7 @@ package com.hk.pms.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import com.hk.platform.commons.enums.UserStateEnum;
+import com.hk.pms.enums.UserTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -95,6 +96,10 @@ public class SysUser extends AbstractSnowflakeAuditable {
 
     public LocalDateTime getRegisterDate() {
         return getCreatedDate().orElse(null);
+    }
+
+    public String getUserTypeText(){
+        return UserTypeEnum.getUserTypeText(userType);
     }
 
     public String getUserStatusText() {

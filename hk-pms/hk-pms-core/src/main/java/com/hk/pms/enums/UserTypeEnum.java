@@ -37,4 +37,13 @@ public enum UserTypeEnum {
             LIST.add(new TextValueItem(item.text, item.value));
         }
     }
+
+    public static String getUserTypeText(byte value) {
+        for (UserTypeEnum userTypeEnum : values()) {
+            if (userTypeEnum.value == value) {
+                return userTypeEnum.text;
+            }
+        }
+        return null;
+    }
 }
