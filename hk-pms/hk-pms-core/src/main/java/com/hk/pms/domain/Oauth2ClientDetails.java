@@ -11,6 +11,7 @@ import org.hibernate.annotations.TypeDef;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,13 @@ public class Oauth2ClientDetails extends AbstractSnowflakeAuditable {
     @Column(name = "authorized_grant_types")
     @Type(type = JsonTypeDef.json)
     private Set<String> authorizedGrantTypes;
+
+    /**
+     * 首页 url
+     */
+    @NotEmpty
+    @Column(name = "main_url")
+    private String mainUrl;
 
     @Column(name = "redirect_uri")
     @Type(type = JsonTypeDef.json)

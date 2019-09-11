@@ -3,8 +3,10 @@ package com.hk.pms.service;
 
 import com.hk.core.cache.service.CacheService;
 import com.hk.core.cache.service.JpaCacheService;
+import com.hk.platform.commons.ui.SelectOption;
 import com.hk.pms.domain.SysApp;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -49,4 +51,6 @@ public interface SysAppService extends JpaCacheService<SysApp, Long> {
             proxy.updateById(item);
         });
     }
+
+    List<SelectOption> getSelectOptionList();
 }

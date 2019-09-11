@@ -3,12 +3,15 @@ package com.hk.pms.controller;
 import com.hk.commons.JsonResult;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
+import com.hk.platform.commons.ui.SelectOption;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.service.SysAppService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author kevin
@@ -55,6 +58,11 @@ public class SysAppController extends BaseController {
     public JsonResult<Void> enabled(@RequestParam Long id) {
         appService.enable(id);
         return JsonResult.success();
+    }
+
+    @GetMapping("select")
+    public JsonResult<List<SelectOption>> getSelectOptionList() {
+        return JsonResult.success(appService.getSelectOptionList());
     }
 
     @PostMapping

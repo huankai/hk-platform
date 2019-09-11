@@ -7,6 +7,7 @@ import com.hk.commons.util.IDGenerator;
 import com.hk.commons.util.ObjectUtils;
 import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.platform.commons.ui.SelectOption;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.repository.jpa.SysAppRepository;
 import com.hk.pms.service.SysAppService;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -72,6 +74,11 @@ public class SysAppServiceImpl extends EnableJpaCacheServiceImpl<SysApp, Long> i
     @CacheEvict(key = "'id'+#id")
     public void enable(Long id) {
         updateStatus(id, true);
+    }
+
+    @Override
+    public List<SelectOption> getSelectOptionList() {
+        return sysAppRepository.getSelectOptionList();
     }
 
     @Override
