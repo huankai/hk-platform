@@ -10,6 +10,7 @@ import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpr
 import com.hk.core.authentication.security.handler.login.LoginAuthenticationFailureHandler;
 import com.hk.core.authentication.security.handler.logout.EquipmentLogoutHandler;
 import com.hk.core.autoconfigure.alipay.AlipayProperties;
+import com.hk.core.autoconfigure.authentication.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.*;
 import com.hk.core.autoconfigure.weixin.WechatMpProperties;
 import com.hk.core.web.Webs;
@@ -21,7 +22,6 @@ import com.hk.oauth2.logout.DefaultSingleLogoutServiceMessageHandler;
 import com.hk.oauth2.logout.SingleLogoutHandler;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
 import com.hk.oauth2.web.authentication.PhoneAuthenticationSuccessHandler;
-import com.hk.platform.commons.role.RoleNamed;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.ObjectProvider;
@@ -56,9 +56,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionEvent;
 
 
-/**
- *
- */
 @Order(1)
 @Configuration
 @EnableWebSecurity
@@ -180,7 +177,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     private void configureSms(HttpSecurity http) throws Exception {
         AuthenticationProperties.SMSProperties sms = authenticationProperties.getSms();
         if (sms.isEnabled()) {
-            SmsAuthenticationSecurityConfiguration configuration = new SmsAuthenticationSecurityConfiguration(sms, validateCodeProcessor,
+            SmsAuthenticationSecurityConfigurer configuration = new SmsAuthenticationSecurityConfigurer(sms, validateCodeProcessor,
                     smsPostAuthenticationHandler);
             if (StringUtils.isNotEmpty(sms.getClientId()) && StringUtils.isNotEmpty(sms.getClientSecret())) {
                 configuration.setAuthenticationSuccessHandler(new PhoneAuthenticationSuccessHandler(sms.getClientId(),
@@ -288,14 +285,14 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
                 // admin 角色的用户、admin权限、保护的用户拥有所有访问权限
 //                @see https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
-                .authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole(RoleNamed.ADMIN) //访问所有以 /actuator/**的需要有admin 角色
+                .authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("admin") //访问所有以 /actuator/**的需要有admin 角色
                 .anyRequest().authenticated();
     }
 
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/resources/**",
-                "email/register/**",// 邮箱号注册
+                "/email/register/**",// 邮箱号注册
                 "/error", // 错误页面
                 "/actuator/health",  // 健康检查
                 "/wechat/login", // 微信二维码登陆

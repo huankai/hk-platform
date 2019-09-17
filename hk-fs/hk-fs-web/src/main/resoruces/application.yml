@@ -79,7 +79,7 @@ spring:
         # ip:
         weight: 1
         server-addr: 182.61.40.18:8848
-        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe
+        namespace: d182d859-f466-4708-91cf-014eccf1a398
 ################################################################### fdfs 配置
 fdfs:
   connect-timeout: 601

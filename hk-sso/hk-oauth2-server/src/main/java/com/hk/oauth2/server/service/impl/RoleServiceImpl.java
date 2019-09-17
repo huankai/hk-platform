@@ -6,7 +6,7 @@ import com.hk.oauth2.server.entity.SysRole;
 import com.hk.oauth2.server.mappers.SysRoleMapper;
 import com.hk.oauth2.server.repository.jpa.RoleRepository;
 import com.hk.oauth2.server.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,21 +16,13 @@ import java.util.List;
  * @date 2018-08-03 08:53
  */
 @Service
+@RequiredArgsConstructor
 public class RoleServiceImpl extends JpaServiceImpl<SysRole, Long> implements RoleService {
 
-    private SysRoleMapper roleMapper;
+    private final SysRoleMapper roleMapper;
 
     private final RoleRepository roleRepository;
 
-    @Autowired
-    public RoleServiceImpl(RoleRepository roleRepository) {
-        this.roleRepository = roleRepository;
-    }
-
-    @Autowired
-    public void setRoleMapper(SysRoleMapper roleMapper) {
-        this.roleMapper = roleMapper;
-    }
 
     @Override
     protected BaseJpaRepository<SysRole, Long> getBaseRepository() {

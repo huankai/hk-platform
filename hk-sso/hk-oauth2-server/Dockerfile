@@ -3,7 +3,7 @@ FROM anapsix/alpine-java
 #指定作者
 MAINTAINER huangkai huankai@139.com
 
-COPY target/hk-oauth2-server-2.1.5.RELEASE.jar /app/hk-oauth2-server-2.1.5.RELEASE.jar
+COPY target/hk-oauth2-server-2.1.8.RELEASE.jar /app/hk-oauth2-server-2.1.8.RELEASE.jar
 
 # 指定用户，可以是用户名，也可以是用户id
 USER 1000
@@ -17,6 +17,6 @@ EXPOSE 7100
 
 # 执行命令，配置JVM 初始内存(-Xms) ，最大内存(-Xmx)
 # -Duser.home 指定用户家目录，这里只是一个虚拟目录，在容器中的 1000 用户并不存在，对应的是宿主机中的 uid 为 1000的用户
-ENTRYPOINT ["java","-Xms512m","-Xmx512m","-jar","-Duser.home=/app","hk-oauth2-server-2.1.5.RELEASE.jar"]
+ENTRYPOINT ["java","-Xms512m","-Xmx512m","-jar","-Duser.home=/app","hk-oauth2-server-2.1.8.RELEASE.jar"]
 
 

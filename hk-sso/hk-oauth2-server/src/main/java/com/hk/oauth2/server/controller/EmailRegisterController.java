@@ -2,9 +2,10 @@ package com.hk.oauth2.server.controller;
 
 import com.hk.commons.util.AssertUtils;
 import com.hk.oauth2.server.service.RegisterService;
-import com.hk.platform.commons.web.BaseController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.provider.ClientDetails;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -18,21 +19,23 @@ import java.time.LocalDate;
  * @date 2019-01-09 14:19
  */
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("email/register")
-public class EmailRegisterController extends BaseController {
+public class EmailRegisterController /*extends BaseController*/ {
 
     private final RegisterService registerService;
 
-    @Autowired
-    public EmailRegisterController(RegisterService registerService) {
-        this.registerService = registerService;
-    }
+    private final ConsumerTokenServices consumerTokenServices;
+
+    private final ClientDetailsService clientDetailsService;
 
     /**
      * @return register view 1
      */
     @GetMapping(path = "register-1")
     public String resister() {
+        consumerTokenServices.revokeToken("a");
+        ClientDetails result = clientDetailsService.loadClientByClientId("aadf");
         return "register/email/register_1";
     }
 

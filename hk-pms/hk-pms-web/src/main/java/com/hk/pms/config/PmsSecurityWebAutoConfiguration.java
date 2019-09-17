@@ -9,7 +9,7 @@ import com.hk.core.authentication.oauth2.session.SessionMappingStorage;
 import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
 import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.HttpSecurityUtils;
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.emi.api.feign.SysCodeFeignClient;
@@ -112,6 +112,6 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/**", "/actuator/health", "/favicon.ico", errorPath, properties.getDefaultFailureUrl());
+        web.ignoring().antMatchers("/static/**", "/**", "/actuator/health", "/favicon.ico", errorPath, properties.getOauth2().getOauth2FailureUrl());
     }
 }

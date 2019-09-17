@@ -12,7 +12,7 @@ import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
 import com.hk.oauth2.server.service.SysOrgDeptService;
 import com.hk.oauth2.server.service.SysOrgService;
 import com.hk.oauth2.server.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,24 +23,17 @@ import org.springframework.transaction.annotation.Transactional;
  * @author kevin
  * @date 2018-07-31 12:56
  */
+@RequiredArgsConstructor
 @Component(value = "ssoUserDetailService")
 public class SSOUserDetailServiceImpl implements UserDetailClientService {
 
     private final UserService userService;
 
-    private Oauth2ClientDetailsService oauth2ClientDetailsService;
+    private final Oauth2ClientDetailsService oauth2ClientDetailsService;
 
-    @Autowired
-    private SysOrgDeptService orgDeptService;
+    private final SysOrgDeptService orgDeptService;
 
-    @Autowired
-    private SysOrgService sysOrgService;
-
-    @Autowired
-    public SSOUserDetailServiceImpl(UserService userService, Oauth2ClientDetailsService oauth2ClientDetailsService) {
-        this.userService = userService;
-        this.oauth2ClientDetailsService = oauth2ClientDetailsService;
-    }
+    private final SysOrgService sysOrgService;
 
     @Override
     @Transactional

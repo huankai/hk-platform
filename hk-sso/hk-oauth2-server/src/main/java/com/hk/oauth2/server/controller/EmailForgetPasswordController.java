@@ -1,6 +1,5 @@
 package com.hk.oauth2.server.controller;
 
-import com.hk.platform.commons.web.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("forgetpassword/email")
-public class EmailForgetPasswordController extends BaseController {
+public class EmailForgetPasswordController /*extends BaseController*/ {
 
 
 }

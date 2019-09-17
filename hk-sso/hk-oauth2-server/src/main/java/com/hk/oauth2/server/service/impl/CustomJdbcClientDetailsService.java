@@ -5,6 +5,7 @@ import com.hk.oauth2.exception.Oauth2ClientStatusException;
 import com.hk.oauth2.provider.ClientDetailsCheckService;
 import com.hk.oauth2.server.entity.Oauth2ClientDetails;
 import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.resource.OAuth2AccessDeniedException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientRegistrationException;
@@ -16,13 +17,10 @@ import java.time.LocalDate;
  * @author huangkai
  * @date 2019-06-16 08:26
  */
+@RequiredArgsConstructor
 public class CustomJdbcClientDetailsService implements ClientDetailsCheckService {
 
-    private Oauth2ClientDetailsService oauth2ClientDetailsService;
-
-    public CustomJdbcClientDetailsService(Oauth2ClientDetailsService oauth2ClientDetailsService) {
-        this.oauth2ClientDetailsService = oauth2ClientDetailsService;
-    }
+    private final Oauth2ClientDetailsService oauth2ClientDetailsService;
 
     @Override
     public void check(String clientId) throws Oauth2ClientStatusException {

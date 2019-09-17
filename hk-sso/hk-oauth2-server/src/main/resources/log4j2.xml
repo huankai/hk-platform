@@ -22,7 +22,7 @@
             <AppenderRef ref="console"/>
             <AppenderRef ref="myRollingFile"/>
         </Root>
-        <Logger name="com.hk" additivity="true" level="INFO"/>
+        <Logger name="com.hk.oauth2" additivity="true" level="DEBUG"/>
         <Logger name="org.hibernate.SQL" additivity="true" level="DEBUG"/>
     </Loggers>
 </Configuration>

@@ -5,7 +5,7 @@ import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.oauth2.server.entity.SysOrg;
 import com.hk.oauth2.server.repository.jpa.SysOrgRepository;
 import com.hk.oauth2.server.service.SysOrgService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.stereotype.Service;
 
@@ -14,15 +14,12 @@ import org.springframework.stereotype.Service;
  * @date 2018-10-25 15:15
  */
 @Service
+@RequiredArgsConstructor
 @CacheConfig(cacheNames = {"SysOrg"})
 public class SysOrgServiceImpl extends EnableJpaCacheServiceImpl<SysOrg, Long> implements SysOrgService {
 
-    private SysOrgRepository sysOrgRepository;
+    private final SysOrgRepository sysOrgRepository;
 
-    @Autowired
-    public SysOrgServiceImpl(SysOrgRepository sysOrgRepository) {
-        this.sysOrgRepository = sysOrgRepository;
-    }
 
     @Override
     protected BaseJpaRepository<SysOrg, Long> getBaseRepository() {

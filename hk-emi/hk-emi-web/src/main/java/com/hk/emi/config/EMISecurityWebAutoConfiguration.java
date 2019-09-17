@@ -9,13 +9,9 @@ import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
 import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.HttpSecurityUtils;
-import com.hk.message.api.OnLineUserMessage;
-import com.hk.message.api.subject.SimpleTopicMessageSubject;
-import com.hk.message.websocket.WebsocketMessager;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -50,10 +46,10 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
         this.properties = properties;
     }
 
-    /************ ** websocket 在线用户消息推送 ***************/
-    @Autowired
-    @Qualifier("websocketMessager")
-    private WebsocketMessager messager;
+//    /************ ** websocket 在线用户消息推送 ***************/
+//    @Autowired
+//    @Qualifier("websocketMessager")
+//    private WebsocketMessager messager;
 
     @Autowired
     private SimpUserRegistry userRegistry;
@@ -73,15 +69,15 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutUrl(login.getLogoutUrl())
-                .addLogoutHandler((request, response, authentication) -> { // 退出成功处理器
-                    messager.publish(OnLineUserMessage
-                            .builder()
-                            .onLineUser(userRegistry.getUserCount())
-                            .build())
-                            .to(SimpleTopicMessageSubject.builder().topic("/queue/onlineuser").build())
-                            .send(); // 在线用户统计 websocket推送
-
-                })
+//                .addLogoutHandler((request, response, authentication) -> { // 退出成功处理器
+//                    messager.publish(OnLineUserMessage
+//                            .builder()
+//                            .onLineUser(userRegistry.getUserCount())
+//                            .build())
+//                            .to(SimpleTopicMessageSubject.builder().topic("/queue/onlineuser").build())
+//                            .send(); // 在线用户统计 websocket推送
+//
+//                })
                 .logoutSuccessHandler(new Oauth2UrlLogoutSuccessHandler(login.getLogoutSuccessUrl()))
                 .and()
                 .requestMatcher(new NoPermitMatcher(permitMatchers));
@@ -99,6 +95,6 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/actuator/**", "/**", "/static/**", "/favicon.ico", properties.getDefaultFailureUrl());
+        web.ignoring().antMatchers("/actuator/**", "/**", "/static/**", "/favicon.ico", properties.getOauth2().getOauth2FailureUrl());
     }
 }
