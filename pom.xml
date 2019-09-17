@@ -15,7 +15,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <hk.core.version>2.1.8.RELEASE</hk.core.version>
     </properties>
 
     <modules>
@@ -27,18 +26,4 @@
         <module>hk-platform-business</module>
         <module>hk-quartz-ms</module>
     </modules>
-
-    <!--发布到私服地址-->
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <name>Releases</name>
-            <url>http://182.61.40.18:8081/repository/maven-releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>Snapshot</name>
-            <url>http://182.61.40.18:8081/repository/maven-snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

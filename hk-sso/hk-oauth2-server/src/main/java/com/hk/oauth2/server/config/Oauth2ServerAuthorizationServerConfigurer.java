@@ -88,6 +88,10 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+        /*
+            注意，这里的  ClientDetailsServiceImpl 不需要手动放在 Spring bean 容器中，spring bean会自动装载到容器中，
+            @see org.springframework.security.oauth2.config.annotation.configuration.ClientDetailsServiceConfiguration#clientDetailsService
+        */
         clients.withClientDetails(new CustomJdbcClientDetailsService(applicationContext.getBean(Oauth2ClientDetailsService.class)));
     }
 
