@@ -1,8 +1,10 @@
 package com.hk.emi.enums;
 
+import com.hk.commons.util.TextValueItem;
 import lombok.Getter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -41,18 +43,13 @@ public enum CityTypeEnum {
         return null;
     }
 
-    public static final List<Map<String, Object>> LIST;
+    public static final List<TextValueItem> LIST;
 
     static {
         CityTypeEnum[] values = values();
         LIST = new ArrayList<>(values.length);
-        Map<String, Object> value;
         for (CityTypeEnum item : values) {
-            value = new HashMap<>(2);
-            value.put("name", item.getName());
-            value.put("value", item.getValue());
-            LIST.add(value);
+            LIST.add(new TextValueItem(item.name, item.value));
         }
-
     }
 }

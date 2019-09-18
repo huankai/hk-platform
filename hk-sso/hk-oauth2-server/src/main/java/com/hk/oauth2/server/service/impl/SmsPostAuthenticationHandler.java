@@ -39,7 +39,7 @@ public class SmsPostAuthenticationHandler implements PostAuthenticationHandler<U
         principal.setPhone(phone);
         principal.setAccount(user.getAccount());
         principal.setSex(user.getSex());
-        principal.setDeptId(user.getDeptId());
+//        principal.setDeptId(user.getDeptId());
         principal.setIconPath(user.getIconPath());
         principal.setOrgId(user.getOrgId());
         principal.setUserType(user.getUserType());

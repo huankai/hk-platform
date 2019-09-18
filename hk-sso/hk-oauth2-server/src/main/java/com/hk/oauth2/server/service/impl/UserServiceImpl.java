@@ -61,9 +61,9 @@ public class UserServiceImpl extends JpaServiceImpl<SysUser, Long> implements Us
     @Override
     public SysUser registerUser(SysUser user) {
         return super.insert(user, sysUser -> {
-            if (null == sysUser.getIsProtect()) {
-                sysUser.setIsProtect(false);
-            }
+//            if (null == sysUser.getIsProtect()) {
+//                sysUser.setIsProtect(false);
+//            }
             return sysUser;
         });
     }

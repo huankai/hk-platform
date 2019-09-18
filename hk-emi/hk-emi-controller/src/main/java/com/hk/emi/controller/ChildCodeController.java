@@ -1,6 +1,7 @@
 package com.hk.emi.controller;
 
 import com.hk.commons.JsonResult;
+import com.hk.commons.util.BeanUtils;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
 import com.hk.emi.domain.BaseCode;
@@ -13,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,9 +52,8 @@ public class ChildCodeController extends BaseController {
         ChildCode childCode = childCodeService.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("记录不存在:" + id));
         BaseCode baseCode = baseCodeService.getOne(childCode.getBaseCodeId());
-        Map<String, Object> result = new HashMap<>();
-        result.put("baseCodeName", baseCode.getCodeName());
-        result.put("childCode", childCode);
+        Map<String, Object> result = BeanUtils.beanToMapIgnoreEntityProperties(childCode);
+        result.put("baseCodeName",baseCode.getCodeName());
         return JsonResult.success(result);
     }
 

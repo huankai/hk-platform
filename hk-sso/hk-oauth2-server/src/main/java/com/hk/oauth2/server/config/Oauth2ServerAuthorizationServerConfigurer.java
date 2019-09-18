@@ -5,6 +5,7 @@ import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenSt
 import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
+import com.hk.oauth2.provider.ClientDetailsCheckService;
 import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
 import com.hk.oauth2.provider.token.CompositeAuthenticationKeyGenerator;
 import com.hk.oauth2.provider.token.CustomTokenServices;
@@ -67,6 +68,8 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
      */
     private RedisConnectionFactory connectionFactory;
 
+    private ClientDetailsCheckService clientDetailsService;
+
     public Oauth2ServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
                                                      ObjectProvider<AuthenticationManager> authenticationManager,
                                                      Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer,
@@ -77,6 +80,11 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         this.passwordEncoder = passwordEncoder;
         this.connectionFactory = applicationContext.getBean(RedisConnectionFactory.class);
         this.applicationContext = applicationContext;
+        /*
+            注意，这里的  CustomJdbcClientDetailsService 不需要手动放在 Spring bean 容器中，spring bean会自动装载到容器中，
+            @see org.springframework.security.oauth2.config.annotation.configuration.ClientDetailsServiceConfiguration#clientDetailsService
+        */
+        this.clientDetailsService = new CustomJdbcClientDetailsService(applicationContext.getBean(Oauth2ClientDetailsService.class));
     }
 
 
@@ -88,11 +96,8 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        /*
-            注意，这里的  ClientDetailsServiceImpl 不需要手动放在 Spring bean 容器中，spring bean会自动装载到容器中，
-            @see org.springframework.security.oauth2.config.annotation.configuration.ClientDetailsServiceConfiguration#clientDetailsService
-        */
-        clients.withClientDetails(new CustomJdbcClientDetailsService(applicationContext.getBean(Oauth2ClientDetailsService.class)));
+
+        clients.withClientDetails(clientDetailsService);
     }
 
     @Override
@@ -132,6 +137,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         tokenServices.setTokenStore(tokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setReuseRefreshToken(false);
+        tokenServices.setClientDetailsCheckService(clientDetailsService);
         tokenServices.setTokenRegistry(applicationContext.getBean(TokenRegistry.class));
 
         TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();

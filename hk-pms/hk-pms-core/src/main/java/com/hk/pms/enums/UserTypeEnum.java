@@ -1,6 +1,8 @@
 package com.hk.pms.enums;
 
 import com.hk.commons.util.TextValueItem;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ import java.util.List;
  * @date 2019-9-6 15:45
  */
 @Getter
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public enum UserTypeEnum {
 
     SYSTEM_ADMIN((byte) 1, "系统管理员"),
@@ -23,10 +26,6 @@ public enum UserTypeEnum {
 
     private String text;
 
-    UserTypeEnum(byte value, String text) {
-        this.value = value;
-        this.text = text;
-    }
 
     public static List<TextValueItem> LIST;
 

@@ -39,7 +39,7 @@ public class RegisterServiceImpl implements RegisterService {
             throw new ServiceException("账号已存在");
         }
         user.setUserStatus(ByteConstants.EIGHT);
-        user.setIsProtect(false);
+//        user.setIsProtect(false);
         user.setUserType(ByteConstants.TWO);
         user.setPassword(passwordEncoder.encode(password));
         SysUser sysUser = userService.insert(user);//TODO 数据库表中的必须字段没有设置
