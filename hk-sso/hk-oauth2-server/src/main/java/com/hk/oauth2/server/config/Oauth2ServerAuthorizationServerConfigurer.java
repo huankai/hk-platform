@@ -19,6 +19,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
@@ -35,6 +36,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
@@ -185,7 +187,12 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
         DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
 //        defaultAccessTokenConverter.setUserTokenConverter(new LocalUserAuthenticationConverter(userDetailClientService));
         jwtAccessTokenConverter.setAccessTokenConverter(defaultAccessTokenConverter);
-        jwtAccessTokenConverter.setSigningKey("abcdefg"); // 配置签名token,先随便写个值
+         /*
+            该key 生成过期时间为 36500 天
+            keytool -genkeypair -alias hyjoauth2 -keyalg RSA -keypass hyjoauth2 -validity 36500 -keystore keystore.jks -storepass hyjoauth2
+         */
+        KeyStoreKeyFactory storeKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("keystore.jks"), "hyjoauth2".toCharArray());
+        jwtAccessTokenConverter.setKeyPair(storeKeyFactory.getKeyPair("hyjoauth2"));
         return jwtAccessTokenConverter;
     }
 
