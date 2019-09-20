@@ -1,7 +1,6 @@
 package com.hk.oauth2.server.config;
 
 import com.hk.commons.JsonResult;
-import com.hk.core.authentication.oauth2.provider.token.store.redis.RedisTokenStore;
 import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
@@ -36,6 +35,7 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 
 import javax.servlet.http.HttpServletResponse;
