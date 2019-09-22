@@ -16,6 +16,6 @@ EXPOSE 8771
 
 # 执行命令，配置JVM 初始内存(-Xms) ，最大内存(-Xmx)
 # -Duser.home 指定用户家目录，这里只是一个虚拟目录，在容器中的 1000 用户并不存在，对应的是宿主机中的 uid 为 1000的用户
-ENTRYPOINT ["java","-Xms512m","-Xmx512m","-jar","-Duser.home=/app","hk-spring-cloud-gateway-2.1.8.RELEASE.jar"]
+ENTRYPOINT ["java","-XX:MetaspaceSize=256m","-XX:MaxMetaspaceSize=256m","-Xms1024m","-Xmx1024m","-Xmn256m","-XX:+UseConcMarkSweepGC","-Duser.home=/app","-jar","hk-spring-cloud-gateway-2.1.8.RELEASE.jar"]
 
 
