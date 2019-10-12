@@ -5,6 +5,7 @@ import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
+import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
@@ -28,7 +29,6 @@ import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Set;
 
@@ -37,8 +37,8 @@ import java.util.Set;
  * Order 的值需要注意配置
  * </p>
  *
- * @author: kevin
- * @date: 2018-08-13 13:29
+ * @author kevin
+ * @date 2018-08-13 13:29
  */
 @Order(1)
 @Configuration
@@ -64,7 +64,7 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
+        AuthenticationProperties.LoginProperties browser = properties.getLogin();
         if (StringUtils.isNotEmpty(browser.getGateWayHost())) {
             http.requestCache().requestCache(new GateWayHttpSessionRequestCache(browser.getGateWayHost()));
         }
@@ -74,15 +74,16 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .logoutUrl(browser.getLogoutUrl())
-                .logoutSuccessUrl(browser.getLogoutSuccessUrl())
-                .defaultLogoutSuccessHandlerFor((request, response, authentication) ->
-                                messager.publish(OnLineUserMessage
-                                        .builder()
-                                        .onLineUser(userRegistry.getUserCount())
-                                        .build())
-                                        .to(SimpleTopicMessageSubject.builder().topic("/queue/onlineuser").build())
-                                        .send(),
-                        new AntPathRequestMatcher(browser.getLogoutUrl())) // 在线用户统计websocket推送
+//                .logoutSuccessUrl(browser.getLogoutSuccessUrl())//如果 配置了 addLogoutHandler，不需要配置 logoutSuccessUrl了
+                .addLogoutHandler((request, response, authentication) -> { // 退出成功处理器
+                    messager.publish(OnLineUserMessage
+                            .builder()
+                            .onLineUser(userRegistry.getUserCount())
+                            .build())
+                            .to(SimpleTopicMessageSubject.builder().topic("/queue/onlineuser").build())
+                            .send(); // 在线用户统计 websocket推送
+
+                }).addLogoutHandler(new RedirectLogoutHandler(browser.getLogoutSuccessUrl()))
                 .and()
                 .requestMatcher(NoBearerMatcher.INSTANCE);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
@@ -94,9 +95,9 @@ public class EMISecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                     }
                 })*/
         ;
-        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
-        if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
-            for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
+        Set<AuthenticationProperties.PermitMatcher> permitMatchers = browser.getPermitMatchers();
+        if (CollectionUtils.isNotEmpty(permitMatchers)) {
+            for (AuthenticationProperties.PermitMatcher permitMatcher : permitMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
                     urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
                 } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {

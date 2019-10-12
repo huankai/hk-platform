@@ -11,11 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018-08-21 09:25
+ * @author kevin
+ * @date 2018-08-21 09:25
  */
 @RestController
 @RequestMapping("/api/code")
@@ -57,14 +56,11 @@ public class CodeRestController extends BaseController {
         List<ChildCode> childCodes = childCodeService.findByBaseCodeIgnoreChildCodes(parentId);
         List<String> childNameList = new ArrayList<>(codeValues.length);
         for (byte codeValue : codeValues) {
-            Optional<ChildCode> childCodeOptional = childCodes.stream()
+            childNameList.add(childCodes.stream()
                     .filter(item -> item.getCodeValue() == codeValue)
-                    .findFirst();
-            if (childCodeOptional.isPresent()) {
-                childNameList.add(childCodeOptional.get().getCodeName());
-            } else {
-                childNameList.add(UN_KNOWN);
-            }
+                    .map(ChildCode::getChildCode)
+                    .findFirst()
+                    .orElse(UN_KNOWN));
         }
         return childNameList;
     }

@@ -3,8 +3,8 @@ package com.hk.platform.commons.enums;
 import com.hk.commons.annotations.EnumDisplay;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 16:42
+ * @author kevin
+ * @date 2018-08-29 16:42
  */
 public enum SexEnum {
 

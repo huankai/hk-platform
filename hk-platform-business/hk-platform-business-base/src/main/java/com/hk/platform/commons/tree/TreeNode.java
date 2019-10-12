@@ -6,10 +6,11 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 08:50
+ * @author kevin
+ * @date 2018-08-29 08:50
  */
 @Data
+@SuppressWarnings("serial")
 public class TreeNode implements Serializable {
 
     /**

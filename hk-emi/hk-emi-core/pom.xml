@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hk-emi-core</artifactId>
+    <parent>
+        <groupId>com.hk</groupId>
+        <artifactId>hk-emi</artifactId>
+        <version>2.1.0.RELEASE</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-commons-poi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-emi-commons</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-platform-business-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-cache</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

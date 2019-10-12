@@ -6,12 +6,13 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 09:08
+ * @author kevin
+ * @date 2018-08-29 09:08
  */
 @Data
 @Builder
 @EqualsAndHashCode(callSuper = true)
+@SuppressWarnings("serial")
 public class ResourceTree extends TreeNode {
 
     private String resourceUri;

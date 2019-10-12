@@ -1,6 +1,6 @@
 package com.hk.pms.api.feign;
 
-import com.hk.core.page.QueryModel;
+import com.hk.core.query.QueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.pms.api.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author: kevin
- * @date: 2018-08-13 20:16
+ * @author kevin
+ * @date 2018-08-13 20:16
  */
 @FeignClient("HK-PMS")
 @RequestMapping("/api/user")

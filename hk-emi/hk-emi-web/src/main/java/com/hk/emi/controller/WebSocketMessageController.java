@@ -2,7 +2,7 @@ package com.hk.emi.controller;
 
 import com.hk.commons.util.JsonUtils;
 import com.hk.core.authentication.security.SecurityUserPrincipal;
-import com.hk.core.web.JsonResult;
+import com.hk.commons.JsonResult;
 import com.hk.message.api.ChatMessage;
 import com.hk.message.api.OnLineUserMessage;
 import com.hk.message.api.subject.SimpleTopicMessageSubject;
@@ -29,8 +29,8 @@ import java.util.Map;
 /**
  * webSocket Test
  *
- * @author: kevin
- * @date: 2018-09-21 14:26
+ * @author kevin
+ * @date 2018-09-21 14:26
  */
 @Controller
 public class WebSocketMessageController extends BaseController {

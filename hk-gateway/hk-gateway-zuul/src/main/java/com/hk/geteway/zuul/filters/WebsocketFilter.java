@@ -6,8 +6,8 @@ import com.netflix.zuul.context.RequestContext;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author: huangkai
- * @date: 2018-9-22 22:26
+ * @author huangkai
+ * @date 2018-9-22 22:26
  */
 public class WebsocketFilter extends ZuulFilter {
 

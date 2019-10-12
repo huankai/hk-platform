@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>hk-fs-core</artifactId>
+
+    <parent>
+        <groupId>com.hk</groupId>
+        <artifactId>hk-fs</artifactId>
+        <version>2.1.0.RELEASE</version>
+    </parent>
+    <properties>
+        <thumbnailator.version>0.4.8</thumbnailator.version>
+        <fastdfs.client.version>1.26.5</fastdfs.client.version>
+    </properties>
+
+    <dependencies>
+        <!-- 图片压缩-->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>${thumbnailator.version}</version>
+        </dependency>
+        <!--FastDfs Client-->
+        <dependency>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+            <version>${fastdfs.client.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-data-mybatis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-commons-poi</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-platform-business-base</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-platform-business-emi</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-cache</artifactId>
+        </dependency>
+    </dependencies>
+</project>

@@ -9,8 +9,8 @@ import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpr
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
-import com.hk.core.autoconfigure.exception.DefaultErrorController;
 import com.hk.emi.api.feign.SysCodeFeignClient;
+import com.hk.platform.commons.role.RoleNamed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -35,8 +35,8 @@ import java.util.Set;
 
 
 /**
- * @author: kevin
- * @date: 2018-08-13 13:29
+ * @author kevin
+ * @date 2018-08-13 13:29
  */
 @Order(1)
 @Configuration
@@ -48,7 +48,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     private ApplicationContext applicationContext;
 
     /**
-     * @see DefaultErrorController#errorPath
+     * @see
      */
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPath;
@@ -71,7 +71,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.BrowserProperties browser = properties.getBrowser();
+        AuthenticationProperties.LoginProperties browser = properties.getLogin();
         if (null != requestCache) {//默认使用的是 HttpSessionRequestCache
             http.requestCache().requestCache(requestCache);
         }
@@ -101,7 +101,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 //                        return (O) new AdminAccessWebSecurityExpressionHandler();
 //                    }
 //                });
-        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitAllMatchers();
+        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitMatchers();
         if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
             for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
@@ -113,7 +113,8 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 }
             }
         }
-        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasRole("admin").anyRequest().authenticated();
+        urlRegistry.mvcMatchers("/swagger-resources/**", "/swagger-ui.html").hasRole(RoleNamed.ADMIN)
+                .anyRequest().authenticated();
 
         //通过源码分析，好像没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
         http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));
@@ -143,6 +144,6 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/favicon.ico", errorPath, properties.getDefaultFailureUrl());
+        web.ignoring().antMatchers("/static/**", "/actuator/health", "/favicon.ico", errorPath, properties.getDefaultFailureUrl());
     }
 }

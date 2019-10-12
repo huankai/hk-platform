@@ -4,17 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.hk</groupId>
     <artifactId>hk-platform</artifactId>
-    <version>2.0.5.RELEASE</version>
+    <version>2.1.0.RELEASE</version>
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <hk.core.version>2.0.5.RELEASE</hk.core.version>
+        <hk.core.version>2.1.0.RELEASE</hk.core.version>
     </properties>
-
     <modules>
+
         <module>hk-app</module>
         <module>hk-sso</module>
         <module>hk-gateway</module>
@@ -22,9 +22,13 @@
         <module>hk-pms</module>
         <module>hk-emi</module>
         <module>hk-fs</module>
+        <module>hk-solr</module>
+        <module>hk-mail</module>
+        <module>hk-flowable</module>
         <module>hk-platform-business</module>
         <module>hk-config-server</module>
         <module>hk-message-web</module>
+        <module>hk-zipkin-server</module>
         <module>hk-springboot-admin-server</module>
     </modules>
 
@@ -33,12 +37,12 @@
         <repository>
             <id>nexus</id>
             <name>Releases</name>
-            <url>http://192.168.64.150:8081/repository/maven-releases</url>
+            <url>http://182.61.40.18:8081/repository/maven-releases</url>
         </repository>
         <snapshotRepository>
             <id>nexus</id>
             <name>Snapshot</name>
-            <url>http://192.168.64.150:8081/repository/maven-snapshots</url>
+            <url>http://182.61.40.18:8081/repository/maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
@@ -138,7 +142,7 @@
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
-                    <version>2.0.5.RELEASE</version>
+                    <version>2.1.0.RELEASE</version>
                     <executions>
                         <execution>
                             <goals>

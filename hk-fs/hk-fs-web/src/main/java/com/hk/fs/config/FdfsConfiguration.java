@@ -1,6 +1,7 @@
 package com.hk.fs.config;
 
 import com.github.tobato.fastdfs.FdfsClientConfig;
+import com.hk.fs.properties.FileServer;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +12,8 @@ import org.springframework.jmx.support.RegistrationPolicy;
 /**
  * FDFS Configuration
  *
- * @author: kevin
- * @date: 2018-09-12 17:19
+ * @author kevin
+ * @date 2018-09-12 17:19
  */
 @Configuration
 @Import(FdfsClientConfig.class)

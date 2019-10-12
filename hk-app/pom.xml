@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-platform</artifactId>
-        <version>2.0.5.RELEASE</version>
+        <version>2.1.0.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -20,12 +20,21 @@
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
+            <artifactId>hk-commons-httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
             <artifactId>hk-core-data-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-web</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-emi-api</artifactId>
@@ -44,10 +53,6 @@
             <groupId>com.hk</groupId>
             <artifactId>hk-core-spring-boot-autoconfigure</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>mysql</groupId>
@@ -63,10 +68,10 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <dependency>
+        <!-- <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
-        </dependency>
+        </dependency> -->
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -80,6 +85,11 @@
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
 
@@ -88,9 +98,13 @@
             <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
         <dependency>
-        	<groupId>org.springframework.boot</groupId>
-        	<artifactId>spring-boot-configuration-processor</artifactId>
-        	<optional>true</optional>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
@@ -102,5 +116,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

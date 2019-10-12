@@ -5,8 +5,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * @author: kevin
- * @date: 2018-10-22 13:16
+ * @author kevin
+ * @date 2018-10-22 13:16
  */
 @Configuration
 public class MessageAutoConfiguration extends WebSecurityConfigurerAdapter {

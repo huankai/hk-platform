@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 /**
- * @author: kevin
- * @date: 2018-08-29 15:22
+ * @author kevin
+ * @date 2018-08-29 15:22
  */
-@FeignClient("HK-PMS")
+@FeignClient(name = PmsService.SERVICE_NAME, path = PmsService.CONTEXT_PATH)
 @RequestMapping("/api/resource")
 public interface ResourceFeignClient {
 

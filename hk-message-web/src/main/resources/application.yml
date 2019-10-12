@@ -1,5 +1,5 @@
 server:
-  port: 8777
+  port: 7140
   servlet:
     context-path: /message
 spring:

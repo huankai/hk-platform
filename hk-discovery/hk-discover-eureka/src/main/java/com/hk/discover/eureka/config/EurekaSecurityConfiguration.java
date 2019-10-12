@@ -5,8 +5,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
 /**
- * @author: kevin
- * @date: 2018-09-11 14:14
+ * @author kevin
+ * @date 2018-09-11 14:14
  */
 @Configuration
 public class EurekaSecurityConfiguration extends WebSecurityConfigurerAdapter {

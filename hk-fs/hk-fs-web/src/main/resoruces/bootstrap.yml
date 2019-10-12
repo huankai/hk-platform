@@ -1,13 +1,11 @@
-server:
-  port: 8775
-
 spring:
   application:
-    name: hk-fs
+    name: hk-fs-web
   main:
     banner-mode: 'off'
+    allow-bean-definition-overriding: true
   cloud:
     config:
-      label: "2.0.5.RELEASE"
+      label: "2.1.0.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770

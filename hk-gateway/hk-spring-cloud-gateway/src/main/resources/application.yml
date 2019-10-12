@@ -1,8 +1,28 @@
 server:
   port: 8771
 spring:
+  main:
+    banner-mode: 'off'
+    allow-bean-definition-overriding: true
+  application:
+    name: hk-spring-cloud-gateway
+  autoconfigure:
+    exclude:
+      # 默认情况下，spring boot web 应用会装配一些功能组件 bean,大多数情况下，可以选择性关闭自动装配的组件bean,以提升性能。
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
+  mvc:
+    formcontent:
+      filter:
+        enabled: false
   cloud:
     gateway:
+      enabled: true
       discovery:
         locator:
           enabled: false
@@ -28,12 +48,17 @@ spring:
           filters:
             - StripPrefix=1
 eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: false
   client:
+    register-with-eureka: false
     service-url:
       defaultZone: http://root:root123@127.0.0.1:8761/eureka
 logging:
   level:
     root: error
-    org.springframework.cloud.gateway: TRACE
-    org.springframework.http.server.reactive: DEBUG
-    org.springframework.web.reactive: DEBUG
+    com.hk.springcloud.gateway: info
+#    org.springframework.cloud.gateway: trace
+#    org.springframework.http.server.reactive: debug
+#    org.springframework.web.reactive: debug
