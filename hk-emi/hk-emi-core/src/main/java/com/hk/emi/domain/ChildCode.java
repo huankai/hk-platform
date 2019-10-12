@@ -16,8 +16,8 @@ import javax.validation.constraints.NotNull;
  * @date 2017-11-29 17:11
  */
 @Data
-@Table(value = "sys_child_code")
 @SuppressWarnings("serial")
+@Table(value = "emi_child_code")
 @EqualsAndHashCode(callSuper = true)
 public class ChildCode extends AbstractAuditable {
 
@@ -46,6 +46,13 @@ public class ChildCode extends AbstractAuditable {
     @NotNull
     @EnumByte(values = {0, 1})
     private Byte state;
+
+    /**
+     * 是否为国标
+     */
+    @Column(value = "is_gb")
+    @NotNull
+    private Boolean isGb;
 
     @Column(value = "description")
     private String description;

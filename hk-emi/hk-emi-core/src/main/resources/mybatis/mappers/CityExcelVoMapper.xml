@@ -4,7 +4,7 @@
 <mapper namespace="com.hk.emi.mappers.CityExcelVoMapper">
 
     <select id="findExportList" parameterType="com.hk.emi.domain.City" resultType="com.hk.emi.vo.CityExcelVo">
-        SELECT code,full_name,short_name,post_office FROM sys_city
+        SELECT code,full_name,short_name,post_office FROM emi_city
         <where>
             <if test="code != null &amp;&amp; code != ''">code = #{code}</if>
             <if test="cityType != null">city_type = #{cityType}</if>

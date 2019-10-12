@@ -11,7 +11,7 @@ public abstract class DictCodeUtils {
 
     private static final DictService DICT_SERVICE = SpringContextHolder.getBean(DictService.class);
 
-    public static String getChildName(String baseId, byte value) {
+    public static String getChildName(String baseId, Number value) {
         return DICT_SERVICE.getCodeName(baseId, value);
     }
 

@@ -1,23 +1,23 @@
 package com.hk.pms.api.feign;
 
-import com.hk.core.query.QueryModel;
-import com.hk.core.page.QueryPage;
-import com.hk.pms.api.entity.User;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import com.hk.core.page.QueryPage;
+import com.hk.core.query.QueryModel;
+import com.hk.pms.commons.dto.User;
 
 /**
  * @author kevin
  * @date 2018-08-13 20:16
  */
-@FeignClient("HK-PMS")
+@FeignClient(name = PmsService.SERVICE_NAME,path = PmsService.CONTEXT_PATH)
 @RequestMapping("/api/user")
 public interface UserFeignClient {
 
@@ -61,22 +61,10 @@ public interface UserFeignClient {
     /**
      * @param entities entities
      */
-    Collection<User> batchSaveOrUpdate(Collection<User> entities);
-
-    /**
-     * @param userId userId
-     */
-    @DeleteMapping("{id}")
-    void deleteById(@PathVariable("id") String userId);
+    Collection<User> saveOrUpdate(User... users);
 
     /**
      * @param userIds userIds
      */
-    void deleteByIds(Collection<String> userIds);
-
-    /**
-     * @param user user
-     * @return user
-     */
-    User saveOrUpdate(User user);
+    void deleteByIds(String... userIds);
 }

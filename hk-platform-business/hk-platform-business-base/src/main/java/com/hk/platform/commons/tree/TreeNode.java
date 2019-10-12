@@ -1,9 +1,9 @@
 package com.hk.platform.commons.tree;
 
-import lombok.Data;
-
 import java.io.Serializable;
 import java.util.List;
+
+import lombok.Data;
 
 /**
  * @author kevin
@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @SuppressWarnings("serial")
-public class TreeNode implements Serializable {
+public abstract class TreeNode<T> implements Serializable {
 
     /**
      * id
@@ -26,5 +26,5 @@ public class TreeNode implements Serializable {
     /**
      * 子节点
      */
-    private List<? extends TreeNode> childList;
+    private List<T> childs;
 }

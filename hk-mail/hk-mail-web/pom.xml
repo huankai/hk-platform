@@ -9,8 +9,8 @@
 
     <parent>
         <groupId>com.hk</groupId>
-        <artifactId>hk-pms</artifactId>
-        <version>2.1.0.RELEASE</version>
+        <artifactId>hk-mail</artifactId>
+        <version>2.1.2.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -32,11 +32,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

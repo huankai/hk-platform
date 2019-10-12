@@ -48,6 +48,9 @@ public class SysOrg extends AbstractAuditable {
 
     @Column(value = "address")
     private String address;
+    
+    @Column(value = "state")
+    private Byte state;
 
 
 }

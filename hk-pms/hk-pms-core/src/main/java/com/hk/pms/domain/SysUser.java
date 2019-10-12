@@ -1,9 +1,11 @@
 package com.hk.pms.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hk.business.utils.DictCodeUtils;
+import com.hk.commons.util.EnumDisplayUtils;
+import com.hk.commons.validator.constraints.EnumByte;
 import com.hk.commons.validator.constraints.EnumDict;
 import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.platform.commons.enums.UserStateEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -24,21 +26,10 @@ import java.time.LocalDate;
 @SuppressWarnings("serial")
 public class SysUser extends AbstractAuditable {
 
-
     /**
      * 用户类型
      */
     private static final String USER_TYPE_DICT_BASE_ID = "4028c081658f05b301658f0bf9b70005";
-
-    /**
-     * 用户性别
-     */
-    private static final String USER_SEX_DICT_BASE_ID = "4028c081658f05b301658f0bf9b70005";
-
-    /**
-     * 用户状态
-     */
-    private static final String USER_STATUS_DICT_BASE_ID = "4028c081658f05b301658f0bf9b70005";
 
     @NotEmpty
     @Column(value = "org_id")
@@ -82,7 +73,6 @@ public class SysUser extends AbstractAuditable {
 
     @NotNull
     @Column(value = "sex")
-    @EnumDict(codeId = USER_SEX_DICT_BASE_ID)
     private Byte sex;
 
     @Column(value = "icon_path")
@@ -97,11 +87,15 @@ public class SysUser extends AbstractAuditable {
     @Column(value = "city_id")
     private String cityId;
 
+    /**
+     * 用户状态
+     * @see UserStateEnum
+     */
     @Column(value = "user_status")
-    @EnumDict(codeId = USER_STATUS_DICT_BASE_ID)
+    @EnumByte(values = {1, 2, 8, 9}, notNull = true)
     private Byte userStatus;
 
     public String getUserStatusChinese() {
-        return DictCodeUtils.getChildName(USER_STATUS_DICT_BASE_ID, getUserStatus());
+        return EnumDisplayUtils.getDisplayText(UserStateEnum.class, userStatus);
     }
 }

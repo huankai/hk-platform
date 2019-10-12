@@ -39,6 +39,6 @@ public class ResourceRestController extends BaseController {
     public List<ResourceTree> myResourceTreeList(@PathVariable String appId) {
         List<SysPermission> permissionList = permissionService.getCurrentUserPermissionList(appId);
         Set<String> permissionIds = permissionList.stream().map(SysPermission::getId).collect(Collectors.toSet());
-        return sysResourceService.findByPermissionIds(permissionIds);
+        return sysResourceService.findByPermissionIds(appId,permissionIds);
     }
 }

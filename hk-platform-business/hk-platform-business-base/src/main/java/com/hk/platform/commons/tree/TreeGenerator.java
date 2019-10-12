@@ -1,15 +1,15 @@
 package com.hk.platform.commons.tree;
 
-import com.hk.commons.util.CollectionUtils;
-
 import java.util.List;
 import java.util.Map;
+
+import com.hk.commons.util.CollectionUtils;
 
 /**
  * @author kevin
  * @date 2018-08-29 08:55
  */
-public interface TreeGenerator<T extends TreeNode> {
+public interface TreeGenerator<T extends TreeNode<?>> {
 
     /**
      * 获取根节点

@@ -1,10 +1,12 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
+
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 /**
@@ -19,11 +21,8 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(value = "sys_config")
 public class SysConfig extends AbstractAuditable {
 
-    /**
-     * 续期类型
-     */
-    @Column(value = "key_")
-    private String key;
+	@Column(value = "app_id")
+	private String appId;
 
     /**
      * 名称

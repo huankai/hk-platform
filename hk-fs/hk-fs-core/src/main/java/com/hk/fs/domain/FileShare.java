@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
-@Table(name = "file_share")
+@Table(name = "fs_file_share")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class FileShare extends AbstractAuditable {

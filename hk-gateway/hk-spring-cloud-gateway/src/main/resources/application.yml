@@ -30,35 +30,53 @@ spring:
 
       routes:
         - id: hk-emi
-          uri: http://127.0.0.1:8772
+          uri: http://127.0.0.1:7120
           predicates:
             - Path=/emi/**
-          filters:
-            - StripPrefix=1
+#          filters:
+#            - StripPrefix=1
         - id: hk-pms
-          uri: http://127.0.0.1:8773
+          uri: http://127.0.0.1:7110
           predicates:
             - Path=/pms/**
-          filters:
-            - StripPrefix=1
+#          filters:
+#            - StripPrefix=1
         - id: hk-oauth2
-          uri: http://127.0.0.1:8086
+          uri: http://127.0.0.1:7100
           predicates:
+#          Path Route Predicate 会解析成  org.springframework.cloud.gateway.handler.predicate.PathRoutePredicateFactory 进行处理
+#          表示url路径匹配 ，当请求以 oauth2开头时，会　route 到  http://127.0.0.1:7100
+#           其它 predicates 可查看文档: https://blog.csdn.net/forezp/article/details/84926662
+#           spring cloud 文档: https://blog.csdn.net/forezp/article/details/70148833
             - Path=/oauth2/**
           filters:
-            - StripPrefix=1
+#            - StripPrefix=1
+            - name: RequestRateLimiter
+              args:
+#              用于限流的键的解析器的 Bean 对象的名字。它使用 SpEL 表达式根据#{@beanName}从 Spring 容器中获取 Bean 对象。
+                key-resolver: '#{@hostAddrKeyResolver}'
+                redis-rate-limiter:
+#                令牌桶每秒填充平均速率
+                  replenish-rate: 1
+#                 令牌桶总容量hostAddrKeyResolver
+                  burst-capacity: 3
+############# 使用 redis 限流
+  redis:
+    host: 192.168.64.128
+    database: 5
+
 eureka:
   instance:
-    hostname: localhost
+    hostname: 127.0.0.1
     prefer-ip-address: false
   client:
     register-with-eureka: false
     service-url:
-      defaultZone: http://root:root123@127.0.0.1:8761/eureka
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka-server/eureka
 logging:
   level:
     root: error
     com.hk.springcloud.gateway: info
-#    org.springframework.cloud.gateway: trace
+    org.springframework.cloud.gateway: trace
 #    org.springframework.http.server.reactive: debug
 #    org.springframework.web.reactive: debug

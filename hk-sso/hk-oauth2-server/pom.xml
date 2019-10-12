@@ -9,13 +9,17 @@
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-sso</artifactId>
-        <version>2.1.0.RELEASE</version>
+        <version>2.1.2.RELEASE</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hk</groupId>
+            <artifactId>hk-core-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
@@ -56,10 +60,6 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

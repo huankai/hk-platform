@@ -1,6 +1,6 @@
 package com.hk.pms.config;
 
-import com.hk.business.validator.dict.DictCodeServiceImpl;
+import com.hk.business.validator.dict.FeignDictCodeServiceImpl;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.validator.DictService;
@@ -61,7 +61,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 
     @Bean
     public DictService dictService(SysCodeFeignClient codeFeignClient) {
-        return new DictCodeServiceImpl(codeFeignClient);
+        return new FeignDictCodeServiceImpl(codeFeignClient);
     }
 
     public PmsSecurityWebAutoConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {

@@ -3,7 +3,7 @@ package com.hk.pms.service.impl;
 
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
-import com.hk.core.cache.service.EnableJdbcCacheServiceImpl;
+import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.repository.jdbc.SysAppRepository;

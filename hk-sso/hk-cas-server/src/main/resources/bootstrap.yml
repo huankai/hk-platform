@@ -1,0 +1,35 @@
+##
+# CAS Spring Cloud Config Client
+#
+# Name of the application for which environment settings and properties should be fetched.
+# This should map to a cas.yml or cas.properties file.
+spring:
+  application: 
+    name: cas
+#  profiles:
+#    active: standalone
+
+# Define where the configuration server is running
+# and what credentials are used to access it.
+# By default, basic authN is used.
+#  cloud:
+#    config: 
+#      enabled: false
+#      profile: native
+#      fail-fast: true
+#      uri: "http://casuser:Mellon@localhost:8888/casconfigserver"
+#      watch:
+#        enabled: true
+#        delay: 1000
+#        initial-delay: 30000
+#health:
+#  config:
+#    enabled: true
+# Do NOT modify this line below.
+# If you wish to change the configuration directory, it's best to not
+# overlay this file, but specify the directory location via command-line
+# parameters or system properties via -D.
+#cas:
+#  standalone:
+#    configuration-directory: "/etc/cas/config"
+      

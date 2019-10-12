@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @Entity
-@Table(name = "file_info")
+@Table(name = "fs_file_info")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class FileInfo extends AbstractAuditable {

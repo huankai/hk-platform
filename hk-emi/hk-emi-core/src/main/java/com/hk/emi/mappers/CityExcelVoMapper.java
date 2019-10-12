@@ -1,6 +1,6 @@
 package com.hk.emi.mappers;
 
-import com.hk.data.mybatis.BaseMapper;
+import com.hk.data.ibatis.BaseMapper;
 import com.hk.emi.domain.City;
 import com.hk.emi.vo.CityExcelVo;
 import org.apache.ibatis.annotations.Mapper;

@@ -7,11 +7,13 @@ import com.hk.core.autoconfigure.authentication.security.AuthenticationPropertie
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.SmsAuthenticationSecurityConfiguration;
 import com.hk.core.autoconfigure.authentication.security.ValidateCodeSecurityConfiguration;
-import com.hk.core.autoconfigure.weixin.authentication.qrcode.WechatQrcodeAuthenticationSecurityConfigurer;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
 import com.hk.platform.commons.role.RoleNamed;
-import com.hk.weixin.qrcode.WechatQrCodeConfig;
+
+import com.hk.weixin.WechatMpProperties;
+import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
 import me.chanjar.weixin.mp.api.WxMpService;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
@@ -38,26 +40,31 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Order(1)
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(value = {WechatQrCodeConfig.class, AuthenticationProperties.class})
+@EnableConfigurationProperties(value = {WechatMpProperties.class, AuthenticationProperties.class})
 public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties authenticationProperties;
 
-    private WechatQrCodeConfig qrCodeConfig;
+    private WechatMpProperties wechatProperties;
+
+    private WxMpService wxMpService;
 
     /**
      * 手机号验证 Bean,在没有开启手机号验证时,不会注入该Bean
      *
      * @see SecurityAuthenticationAutoConfiguration.SmsAutoConfiguration
      */
-    @Autowired(required = false)
-    @Qualifier("smsValidateCodeProcessor")
+
     private ValidateCodeProcessor processor;
 
     public Oauth2SecurityWebAutoConfiguration(AuthenticationProperties authenticationProperties,
-                                              WechatQrCodeConfig qrCodeConfig) {
+                                              WechatMpProperties wechatProperties,
+                                              ObjectProvider<WxMpService> wxMpServices,
+                                              @Qualifier("smsValidateCodeProcessor") ObjectProvider<ValidateCodeProcessor> validateCodeProcessors) {
         this.authenticationProperties = authenticationProperties;
-        this.qrCodeConfig = qrCodeConfig;
+        this.wechatProperties = wechatProperties;
+        this.wxMpService = wxMpServices.getIfAvailable();
+        this.processor = validateCodeProcessors.getIfAvailable();
     }
 
     /**
@@ -83,9 +90,6 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 .passwordEncoder(passwordEncoder);
     }
 
-    @Autowired
-    private WxMpService wxMpService;
-
 
     @Bean
     public SessionRegistry sessionRegistry() {
@@ -101,7 +105,12 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                     .apply(new SmsAuthenticationSecurityConfiguration(sms, userDetailsService))
                     .and().apply(new ValidateCodeSecurityConfiguration(sms, processor, null));
         }
-        http.apply(new WechatQrcodeAuthenticationSecurityConfigurer(wxMpService, qrCodeConfig));
+        if (wechatProperties.isEnabled()) {
+            if (null == wxMpService) {
+                throw new NullPointerException("wechat is enabled ,But wxMpService is null.");
+            }
+            http.apply(new WechatAuthenticationSecurityConfigurer(wxMpService, wechatProperties.getAuthentication()));
+        }
         http
                 .csrf().disable()
 
