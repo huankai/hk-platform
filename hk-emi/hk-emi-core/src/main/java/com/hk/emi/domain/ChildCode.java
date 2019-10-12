@@ -1,7 +1,7 @@
 package com.hk.emi.domain;
 
 import com.hk.commons.validator.constraints.EnumByte;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -21,11 +21,11 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "emi_child_code")
 @EqualsAndHashCode(callSuper = true)
-public class ChildCode extends AbstractAuditable {
+public class ChildCode extends AbstractSnowflakeAuditable {
 
     @Column(name = "base_code_id")
-    @NotEmpty
-    private String baseCodeId;
+    @NotNull
+    private Long baseCodeId;
 
     @Column(name = "child_code")
     @NotEmpty
@@ -46,14 +46,13 @@ public class ChildCode extends AbstractAuditable {
      */
     @Column(name = "state")
     @NotNull
-    @EnumByte(values = {0, 1})
-    private Byte state;
+    private Boolean state;
 
     /**
      * 是否为国标
      */
-    @Column(name = "is_gb")
     @NotNull
+    @Column(name = "is_gb")
     private Boolean isGb;
 
     @Column(name = "description")

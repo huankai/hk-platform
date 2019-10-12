@@ -2,7 +2,8 @@ package com.hk.fs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hk.commons.util.FileUtils;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeIdPersistable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,13 +21,13 @@ import java.time.LocalDateTime;
 @Table(name = "fs_file_info")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class FileInfo extends AbstractAuditable {
+public class FileInfo extends AbstractSnowflakeIdPersistable {
 
     /**
      * 文件所有者
      */
     @Column(name = "user_id")
-    private String userId;
+    private Long userId;
 
     /**
      * 文件名

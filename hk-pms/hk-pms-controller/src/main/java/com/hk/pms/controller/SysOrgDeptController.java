@@ -32,12 +32,12 @@ public class SysOrgDeptController extends BaseController {
     }
 
     @GetMapping(path = "{id}", name = "dept-get")
-    public JsonResult<SysOrgDept> get(@PathVariable String id) {
-        return JsonResult.success(orgDeptService.getById(id));
+    public JsonResult<SysOrgDept> get(@PathVariable Long id) {
+        return JsonResult.success(orgDeptService.getOne(id));
     }
 
     @DeleteMapping(path = "{id}", name = "dept-delete")
-    public JsonResult<Void> delete(@PathVariable String id) {
+    public JsonResult<Void> delete(@PathVariable Long id) {
         orgDeptService.deleteById(id);
         return JsonResult.success();
     }

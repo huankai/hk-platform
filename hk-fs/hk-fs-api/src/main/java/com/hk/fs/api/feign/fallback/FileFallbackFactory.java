@@ -24,7 +24,7 @@ public class FileFallbackFactory implements FallbackFactory<FileFeign> {
     public FileFeign create(Throwable cause) {
         return new FileFeign() {
             @Override
-            public FileInfoResponse get(String id) {
+            public FileInfoResponse get(Long id) {
                 return null;
             }
 

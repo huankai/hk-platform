@@ -8,7 +8,6 @@ import com.hk.emi.domain.BaseCode;
 import com.hk.emi.service.BaseCodeService;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +49,7 @@ public class BaseCodeController extends BaseController {
      * @return JsonResult
      */
     @GetMapping(path = "{id}", name = "basecode-get")
-    public JsonResult<BaseCode> get(@PathVariable String id) {
+    public JsonResult<BaseCode> get(@PathVariable Long id) {
         return JsonResult.success(baseCodeService.getOne(id));
     }
 
@@ -60,9 +59,9 @@ public class BaseCodeController extends BaseController {
      * @param id id
      * @return JsonResult
      */
-    @DeleteMapping(path = "{id}", name = "basecode-delete")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> deleteById(@PathVariable String id) {
+    @PostMapping(path = "{id}", name = "basecode-delete")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
+    public JsonResult<Void> deleteById(@PathVariable Long id) {
         baseCodeService.deleteById(id);
         return JsonResult.success();
     }
@@ -74,7 +73,7 @@ public class BaseCodeController extends BaseController {
      * @return JsonResult
      */
     @PostMapping
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody BaseCode baseCode) {
         baseCodeService.insertOrUpdateSelective(baseCode);
         return JsonResult.success();

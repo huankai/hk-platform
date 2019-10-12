@@ -24,14 +24,14 @@ public interface SysCodeFeignClient {
      * @return SysCode
      */
     @GetMapping("/child")
-    List<SysCodeResponse> childListByParentId(@RequestParam("parentId") String parentId, @RequestParam("ignore") String... ignores);
+    List<SysCodeResponse> childListByParentId(@RequestParam("parentId") Long parentId, @RequestParam("ignore") Long... ignores);
 
     /**
      * @param parentId  parentId
      * @param codeValue codeValue
      * @return String
      */
-    default String childCodeName(String parentId, Number codeValue) {
+    default String childCodeName(Long parentId, Number codeValue) {
         return CollectionUtils.getFirstOrDefault(childCodeNameList(parentId, codeValue)).orElse(null);
     }
 
@@ -41,5 +41,5 @@ public interface SysCodeFeignClient {
      * @return List<String>
      */
     @GetMapping("/childnames")
-    List<String> childCodeNameList(@RequestParam("parentId") String parentId, @RequestParam("code_values") Number... codeValues);
+    List<String> childCodeNameList(@RequestParam("parentId") Long parentId, @RequestParam("code_values") Number... codeValues);
 }

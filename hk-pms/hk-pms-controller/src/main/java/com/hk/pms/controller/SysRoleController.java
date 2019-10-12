@@ -32,26 +32,26 @@ public class SysRoleController extends BaseController {
     }
 
     @GetMapping(path = "{id}", name = "role-get")
-    public JsonResult<SysRole> get(@PathVariable String id) {
-        return JsonResult.success(roleService.getById(id));
+    public JsonResult<SysRole> get(@PathVariable Long id) {
+        return JsonResult.success(roleService.getOne(id));
     }
 
     @DeleteMapping(path = "{id}", name = "role-delete")
-    public JsonResult<Void> delete(@PathVariable String id) {
+    public JsonResult<Void> delete(@PathVariable Long id) {
         roleService.deleteById(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "disabled")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> disabled(@RequestParam String id) {
+    public JsonResult<Void> disabled(@RequestParam Long id) {
         roleService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "enabled")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> enabled(@RequestParam String id) {
+    public JsonResult<Void> enabled(@RequestParam Long id) {
         roleService.enable(id);
         return JsonResult.success();
     }

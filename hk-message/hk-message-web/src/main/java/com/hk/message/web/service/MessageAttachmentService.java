@@ -1,11 +1,11 @@
 package com.hk.message.web.service;
 
-import com.hk.core.service.jdbc.JdbcBaseService;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.message.web.domain.MessageAttachment;
 
 import java.util.Collection;
 
-public interface MessageAttachmentService extends JdbcBaseService<MessageAttachment, String> {
+public interface MessageAttachmentService extends JpaBaseService<MessageAttachment, Long> {
 
     /**
      * 获取消息附件信息
@@ -13,7 +13,7 @@ public interface MessageAttachmentService extends JdbcBaseService<MessageAttachm
      * @param messageId 消息id
      * @return {@link MessageAttachment}
      */
-    Collection<MessageAttachment> findByMessageId(String messageId);
+    Collection<MessageAttachment> findByMessageId(Long messageId);
 
     /**
      * 批量保存消息附件
@@ -22,5 +22,5 @@ public interface MessageAttachmentService extends JdbcBaseService<MessageAttachm
      * @param attachments attachments
      * @return {@link MessageAttachment}
      */
-    Iterable<MessageAttachment> batchInsertMessageAttachment(String messageId, Collection<MessageAttachment> attachments);
+    Iterable<MessageAttachment> batchInsertMessageAttachment(Long messageId, Collection<MessageAttachment> attachments);
 }

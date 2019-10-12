@@ -15,7 +15,7 @@ import java.util.List;
 public class CityFeignClientFallback implements CityFeignClient {
 
     @Override
-    public List<CityResponse> getChildList(String parentId) {
+    public List<CityResponse> getChildList(Long parentId) {
         return Collections.emptyList();
     }
 

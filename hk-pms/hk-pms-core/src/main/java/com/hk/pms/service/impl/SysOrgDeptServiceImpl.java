@@ -1,10 +1,10 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.pms.domain.SysOrgDept;
-import com.hk.pms.repository.jdbc.SysOrgDeptRepository;
+import com.hk.pms.repository.jpa.SysOrgDeptRepository;
 import com.hk.pms.service.SysOrgDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @date 2018-04-12 16:50
  */
 @Service
-public class SysOrgDeptServiceImpl extends JdbcServiceImpl<SysOrgDept, String> implements SysOrgDeptService {
+public class SysOrgDeptServiceImpl extends JpaServiceImpl<SysOrgDept, Long> implements SysOrgDeptService {
 
     private final SysOrgDeptRepository sysOrgDeptRepository;
 
@@ -29,7 +29,7 @@ public class SysOrgDeptServiceImpl extends JdbcServiceImpl<SysOrgDept, String> i
      * @return
      */
     @Override
-    protected JdbcRepository<SysOrgDept, String> getBaseRepository() {
+    protected BaseJpaRepository<SysOrgDept, Long> getBaseRepository() {
         return sysOrgDeptRepository;
     }
 }

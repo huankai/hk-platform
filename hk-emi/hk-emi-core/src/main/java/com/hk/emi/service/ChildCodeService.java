@@ -1,15 +1,15 @@
 package com.hk.emi.service;
 
-import java.util.List;
-
 import com.hk.core.cache.service.JpaCacheService;
 import com.hk.emi.domain.ChildCode;
+
+import java.util.List;
 
 /**
  * @author kevin
  * @date 2018年1月24日下午1:44:33
  */
-public interface ChildCodeService extends JpaCacheService<ChildCode, String> {
+public interface ChildCodeService extends JpaCacheService<ChildCode, Long> {
 
     /**
      * 查询子字典
@@ -17,7 +17,7 @@ public interface ChildCodeService extends JpaCacheService<ChildCode, String> {
      * @param baseCodeId baseCodeId
      * @return
      */
-    default List<ChildCode> findByBaseCodeId(String baseCodeId) {
+    default List<ChildCode> findByBaseCodeId(Long baseCodeId) {
         return findByBaseCodeIgnoreChildCodes(baseCodeId);
     }
 
@@ -28,6 +28,7 @@ public interface ChildCodeService extends JpaCacheService<ChildCode, String> {
      * @param childCodes 要忽略的子节点名称
      * @return
      */
-    List<ChildCode> findByBaseCodeIgnoreChildCodes(String baseCodeId, String... childCodes);
+    List<ChildCode> findByBaseCodeIgnoreChildCodes(Long baseCodeId, String... childCodes);
 
+    long countByBaseCodeId(Long baseCodeId);
 }

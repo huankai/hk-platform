@@ -4,6 +4,7 @@ import com.hk.commons.util.AssertUtils;
 import com.hk.oauth2.server.service.RegisterService;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -57,7 +58,7 @@ public class EmailRegisterController extends BaseController {
      * @return register view 3
      */
     @GetMapping(path = "register-3/{id}")
-    public String register3(@PathVariable String id, ModelMap modelMap) {
+    public String register3(@PathVariable Long id, ModelMap modelMap) {
         registerService.checkEmailValidate(id);
         modelMap.put("id", id);
         return "register/email/register_3";
@@ -74,7 +75,7 @@ public class EmailRegisterController extends BaseController {
      * @return redirect 到首页
      */
     @PostMapping(path = "complete")
-    public String completeRegister(@RequestParam String id, @RequestParam String realName, Byte sex, LocalDate birthday, String iconPath) {
+    public String completeRegister(@RequestParam Long id, @RequestParam String realName, Byte sex, LocalDate birthday, String iconPath) {
         registerService.completeRegister(id, realName, sex, birthday, iconPath);
         return "redirect:/";
     }

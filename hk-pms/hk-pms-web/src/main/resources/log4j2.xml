@@ -11,7 +11,7 @@
                 sys:user.home 表示用户的家目录，在 docker 部署环境中，如果以最小 jre 镜像 作为基础镜像，
                 获取 user.home 的值可能为 ? 或获取不到，而 user.dir 目录就是指Dockerfile 中的 WORKDIR 指令所在目录
         -->
-        <property name="LOG_HOME">${sys:user.dir}/logs</property>
+        <property name="LOG_HOME">${sys:user.home}/logs</property>
     </properties>
     <Appenders>
         <!--
@@ -58,8 +58,7 @@
                 <!-- 这一触发策略不需要参数设置，它会自行判断log文件的创建时间和JVM的启动时间。若log文件的创建时间早于JVM的启动时间，则将原来的log文件封存，然后创建一个新的空白log文件 -->
                 <!--<OnStartupTriggeringPolicy/>-->
                 <!--
-                       基于时间的触发策略。该策略主要是完成周期性的log文件封存工作
-
+                       基于时间的触发策略。该策略主要是完成周期性的log文件封存工作，如下表示每天生成一个新文件
                  -->
                 <!--<TimeBasedTriggeringPolicy  interval="1" modulate="true"/>-->
                 <!-- 这一触发策略基于对log文件大小的判断。当log文件大于设定的阈值时，将触发封存动作。200MB的信息压缩后其实很小，因为日志文件有大量的重复信息所以压缩后的大小会变得很小方便存储 -->
@@ -81,7 +80,7 @@
         <Logger name="com.hk" additivity="true" level="INFO"/>
         <Logger name="org.springframework.security" additivity="true" level="DEBUG"/>
         <Logger name="org.springframework.jdbc.core.JdbcTemplate" additivity="true" level="DEBUG"/>
-        <Logger name="org.springframework.jdbc.core.StatementCreatorUtils" additivity="true" level="DEBUG"/>
+        <Logger name="org.springframework.jdbc.core.StatementCreatorUtils" additivity="true" level="TRACE"/>
         <Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"
                 additivity="true" level="DEBUG"/>
     </Loggers>

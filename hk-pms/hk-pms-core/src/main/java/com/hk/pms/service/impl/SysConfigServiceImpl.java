@@ -1,19 +1,21 @@
 package com.hk.pms.service.impl;
 
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.pms.domain.SysConfig;
-import com.hk.pms.repository.jdbc.SysConfigRepository;
+import com.hk.pms.repository.jpa.SysConfigRepository;
 import com.hk.pms.service.SysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author kevin
  * @date 2018-09-20 20:07
  */
 @Service
-public class SysConfigServiceImpl extends JdbcServiceImpl<SysConfig, String> implements SysConfigService {
+public class SysConfigServiceImpl extends JpaServiceImpl<SysConfig, Long> implements SysConfigService {
 
     private final SysConfigRepository sysConfigRepository;
 
@@ -23,7 +25,12 @@ public class SysConfigServiceImpl extends JdbcServiceImpl<SysConfig, String> imp
     }
 
     @Override
-    protected JdbcRepository<SysConfig, String> getBaseRepository() {
+    protected BaseJpaRepository<SysConfig, Long> getBaseRepository() {
         return sysConfigRepository;
+    }
+
+    @Override
+    public List<SysConfig> findByAppId(Long appId) {
+        return sysConfigRepository.findByAppId(appId);
     }
 }

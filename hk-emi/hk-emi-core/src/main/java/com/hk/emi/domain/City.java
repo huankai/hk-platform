@@ -1,7 +1,7 @@
 package com.hk.emi.domain;
 
-import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
+import com.hk.emi.enums.CityTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
@@ -23,21 +23,20 @@ import javax.validation.constraints.NotNull;
 @Table(name = "emi_city")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
-public class City extends AbstractAuditable {
+public class City extends AbstractSnowflakeAuditable {
 
-    public static final String CITY_TYPE_DICT_ID = "4028c081655a3a5a01655a3acd160000";
+    public static final long CITY_TYPE_DICT_ID = 12132424324L;
 
     /**
      * 行政代码
      */
-    @Column(name = "code")
     @NotEmpty
     @Length(max = 20)
+    @Column(name = "code")
     private String code;
 
     @Column(name = "parent_id")
-    @NotEmpty
-    private String parentId;
+    private Long parentId;
 
     /**
      * <pre>
@@ -50,7 +49,7 @@ public class City extends AbstractAuditable {
      */
     @Column(name = "city_type")
     @NotNull
-    @EnumDict(codeId = CITY_TYPE_DICT_ID)
+//    @EnumDict(codeId = CITY_TYPE_DICT_ID)
     private Byte cityType;
 
     /**
@@ -96,5 +95,9 @@ public class City extends AbstractAuditable {
      */
     @Column(name = "description")
     private String description;
+
+    public String getCityTypeText() {
+        return CityTypeEnum.getName(this.cityType);
+    }
 
 }

@@ -34,13 +34,13 @@ public class SysPermissionController extends BaseController {
     }
 
     @GetMapping
-    public JsonResult<SysPermission> get(@RequestParam String id) {
-        return JsonResult.success(permissionService.getById(id));
+    public JsonResult<SysPermission> get(@RequestParam Long id) {
+        return JsonResult.success(permissionService.getOne(id));
     }
 
     @DeleteMapping
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> delete(@RequestParam String id) {
+    public JsonResult<Void> delete(@RequestParam Long id) {
         permissionService.deleteById(id);
         return JsonResult.success();
     }

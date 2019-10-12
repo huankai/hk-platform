@@ -1,10 +1,11 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.*;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -15,17 +16,18 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(value = "sys_dept_role")
+@Entity
+@Table(name = "sys_dept_role")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = false)
-public class SysDeptRole extends AbstractAuditable {
+public class SysDeptRole extends AbstractSnowflakeAuditable {
 
-    @Column(value = "dept_id")
+    @Column(name = "dept_id")
     @NotEmpty
-    private String deptId;
+    private Long deptId;
 
-    @Column(value = "role_id")
+    @Column(name = "role_id")
     @NotEmpty
-    private String roleId;
+    private Long roleId;
 
 }

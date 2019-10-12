@@ -1,10 +1,11 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.*;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -15,16 +16,17 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(value = "sys_role_permission")
+@Entity
+@Table(name = "sys_role_permission")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysRolePermission extends AbstractAuditable {
+public class SysRolePermission extends AbstractSnowflakeAuditable {
 
     @NotEmpty
-    @Column(value = "role_id")
-    private String roleId;
+    @Column(name = "role_id")
+    private Long roleId;
 
     @NotEmpty
-    @Column(value = "permission_id")
-    private String permissionId;
+    @Column(name = "permission_id")
+    private Long permissionId;
 }

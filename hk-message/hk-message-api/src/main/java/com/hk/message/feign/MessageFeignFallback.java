@@ -1,6 +1,7 @@
 package com.hk.message.feign;
 
 import com.hk.commons.JsonResult;
+import com.hk.commons.Status;
 import com.hk.core.page.SimpleQueryPage;
 import com.hk.core.query.QueryModel;
 import com.hk.message.domain.MessageAttachmentDTO;
@@ -12,11 +13,11 @@ public class MessageFeignFallback implements MessageFeign {
 
     @Override
     public JsonResult<MessageAttachmentDTO> read(String messageId) {
-        return new JsonResult<>(JsonResult.Status.FAILURE, "系统繁忙，请稍后再试");
+        return new JsonResult<>(Status.FAILURE, "系统繁忙，请稍后再试");
     }
 
     @Override
     public JsonResult<SimpleQueryPage<MessageUserDTO>> list(QueryModel<MessageUserDTO> query) {
-        return new JsonResult<>(JsonResult.Status.FAILURE, "系统繁忙，请稍后再试");
+        return new JsonResult<>(Status.FAILURE, "系统繁忙，请稍后再试");
     }
 }

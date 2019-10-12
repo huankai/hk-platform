@@ -28,7 +28,7 @@ import java.util.Map;
  * @date 2018-08-08 17:46
  */
 @Service
-public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implements FileInfoService {
+public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, Long> implements FileInfoService {
 
     @Autowired
     private FileHandler fileHandler;
@@ -37,7 +37,7 @@ public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implem
     private FileInfoRepository fileInfoRepository;
 
     @Override
-    protected BaseJpaRepository<FileInfo, String> getBaseRepository() {
+    protected BaseJpaRepository<FileInfo, Long> getBaseRepository() {
         return fileInfoRepository;
     }
 

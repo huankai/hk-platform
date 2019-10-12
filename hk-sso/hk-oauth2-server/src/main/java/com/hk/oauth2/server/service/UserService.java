@@ -1,6 +1,6 @@
 package com.hk.oauth2.server.service;
 
-import com.hk.core.service.jdbc.JdbcBaseService;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.oauth2.server.entity.SysUser;
 
 import java.util.Optional;
@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author kevin
  * @date 2018-07-31 12:52
  */
-public interface UserService extends JdbcBaseService<SysUser, String> {
+public interface UserService extends JpaBaseService<SysUser, Long> {
 
     /**
      * 登陆名查询
@@ -25,7 +25,7 @@ public interface UserService extends JdbcBaseService<SysUser, String> {
      * @param userId  用户id
      * @param newPass 新密码
      */
-    void resetPassword(String userId, String newPass);
+    void resetPassword(Long userId, String newPass);
 
     Optional<SysUser> findByPhone(String phone);
 

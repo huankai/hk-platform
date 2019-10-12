@@ -1,16 +1,23 @@
 package com.hk.pms.controller;
 
 import com.hk.commons.JsonResult;
+import com.hk.commons.util.BeanUtils;
 import com.hk.commons.util.StringUtils;
+import com.hk.commons.util.TextValueItem;
+import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
-import com.hk.core.query.QueryModel;
+import com.hk.platform.commons.enums.UserStateEnum;
 import com.hk.platform.commons.web.BaseController;
 import com.hk.pms.domain.SysUser;
+import com.hk.pms.enums.UserTypeEnum;
+import com.hk.pms.service.SysOrgService;
 import com.hk.pms.service.SysUserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author kevin
@@ -18,44 +25,55 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/users")
+@RequiredArgsConstructor
 public class SysUserController extends BaseController {
 
-    private SysUserService userService;
+    private final SysUserService userService;
 
-    @Autowired
-    public SysUserController(SysUserService userService) {
-        this.userService = userService;
-    }
+    private final SysOrgService orgService;
 
     @PostMapping(path = "list")
-    public JsonResult<QueryPage<SysUser>> userPage(@RequestBody QueryModel<SysUser> query) {
+    public JsonResult<QueryPage<SysUser>> userPage(@RequestBody ConditionQueryModel query) {
         QueryPage<SysUser> page = userService.queryForPage(query);
         return JsonResult.success(page);
     }
 
     @GetMapping(path = "{id}", name = "user-get")
-    public JsonResult<SysUser> get(@PathVariable String id) {
-        return JsonResult.success(userService.getById(id));
+    public JsonResult<Map<String, Object>> get(@PathVariable Long id) {
+        SysUser sysUser = userService.getOne(id);
+        Map<String, Object> data = BeanUtils.beanToMapIgnoreEntityProperties(sysUser, "password");
+        data.put("orgName", orgService.getOne(sysUser.getOrgId()).getOrgName());
+        return JsonResult.success(data);
     }
 
-    @DeleteMapping(path = "{id}", name = "user-delete")
-    public JsonResult<Void> delete(@PathVariable String id) {
-        userService.deleteById(id);
+    @PostMapping(path = "deleted")
+    public JsonResult<Void> delete(@RequestParam Long id) {
+        userService.markDeleted(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "disabled")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> disabled(@RequestParam String id) {
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
+    public JsonResult<Void> disabled(@RequestParam Long id) {
         userService.disable(id);
         return JsonResult.success();
     }
 
     @PostMapping(path = "enabled")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> enabled(@RequestParam String id) {
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
+    public JsonResult<Void> enabled(@RequestParam Long id) {
         userService.enable(id);
         return JsonResult.success();
+    }
+
+    @GetMapping("status")
+    public JsonResult<List<TextValueItem>> getUserStatus() {
+        return JsonResult.success(UserStateEnum.LIST);
+    }
+
+    @GetMapping("usertypes")
+    public JsonResult<List<TextValueItem>> getUserTypes() {
+        return JsonResult.success(UserTypeEnum.LIST);
     }
 
     @PostMapping
@@ -64,11 +82,23 @@ public class SysUserController extends BaseController {
         return JsonResult.success();
     }
 
+    @PostMapping(path = "reset_pwd")
+    public JsonResult<Void> resetPassword(@RequestParam Long id, @RequestParam String password, @RequestParam String confirm) {
+        if (StringUtils.isBlank(password)) {
+            return JsonResult.badRequest("密码不能为空");
+        }
+        if (StringUtils.notEquals(password, confirm)) {
+            return JsonResult.badRequest("两次输入密码不一致");
+        }
+        userService.resetPassword(id, password);
+        return JsonResult.success("重设密码成功");
+    }
+
     /**
      * 重设密码
      *
-     * @param oldPassword 原密码
-     * @param newPassword 新密码
+     * @param oldPassword  原密码
+     * @param newPassword  新密码
      * @param newPassword2 新密码2
      * @return jsonResult
      */

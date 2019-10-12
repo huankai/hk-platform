@@ -1,6 +1,6 @@
 package com.hk.fs.domain;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(name = "aliyun_oss_bucket")
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class AliyunOssBucket extends AbstractAuditable {
+public class AliyunOssBucket extends AbstractSnowflakeAuditable {
 
     @Column(name = "bucket_name")
     private String bucketName;

@@ -5,7 +5,7 @@ import com.github.tobato.fastdfs.service.AppendFileStorageClient;
 import com.hk.commons.util.FileUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.fs.properties.FileServer;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -20,12 +20,11 @@ public class FastdfsFileHandler implements FileHandler {
 
     private static final String DEFAULT_GROUP = "group1";
 
-    @Autowired
+    @Setter
     private FileServer fileServer;
 
     private final AppendFileStorageClient appendFileStorageClient;
 
-    @Autowired
     public FastdfsFileHandler(AppendFileStorageClient appendFileStorageClient) {
         this.appendFileStorageClient = appendFileStorageClient;
     }

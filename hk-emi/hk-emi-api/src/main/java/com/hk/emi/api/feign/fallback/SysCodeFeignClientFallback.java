@@ -15,12 +15,12 @@ import java.util.List;
 public class SysCodeFeignClientFallback implements SysCodeFeignClient {
 
     @Override
-    public List<SysCodeResponse> childListByParentId(String parentId, String... ignores) {
+    public List<SysCodeResponse> childListByParentId(Long parentId, Long... ignores) {
         return Collections.emptyList();
     }
 
     @Override
-    public List<String> childCodeNameList(String parentId, Number... codeValues) {
+    public List<String> childCodeNameList(Long parentId, Number... codeValues) {
         return Collections.emptyList();
     }
 

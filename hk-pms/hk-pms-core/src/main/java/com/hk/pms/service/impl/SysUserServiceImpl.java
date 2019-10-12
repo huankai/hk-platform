@@ -1,19 +1,22 @@
 package com.hk.pms.service.impl;
 
 
+import com.hk.commons.util.BeanUtils;
 import com.hk.commons.util.ByteConstants;
-import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.commons.util.Contants;
+import com.hk.commons.util.ObjectUtils;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
 import com.hk.core.service.exception.ServiceException;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
+import com.hk.platform.commons.enums.UserStateEnum;
 import com.hk.pms.domain.SysUser;
-import com.hk.pms.repository.jdbc.SysUserRepository;
+import com.hk.pms.repository.jpa.SysUserRepository;
 import com.hk.pms.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -21,7 +24,7 @@ import java.util.Optional;
  * @date 2018-04-12 17:01
  */
 @Service
-public class SysUserServiceImpl extends JdbcServiceImpl<SysUser, String> implements SysUserService {
+public class SysUserServiceImpl extends JpaServiceImpl<SysUser, Long> implements SysUserService {
 
     private final SysUserRepository sysUserRepository;
 
@@ -43,7 +46,7 @@ public class SysUserServiceImpl extends JdbcServiceImpl<SysUser, String> impleme
      * @return sysUserRepository
      */
     @Override
-    protected JdbcRepository<SysUser, String> getBaseRepository() {
+    protected BaseJpaRepository<SysUser, Long> getBaseRepository() {
         return sysUserRepository;
     }
 
@@ -85,7 +88,7 @@ public class SysUserServiceImpl extends JdbcServiceImpl<SysUser, String> impleme
     }
 
     @Override
-    public Optional<SysUser> findById(String id) {
+    public Optional<SysUser> findById(Long id) {
         Optional<SysUser> optionalSysUser = super.findById(id);
         return getValidateUser(optionalSysUser);
     }
@@ -104,21 +107,34 @@ public class SysUserServiceImpl extends JdbcServiceImpl<SysUser, String> impleme
     }
 
     @Override
-    public void disable(String userId) {
-        updateStatus(userId, ByteConstants.ONE);
+    @Transactional
+    public void disable(Long userId) {
+        updateStatus(userId, UserStateEnum.DISABLED.getValue());
     }
 
     @Override
-    public void enable(String userId) {
-        updateStatus(userId, ByteConstants.TWO);
+    @Transactional
+    public void enable(Long userId) {
+        updateStatus(userId, UserStateEnum.ENABLED.getValue());
     }
 
     @Override
-    public void resetPassword(String id, String oldPassword, String newPassword) {
-        SysUser user = getById(id);
+    @Transactional
+    public void resetPassword(Long id, String oldPassword, String newPassword) {
+        SysUser user = getOne(id);
         checkOldPassword(user, oldPassword);
-        user.setPassword(passwordEncoder.encode(newPassword));
-        updateById(user);
+        sysUserRepository.updatePassword(id, passwordEncoder.encode(newPassword));
+    }
+
+    @Override
+    @Transactional
+    public void resetPassword(Long userId, String newPassword) {
+        sysUserRepository.updatePassword(userId, passwordEncoder.encode(newPassword));
+    }
+
+    @Override
+    public void markDeleted(Long id) {
+        updateStatus(id, UserStateEnum.DELETED.getValue());
     }
 
     private void checkOldPassword(SysUser user, String oldPassword) {
@@ -128,12 +144,12 @@ public class SysUserServiceImpl extends JdbcServiceImpl<SysUser, String> impleme
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Long id) {
         updateStatus(id, ByteConstants.NINE);
     }
 
     @Override
-    public void deleteByIds(Iterable<String> ids) {
+    public void deleteByIds(Iterable<Long> ids) {
         ids.forEach(id -> updateStatus(id, ByteConstants.NINE));
     }
 
@@ -147,26 +163,28 @@ public class SysUserServiceImpl extends JdbcServiceImpl<SysUser, String> impleme
         updateStatus(entity.getId(), ByteConstants.NINE);
     }
 
-    private void updateStatus(String userId, Byte userStatus) {
+    private void updateStatus(Long userId, Byte userStatus) {
         findById(userId).ifPresent(user -> {
             user.setUserStatus(userStatus);
-            insertOrUpdate(user);
+            updateById(user);
             logger.info("用户[{}]状态已更新,更新后的状态为：{}", userId, userStatus);
         });
     }
 
     @Override
     public SysUser insert(SysUser sysUser) {
-        return insert(sysUser, item -> {
-            item.setPassword(passwordEncoder.encode(StringUtils.isEmpty(item.getPassword()) ?
-                    item.getAccount() : item.getPassword()));
-            if (Objects.isNull(item.getUserStatus())) {
-                item.setUserStatus(ByteConstants.TWO);
+        Optional<SysUser> find = findByAccount(sysUser.getAccount());
+        if (find.isPresent()) {
+            SysUser user = find.get();
+            if (user.getUserStatus() != UserStateEnum.DELETED.getValue()) {
+                throw new ServiceException("用户已存在:" + sysUser.getAccount());
             }
-            if (Objects.isNull(item.getUserType())) {
-                item.setUserStatus(ByteConstants.NINE);
-            }
-            return item;
-        });
+            BeanUtils.copyNotNullProperties(user, sysUser);
+        } else {
+            sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+        }
+        sysUser.setOrgId(ObjectUtils.defaultIfNull(sysUser.getOrgId(), Contants.DEFAULT_VALUE_LONG));
+        sysUser.setUserStatus(UserStateEnum.ENABLED.getValue());
+        return super.insert(sysUser);
     }
 }

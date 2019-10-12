@@ -2,15 +2,16 @@ package com.hk.emi.service.impl;
 
 
 import com.hk.commons.util.ArrayUtils;
-import com.hk.commons.util.ByteConstants;
 import com.hk.commons.validator.DictService;
 import com.hk.core.cache.service.impl.EnableJpaCacheServiceImpl;
 import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.exception.ServiceException;
 import com.hk.emi.domain.ChildCode;
 import com.hk.emi.repository.jpa.ChildCodeRepository;
 import com.hk.emi.service.ChildCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = "ChildCode")
-public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, String> implements ChildCodeService, DictService {
+public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, Long> implements ChildCodeService, DictService {
 
     private final ChildCodeRepository childCodeRepository;
 
@@ -33,8 +34,20 @@ public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, S
     }
 
     @Override
-    protected BaseJpaRepository<ChildCode, String> getBaseRepository() {
+    protected BaseJpaRepository<ChildCode, Long> getBaseRepository() {
         return childCodeRepository;
+    }
+
+    @Override
+    protected ExampleMatcher ofExampleMatcher() {
+        return super.ofExampleMatcher()
+                .withMatcher("childCode", ExampleMatcher.GenericPropertyMatchers.contains())
+                .withMatcher("codeName", ExampleMatcher.GenericPropertyMatchers.contains());
+    }
+
+    @Override
+    public long countByBaseCodeId(Long baseCodeId) {
+        return childCodeRepository.countByBaseCodeId(baseCodeId);
     }
 
     /**
@@ -45,7 +58,7 @@ public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, S
      * @return childCodeList
      */
     @Override
-    public List<ChildCode> findByBaseCodeIgnoreChildCodes(String baseCodeId, String... ignoreChildCodes) {
+    public List<ChildCode> findByBaseCodeIgnoreChildCodes(Long baseCodeId, String... ignoreChildCodes) {
         List<ChildCode> childCodeList = childCodeRepository.findByBaseCodeIdOrderByCodeValueAsc(baseCodeId);
         if (ArrayUtils.isNotEmpty(ignoreChildCodes)) {
             childCodeList = childCodeList
@@ -57,21 +70,31 @@ public class ChildCodeServiceImpl extends EnableJpaCacheServiceImpl<ChildCode, S
     }
 
     @Override
-    public List<Byte> getDictValueListByCodeId(String codeId) {
+    public List<Byte> getDictValueListByCodeId(Long codeId) {
         List<ChildCode> list = findByBaseCodeIgnoreChildCodes(codeId);
         return list.stream().map(ChildCode::getCodeValue).collect(Collectors.toList());
     }
 
     @Override
-    public String getCodeName(String baseCodeId, Number value) {
-        return childCodeRepository.findByBaseCodeIdAndCodeValue(baseCodeId, value);
+    public ChildCode updateByIdSelective(ChildCode childCode) {
+        childCodeRepository.findByBaseCodeIdAndCodeValue(childCode.getBaseCodeId(), childCode.getCodeValue()).ifPresent(item -> {
+            if (!item.getId().equals(childCode.getId())) {
+                throw new ServiceException("当前子级已存在[" + item.getCodeName() + "]的值为:" + item.getCodeValue());
+            }
+        });
+        return super.updateByIdSelective(childCode);
+    }
+
+    @Override
+    public String getCodeName(Long baseCodeId, Number value) {
+        return childCodeRepository.findByBaseCodeIdAndCodeValue(baseCodeId, value).map(ChildCode::getCodeName).orElse(null);
     }
 
     @Override
     public ChildCode insert(ChildCode childCode) {
         return insert(childCode, item -> {
             if (Objects.isNull(item.getState())) {
-                item.setState(ByteConstants.ONE);
+                item.setState(true);
             }
             if (Objects.isNull(item.getIsGb())) {
                 item.setIsGb(Boolean.FALSE);

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @date 2018-08-08 17:46
  */
 @Service
-public class FileShareServiceImpl extends JpaServiceImpl<FileShare, String> implements FileShareService {
+public class FileShareServiceImpl extends JpaServiceImpl<FileShare, Long> implements FileShareService {
 
     private final FileShareRepository fileShareRepository;
 
@@ -23,7 +23,7 @@ public class FileShareServiceImpl extends JpaServiceImpl<FileShare, String> impl
     }
 
     @Override
-    protected BaseJpaRepository<FileShare, String> getBaseRepository() {
+    protected BaseJpaRepository<FileShare, Long> getBaseRepository() {
         return fileShareRepository;
     }
 }

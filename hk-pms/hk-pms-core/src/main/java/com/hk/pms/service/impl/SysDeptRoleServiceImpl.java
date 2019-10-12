@@ -4,10 +4,10 @@ package com.hk.pms.service.impl;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.CollectionUtils;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.pms.domain.SysDeptRole;
-import com.hk.pms.repository.jdbc.SysDeptRoleRepository;
+import com.hk.pms.repository.jpa.SysDeptRoleRepository;
 import com.hk.pms.service.SysDeptRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @date 2018-04-12 17:02
  */
 @Service
-public class SysDeptRoleServiceImpl extends JdbcServiceImpl<SysDeptRole, String> implements SysDeptRoleService {
+public class SysDeptRoleServiceImpl extends JpaServiceImpl<SysDeptRole, Long> implements SysDeptRoleService {
 
     private final SysDeptRoleRepository deptRoleRepository;
 
@@ -34,12 +34,12 @@ public class SysDeptRoleServiceImpl extends JdbcServiceImpl<SysDeptRole, String>
      * 返回 BaseRepository
      */
     @Override
-    protected JdbcRepository<SysDeptRole, String> getBaseRepository() {
+    protected BaseJpaRepository<SysDeptRole, Long> getBaseRepository() {
         return deptRoleRepository;
     }
 
     @Override
-    public void deleteByDeptIdAndRoleId(String deptId, String roleId) {
+    public void deleteByDeptIdAndRoleId(Long deptId, Long roleId) {
         deptRoleRepository.deleteByDeptIdAndRoleId(deptId, roleId);
     }
 
@@ -50,19 +50,19 @@ public class SysDeptRoleServiceImpl extends JdbcServiceImpl<SysDeptRole, String>
      * @param roleIds roleIds
      */
     @Override
-    public void updateDeptRole(String deptId, String[] roleIds) {
-        AssertUtils.notEmptyWithI18n(deptId, "deptId");
+    public void updateDeptRole(Long deptId, Long[] roleIds) {
+        AssertUtils.notNull(deptId, "deptId");
         deleteByDeptId(deptId);
         if (ArrayUtils.isNotEmpty(roleIds)) {
             List<SysDeptRole> addList = new ArrayList<>();
-            for (String roleId : roleIds) {
+            for (Long roleId : roleIds) {
                 addList.add(SysDeptRole.builder().deptId(deptId).roleId(roleId).build());
             }
             batchInsert(addList);
         }
     }
 
-    private void deleteByDeptId(String deptId) {
+    private void deleteByDeptId(Long deptId) {
         deptRoleRepository.deleteByDeptId(deptId);
     }
 
@@ -73,14 +73,14 @@ public class SysDeptRoleServiceImpl extends JdbcServiceImpl<SysDeptRole, String>
      * @param deptIds deptIds
      */
     @Override
-    public void addRoleDept(String roleId, String[] deptIds) {
-        AssertUtils.notEmptyWithI18n(roleId, "roleId");
+    public void addRoleDept(Long roleId, Long[] deptIds) {
+        AssertUtils.notNull(roleId, "roleId");
         if (ArrayUtils.isNotEmpty(deptIds)) {
             List<SysDeptRole> userRoleList = findByRoleId(roleId);
             if (CollectionUtils.isNotEmpty(userRoleList)) {
                 List<SysDeptRole> addList = new ArrayList<>();
-                List<String> deptIdList = userRoleList.stream().map(SysDeptRole::getDeptId).collect(Collectors.toList());
-                for (String deptId : deptIds) {
+                List<Long> deptIdList = userRoleList.stream().map(SysDeptRole::getDeptId).collect(Collectors.toList());
+                for (Long deptId : deptIds) {
                     if (!deptIdList.contains(deptId)) {
                         addList.add(SysDeptRole.builder().deptId(deptId).roleId(roleId).build());
                     }
@@ -90,7 +90,7 @@ public class SysDeptRoleServiceImpl extends JdbcServiceImpl<SysDeptRole, String>
         }
     }
 
-    private List<SysDeptRole> findByRoleId(String roleId) {
+    private List<SysDeptRole> findByRoleId(Long roleId) {
         return deptRoleRepository.findByRoleId(roleId);
     }
 }

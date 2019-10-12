@@ -16,7 +16,7 @@ public abstract class CodeUtils {
      * @param value      value
      * @return CodeName
      */
-    public static String getCodeName(String baseCodeId, byte value) {
+    public static String getCodeName(Long baseCodeId, byte value) {
         return CODE_FEIGN_CLIENT.childCodeName(baseCodeId, value);
     }
 

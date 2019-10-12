@@ -13,5 +13,5 @@ import java.util.List;
 @Mapper
 public interface SysResourceMapper {
 
-    List<SysResource> findByPermissionIds(Collection<String> permissions);
+    List<SysResource> findByPermissionIds(Collection<Long> permissions);
 }

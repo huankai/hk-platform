@@ -2,7 +2,7 @@ package com.hk.fs.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,13 +22,13 @@ import java.time.LocalDateTime;
 @Table(name = "fs_file_share")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class FileShare extends AbstractAuditable {
+public class FileShare extends AbstractSnowflakeAuditable {
 
     /**
      * 文件Id
      */
     @Column(name = "file_id")
-    private String fileId;
+    private Long fileId;
 
     /**
      * 分享地址

@@ -7,7 +7,10 @@ spring:
   main:
     banner-mode: 'off'
   cloud:
-    config:
-      label: "2.1.3.RELEASE"
-      profile: dev
-      uri: http://127.0.0.1:8770
+    nacos:
+      config:
+        enabled: false
+        file-extension: yml
+        shared-dataids: nacos-discover-common.yml
+        server-addr: 182.61.40.18:8848
+        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe

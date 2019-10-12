@@ -8,10 +8,10 @@ import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
-import com.hk.oauth2.provider.token.ClientEquipmentAuthenticationKeyGenerator;
+import com.hk.oauth2.provider.token.CompositeAuthenticationKeyGenerator;
 import com.hk.oauth2.provider.token.CustomTokenServices;
 import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
-import com.hk.oauth2.server.service.SysAppService;
+import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
 import com.hk.oauth2.server.service.impl.CustomJdbcClientDetailsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
@@ -20,10 +20,12 @@ import org.springframework.boot.autoconfigure.security.oauth2.authserver.Authori
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.configuration.ClientDetailsServiceConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -38,7 +40,6 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,31 +60,31 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
      */
     private AuthenticationManager authenticationManager;
 
-    private DataSource dataSource;
-
     private PasswordEncoder passwordEncoder;
 
     private UserDetailClientService userDetailClientService;
 
-    private SysAppService appService;
+    @Autowired
+    private Oauth2ClientDetailsService oauth2ClientDetailsService;
 
     private Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer;
 
     @Autowired
     private TokenRegistry tokenRegistry;
 
+    /**
+     * 声明 TokenEnhancerChain ，此 bean 没有注入到 Spring 容器中
+     */
+    private TokenEnhancerChain tokenEnhancerChain;
+
     public Oauth2ServerAuthorizationServerConfigurer(AuthorizationServerProperties authorizationServerProperties,
                                                      ObjectProvider<AuthenticationManager> authenticationManager,
                                                      UserDetailClientService userDetailClientService,
-                                                     DataSource dataSource,
-                                                     SysAppService appService,
                                                      Oauth2JwtTokenEnhancer oauth2JwtTokenEnhancer,
                                                      PasswordEncoder passwordEncoder) {
         this.authorizationServerProperties = authorizationServerProperties;
         this.authenticationManager = authenticationManager.getIfAvailable();
         this.userDetailClientService = userDetailClientService;
-        this.dataSource = dataSource;
-        this.appService = appService;
         this.oauth2JwtTokenEnhancer = oauth2JwtTokenEnhancer;
         this.passwordEncoder = passwordEncoder;
     }
@@ -94,10 +95,51 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     @Autowired
     private RedisConnectionFactory connectionFactory;
 
+    /**
+     * @see ClientDetailsServiceConfiguration#clientDetailsService()
+     */
     @Bean
+    @Primary
     public CustomJdbcClientDetailsService jdbcClientDetailsService() {
-        return new CustomJdbcClientDetailsService(appService, dataSource);
+        return new CustomJdbcClientDetailsService(oauth2ClientDetailsService);
     }
+
+    @Bean
+    @Primary
+    public CustomTokenServices tokenServices() {
+        CustomTokenServices tokenServices = new CustomTokenServices();
+        /*
+         *
+         *  http://127.0.0.1:7100/oauth2/oauth/token?grant_type=refresh_token
+         *  &client_secret=client_secret
+         *  &client_id=client_id
+         *  &refresh_token=refresh_token_value
+         *
+         * supportRefreshToken 与 reuseRefreshToken 不能相同
+         * 如果 supportRefreshToken 配置配置为false 时，不支持 refresh_token，调用 refresh_token 抛出异常; @see  AppStatusTokenServices 中的 if (!supportRefreshToken)  逻辑
+         * 如果 supportRefreshToken 配置为 true ,且 reuseRefreshToken 也配置为true 时，刷新 token 接口能调用成功，但生成的新的 refresh_token 不会替换老的 refresh_token，
+         *      将不能使用 新的 refresh_token 再次刷新 token。 @see AppStatusTokenServices 中的  if (!reuseRefreshToken) 逻辑
+         */
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        tokenServices.setReuseRefreshToken(false);
+        tokenServices.setClientDetailsCheckService(jdbcClientDetailsService());
+        tokenServices.setTokenRegistry(tokenRegistry);
+        tokenServices.setAccessTokenEnhancer(enhancerChain());
+        return tokenServices;
+    }
+
+    private TokenEnhancerChain enhancerChain() {
+        if (null == tokenEnhancerChain) {
+            tokenEnhancerChain = new TokenEnhancerChain();
+            List<TokenEnhancer> enhancers = new ArrayList<>(2);
+            enhancers.add(oauth2JwtTokenEnhancer);//注意顺序
+            enhancers.add(accessTokenConverter());
+            tokenEnhancerChain.setTokenEnhancers(enhancers);
+        }
+        return tokenEnhancerChain;
+    }
+
 
     /**
      * 配置Client 信息
@@ -143,46 +185,17 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-        JwtAccessTokenConverter jwtAccessTokenConverter = accessTokenConverter();
-        TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
-
-        List<TokenEnhancer> enhancers = new ArrayList<>();
-        enhancers.add(oauth2JwtTokenEnhancer); //注意顺序
-        enhancers.add(jwtAccessTokenConverter);
-
-        CustomTokenServices tokenServices = new CustomTokenServices();
-        tokenServices.setTokenStore(tokenStore());
-        tokenServices.setTokenRegistry(tokenRegistry);
-        /*
-         *
-         *  http://127.0.0.1:7100/oauth2/oauth/token?grant_type=refresh_token
-         *  &client_secret=client_secret
-         *  &client_id=client_id
-         *  &refresh_token=refresh_token_value
-         *
-         * supportRefreshToken 与 reuseRefreshToken 不能相同
-         * 如果 supportRefreshToken 配置配置为false 时，不支持 refresh_token，调用 refresh_token 抛出异常; @see  AppStatusTokenServices 中的 if (!supportRefreshToken)  逻辑
-         * 如果 supportRefreshToken 配置为 true ,且 reuseRefreshToken 也配置为true 时，刷新 token 接口能调用成功，但生成的新的 refresh_token 不会替换老的 refresh_token，
-         *      将不能使用 新的 refresh_token 再次刷新 token。 @see AppStatusTokenServices 中的  if (!reuseRefreshToken) 逻辑
-         */
-        tokenServices.setSupportRefreshToken(true);
-        tokenServices.setReuseRefreshToken(false);
-
-        tokenServices.setClientDetailsCheckService(jdbcClientDetailsService());
-        tokenServices.setAccessTokenEnhancer(tokenEnhancerChain);
-
-        tokenEnhancerChain.setTokenEnhancers(enhancers);
+        CustomTokenServices tokenServices = tokenServices();
         endpoints.authenticationManager(authenticationManager)
-                .exceptionTranslator(new Oauth2DefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
-                .accessTokenConverter(jwtAccessTokenConverter)
-//                .reuseRefreshTokens(true) 这个是配置默认的 reuseRefreshToken，因为这里自己创建了，所以不需要设置了
-                .tokenEnhancer(tokenEnhancerChain)
+                .accessTokenConverter(accessTokenConverter())
+                .tokenEnhancer(enhancerChain())
                 .tokenServices(tokenServices)
-
-                /* 使用Jdbc authorization 存储，需要 创建数据库表 oauth_code */
-//              endpoints.authorizationCodeServices(new JdbcAuthorizationCodeServices(dataSource));
-                /* 使用 redis  */
+                .exceptionTranslator(new Oauth2DefaultWebResponseExceptionTranslator()) // 错误配置,如果要修改Oauth2认证错误信息，请重写此对象
+                //                /* 使用Jdbc authorization 存储，需要 创建数据库表 oauth_code */
+//              authorizationCodeServices(new JdbcAuthorizationCodeServices(dataSource));
+//                /* 使用 redis  */
                 .authorizationCodeServices(new RedisAuthorizationCodeServices(connectionFactory))
+//                .reuseRefreshTokens(false) // 这个是配置默认的 reuseRefreshToken，因为这里自己创建了，所以不需要设置了
                 .tokenStore(tokenStore());
     }
 
@@ -194,7 +207,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
     private TokenStore tokenStore() {
         //使用 redis store
         RedisTokenStore tokenStore = new RedisTokenStore(connectionFactory);
-        tokenStore.setAuthenticationKeyGenerator(new ClientEquipmentAuthenticationKeyGenerator());
+        tokenStore.setAuthenticationKeyGenerator(new CompositeAuthenticationKeyGenerator());
         return tokenStore;
 //        return new JwtTokenStore(accessTokenConverter());
     }

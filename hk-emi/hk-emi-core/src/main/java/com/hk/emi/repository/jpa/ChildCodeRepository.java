@@ -1,17 +1,20 @@
 package com.hk.emi.repository.jpa;
 
-import com.hk.core.data.jpa.repository.StringIdJpaRepository;
+import com.hk.core.data.jpa.repository.LongIdJpaRepository;
 import com.hk.emi.domain.ChildCode;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author huangkai
  * @date 2019-04-04 22:11
  */
-public interface ChildCodeRepository extends StringIdJpaRepository<ChildCode> {
+public interface ChildCodeRepository extends LongIdJpaRepository<ChildCode> {
 
-    List<ChildCode> findByBaseCodeIdOrderByCodeValueAsc(String baseCodeId);
+    List<ChildCode> findByBaseCodeIdOrderByCodeValueAsc(Long baseCodeId);
 
-    String findByBaseCodeIdAndCodeValue(String baseCodeId, Number value);
+    Optional<ChildCode> findByBaseCodeIdAndCodeValue(Long baseCodeId, Number value);
+
+    long countByBaseCodeId(Long baseCodeId);
 }

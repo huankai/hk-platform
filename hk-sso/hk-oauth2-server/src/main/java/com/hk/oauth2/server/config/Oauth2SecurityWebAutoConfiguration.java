@@ -1,11 +1,17 @@
 package com.hk.oauth2.server.config;
 
+import com.alipay.api.AlipayClient;
+import com.alipay.api.response.AlipayUserInfoShareResponse;
+import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.PostAuthenticationHandler;
 import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.core.authentication.api.validatecode.ValidateCodeProcessor;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
+import com.hk.core.authentication.security.handler.login.LoginAuthenticationFailureHandler;
 import com.hk.core.authentication.security.handler.logout.EquipmentLogoutHandler;
+import com.hk.core.autoconfigure.alipay.AlipayProperties;
 import com.hk.core.autoconfigure.authentication.security.*;
+import com.hk.core.autoconfigure.weixin.WechatMpProperties;
 import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.authentication.session.CreateSessionAuthenticationStrategy;
@@ -14,10 +20,10 @@ import com.hk.oauth2.logout.ConsumerTokenLogoutHandler;
 import com.hk.oauth2.logout.DefaultSingleLogoutServiceMessageHandler;
 import com.hk.oauth2.logout.SingleLogoutHandler;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
+import com.hk.oauth2.web.authentication.PhoneAuthenticationSuccessHandler;
 import com.hk.platform.commons.role.RoleNamed;
-import com.hk.weixin.WechatMpProperties;
-import com.hk.weixin.security.WechatAuthenticationSecurityConfigurer;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -42,6 +48,9 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionEvent;
@@ -53,7 +62,7 @@ import org.springframework.security.web.authentication.session.SessionFixationPr
 @Order(1)
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(value = {WechatMpProperties.class, AuthenticationProperties.class})
+@EnableConfigurationProperties(value = {WechatMpProperties.class, AlipayProperties.class, AuthenticationProperties.class})
 public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties authenticationProperties;
@@ -61,6 +70,10 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     private WechatMpProperties wechatProperties;
 
     private WxMpService wxMpService;
+
+    private AlipayProperties alipayProperties;
+
+    private final AlipayClient alipayClient;
 
     /**
      * 手机号验证 Bean,在没有开启手机号验证时,不会注入该Bean
@@ -76,19 +89,26 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     private ApplicationContext applicationContext;
 
     public Oauth2SecurityWebAutoConfiguration(AuthenticationProperties authenticationProperties,
+                                              AlipayProperties alipayProperties,
                                               WechatMpProperties wechatProperties,
                                               ObjectProvider<WxMpService> wxMpServices,
+                                              ObjectProvider<AlipayClient> alipayClients,
                                               ApplicationContext applicationContext,
                                               @Qualifier("smsValidateCodeProcessor") ObjectProvider<ValidateCodeProcessor> validateCodeProcessors) {
         this.authenticationProperties = authenticationProperties;
+        this.alipayProperties = alipayProperties;
         this.wechatProperties = wechatProperties;
         this.wxMpService = wxMpServices.getIfAvailable();
+        this.alipayClient = alipayClients.getIfAvailable();
         this.applicationContext = applicationContext;
         this.httpClient = applicationContext.getBean(HttpClient.class);
         this.tokenRegistry = applicationContext.getBean(TokenRegistry.class);
         this.validateCodeProcessor = validateCodeProcessors.getIfAvailable();
     }
 
+    /**
+     * @see CreateSessionAuthenticationStrategy
+     */
     @Bean
     public ApplicationListener<SessionFixationProtectionEvent> sessionFixationProtectionEvent() {
         return event -> {
@@ -111,21 +131,33 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
      * @see SSOUserDetailServiceImpl
      */
     @Autowired
+    @Qualifier("ssoUserDetailService")
     private UserDetailsService userDetailsService;
 
     /**
      * 手机号验证处理，当开启了手机号认证时，必须注入此 Bean
+     *
+     * @see com.hk.oauth2.server.service.impl.SmsPostAuthenticationHandler
      */
     @Autowired(required = false)
     @Qualifier(value = "smsPostAuthenticationHandler")
     private PostAuthenticationHandler<UserPrincipal, String> smsPostAuthenticationHandler;
 
     /**
+     * @see com.hk.oauth2.server.service.impl.AlipayPostAuthenticationHandler
+     */
+    @Autowired(required = false)
+    @Qualifier(value = "alipayPostAuthenticationHandler")
+    private PostAuthenticationHandler<UserPrincipal, AlipayUserInfoShareResponse> alipayPostAuthenticationHandler;
+
+    /**
      * 微信验证处理，当开启了微信认证时，必须注入此 Bean
+     *
+     * @see com.hk.oauth2.server.service.impl.WechatPostAuthenticationHandler
      */
     @Autowired(required = false)
     @Qualifier(value = "wechatPostAuthenticationHandler")
-    private PostAuthenticationHandler<UserPrincipal, UserPrincipal> wechatPostAuthenticationHandler;
+    private PostAuthenticationHandler<UserPrincipal, WxMpUser> wechatPostAuthenticationHandler;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -134,14 +166,13 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 .passwordEncoder(passwordEncoder);
     }
 
-
     @Bean
     public SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
 
     /**
-     * 配置手机号登陆 处理
+     * 配置手机号登陆处理
      *
      * @param http http
      * @throws Exception Exception
@@ -149,9 +180,17 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     private void configureSms(HttpSecurity http) throws Exception {
         AuthenticationProperties.SMSProperties sms = authenticationProperties.getSms();
         if (sms.isEnabled()) {
-            http
-                    .apply(new SmsAuthenticationSecurityConfiguration(sms, smsPostAuthenticationHandler))
-                    .and().apply(new ValidateCodeSecurityConfiguration(sms, validateCodeProcessor, null));
+            SmsAuthenticationSecurityConfiguration configuration = new SmsAuthenticationSecurityConfiguration(sms, validateCodeProcessor,
+                    smsPostAuthenticationHandler);
+            if (StringUtils.isNotEmpty(sms.getClientId()) && StringUtils.isNotEmpty(sms.getClientSecret())) {
+                configuration.setAuthenticationSuccessHandler(new PhoneAuthenticationSuccessHandler(sms.getClientId(),
+                        sms.getClientSecret(),
+                        applicationContext.getBean(AuthorizationServerTokenServices.class),
+                        applicationContext.getBean(ClientDetailsService.class),
+                        passwordEncoder));
+            }
+            configuration.setAuthenticationFailureHandler(new LoginAuthenticationFailureHandler(authenticationProperties.getLogin().getFailureUrl()));
+            http.apply(configuration);
         }
     }
 
@@ -174,6 +213,21 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
         }
     }
 
+    /**
+     * 配置支付宝登陆
+     *
+     * @param http httpSecurity
+     */
+    private void configureAipay(HttpSecurity http) throws Exception {
+        if (alipayProperties.isEnabled()) {
+            if (null == alipayClient) {
+                throw new NullPointerException("alipay is enabled ,But alipayClient is null.");
+            }
+            http.apply(new AlipayAuthenticationSecurityConfigurer(alipayClient, alipayProperties.getCallbackUrl(),
+                    alipayProperties.getState(), alipayPostAuthenticationHandler));
+        }
+    }
+
     @Bean
     public CreateSessionAuthenticationStrategy createSessionAuthenticationStrategy() {
         return new CreateSessionAuthenticationStrategy();
@@ -183,6 +237,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     protected void configure(HttpSecurity http) throws Exception {
         configureSms(http);
         configureWeChat(http);
+        configureAipay(http);
         AuthenticationProperties.LoginProperties login = authenticationProperties.getLogin();
         ConsumerTokenServices consumerTokenServices = applicationContext.getBean(ConsumerTokenServices.class);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
@@ -213,8 +268,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 .logoutUrl(login.getLogoutUrl())
                 .invalidateHttpSession(true)
                 .addLogoutHandler(new ConsumerTokenLogoutHandler(consumerTokenServices))
-                .addLogoutHandler(new SingleLogoutHandler(new DefaultSingleLogoutServiceMessageHandler(httpClient, tokenRegistry,
-                        consumerTokenServices)))
+                .addLogoutHandler(new SingleLogoutHandler(new DefaultSingleLogoutServiceMessageHandler(httpClient, tokenRegistry)))
                 .addLogoutHandler(new EquipmentLogoutHandler(login.getLogoutSuccessUrl()))
                 .and()
                 // 使用 zuul登陆地址
@@ -244,16 +298,17 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 "email/register/**",// 邮箱号注册
                 "/error", // 错误页面
                 "/actuator/health",  // 健康检查
-                "/sms/sender",  // 短信登陆
-                "/wechat/login", // 微信登陆
+                "/wechat/login", // 微信二维码登陆
                 StaticResourceLocation.FAVICON.name()); // ico
     }
 
     /**
-     * 不定义没有password grant_type
+     * 不将此 bean 注入到 Spring 上下文则不会有 没有 password grant_type
      *
      * @return AuthenticationManager
      * @throws Exception exception
+     * @see Oauth2ServerAuthorizationServerConfigurer#configure(AuthorizationServerEndpointsConfigurer)
+     * @see AuthorizationServerEndpointsConfigurer#getDefaultTokenGranters()
      */
     @Bean
     @Override

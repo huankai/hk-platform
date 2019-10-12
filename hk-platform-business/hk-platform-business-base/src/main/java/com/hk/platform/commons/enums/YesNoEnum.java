@@ -1,18 +1,37 @@
 package com.hk.platform.commons.enums;
 
-import com.hk.commons.annotations.EnumDisplay;
 import com.hk.commons.util.BooleanUtils;
+import com.hk.platform.commons.ui.TagColor;
+import lombok.Getter;
 
 /**
  * @author huangkai
  * @date 2019-01-22 15:53
  */
+@Getter
 public enum YesNoEnum {
 
-    @EnumDisplay(value = BooleanUtils.TRUE_CHINESE)
-    YES,
+    YES(true, TagColor.BLUE, BooleanUtils.TRUE_CHINESE),
 
-    @EnumDisplay(order = 1, value = BooleanUtils.FALSE_CHINESE)
-    NO;
+    NO(false, TagColor.RED, BooleanUtils.FALSE_CHINESE);
 
+    private boolean state;
+
+    private String color;
+
+    private String text;
+
+    YesNoEnum(boolean state, String color, String text) {
+        this.state = state;
+        this.color = color;
+        this.text = text;
+    }
+
+    public static String getColor(boolean state) {
+        return state ? YES.color : NO.color;
+    }
+
+    public static String getText(boolean state) {
+        return state ? YES.text : NO.text;
+    }
 }

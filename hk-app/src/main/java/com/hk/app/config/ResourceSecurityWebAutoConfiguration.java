@@ -5,6 +5,7 @@ import com.hk.commons.util.CollectionUtils;
 import com.hk.core.authentication.api.PermitMatcher;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.security.HttpSecurityUtils;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -52,17 +53,7 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler());// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
         Set<PermitMatcher> permitMatchers = loginProperties.getPermitMatchers();
-        if (CollectionUtils.isNotEmpty(permitMatchers)) {
-            for (PermitMatcher permitMatcher : permitMatchers) {
-                if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
-                } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyRole(permitMatcher.getRoles());
-                } else {
-                    urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).permitAll();
-                }
-            }
-        }
+        HttpSecurityUtils.buildPermitMatchers(urlRegistry, permitMatchers);
         urlRegistry.antMatchers(loginProperties.getLoginUrl()).permitAll()
                 .anyRequest().authenticated();
     }

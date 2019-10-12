@@ -1,11 +1,12 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDate;
 
@@ -18,74 +19,75 @@ import java.time.LocalDate;
 @SuppressWarnings("serial")
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(value = "sys_app_apply")
-public class SysAppApply extends AbstractAuditable {
+@Entity
+@Table(name = "sys_app_apply")
+public class SysAppApply extends AbstractSnowflakeAuditable {
 
     /**
      * 申请人
      */
-    @Column(value = "user_id")
-    private String userId;
+    @Column(name = "user_id")
+    private Long userId;
 
     /**
      * app编号
      */
-    @Column(value = "app_code")
+    @Column(name = "app_code")
     private String appCode;
 
     /**
      * app名称
      */
-    @Column(value = "app_name")
+    @Column(name = "app_name")
     private String appName;
 
     /**
      * 审核状态
      */
-    @Column(value = "audit_status")
+    @Column(name = "audit_status")
     private Byte auditStatus;
 
     /**
      * 法人代表
      */
-    @Column(value = "representative")
-    private String representative;
+    @Column(name = "representative")
+    private Long representative;
 
     /**
      * 法人手机号
      */
-    @Column(value = "representative_phone")
+    @Column(name = "representative_phone")
     private String representativePhone;
 
     /**
      * 法人邮箱号
      */
-    @Column(value = "representative_email")
+    @Column(name = "representative_email")
     private String representativeEmail;
 
     /**
      * 营业执照
      */
-    @Column(value = "business_licence")
+    @Column(name = "business_licence")
     private String businessLicence;
 
     /**
      * 营业执照图片
      */
     @NotEmpty
-    @Column(value = "licence_image")
+    @Column(name = "licence_image")
     private String licenceImage;
 
     /**
      * 描述
      */
-    @Column(value = "description")
+    @Column(name = "description")
     private String description;
 
     /**
      * 申请时间
      */
-    @Column(value = "apply_date")
+    @Column(name = "apply_date")
     private LocalDate applyDate;
 
 

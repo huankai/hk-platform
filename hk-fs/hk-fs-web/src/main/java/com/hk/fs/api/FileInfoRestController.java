@@ -27,7 +27,7 @@ public class FileInfoRestController {
     private FileServer fileServer;
 
     @GetMapping(path = "{id}")
-    public FileInfo get(@PathVariable String id) {
+    public FileInfo get(@PathVariable Long id) {
         return fileInfoService.getOne(id);
     }
 

@@ -30,7 +30,7 @@ public class SysRolePermissionController extends BaseController {
      * @param permissions 权限id
      */
     @PostMapping(path = "update")
-    public JsonResult<Void> updateUserRole(@RequestParam String roleId, @RequestParam String[] permissions) {
+    public JsonResult<Void> updateUserRole(@RequestParam Long roleId, @RequestParam Long[] permissions) {
         rolePermissionService.updateRolePermission(roleId, permissions);
         return JsonResult.success();
     }
@@ -42,13 +42,13 @@ public class SysRolePermissionController extends BaseController {
      * @param userIds userId
      */
     @PostMapping(path = "addUser")
-    public JsonResult<Void> addRoleUser(@RequestParam String permissionId, @RequestParam String[] roleIds) {
+    public JsonResult<Void> addRoleUser(@RequestParam Long permissionId, @RequestParam Long[] roleIds) {
         rolePermissionService.addPermissionRole(permissionId, roleIds);
         return JsonResult.success();
     }
 
     @DeleteMapping(path = "{id}", name = "rolePermission-delete")
-    public JsonResult<Void> deleteById(@PathVariable String id) {
+    public JsonResult<Void> deleteById(@PathVariable Long id) {
         rolePermissionService.deleteById(id);
         return JsonResult.success();
     }

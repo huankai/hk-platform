@@ -1,14 +1,14 @@
 package com.hk.message.web.service;
 
-import com.hk.core.service.jdbc.JdbcBaseService;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.message.web.domain.MessageUser;
 
 import java.util.Optional;
 import java.util.Set;
 
-public interface MessageUserService extends JdbcBaseService<MessageUser, String> {
+public interface MessageUserService extends JpaBaseService<MessageUser, Long> {
 
-    Optional<MessageUser> findByMessageIdAndUserId(String messageId, String userId);
+    Optional<MessageUser> findByMessageIdAndUserId(Long messageId, Long userId);
 
     /**
      * 批量保存消息用户
@@ -16,7 +16,7 @@ public interface MessageUserService extends JdbcBaseService<MessageUser, String>
      * @param messageId messageId
      * @param userIds   用户id
      */
-    void batchInsertMessageUser(String messageId, Set<String> userIds);
+    void batchInsertMessageUser(Long messageId, Set<Long> userIds);
 
     /**
      * 用户读取消息
@@ -25,6 +25,6 @@ public interface MessageUserService extends JdbcBaseService<MessageUser, String>
      * @param userId userId
      * @return {@link MessageUser}
      */
-    MessageUser read(String messageId, String userId);
+    MessageUser read(Long messageId, Long userId);
 
 }

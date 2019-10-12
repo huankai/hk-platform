@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Configuration status="off" monitorInterval="1800">
     <properties>
-        <property name="LOG_HOME">${sys:user.dir}/logs</property>
+        <property name="LOG_HOME">${sys:user.home}/logs</property>
     </properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">

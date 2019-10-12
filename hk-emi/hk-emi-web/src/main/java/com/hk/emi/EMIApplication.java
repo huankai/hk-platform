@@ -1,12 +1,9 @@
 package com.hk.emi;
 
 import com.hk.stream.order.OrderOutput;
-import lombok.Data;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-
-import java.time.LocalDateTime;
 
 /**
  * EMI Start
@@ -34,15 +31,15 @@ public class EMIApplication {
 ////        orgDeptService.insert(orgDept);
 //    }
 
-    @Data
-    private static class MessageVo {
-
-        private String id;
-
-        private String name;
-
-        private String title;
-
-        private LocalDateTime date;
-    }
+//    @Data
+//    private static class MessageVo {
+//
+//        private String id;
+//
+//        private String name;
+//
+//        private String title;
+//
+//        private LocalDateTime date;
+//    }
 }

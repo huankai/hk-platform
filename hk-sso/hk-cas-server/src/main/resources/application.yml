@@ -139,7 +139,7 @@ cas:
     jdbc:
       query:
         - sql: SELECT * FROM sys_user WHERE account = ?
-          url: jdbc:mysql://182.61.40.18:3705/hk_pms?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+          url: jdbc:mysql://182.61.40.18:3705/hk_pms?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
           user: pms
           password: pmsadmin
           driver-class: com.mysql.cj.jdbc.Driver

@@ -1,10 +1,10 @@
 package com.hk.oauth2.server.service.impl;
 
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.oauth2.server.entity.SysRole;
 import com.hk.oauth2.server.mappers.SysRoleMapper;
-import com.hk.oauth2.server.repository.jdbc.RoleRepository;
+import com.hk.oauth2.server.repository.jpa.RoleRepository;
 import com.hk.oauth2.server.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2018-08-03 08:53
  */
 @Service
-public class RoleServiceImpl extends JdbcServiceImpl<SysRole, String> implements RoleService {
+public class RoleServiceImpl extends JpaServiceImpl<SysRole, Long> implements RoleService {
 
     private SysRoleMapper roleMapper;
 
@@ -33,12 +33,12 @@ public class RoleServiceImpl extends JdbcServiceImpl<SysRole, String> implements
     }
 
     @Override
-    protected JdbcRepository<SysRole, String> getBaseRepository() {
+    protected BaseJpaRepository<SysRole, Long> getBaseRepository() {
         return roleRepository;
     }
 
     @Override
-    public List<SysRole> findRoleByAppIdAndUserId(String appId, String userId) {
+    public List<SysRole> findRoleByAppIdAndUserId(Long appId, Long userId) {
         return roleMapper.findRoleByAppIdAndUserId(appId, userId);
     }
 }

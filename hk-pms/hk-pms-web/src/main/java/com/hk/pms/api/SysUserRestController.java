@@ -35,7 +35,7 @@ public class SysUserRestController extends BaseController {
      */
     @GetMapping
     public List<SysUser> findAll(SysUser user) {
-        return userService.findAll(user).getResult();
+        return userService.findAll(user);
     }
 
     /**
@@ -43,7 +43,7 @@ public class SysUserRestController extends BaseController {
      * @return userId
      */
     @GetMapping(value = "{id}", name = "api-find-userid")
-    public JsonResult<SysUser> findByUserId(@PathVariable("id") String userId) {
+    public JsonResult<SysUser> findByUserId(@PathVariable("id") Long userId) {
         return JsonResult.success(userService.findById(userId).orElse(null));
     }
 
@@ -86,7 +86,7 @@ public class SysUserRestController extends BaseController {
      * @param userIds userIds
      */
     @DeleteMapping
-    public JsonResult<Void> deleteByIds(String[] userIds) {
+    public JsonResult<Void> deleteByIds(Long[] userIds) {
         userService.deleteByIds(userIds);
         return JsonResult.success();
     }

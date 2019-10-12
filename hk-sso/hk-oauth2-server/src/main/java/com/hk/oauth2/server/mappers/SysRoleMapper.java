@@ -3,7 +3,6 @@ package com.hk.oauth2.server.mappers;
 
 import com.hk.oauth2.server.entity.SysRole;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -21,5 +20,5 @@ public interface SysRoleMapper {
      * @param userId userId
      * @return sysRole
      */
-    List<SysRole> findRoleByAppIdAndUserId(@Param("appId") String appId, @Param("userId") String userId);
+    List<SysRole> findRoleByAppIdAndUserId(Long appId, Long userId);
 }

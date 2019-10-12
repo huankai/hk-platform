@@ -2,13 +2,16 @@ package com.hk.emi.controller;
 
 import com.hk.commons.JsonResult;
 import com.hk.commons.poi.excel.model.ErrorLog;
-import com.hk.commons.util.CollectionUtils;
+import com.hk.commons.util.*;
+import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
 import com.hk.core.query.QueryModel;
 import com.hk.core.web.Webs;
 import com.hk.emi.domain.City;
+import com.hk.emi.enums.CityTypeEnum;
 import com.hk.emi.service.CityService;
-import com.hk.emi.vo.CityExcelVo;
+import com.hk.emi.vo.CityExportVo;
+import com.hk.platform.commons.ui.Cascader;
 import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author kevin
@@ -34,6 +37,18 @@ public class CityController extends BaseController {
     @Autowired
     public CityController(CityService cityService) {
         this.cityService = cityService;
+    }
+
+    /**
+     * 测试 {@link ConditionQueryModel}
+     *
+     * @param queryModel
+     * @return
+     */
+    @PostMapping(path = "list2")
+    public JsonResult<QueryPage<City>> list2(@RequestBody ConditionQueryModel queryModel) {
+        QueryPage<City> page = cityService.queryForPage(queryModel);
+        return JsonResult.success(page);
     }
 
     /**
@@ -54,8 +69,27 @@ public class CityController extends BaseController {
      * @return {@link City}
      */
     @GetMapping(path = "{id}", name = "city-get")
-    public JsonResult<City> get(@PathVariable String id) {
-        return JsonResult.success(cityService.getOne(id));
+    public JsonResult<Map<String, Object>> get(@PathVariable Long id) {
+        City city = cityService.getOne(id);
+        String parentName = cityService.findById(city.getParentId()).map(City::getFullName).orElse(null);
+        Map<String, Object> result = BeanUtils.beanToMapIgnoreEntityProperties(city);
+        result.put("parentName", parentName);
+        return JsonResult.success(result);
+    }
+
+    @GetMapping(path = "cityType")
+    public JsonResult<?> getCityType() {
+        return JsonResult.success(CityTypeEnum.LIST);
+    }
+
+    /**
+     * 获取所有省级
+     *
+     * @return
+     */
+    @GetMapping(path = "provinces")
+    public JsonResult<List<?>> getProvinceList() {
+        return JsonResult.success(cityService.findChildByCityType(CityTypeEnum.PROVINCE.getValue(), false));
     }
 
     /**
@@ -64,9 +98,15 @@ public class CityController extends BaseController {
      * @param parentId parentId
      * @return {@link City}
      */
-    @GetMapping(path = "child/{parentId}", name = "city-child")
-    public JsonResult<List<City>> childList(@PathVariable String parentId) {
-        return JsonResult.success(cityService.findChildList(parentId));
+    @GetMapping(path = "child")
+    public JsonResult<List<?>> childList(@RequestParam Long parentId, @RequestParam Byte maxCityType) {
+        return JsonResult.success(cityService.findChildByParentIdAndMaxCityType(parentId, maxCityType));
+    }
+
+
+    @GetMapping("childs")
+    public JsonResult<List<Cascader>> clildsList(@RequestParam(value = "parentIds") Long[] parentIds) {
+        return JsonResult.success(cityService.findAllClildsList(parentIds));
     }
 
     /**
@@ -75,9 +115,9 @@ public class CityController extends BaseController {
      * @param id id
      * @return {@link JsonResult}
      */
-    @DeleteMapping(path = "{id}", name = "city-delete")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<Void> deleteById(@PathVariable String id) {
+    @PostMapping(path = "{id}", name = "city-delete")
+    //    @PreAuthorize("hasRole('" + ADMIN + "')")
+    public JsonResult<Void> deleteById(@PathVariable Long id) {
         cityService.deleteById(id);
         return JsonResult.success();
     }
@@ -89,7 +129,7 @@ public class CityController extends BaseController {
      * @return {@link JsonResult}
      */
     @PostMapping
-    @PreAuthorize("hasRole('" + ADMIN + "')")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
     public JsonResult<Void> saveOrUpdate(@Validated @RequestBody City city) {
         cityService.insertOrUpdateSelective(city);
         return JsonResult.success();
@@ -103,8 +143,8 @@ public class CityController extends BaseController {
      */
     @PostMapping(path = "excel/import")
     @PreAuthorize("hasRole('" + ADMIN + "')")
-    public JsonResult<List<ErrorLog<CityExcelVo>>> excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
-        List<ErrorLog<CityExcelVo>> errorLogs = cityService.importExcel(multipartFile.getInputStream());
+    public JsonResult<List<ErrorLog<CityExportVo>>> excelImport(@RequestParam("file") MultipartFile multipartFile) throws IOException {
+        List<ErrorLog<CityExportVo>> errorLogs = cityService.importExcel(multipartFile.getInputStream());
         return CollectionUtils.isEmpty(errorLogs) ? new JsonResult<>() : JsonResult.failure(errorLogs);
     }
 
@@ -114,9 +154,13 @@ public class CityController extends BaseController {
      * @param city city
      * @return {@link ResponseEntity}
      */
-    @GetMapping(path = "excel/export")
-    @PreAuthorize("hasRole('" + ADMIN + "')")
-    public ResponseEntity<InputStreamResource> excelExport(City city) {
-        return Webs.toResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
+    @GetMapping(path = "export")
+//    @PreAuthorize("hasRole('" + ADMIN + "')")
+    public ResponseEntity<InputStreamResource> excelExport(City city, String exportType) {
+        if (StringUtils.equals(exportType, "excel")) {
+            return Webs.toResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
+        } else {
+            return Webs.toResponseEntity("城市数据.json", cityService.exportJsonData(city));
+        }
     }
 }

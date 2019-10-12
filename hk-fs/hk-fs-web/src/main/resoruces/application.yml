@@ -1,0 +1,144 @@
+server:
+  port: 7130
+  servlet:
+    context-path: /fs
+    session:
+      cookie:
+        http-only: true
+spring:
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+  autoconfigure:
+    exclude:
+      # 默认情况下，spring boot web 应用会装配一些功能组件 bean,大多数情况下，可以选择性关闭自动装配的组件bean,以提升性能。
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
+  mvc:
+    throw-exception-if-no-handler-found: true
+    formcontent:
+      filter:
+        # 关闭 org.springframework.web.filter.HttpPutFormContentFilter
+        enabled: false
+  resources:
+    add-mappings: true
+  messages:
+    basename: com/hk/fs/messages,com/hk/core/i18n/messages,org/springframework/security/messages
+    encoding: utf-8
+    cache-duration: -1ms
+  ########################################################## jpa 配置
+  jpa:
+    show-sql: false
+    generate-ddl: false
+    properties:
+      hibernate:
+        # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+        enable_lazy_load_no_trans: true
+  ######################################################### datasource 配置
+  datasource:
+    name: hikari
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/hk_fs?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    ######################################################### hikari datasource 配置
+    hikari:
+      maximum-pool-size: 50
+      max-lifetime: 600000
+      minimum-idle: 10
+      connection-timeout: 30000
+      read-only: false
+      connection-test-query: SELECT 1
+  ################################################################### redis
+  cache:
+    type: redis
+  redis:
+    host: 127.0.0.1
+    password:
+    port: 6379
+    database: 2
+    timeout: 2m
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 20
+        max-active: 1000
+        max-wait: 2m
+  cloud:
+    nacos:
+      discovery:
+        # 是否注册到 nacos 中
+        register-enabled: true
+        # ip:
+        weight: 1
+        server-addr: 182.61.40.18:8848
+        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe
+################################################################### fdfs 配置
+fdfs:
+  connect-timeout: 601
+  so-timeout: 1501
+  # 缩略图生成参数
+  thumb-image:
+    height: 150
+    width: 150
+  tracker-list:
+    - 192.168.64.128:22122
+  pool:
+    max-total: 153 # 从池中借出的对象的最大数目
+    max-wait-millis: 102 # 获取连接时的最大等待毫秒数100
+################################################################### security oauth2
+# 特别注意：
+#  1.这里配置的url如果是 127.0.0.1，登陆成功后访问sso 认证服务器时也只能以这个ip地址访问，不能用 localhost，
+#    除非你配置的是localhost,否则，在访问认证服务器的时候，sso会让你重新登陆，具体原因未查明，但经过测试结果是这样的
+#    这句话的意思就是：
+#     如下面的 access-token-url  和 user-authorization-uri 配置的ip 是127.0.0.1,
+#     在登陆成功后，也只能是 http://127.0.0.1:8080来访问认证服务器，如果用 http://localhost:8080来访问认证服务器， 认证服务器会让你登陆。
+#  2. 以本项目中的 pms 与 emi 举例，如果 pms 中配置的是 127.0.0.1 ,而 emi 中配置的是 localhost,
+#     如果 pms通过认证， 在访问emi时，也需要再登陆一次，即不会实现单点,
+#     通过浏览器查看cookie可知，使用 127.0.0.1  和  localhost 访问的时候， 浏览器带上的cookie信息是不一样的
+security:
+  oauth2:
+    client:
+      client-id: 308403826602414080
+      client-secret: 7bb696cc9d1a4e64b29a910e334ce9d7
+      access-token-uri: http://127.0.0.1:7100/oauth2/oauth/token
+      user-authorization-uri: http://127.0.0.1:7100/oauth2/oauth/authorize
+    #      use-current-uri: false
+    #      pre-established-redirect-uri: http://127.0.0.1:8771/pms/login
+    resource:
+      jwt:
+        key-uri: http://127.0.0.1:7100/oauth2/oauth/token_key
+    sso:
+      login-path: /login
+hk:
+  snowflake:
+    data-center-id: 3
+    worker-id: 1
+  fs:
+    file-url: http://192.168.64.128:${server.port}
+  authentication:
+    login:
+      logout-url: /logout
+      logout-success-url: http://127.0.0.1:7100/oauth2/logout
+    #  gate-way-host: http://127.0.0.1:8771/fs
+
+#      permit-matchers:
+#        - method: GET
+#          uris:
+#            - /api/**
+#          permission: admin
+#        - method: GET
+#          uris:
+#            - /aaaa/**
+#          permission: admin
+#   default-failure-url: http://127.0.0.1:8771/fs/error  #使用了gateway这里写上gateway访问的路径，如果是前后端分离项目，可以不需要这样写
+######################################################### log4j2 配置
+logging:
+  config: 'classpath:log4j2.xml'

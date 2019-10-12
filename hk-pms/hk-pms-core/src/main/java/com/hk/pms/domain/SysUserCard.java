@@ -1,12 +1,13 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -21,28 +22,29 @@ import java.time.LocalDate;
 @SuppressWarnings("serial")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(value = "sys_user_card")
-public class SysUserCard extends AbstractAuditable {
+@Entity
+@Table(name = "sys_user_card")
+public class SysUserCard extends AbstractSnowflakeAuditable {
 
     /**
      * 用户Id
      */
-    @NotEmpty
-    @Column(value = "user_id")
-    private String userId;
+    @NotNull
+    @Column(name = "user_id")
+    private Long userId;
 
     /**
      * 卡编号
      */
     @NotEmpty
-    @Length(max = 18)
-    @Column(value = "id_card")
+    @Length(max = 20)
+    @Column(name = "id_card")
     private String idCard;
 
     /**
      * 卡类型
      */
-    @Column(value = "card_type")
+    @Column(name = "card_type")
     private Byte cardType;
 
     /**
@@ -50,7 +52,7 @@ public class SysUserCard extends AbstractAuditable {
      */
     @NotEmpty
     @Length(max = 20)
-    @Column(value = "real_name")
+    @Column(name = "real_name")
     private String realName;
 
     /**
@@ -58,21 +60,21 @@ public class SysUserCard extends AbstractAuditable {
      */
     @NotNull
     @Past
-    @Column(value = "expire_date")
+    @Column(name = "expire_date")
     private LocalDate expireDate;
 
     /**
      * 正面图
      */
     @NotEmpty
-    @Column(value = "face_image")
+    @Column(name = "face_image")
     private String faceImage;
 
     /**
      * 反面图
      */
     @NotEmpty
-    @Column(value = "back_image")
+    @Column(name = "back_image")
     private String backImage;
 
     /**
@@ -86,6 +88,6 @@ public class SysUserCard extends AbstractAuditable {
      * 发卡时间
      */
     @Past
-    @Column(value = "card_date")
+    @Column(name = "card_date")
     private LocalDate cardDate;
 }

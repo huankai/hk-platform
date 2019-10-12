@@ -1,13 +1,12 @@
 package com.hk.message.web.dto;
 
-import java.time.LocalDateTime;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hk.message.web.domain.Message;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 
 /**
@@ -26,7 +25,7 @@ public class MessageUserDTO extends Message {
      * 用户Id
      */
     @JsonIgnore
-    private String userId;
+    private Long userId;
 
     /**
      * 消息读取状态

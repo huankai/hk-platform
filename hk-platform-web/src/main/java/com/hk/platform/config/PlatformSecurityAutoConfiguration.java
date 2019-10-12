@@ -66,15 +66,13 @@ public class PlatformSecurityAutoConfiguration extends WebSecurityConfigurerAdap
     protected void configure(HttpSecurity http) throws Exception {
         AuthenticationProperties.LoginProperties browser = properties.getLogin();
         http
-                .csrf().disable()
-
+                .csrf()
+                .disable()
                 .formLogin()
-
                 .loginPage(browser.getLoginUrl()).permitAll() // 登陆 请求地址不需要认证可以访问，配置在这里
                 .usernameParameter(browser.getUsernameParameter())
                 .passwordParameter(browser.getPasswordParameter())
                 .loginProcessingUrl(browser.getLoginProcessingUrl())
-
                 .and()
 //                .rememberMe().disable()//禁用remember-me功能
                 .sessionManagement()
@@ -85,14 +83,17 @@ public class PlatformSecurityAutoConfiguration extends WebSecurityConfigurerAdap
                 .maxSessionsPreventsLogin(browser.isMaxSessionsPreventsLogin())
                 .and()
                 .and()
-                .logout().clearAuthentication(true)
+                .logout()
+                .clearAuthentication(true)
                 .logoutUrl(browser.getLogoutUrl())
                 .invalidateHttpSession(true)
                 .addLogoutHandler(new SecurityContextLogoutHandler())
                 .addLogoutHandler(new EquipmentLogoutHandler(browser.getLogoutSuccessUrl()))
                 .and()
-                .authorizeRequests().expressionHandler(new AdminAccessWebSecurityExpressionHandler())// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
-                .anyRequest().authenticated();
+                .authorizeRequests()
+                .expressionHandler(new AdminAccessWebSecurityExpressionHandler())// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
+                .anyRequest()
+                .authenticated();
     }
 
     @Override

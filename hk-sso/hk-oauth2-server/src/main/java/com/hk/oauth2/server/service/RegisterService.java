@@ -2,7 +2,6 @@ package com.hk.oauth2.server.service;
 
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.StringUtils;
-import org.springframework.util.Base64Utils;
 
 import java.time.LocalDate;
 
@@ -31,30 +30,30 @@ public interface RegisterService {
      */
     void emailRegister(String email, String password, String password2);
 
-    /**
-     * 默认使用base64编码id
-     *
-     * @param id id
-     */
-    default String encodeToString(String id) {
-        return Base64Utils.encodeToString(id.getBytes());
-    }
-
-    /**
-     * 默认使用base64解码id
-     *
-     * @param id id
-     */
-    default String decodeToString(String id) {
-        return new String(Base64Utils.decode(id.getBytes()));
-    }
+//    /**
+//     * 默认使用base64编码id
+//     *
+//     * @param id id
+//     */
+//    default String encodeToString(String id) {
+//        return Base64Utils.encodeToString(id.getBytes());
+//    }
+//
+//    /**
+//     * 默认使用base64解码id
+//     *
+//     * @param id id
+//     */
+//    default String decodeToString(String id) {
+//        return new String(Base64Utils.decode(id.getBytes()));
+//    }
 
     /**
      * 检查邮箱验证码
      *
      * @param id id
      */
-    void checkEmailValidate(String id);
+    void checkEmailValidate(Long id);
 
     /**
      * 完成注册
@@ -65,6 +64,6 @@ public interface RegisterService {
      * @param birthday 生日
      * @param iconPath 头像
      */
-    void completeRegister(String id, String realName, Byte sex, LocalDate birthday, String iconPath);
+    void completeRegister(Long id, String realName, Byte sex, LocalDate birthday, String iconPath);
 
 }

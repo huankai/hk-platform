@@ -49,14 +49,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://192.168.64.128:3306/hk_platform?characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://192.168.64.128:3306/hk_platform?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
     hikari:
       maximum-pool-size: 50
       max-lifetime: 600000
       minimum-idle: 10
       connection-timeout: 30000
       read-only: false
-      connection-test-query: SELECT 1 FROM DUAL
+      connection-test-query: SELECT 1
   cache:
     type: redis
 ######################################################### redis 配置
@@ -74,7 +74,7 @@ spring:
         max-wait: -1ms
 ######################################################### mybatis 配置
 mybatis:
-  mapper-locations: classpath:mybatis/mappers/*.xml
+  mapper-locations: classpath*:mybatis/mappers/*.xml
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl

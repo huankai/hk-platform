@@ -1,10 +1,12 @@
 package com.hk.oauth2.server.entity;
 
-import com.hk.core.data.jdbc.domain.AbstractUUIDPersistable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -12,23 +14,24 @@ import org.springframework.data.relational.core.mapping.Table;
  * @date 2018-08-02 14:25
  */
 @Data
-@Table(value = "sys_permission")
+@Entity
+@Table(name = "sys_permission")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysPermission extends AbstractUUIDPersistable {
+public class SysPermission extends AbstractSnowflakeAuditable {
 
-    @Column(value = "parent_id")
-    private String parentId;
+    @Column(name = "parent_id")
+    private Long parentId;
 
-    @Column(value = "app_id")
-    private String appId;
+    @Column(name = "app_id")
+    private Long appId;
 
-    @Column(value = "permission_code")
+    @Column(name = "permission_code")
     private String permissionCode;
 
-    @Column(value = "permission_name")
+    @Column(name = "permission_name")
     private String permissionName;
 
-    @Column(value = "permission_url")
+    @Column(name = "permission_url")
     private String url;
 }

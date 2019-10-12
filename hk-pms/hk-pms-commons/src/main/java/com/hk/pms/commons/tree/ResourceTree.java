@@ -1,6 +1,5 @@
 package com.hk.pms.commons.tree;
 
-import com.hk.platform.commons.tree.TreeNode;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,11 +13,10 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @Builder
-@EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResourceTree extends TreeNode<ResourceTree> {
+public class ResourceTree{
 
     private String resourceUri;
 

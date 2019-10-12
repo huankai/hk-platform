@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2019-4-4 9:14
  */
 @Service
-public class AliyunOssBucketServiceImpl extends JpaServiceImpl<AliyunOssBucket, String> implements AliyunOssBucketService {
+public class AliyunOssBucketServiceImpl extends JpaServiceImpl<AliyunOssBucket, Long> implements AliyunOssBucketService {
 
     private static Map<String, OSSClient> cacheMap = new ConcurrentHashMap<>();
 
@@ -31,7 +31,7 @@ public class AliyunOssBucketServiceImpl extends JpaServiceImpl<AliyunOssBucket, 
     }
 
     @Override
-    protected BaseJpaRepository<AliyunOssBucket, String> getBaseRepository() {
+    protected BaseJpaRepository<AliyunOssBucket, Long> getBaseRepository() {
         return aliyunOssBucketRepository;
     }
 

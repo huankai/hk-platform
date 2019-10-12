@@ -1,15 +1,19 @@
 package com.hk.pms.domain;
 
-import com.hk.commons.validator.constraints.EnumByte;
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hk.core.data.commons.typedef.JsonTypeDef;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
+import com.hk.pms.enums.AppStatusEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.Length;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+import org.hibernate.annotations.Type;
 
-import javax.validation.constraints.NotEmpty;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * App Entity
@@ -19,45 +23,93 @@ import java.time.LocalDate;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Table(value = "sys_app")
+@Entity
+@Table(name = "sys_oauth_client_details")
 @SuppressWarnings("serial")
-public class SysApp extends AbstractAuditable {
+public class SysApp extends AbstractSnowflakeAuditable {
 
-    @NotEmpty
-    @Length(max = 50)
-    @Column(value = "app_code")
+    /**
+     * 原 secret
+     */
+    @Column(name = "original_secret")
+    private String originalSecret;
+
+    /**
+     * 加密后的 secret
+     */
+    @JsonIgnore
+    @Column(name = "client_secret")
+    private String clientSecret;
+
+    @Column(name = "resource_ids")
+    @Type(type = JsonTypeDef.json)
+    private Set<String> resourceIds;
+
+    @Column(name = "scope")
+    @Type(type = JsonTypeDef.json)
+    private Set<String> scope;
+
+    @Column(name = "authorized_grant_types")
+    @Type(type = JsonTypeDef.json)
+    private Set<String> authorizedGrantTypes;
+
+    @Column(name = "redirect_uri")
+    @Type(type = JsonTypeDef.json)
+    private Set<String> redirectUri;
+
+    @Column(name = "autoapprove")
+    private Boolean autoapprove;
+
+    @Column(name = "access_token_validity")
+    private Integer accessTokenValidity;
+
+    @Column(name = "refresh_token_validity")
+    private Integer refreshTokenValidity;
+
+    @Column(name = "additional_information")
+    @Type(type = JsonTypeDef.json)
+    private Map<String, Object> additionalInformation;
+
+    @Column(name = "authorities")
+    private String authorities;
+
+    @Column(name = "app_code")
     private String appCode;
 
-    @NotEmpty
-    @Length(max = 100)
-    @Column(value = "app_name")
+    @Column(name = "app_name")
     private String appName;
 
-    @NotEmpty
-    @Length(max = 50)
-    @Column(value = "app_host")
-    private String appHost;
+    @Column(name = "app_status")
+    private Boolean appStatus;
 
-    @NotEmpty
-    @Length(max = 100)
-    @Column(value = "app_icon")
+    @Column(name = "app_icon")
     private String appIcon;
 
-    @Column(value = "app_status")
-    @EnumByte(values = {0, 1})
-    private Byte appStatus;
-
-    @Column(value = "start_date")
+    /**
+     * 应用有效开始时间
+     */
+    @Column(name = "start_date")
     private LocalDate startDate;
 
-    @Column(value = "expire_date")
+    /**
+     * 应用有效结束时间
+     */
+    @Column(name = "expire_date")
     private LocalDate expireDate;
 
-    @Column(value = "description")
+    @Column(name = "delete_status")
+    private Boolean deleteStatus;
+
+    @Column(name = "description")
     private String description;
 
-    @Column(value = "local_app")
-    private Boolean localApp;
 
+    public String getAppStatusColor() {
+        return AppStatusEnum.getColor(appStatus);
+    }
+
+    public String getAppStatusText() {
+        return AppStatusEnum.getText(appStatus);
+    }
 
 }

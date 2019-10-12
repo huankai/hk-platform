@@ -23,7 +23,7 @@ public interface CityFeignClient {
      * @return all childs.
      */
     @GetMapping("child/{parentId}")
-    List<CityResponse> getChildList(@PathVariable("parentId") String parentId);
+    List<CityResponse> getChildList(@PathVariable("parentId") Long parentId);
 
     /**
      * 获取所有省

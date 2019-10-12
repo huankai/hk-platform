@@ -1,11 +1,12 @@
 package com.hk.oauth2.server.entity;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.time.LocalDate;
 
 /**
@@ -13,54 +14,55 @@ import java.time.LocalDate;
  * @date 2018-07-25 08:45
  */
 @Data
-@Table("sys_user")
+@Entity
+@Table(name = "sys_user")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysUser extends AbstractAuditable {
+public class SysUser extends AbstractSnowflakeAuditable {
 
-    @Column(value = "dept_id")
-    private String deptId;
+    @Column(name = "dept_id")
+    private Long deptId;
 
-    @Column(value = "org_id")
-    private String orgId;
+    @Column(name = "org_id")
+    private Long orgId;
 
-    @Column(value = "account")
+    @Column(name = "account")
     private String account;
 
-    @Column(value = "phone")
+    @Column(name = "phone")
     private String phone;
 
-    @Column(value = "email")
+    @Column(name = "email")
     private String email;
 
-    @Column(value = "real_name")
+    @Column(name = "real_name")
     private String realName;
 
-    @Column(value = "password")
+    @Column(name = "password")
     private String password;
 
-    @Column(value = "user_type")
+    @Column(name = "user_type")
     private Byte userType;
 
-    @Column(value = "is_protect")
+    @Column(name = "is_protect")
     private Boolean isProtect;
 
-    @Column(value = "sex")
+    @Column(name = "sex")
     private Byte sex;
 
-    @Column(value = "icon_path")
+    @Column(name = "icon_path")
     private String iconPath;
 
-    @Column(value = "birth")
+    @Column(name = "birth")
     private LocalDate birth;
 
-    @Column(value = "user_status")
+    @Column(name = "user_status")
     private Byte userStatus;
 
-    @Column(value = "province_id")
-    private String provinceId;
+    @Column(name = "province_id")
+    private Long provinceId;
 
-    @Column(value = "city_id")
-    private String cityId;
+    @Column(name = "city_id")
+    private Long cityId;
 
 }

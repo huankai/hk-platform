@@ -41,7 +41,7 @@ public interface UserFeignClient {
      * @return userId
      */
     @GetMapping("{id}")
-    Optional<UserResponse> findByUserId(@PathVariable("id") String userId);
+    Optional<UserResponse> findByUserId(@PathVariable("id") Long userId);
 
     /**
      * @param account account
@@ -69,5 +69,5 @@ public interface UserFeignClient {
     /**
      * @param userIds userIds
      */
-    void deleteByIds(String... userIds);
+    void deleteByIds(Long... userIds);
 }

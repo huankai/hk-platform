@@ -8,7 +8,7 @@ import com.hk.fs.domain.AliyunOssBucket;
  * @author huangkai
  * @date 2019-4-4 9:13
  */
-public interface AliyunOssBucketService extends JpaBaseService<AliyunOssBucket, String> {
+public interface AliyunOssBucketService extends JpaBaseService<AliyunOssBucket, Long> {
 
     OSSClient getDefaultOSSClient();
 

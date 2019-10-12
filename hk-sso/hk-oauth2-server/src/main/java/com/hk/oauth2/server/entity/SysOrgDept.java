@@ -1,10 +1,12 @@
 package com.hk.oauth2.server.entity;
 
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractSnowflakeAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author kevin
@@ -13,19 +15,20 @@ import org.springframework.data.relational.core.mapping.Table;
 @SuppressWarnings("serial")
 @Data
 @EqualsAndHashCode(callSuper = true)
-@Table(value = "sys_org_dept")
-public class SysOrgDept extends AbstractAuditable {
+@Entity
+@Table(name = "sys_org_dept")
+public class SysOrgDept extends AbstractSnowflakeAuditable {
 
-    @Column(value = "org_id")
-    private String orgId;
+    @Column(name = "org_id")
+    private Long orgId;
 
-    @Column(value = "parent_id")
-    private String parentId;
+    @Column(name = "parent_id")
+    private Long parentId;
 
-    @Column(value = "dept_name")
+    @Column(name = "dept_name")
     private String deptName;
 
-    @Column(value = "description")
+    @Column(name = "description")
     private String description;
 
 }

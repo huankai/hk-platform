@@ -37,7 +37,7 @@ public class CodeRestController extends BaseController {
      * @return {@link ChildCode }
      */
     @GetMapping(path = "child")
-    public List<ChildCode> findChildList(@RequestParam("parentId") String parentId,
+    public List<ChildCode> findChildList(@RequestParam("parentId") Long parentId,
                                          @RequestParam(required = false, value = "ignore") String[] ignores) {
         return childCodeService.findByBaseCodeIgnoreChildCodes(parentId, ignores);
     }
@@ -51,7 +51,7 @@ public class CodeRestController extends BaseController {
      * @return {@link String}
      */
     @GetMapping(path = "childnames")
-    public List<String> childNameList(@RequestParam("parentId") String parentId,
+    public List<String> childNameList(@RequestParam("parentId") Long parentId,
                                       @RequestParam(value = "code_values") byte[] codeValues) {
         List<ChildCode> childCodes = childCodeService.findByBaseCodeIgnoreChildCodes(parentId);
         List<String> childNameList = new ArrayList<>(codeValues.length);

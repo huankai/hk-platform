@@ -17,7 +17,7 @@ import java.util.List;
  * @author kevin
  * @date 2018-08-08 17:46
  */
-public interface FileInfoService extends JpaBaseService<FileInfo, String> {
+public interface FileInfoService extends JpaBaseService<FileInfo, Long> {
 
     String B_UNIT = "B";
 

@@ -29,14 +29,12 @@ spring:
   data:
     solr:
       host: http://47.107.245.220/solr/
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 182.61.40.18:8848
+        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe
 
-eureka:
-  instance:
-    hostname: 127.0.0.1
-    prefer-ip-address: false
-  client:
-    service-url:
-      defaultZone: http://root:root123@127.0.0.1：8761/eureka-server/eureka
 
 logging:
   level:
