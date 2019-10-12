@@ -14,15 +14,15 @@ spring:
       basename: org/springframework/security/messages,com/hk/core/i18n/messages,messages
       encoding: utf-8
       cache-duration: -1ms
-  jpa:
-    show-sql: true
-    generate-ddl: false
-    properties:
-      hibernate:
-      # hbm2ddl:
-      # auto: upload
-        enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
-        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+#  jpa:
+#    show-sql: true
+#    generate-ddl: false
+#    properties:
+#      hibernate:
+#      # hbm2ddl:
+#      # auto: upload
+#        enable_lazy_load_no_trans: true # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+#        dialect: org.hibernate.dialect.MySQL57InnoDBDialect
 
   datasource:
     name: druid
@@ -119,11 +119,11 @@ security:
     client:
       client-id: 4028c0816371a097016371a38d5a0000
       client-secret: 4028c0816371a097016371a38d5a0000
-      access-token-uri: http://127.0.0.1:8771/oauth2/oauth/token
-      user-authorization-uri: http://127.0.0.1:8771/oauth2/oauth/authorize
+      access-token-uri: http://127.0.0.1:8086/oauth/token
+      user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8771/oauth2/oauth/token_key
+        key-uri: http://127.0.0.1:8086/oauth/token_key
 hk:
   authentication:
     browser:
@@ -134,7 +134,7 @@ hk:
   swagger:
     title: "XXX公司_字典信息管理系统_接口文档"
     description: "用于管理系统字典信息,具体包括字典管理模块、地区管理模块..."
-    version: "2.0.2.RELEASE"
+    version: "2.0.5.RELEASE"
     base-package: "com.hk.emi.controller"
 
 ################################################################### logging

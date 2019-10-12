@@ -6,7 +6,7 @@ import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.SecurityContextUtils;
 import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.service.BaseService;
+import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.pms.domain.SysPermission;
 
 import java.util.Collection;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @author: kevin
  * @date: 2018-04-12 16:53
  */
-public interface SysPermissionService extends BaseService<SysPermission, String> {
+public interface SysPermissionService extends JdbcBaseService<SysPermission, String> {
 
     /**
      * 获取指定用户的所有权限

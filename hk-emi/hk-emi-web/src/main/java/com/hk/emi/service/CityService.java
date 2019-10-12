@@ -1,18 +1,17 @@
 package com.hk.emi.service;
 
 import com.hk.commons.poi.excel.model.ErrorLog;
-import com.hk.core.service.BaseService;
+import com.hk.core.service.jdbc.JdbcBaseService;
 import com.hk.emi.domain.City;
 import com.hk.emi.vo.CityExcelVo;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 
 /**
  * @author: kevin
  */
-public interface CityService extends BaseService<City, String> {
+public interface CityService extends JdbcBaseService<City, String> {
 
     /**
      * 查询下级City

@@ -1,12 +1,39 @@
 server:
   port: 8770
 spring:
+  main:
+    banner-mode: 'off'
+  application:
+    name: hk-config-server
   cloud:
     config:
       server:
-        default-application-name: hk-config-server
+        default-application-name: ${spring.application.name}
         git:
           uri: https://github.com/huankai/hk-platform.git
           search-paths: "src/main/config"  # 会在此目录下查询配置文件
-          default-label: "2.0.3.RELEASE"  # clone 分支
+          default-label: "2.0.5.RELEASE"  # clone 分支
           basedir: "/config-basedir" # clone 的项目保存在指定的目录中
+    stream:
+      kafka:
+        binder:
+          brokers: sjq-01:9092,sjq-02:9092,sjq-03:9092
+  boot:
+    admin:
+      client:
+        url: "http://127.0.0.1:9999"
+        instance:
+          prefer-ip: false
+          service-url: "http://127.0.0.1:${server.port}"
+eureka:
+  instance:
+    hostname: 127.0.0.1
+    prefer-ip-address: false
+  client:
+    service-url:
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

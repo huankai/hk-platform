@@ -16,9 +16,9 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.messaging.simp.user.SimpUserRegistry;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.WebSocketHandler;
 
 import java.security.Principal;
@@ -29,10 +29,10 @@ import java.util.Map;
 /**
  * webSocket Test
  *
- * @author: sjq-278
+ * @author: kevin
  * @date: 2018-09-21 14:26
  */
-@RestController
+@Controller
 public class WebSocketMessageController extends BaseController {
 
     @Autowired
@@ -45,12 +45,13 @@ public class WebSocketMessageController extends BaseController {
     /**
      * 这里的用户是 Spring security 认证的 UserPrincipal
      *
-     * @param principal
-     * @param message
-     * @return
+     * @param principal principal
+     * @param message   message
+     * @param toUser    toUser
+     * @return JsonResult
      */
     @RequestMapping("/chat2")
-    public JsonResult<Void> handlerChat(Principal principal, String message,String toUser) {
+    public JsonResult<Void> handlerChat(Principal principal, String message, String toUser) {
         websocketMessager.publish(ChatMessage
                 .builder().
                         formUser(getPrincipal().getUserId())
@@ -73,7 +74,7 @@ public class WebSocketMessageController extends BaseController {
      */
     @MessageMapping("/chat")
     public void handlerChat2(Principal principal, @RequestParam String message) {
-        Map<String, String> map = JsonUtils.deserialize(message, Map.class);
+        Map<?, ?> map = JsonUtils.deserialize(message, Map.class);
         String toUser = (String) map.get("toUser");
         websocketMessager.publish(ChatMessage
                 .builder().

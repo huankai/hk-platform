@@ -36,7 +36,7 @@
         sendSpittle(text);
     });
     //链接endpoint名称为 "/endpointChat" 的endpoint。
-    const sock = new SockJS("/endpointChat");
+    const sock = new SockJS("/emi/endpointChat");
     const stomp = Stomp.over(sock);
     //stomp.debug = null; // 关闭debug
     stomp.heartbeat.outgoing = 5000;

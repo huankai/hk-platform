@@ -1,12 +1,11 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -14,17 +13,16 @@ import javax.validation.constraints.NotEmpty;
  * @date: 2018-04-12 16:34
  */
 @Data
-@Entity
-@Table(name = "sys_dept_role")
+@Table(value = "sys_dept_role")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = false)
 public class SysDeptRole extends AbstractAuditable {
 
-    @Column(name = "dept_id")
+    @Column(value = "dept_id")
     @NotEmpty
     private String deptId;
 
-    @Column(name = "role_id")
+    @Column(value = "role_id")
     @NotEmpty
     private String roleId;
 

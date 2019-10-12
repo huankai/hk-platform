@@ -1,13 +1,12 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -15,27 +14,26 @@ import javax.validation.constraints.NotEmpty;
  * @date: 2018-04-12 16:29
  */
 @Data
-@Entity
-@Table(name = "sys_permission")
+@Table(value = "sys_permission")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class SysPermission extends AbstractAuditable {
 
-    @Column(name = "app_id")
+    @Column(value = "app_id")
     @NotEmpty
     private String appId;
 
-    @Column(name = "permission_code")
+    @Column(value = "permission_code")
     @NotEmpty
     @Length(max = 20)
     private String permissionCode;
 
-    @Column(name = "permission_name")
+    @Column(value = "permission_name")
     @NotEmpty
     @Length(max = 30)
     private String permissionName;
 
-    @Column(name = "description")
+    @Column(value = "description")
     @Length(max = 200)
     private String description;
 }

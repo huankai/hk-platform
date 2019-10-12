@@ -1,64 +1,66 @@
 package com.hk.sso.server.entity;
 
-import java.time.LocalDate;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import com.hk.core.data.jpa.domain.AbstractUUIDPersistable;
-
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+import java.time.LocalDate;
 
 /**
  * @author: kevin
  * @date: 2018-07-25 08:45
  */
 @Data
-@Entity
-@Table(name = "sys_user")
+@Table("sys_user")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysUser extends AbstractUUIDPersistable {
+public class SysUser extends AbstractAuditable {
 
-    @Column(name = "dept_id")
+    @Column(value = "dept_id")
     private String deptId;
 
-    @Column(name = "org_id")
+    @Column(value = "org_id")
     private String orgId;
 
-    @Column(name = "account")
+    @Column(value = "account")
     private String account;
 
-    @Column(name = "phone")
+    @Column(value = "phone")
     private String phone;
 
-    @Column(name = "email")
+    @Column(value = "email")
     private String email;
 
-    @Column(name = "real_name")
+    @Column(value = "real_name")
     private String realName;
 
-    @Column(name = "password")
+    @Column(value = "password")
     private String password;
 
-    @Column(name = "user_type")
+    @Column(value = "user_type")
     private Byte userType;
 
-    @Column(name = "is_protect")
+    @Column(value = "is_protect")
     private Boolean isProtect;
 
-    @Column(name = "sex")
+    @Column(value = "sex")
     private Byte sex;
 
-    @Column(name = "icon_path")
+    @Column(value = "icon_path")
     private String iconPath;
 
-    @Column(name = "birth")
+    @Column(value = "birth")
     private LocalDate birth;
 
-    @Column(name = "user_status")
+    @Column(value = "user_status")
     private Byte userStatus;
+
+    @Column(value = "province_id")
+    private String provinceId;
+
+    @Column(value = "city_id")
+    private String cityId;
 
 }

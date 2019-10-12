@@ -1,37 +1,44 @@
 package com.hk.sso.server.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import com.hk.core.data.jpa.domain.AbstractUUIDPersistable;
-
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+import java.time.LocalDateTime;
 
 /**
  * @author: kevin
  * @date: 2018-08-02 16:51
  */
 @Data
-@Entity
-@Table(name = "sys_app")
+@Table(value = "sys_app")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
-public class SysApp extends AbstractUUIDPersistable {
+public class SysApp extends AbstractAuditable {
 
-    @Column(name = "app_code")
+    @Column(value = "app_code")
     private String appCode;
 
-    @Column(name = "app_name")
+    @Column(value = "app_name")
     private String appName;
 
-    @Column(name = "app_icon")
+    @Column(value = "app_host")
+    private String appHost;
+
+    @Column(value = "app_icon")
     private String appIcon;
 
-    @Column(name = "app_status")
+    @Column(value = "start_date")
+    private LocalDateTime startDate;
+
+    @Column(value = "expire_date")
+    private LocalDateTime expireDate;
+
+    @Column(value = "app_status")
     private Byte appStatus;
 
-    @Column(name = "local_app")
-    private Byte localApp;
+    @Column(value = "local_app")
+    private Boolean localApp;
 }

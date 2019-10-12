@@ -149,7 +149,7 @@ hk:
   swagger:
     title: "XXX公司_文件管理系统_接口文档"
     description: "用于管理文件系统..."
-    version: "2.0.2.RELEASE"
+    version: "2.0.5.RELEASE"
     base-package: "com.hk.fs.controller"
 ######################################################### logging 配置
 logging:

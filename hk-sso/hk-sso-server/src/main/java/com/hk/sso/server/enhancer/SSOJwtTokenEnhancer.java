@@ -10,9 +10,7 @@ import com.hk.platform.commons.enums.SexEnum;
 import com.hk.sso.server.entity.SysApp;
 import com.hk.sso.server.entity.SysPermission;
 import com.hk.sso.server.entity.SysRole;
-import com.hk.sso.server.service.RoleService;
-import com.hk.sso.server.service.SysAppService;
-import com.hk.sso.server.service.SysPermissionService;
+import com.hk.sso.server.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +51,7 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();
         Map<String, Object> info = new HashMap<>();
-        SysApp sysApp = sysAppService.findOne(clientId).orElseThrow(() -> new OAuth2Exception("当前APP应用不存在"));
+        SysApp sysApp = sysAppService.findById(clientId).orElseThrow(() -> new OAuth2Exception("当前APP应用不存在"));
         if (!ByteConstants.ONE.equals(sysApp.getAppStatus())) {
             // 注意，这里要返回 400的异常状态码，如果不是，客户端很难获取到异常的详细信息
             throw new OAuth2Exception("你访问的应用[ " + sysApp.getAppName() + "]已禁用,请与管理员联系！");
@@ -61,20 +59,25 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
         info.put("userId", principal.getUserId());
         info.put("iconPath", principal.getIconPath());
         info.put("realName", principal.getRealName());
-        if (!ByteConstants.ONE.equals(sysApp.getLocalApp())) {
+        info.put("userType", principal.getUserType());
+        info.put("sex", principal.getSex());
+        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex(), false));
+        if (!sysApp.getLocalApp()) {
             Map<String, Object> infoMap = new HashMap<>(additionalInformation);
             infoMap.putAll(info);
             defaultOAuth2AccessToken.setAdditionalInformation(infoMap);
             return defaultOAuth2AccessToken;
         }
-        info.put("clientApp", new ClientAppInfo(sysApp.getId(), sysApp.getAppCode(), sysApp.getAppName(), sysApp.getAppIcon()));
+        info.put("appInfo", new ClientAppInfo(sysApp.getId(), sysApp.getAppCode(), sysApp.getAppName(), sysApp.getAppIcon()));
         info.put("account", principal.getAccount());
         info.put("email", principal.getEmail());
         info.put("phone", principal.getPhone());
-        info.put("sex", principal.getSex());
-        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex(), false));
-        info.put("userType", principal.getUserType());
-        info.put("isProtect", principal.isProtectUser());
+        info.put("orgId", principal.getOrgId());
+        info.put("orgName", principal.getOrgName());
+        info.put("deptId", principal.getDeptId());
+        info.put("deptName", principal.getDeptName());
+        info.put("protectUser", principal.isProtectUser());
+
         boolean debugEnabled = LOGGER.isDebugEnabled();
         if (debugEnabled) {
             LOGGER.debug("返回用户附加信息: {} ", info);
@@ -97,8 +100,8 @@ public class SSOJwtTokenEnhancer implements TokenEnhancer {
                 }
                 permissions = permissionList.stream().map(SysPermission::getPermissionCode).collect(Collectors.toSet());
             }
-            info.put("roles", roles);
-            info.put("permissions", permissions);
+            info.put("roleSet", roles);
+            info.put("permissionSet", permissions);
         }
         Map<String, Object> infoMap = new HashMap<>(additionalInformation);
         infoMap.putAll(info);

@@ -1,10 +1,10 @@
 package com.hk.sso.server.service.impl;
 
-import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.sso.server.entity.SysRole;
 import com.hk.sso.server.mappers.SysRoleMapper;
-import com.hk.sso.server.repository.RoleRepository;
+import com.hk.sso.server.repository.jdbc.RoleRepository;
 import com.hk.sso.server.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +16,24 @@ import java.util.List;
  * @date: 2018-08-03 08:53
  */
 @Service
-public class RoleServiceImpl extends BaseServiceImpl<SysRole, String> implements RoleService {
+public class RoleServiceImpl extends JdbcServiceImpl<SysRole, String> implements RoleService {
 
-    @Autowired
     private SysRoleMapper roleMapper;
 
+    private final RoleRepository roleRepository;
+
     @Autowired
-    private RoleRepository roleRepository;
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
+    @Autowired
+    public void setRoleMapper(SysRoleMapper roleMapper) {
+        this.roleMapper = roleMapper;
+    }
 
     @Override
-    protected BaseRepository<SysRole, String> getBaseRepository() {
+    protected JdbcRepository<SysRole, String> getBaseRepository() {
         return roleRepository;
     }
 

@@ -3,14 +3,13 @@ package com.hk.emi.service.impl;
 
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.validator.DictService;
-import com.hk.core.cache.service.EnableCacheServiceImpl;
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.cache.service.EnableJdbcCacheServiceImpl;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.emi.domain.ChildCode;
-import com.hk.emi.repository.ChildCodeRepository;
+import com.hk.emi.repository.jdbc.ChildCodeRepository;
 import com.hk.emi.service.ChildCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @CacheConfig(cacheNames = "ChildCode")
-public class ChildCodeServiceImpl extends EnableCacheServiceImpl<ChildCode, String> implements ChildCodeService, DictService {
+public class ChildCodeServiceImpl extends EnableJdbcCacheServiceImpl<ChildCode, String> implements ChildCodeService, DictService {
 
     private final ChildCodeRepository childCodeRepository;
 
@@ -32,17 +31,8 @@ public class ChildCodeServiceImpl extends EnableCacheServiceImpl<ChildCode, Stri
     }
 
     @Override
-    protected BaseRepository<ChildCode, String> getBaseRepository() {
+    protected JdbcRepository<ChildCode, String> getBaseRepository() {
         return childCodeRepository;
-    }
-
-    @Override
-    protected ExampleMatcher ofExampleMatcher() {
-        return super.ofExampleMatcher()
-                .withMatcher("state", ExampleMatcher.GenericPropertyMatcher::exact)
-                .withMatcher("codeValue", ExampleMatcher.GenericPropertyMatcher::exact)
-                .withMatcher("childCode", ExampleMatcher.GenericPropertyMatcher::contains)
-                .withMatcher("codeName", ExampleMatcher.GenericPropertyMatcher::contains);
     }
 
     /**

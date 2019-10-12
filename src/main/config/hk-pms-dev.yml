@@ -17,24 +17,24 @@ spring:
     basename: org/springframework/security/messages,com/hk/core/i18n/messages,messages
     encoding: utf-8
     cache-duration: -1ms
-  jpa:
-    show-sql: true
-    generate-ddl: false
-    properties:
-      hibernate:
-      #        hbm2ddl:
-      #         auto: upload
-      # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
-         enable_lazy_load_no_trans: true
-         dialect: org.hibernate.dialect.PostgreSQL95Dialect
+#  jpa:
+#    show-sql: true
+#    generate-ddl: false
+#    properties:
+#      hibernate:
+#      #        hbm2ddl:
+#      #         auto: upload
+#      # 解决懒加载在非事务中的 no-session 的问题 @see https://stackoverflow.com/questions/36583185/spring-data-jpa-could-not-initialize-proxy-no-session-with-methods-marke
+#         enable_lazy_load_no_trans: true
+#         dialect: org.hibernate.dialect.PostgreSQL95Dialect
 
   datasource:
     name: druid
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://192.168.64.135:5432/hk_pms
-    username: postgres
-    password:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.64.128:3306/hk_pms?useUnicode=true&characterEncoding=UTF-8&useSSL=false&autoReconnect=true
+    username: root
+    password: root
     druid:
       initial-size: 1
       max-active: 20
@@ -64,9 +64,11 @@ spring:
         exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
 
 ################################################################### redis
+  cache:
+    type: redis
   redis:
+    host: 192.168.64.150
     password: 1234567
-    host: 127.0.0.1
     port: 6379
     database: 2
     timeout: 3000ms
@@ -76,8 +78,6 @@ spring:
         min-idle: 0
         max-idle: 8
         max-wait: -1ms
-  cache:
-    type: redis
 
 ################################################################### eureka
 eureka:
@@ -113,15 +113,16 @@ pagehelper:
 security:
   oauth2:
     client:
-      client-id: 4028c08162b9340f0162b93427c40000
-      client-secret: 4028c08162b9340f0162b93427c40000
-      access-token-uri: http://127.0.0.1:8771/oauth2/oauth/token
-      user-authorization-uri: http://127.0.0.1:8771/oauth2/oauth/authorize
+      client-id: 7872c6f7f0cb41f0ba0f8aa060cb5c37
+      client-secret: 7872c6f7f0cb41f0ba0f8aa060cb5c37
+      # 不知道为什么，如果配置成gateway 的url (http://127.0.0.1:8771/oauth2/oauth/token) 会有传递的参数丢失的问题
+      access-token-uri: http://127.0.0.1:8086/oauth/token
+      user-authorization-uri: http://127.0.0.1:8086/oauth/authorize
 #      use-current-uri: false
 #      pre-established-redirect-uri: http://127.0.0.1:8771/pms/login
     resource:
       jwt:
-        key-uri: http://127.0.0.1:8771/oauth2/oauth/token_key
+        key-uri: http://127.0.0.1:8086/oauth/token_key
     sso:
       login-path: /login
 
@@ -151,13 +152,13 @@ hk:
 logging:
   level:
     root: error
+    com.hk: debug
     org.springframework.security: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: debug
     org.springframework.jdbc.core.JdbcTemplate: debug
-    org.springframework.jdbc.core.StatementCreatorUtils: debug
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: debug
-    com.hk: debug
+    org.springframework.jdbc.core.StatementCreatorUtils: trace
+#    org.hibernate.SQL: debug
+#    org.hibernate.type.descriptor.sql.BasicBinder: debug
 
 
 

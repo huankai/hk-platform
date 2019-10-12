@@ -1,16 +1,13 @@
 package com.hk.emi.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
-
-import org.hibernate.validator.constraints.Length;
-
-import com.hk.core.data.jpa.domain.AbstractAuditable;
-
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 字典
@@ -19,8 +16,7 @@ import lombok.EqualsAndHashCode;
  * @date: 2017-11-29 16:27
  */
 @Data
-@Entity
-@Table(name = "sys_base_code")
+@Table(value = "sys_base_code")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class BaseCode extends AbstractAuditable {
@@ -28,7 +24,7 @@ public class BaseCode extends AbstractAuditable {
     /**
      *
      */
-    @Column(name = "base_code")
+    @Column(value = "base_code")
     @NotBlank
     @Length(max = 20)
     private String baseCode;
@@ -36,15 +32,15 @@ public class BaseCode extends AbstractAuditable {
     /**
      *
      */
-    @Column(name = "code_name")
+    @Column(value = "code_value")
     @NotBlank
     @Length(max = 20)
-    private String codeName;
+    private String codevalue;
 
     /**
      *
      */
-    @Column(name = "description")
+    @Column(value = "description")
     private String description;
 
 }

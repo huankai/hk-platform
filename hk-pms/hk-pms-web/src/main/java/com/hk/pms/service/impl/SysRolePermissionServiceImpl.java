@@ -1,10 +1,10 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysRolePermission;
-import com.hk.pms.repository.SysRolePermissionRepository;
+import com.hk.pms.repository.jdbc.SysRolePermissionRepository;
 import com.hk.pms.service.SysRolePermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @date: 2018-04-12 17:05
  */
 @Service
-public class SysRolePermissionServiceImpl extends BaseServiceImpl<SysRolePermission, String> implements SysRolePermissionService {
+public class SysRolePermissionServiceImpl extends JdbcServiceImpl<SysRolePermission, String> implements SysRolePermissionService {
 
     private final SysRolePermissionRepository sysRolePermissionRepository;
 
@@ -29,7 +29,7 @@ public class SysRolePermissionServiceImpl extends BaseServiceImpl<SysRolePermiss
      * @return
      */
     @Override
-    protected BaseRepository<SysRolePermission, String> getBaseRepository() {
+    protected JdbcRepository<SysRolePermission, String> getBaseRepository() {
         return sysRolePermissionRepository;
     }
 

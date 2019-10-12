@@ -1,14 +1,13 @@
 package com.hk.emi.domain;
 
 import com.hk.commons.validator.constraints.EnumByte;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -17,26 +16,25 @@ import javax.validation.constraints.NotNull;
  * @date: 2017-11-29 17:11
  */
 @Data
-@Entity
-@Table(name = "sys_child_code")
+@Table(value = "sys_child_code")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
 public class ChildCode extends AbstractAuditable {
 
-    @Column(name = "base_code_id")
+    @Column(value = "base_code_id")
     @NotEmpty
     private String baseCodeId;
 
-    @Column(name = "child_code")
+    @Column(value = "child_code")
     @NotEmpty
     @Length(max = 20)
     private String childCode;
 
-    @Column(name = "code_value")
+    @Column(value = "code_value")
     @NotNull
     private Byte codeValue;
 
-    @Column(name = "code_name")
+    @Column(value = "code_name")
     @NotEmpty
     @Length(max = 20)
     private String codeName;
@@ -44,12 +42,12 @@ public class ChildCode extends AbstractAuditable {
     /**
      * 只能是0和1两个值
      */
-    @Column(name = "state")
+    @Column(value = "state")
     @NotNull
     @EnumByte(values = {0, 1})
     private Byte state;
 
-    @Column(name = "description")
+    @Column(value = "description")
     private String description;
 
 

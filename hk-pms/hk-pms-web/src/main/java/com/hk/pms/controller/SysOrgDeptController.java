@@ -33,7 +33,7 @@ public class SysOrgDeptController extends BaseController {
 
     @GetMapping
     public JsonResult<SysOrgDept> get(@RequestParam String id) {
-        return JsonResult.success(orgDeptService.getOne(id));
+        return JsonResult.success(orgDeptService.findById(id).orElse(null));
     }
 
     @DeleteMapping

@@ -4,13 +4,11 @@ import com.hk.fs.config.FileServer;
 import com.hk.fs.domain.FileInfo;
 import com.hk.fs.service.FileInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
- * @author: sjq-278
+ * @author: kevin
  * @date: 2018-09-13 13:31
  */
 @RestController
@@ -31,5 +29,10 @@ public class FileInfoRestController {
     @GetMapping("/server-url")
     public String getServerUrl() {
         return fileServer.getFileUrl();
+    }
+
+    @PostMapping("/upload/multipart")
+    public FileInfo upload(@RequestParam("file") MultipartFile file) {
+        return null;
     }
 }

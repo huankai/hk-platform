@@ -1,14 +1,13 @@
 package com.hk.emi.domain;
 
 import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -19,8 +18,7 @@ import javax.validation.constraints.NotNull;
  * @date: 2017年12月24日下午8:14:32
  */
 @Data
-@Entity
-@Table(name = "sys_city")
+@Table(value = "sys_city")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
 public class City extends AbstractAuditable {
@@ -30,12 +28,12 @@ public class City extends AbstractAuditable {
     /**
      * 行政代码
      */
-    @Column(name = "code")
+    @Column(value = "code")
     @NotEmpty
     @Length(max = 20)
     private String code;
 
-    @Column(name = "parent_id")
+    @Column(value = "parent_id")
     @NotEmpty
     private String parentId;
 
@@ -50,7 +48,7 @@ public class City extends AbstractAuditable {
      * 6:村
      * </p>
      */
-    @Column(name = "city_type")
+    @Column(value = "city_type")
     @NotNull
     @EnumDict(codeId = CITY_TYPE_DICT_ID)
     private Byte cityType;
@@ -58,7 +56,7 @@ public class City extends AbstractAuditable {
     /**
      * 全称
      */
-    @Column(name = "full_name")
+    @Column(value = "full_name")
     @NotEmpty
     @Length(max = 20)
     private String fullName;
@@ -66,19 +64,19 @@ public class City extends AbstractAuditable {
     /**
      * 简名
      */
-    @Column(name = "short_name")
+    @Column(value = "short_name")
     private String shortName;
 
     /**
      * 邮编
      */
-    @Column(name = "post_office")
+    @Column(value = "post_office")
     private String postOffice;
 
     /**
      * 描述
      */
-    @Column(name = "description")
+    @Column(value = "description")
     private String description;
 
 }

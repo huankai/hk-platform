@@ -1,0 +1,39 @@
+server:
+  port: 8771
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+#      default-filters:
+
+      routes:
+        - id: hk-emi
+          uri: http://127.0.0.1:8772
+          predicates:
+            - Path=/emi/**
+          filters:
+            - StripPrefix=1
+        - id: hk-pms
+          uri: http://127.0.0.1:8773
+          predicates:
+            - Path=/pms/**
+          filters:
+            - StripPrefix=1
+        - id: hk-oauth2
+          uri: http://127.0.0.1:8086
+          predicates:
+            - Path=/oauth2/**
+          filters:
+            - StripPrefix=1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root123@127.0.0.1:8761/eureka
+logging:
+  level:
+    root: error
+    org.springframework.cloud.gateway: TRACE
+    org.springframework.http.server.reactive: DEBUG
+    org.springframework.web.reactive: DEBUG

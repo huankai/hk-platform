@@ -1,9 +1,9 @@
 package com.hk.pms.service.impl;
 
-import com.hk.core.data.jpa.repository.BaseRepository;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysConfig;
-import com.hk.pms.repository.SysConfigRepository;
+import com.hk.pms.repository.jdbc.SysConfigRepository;
 import com.hk.pms.service.SysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,13 +13,17 @@ import org.springframework.stereotype.Service;
  * @date: 2018-09-20 20:07
  */
 @Service
-public class SysConfigServiceImpl extends BaseServiceImpl<SysConfig, String> implements SysConfigService {
+public class SysConfigServiceImpl extends JdbcServiceImpl<SysConfig, String> implements SysConfigService {
+
+    private final SysConfigRepository sysConfigRepository;
 
     @Autowired
-    private SysConfigRepository sysConfigRepository;
+    public SysConfigServiceImpl(SysConfigRepository sysConfigRepository) {
+        this.sysConfigRepository = sysConfigRepository;
+    }
 
     @Override
-    protected BaseRepository<SysConfig, String> getBaseRepository() {
+    protected JdbcRepository<SysConfig, String> getBaseRepository() {
         return sysConfigRepository;
     }
 }

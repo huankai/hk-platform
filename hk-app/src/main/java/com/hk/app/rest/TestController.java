@@ -14,7 +14,7 @@ import com.hk.core.web.JsonResult;
 import java.util.List;
 
 /**
- * @author kally
+ * @author: kally
  * @date: 2018年8月17日下午1:56:50
  */
 @RestController

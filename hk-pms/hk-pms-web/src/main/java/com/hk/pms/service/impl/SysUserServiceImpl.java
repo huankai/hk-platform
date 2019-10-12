@@ -1,21 +1,17 @@
 package com.hk.pms.service.impl;
 
 
-import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
-import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.core.exception.ServiceException;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysUser;
-import com.hk.pms.repository.SysUserRepository;
+import com.hk.pms.repository.jdbc.SysUserRepository;
 import com.hk.pms.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -23,16 +19,20 @@ import java.util.Optional;
  * @date: 2018-04-12 17:01
  */
 @Service
-public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> implements SysUserService {
+public class SysUserServiceImpl extends JdbcServiceImpl<SysUser, String> implements SysUserService {
 
     private final SysUserRepository sysUserRepository;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     public SysUserServiceImpl(SysUserRepository sysUserRepository) {
         this.sysUserRepository = sysUserRepository;
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
     }
 
     /**
@@ -41,27 +41,27 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
      * @return sysUserRepository
      */
     @Override
-    protected BaseRepository<SysUser, String> getBaseRepository() {
+    protected JdbcRepository<SysUser, String> getBaseRepository() {
         return sysUserRepository;
     }
 
-    @Override
-    protected ExampleMatcher ofExampleMatcher() {
-        return super.ofExampleMatcher()
-                .withIgnorePaths("password")
-                .withMatcher("orgId", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("deptId", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("userType", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("isProtect", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("sex", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("provinceId", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("cityId", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("userStatus", ExampleMatcher.GenericPropertyMatchers.exact())
-                .withMatcher("account", ExampleMatcher.GenericPropertyMatchers.contains())
-                .withMatcher("phone", ExampleMatcher.GenericPropertyMatchers.contains())
-                .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.contains())
-                .withMatcher("realName", ExampleMatcher.GenericPropertyMatchers.contains());
-    }
+//    @Override
+//    protected ExampleMatcher ofExampleMatcher() {
+//        return super.ofExampleMatcher()
+//                .withIgnorePaths("password")
+//                .withMatcher("orgId", ExampleMatcher.GenericPropertyMatchers.exact())
+//                .withMatcher("deptId", ExampleMatcher.GenericPropertyMatchers.exact())
+//                .withMatcher("userType", ExampleMatcher.GenericPropertyMatchers.exact())
+//                .withMatcher("isProtect", ExampleMatcher.GenericPropertyMatchers.exact())
+//                .withMatcher("sex", ExampleMatcher.GenericPropertyMatchers.exact())
+//                .withMatcher("provinceId", ExampleMatcher.GenericPropertyMatchers.exact())
+//                .withMatcher("cityId", ExampleMatcher.GenericPropertyMatchers.exact())
+//                .withMatcher("userStatus", ExampleMatcher.GenericPropertyMatchers.exact())
+//                .withMatcher("account", ExampleMatcher.GenericPropertyMatchers.contains())
+//                .withMatcher("phone", ExampleMatcher.GenericPropertyMatchers.contains())
+//                .withMatcher("email", ExampleMatcher.GenericPropertyMatchers.contains())
+//                .withMatcher("realName", ExampleMatcher.GenericPropertyMatchers.contains());
+//    }
 
     @Override
     public Optional<SysUser> findByLoginUsername(String username) {
@@ -82,18 +82,18 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
         return optionalUser;
     }
 
-    @Override
-    public SysUser getOne(String id) {
-        SysUser user = super.getOne(id);
-        if (ByteConstants.NINE.equals(user.getUserStatus())) {
-            throw new ServiceException("无效用户！");
-        }
-        return user;
-    }
+//    @Override
+//    public SysUser getOne(String id) {
+//        SysUser user = super.findById(id).orElseThrow(() -> new ServiceException("记录不存在"));
+//        if (ByteConstants.NINE.equals(user.getUserStatus())) {
+//            throw new ServiceException("无效用户！");
+//        }
+//        return user;
+//    }
 
     @Override
-    public Optional<SysUser> findOne(String id) {
-        Optional<SysUser> optionalSysUser = super.findOne(id);
+    public Optional<SysUser> findById(String id) {
+        Optional<SysUser> optionalSysUser = super.findById(id);
         return getValidateUser(optionalSysUser);
     }
 
@@ -120,7 +120,7 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
 
     @Override
     public void resetPassword(String id, String oldPassword, String newPassword) {
-        SysUser user = getOne(id);
+        SysUser user = getById(id);
         checkOldPassword(user, oldPassword);
         user.setPassword(passwordEncoder.encode(newPassword));
         updateById(user);
@@ -138,12 +138,12 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
     }
 
     @Override
-    public void deleteByIds(Collection<String> ids) {
+    public void deleteByIds(Iterable<String> ids) {
         ids.forEach(id -> updateStatus(id, ByteConstants.NINE));
     }
 
     @Override
-    public void delete(Collection<SysUser> entities) {
+    public void delete(Iterable<SysUser> entities) {
         entities.forEach(item -> updateStatus(item.getId(), ByteConstants.NINE));
     }
 
@@ -153,65 +153,65 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser, String> impleme
     }
 
     private void updateStatus(String userId, Byte userStatus) {
-        findOne(userId).ifPresent(user -> {
+        findById(userId).ifPresent(user -> {
             user.setUserStatus(userStatus);
             insertOrUpdate(user);
             logger.info("用户[{}]状态已更新,更新后的状态为：{}", userId, userStatus);
         });
     }
 
-    @Override
-    protected SysUser saveBefore(SysUser entity) {
-        AssertUtils.notNull(entity.getUserType(), "用户类型不能为空！");
-        if (entity.getIsProtect() == null) {
-            entity.setIsProtect(Boolean.FALSE);
-        }
-        entity.setUserStatus(ByteConstants.ONE);//用户状态一定是启动，如果要禁用调用 #disable() 方法，如果修改了用户信息，也会开启用户状态
-        Optional<SysUser> optionalUser = sysUserRepository.findByAccount(entity.getAccount());
-        if (optionalUser.isPresent()) {
-            if (ByteConstants.ONE.equals(entity.getUserStatus())) {
-                throw new ServiceException("用户账号已注册:" + entity.getAccount());
-            } else {
-                SysUser sysUser = optionalUser.get();
-                entity.setId(sysUser.getId());
-                entity.setUserStatus(ByteConstants.ONE);
-                return entity;
-            }
-        }
-
-        if (StringUtils.isNotEmpty(entity.getPhone())) {
-            optionalUser = sysUserRepository.findByPhone(entity.getPhone());
-            if (optionalUser.isPresent()) {
-                if (ByteConstants.ONE.equals(entity.getUserStatus())) {
-                    throw new ServiceException("手机号已注册:" + entity.getPhone());
-                } else {
-                    SysUser sysUser = optionalUser.get();
-                    entity.setId(sysUser.getId());
-                    entity.setUserStatus(ByteConstants.ONE);
-                    return entity;
-                }
-            }
-        }
-
-        if (StringUtils.isNotEmpty(entity.getEmail())) {
-            optionalUser = sysUserRepository.findByEmail(entity.getEmail());
-            if (optionalUser.isPresent()) {
-                if (ByteConstants.ONE.equals(entity.getUserStatus())) {
-                    throw new ServiceException("邮箱号已注册:" + entity.getEmail());
-                } else {
-                    SysUser sysUser = optionalUser.get();
-                    entity.setId(sysUser.getId());
-                    entity.setUserStatus(ByteConstants.ONE);
-                    return entity;
-                }
-            }
-        }
-
-        if (entity.isNew()) {//只有新用户才创建密码
-            String password = StringUtils.isEmpty(entity.getPassword()) ? entity.getAccount() : entity.getPassword();
-            entity.setPassword(passwordEncoder.encode(password));
-        }
-        return entity;
-    }
+//    @Override
+//    protected SysUser saveBefore(SysUser entity) {
+//        AssertUtils.notNull(entity.getUserType(), "用户类型不能为空！");
+//        if (entity.getIsProtect() == null) {
+//            entity.setIsProtect(Boolean.FALSE);
+//        }
+//        entity.setUserStatus(ByteConstants.ONE);//用户状态一定是启动，如果要禁用调用 #disable() 方法，如果修改了用户信息，也会开启用户状态
+//        Optional<SysUser> optionalUser = sysUserRepository.findByAccount(entity.getAccount());
+//        if (optionalUser.isPresent()) {
+//            if (ByteConstants.ONE.equals(entity.getUserStatus())) {
+//                throw new ServiceException("用户账号已注册:" + entity.getAccount());
+//            } else {
+//                SysUser sysUser = optionalUser.get();
+//                entity.setId(sysUser.getId());
+//                entity.setUserStatus(ByteConstants.ONE);
+//                return entity;
+//            }
+//        }
+//
+//        if (StringUtils.isNotEmpty(entity.getPhone())) {
+//            optionalUser = sysUserRepository.findByPhone(entity.getPhone());
+//            if (optionalUser.isPresent()) {
+//                if (ByteConstants.ONE.equals(entity.getUserStatus())) {
+//                    throw new ServiceException("手机号已注册:" + entity.getPhone());
+//                } else {
+//                    SysUser sysUser = optionalUser.get();
+//                    entity.setId(sysUser.getId());
+//                    entity.setUserStatus(ByteConstants.ONE);
+//                    return entity;
+//                }
+//            }
+//        }
+//
+//        if (StringUtils.isNotEmpty(entity.getEmail())) {
+//            optionalUser = sysUserRepository.findByEmail(entity.getEmail());
+//            if (optionalUser.isPresent()) {
+//                if (ByteConstants.ONE.equals(entity.getUserStatus())) {
+//                    throw new ServiceException("邮箱号已注册:" + entity.getEmail());
+//                } else {
+//                    SysUser sysUser = optionalUser.get();
+//                    entity.setId(sysUser.getId());
+//                    entity.setUserStatus(ByteConstants.ONE);
+//                    return entity;
+//                }
+//            }
+//        }
+//
+//        if (entity.isNew()) {//只有新用户才创建密码
+//            String password = StringUtils.isEmpty(entity.getPassword()) ? entity.getAccount() : entity.getPassword();
+//            entity.setPassword(passwordEncoder.encode(password));
+//        }
+//        return entity;
+//    }
 
 }

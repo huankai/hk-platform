@@ -34,7 +34,7 @@ public class SysRoleController extends BaseController {
 
     @GetMapping
     public JsonResult<SysRole> get(@RequestParam String id) {
-        return JsonResult.success(roleService.getOne(id));
+        return JsonResult.success(roleService.findById(id).orElse(null));
     }
 
     @DeleteMapping

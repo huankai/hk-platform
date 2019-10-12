@@ -1,12 +1,11 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 /**
@@ -14,17 +13,16 @@ import javax.validation.constraints.NotEmpty;
  * @date: 2018-08-28 16:34
  */
 @Data
-@Entity
-@Table(name = "sys_permission_resource")
+@Table(value = "sys_permission_resource")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class SysPermissionResource extends AbstractAuditable {
 
-    @Column(name = "permission_id")
+    @Column(value = "permission_id")
     @NotEmpty
     private String permissionId;
 
-    @Column(name = "resource_id")
+    @Column(value = "resource_id")
     @NotEmpty
     private String resourceId;
 }

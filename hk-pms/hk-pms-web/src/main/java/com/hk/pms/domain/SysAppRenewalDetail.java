@@ -1,12 +1,11 @@
 package com.hk.pms.domain;
 
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.time.LocalDate;
 
 /**
@@ -17,38 +16,37 @@ import java.time.LocalDate;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@Entity
-@Table(name = "sys_app_renewal_detail")
+@Table(value = "sys_app_renewal_detail")
 public class SysAppRenewalDetail extends AbstractAuditable {
 
     /**
      * App
      */
-    @Column(name = "app_id", updatable = false)
+    @Column(value = "app_id")
     private String appId;
 
     /**
      * 续期类型
      */
-    @Column(name = "renewal_type")
+    @Column(value = "renewal_type")
     private String renewalType;
 
     /**
      * 开始时间
      */
-    @Column(name = "renewal_start_date")
+    @Column(value = "renewal_start_date")
     private LocalDate renewalStartDate;
 
     /**
      * 结束时间
      */
-    @Column(name = "renewal_end_date")
+    @Column(value = "renewal_end_date")
     private LocalDate renewalEndDate;
 
     /**
      * 描述
      */
-    @Column(name = "description")
+    @Column(value = "description")
     private String description;
 
 

@@ -5,8 +5,8 @@ server:
 
 eureka:
   instance:
+    hostname: 192.168.1.76
     prefer-ip-address: true
-    hostname: 127.0.0.1
   client:
     register-with-eureka: false
     fetch-registry: false

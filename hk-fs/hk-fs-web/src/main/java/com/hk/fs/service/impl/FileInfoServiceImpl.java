@@ -5,11 +5,11 @@ import com.github.tobato.fastdfs.service.AppendFileStorageClient;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.FileUtils;
 import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.data.jpa.repository.JpaBaseRepository;
 import com.hk.core.exception.ServiceException;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.fs.domain.FileInfo;
-import com.hk.fs.repository.FileInfoRepository;
+import com.hk.fs.repository.jpa.FileInfoRepository;
 import com.hk.fs.service.FileInfoService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
@@ -27,7 +27,7 @@ import java.util.List;
  * @date: 2018-08-08 17:46
  */
 @Service
-public class FileInfoServiceImpl extends BaseServiceImpl<FileInfo, String> implements FileInfoService {
+public class FileInfoServiceImpl extends JpaServiceImpl<FileInfo, String> implements FileInfoService {
 
     private static final String DEFAULT_GROUP = "group1";
 
@@ -43,7 +43,7 @@ public class FileInfoServiceImpl extends BaseServiceImpl<FileInfo, String> imple
     }
 
     @Override
-    protected BaseRepository<FileInfo, String> getBaseRepository() {
+    protected JpaBaseRepository<FileInfo, String> getBaseRepository() {
         return fileInfoRepository;
     }
 

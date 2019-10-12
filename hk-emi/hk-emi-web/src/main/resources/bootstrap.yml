@@ -8,7 +8,7 @@ spring:
     banner-mode: 'off'
   cloud:
     config:
-      label: "2.0.3.RELEASE"
+      label: "2.0.5.RELEASE"
       profile: dev
       uri: http://127.0.0.1:8770
 ######################################################### thymeleaf 配置
@@ -21,6 +21,7 @@ spring:
     encoding: UTF-8
     prefix: classpath:/templates/
     suffix: .html
+
 hk:
   websocket:
     endpoint: "/endpointChat"

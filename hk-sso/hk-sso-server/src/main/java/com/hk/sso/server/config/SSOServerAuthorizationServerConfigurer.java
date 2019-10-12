@@ -91,6 +91,11 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
     //
     //
 
+    @Bean
+    public JdbcClientDetailsService jdbcClientDetailsService() {
+        return new JdbcClientDetailsService(dataSource);
+    }
+
     /**
      * 配置Client 信息
      *
@@ -99,7 +104,7 @@ public class SSOServerAuthorizationServerConfigurer extends AuthorizationServerC
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.withClientDetails(new JdbcClientDetailsService(dataSource));
+        clients.withClientDetails(jdbcClientDetailsService());
     }
 
     @Override

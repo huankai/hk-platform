@@ -34,7 +34,7 @@ public class SysResourceController extends BaseController {
 
     @GetMapping
     public JsonResult<SysResource> get(@RequestParam String id) {
-        return JsonResult.success(resourceService.getOne(id));
+        return JsonResult.success(resourceService.findById(id).orElse(null));
     }
 
     @DeleteMapping

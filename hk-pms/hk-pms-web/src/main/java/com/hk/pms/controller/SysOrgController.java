@@ -34,7 +34,7 @@ public class SysOrgController extends BaseController {
 
     @GetMapping
     public JsonResult<SysOrg> get(@RequestParam String id) {
-        return JsonResult.success(orgService.getOne(id));
+        return JsonResult.success(orgService.findById(id).orElse(null));
     }
 
     @DeleteMapping

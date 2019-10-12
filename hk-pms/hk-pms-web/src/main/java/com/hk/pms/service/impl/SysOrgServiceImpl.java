@@ -3,14 +3,13 @@ package com.hk.pms.service.impl;
 
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.UserPrincipal;
-import com.hk.core.data.jpa.repository.BaseRepository;
+import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.core.exception.ServiceException;
-import com.hk.core.service.impl.BaseServiceImpl;
+import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
 import com.hk.pms.domain.SysOrg;
-import com.hk.pms.repository.SysOrgRepository;
+import com.hk.pms.repository.jdbc.SysOrgRepository;
 import com.hk.pms.service.SysOrgService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @date: 2018-04-12 16:52
  */
 @Service
-public class SysOrgServiceImpl extends BaseServiceImpl<SysOrg, String> implements SysOrgService {
+public class SysOrgServiceImpl extends JdbcServiceImpl<SysOrg, String> implements SysOrgService {
 
     private final SysOrgRepository sysOrgRepository;
 
@@ -33,20 +32,13 @@ public class SysOrgServiceImpl extends BaseServiceImpl<SysOrg, String> implement
      * @return
      */
     @Override
-    protected BaseRepository<SysOrg, String> getBaseRepository() {
+    protected JdbcRepository<SysOrg, String> getBaseRepository() {
         return sysOrgRepository;
     }
 
     @Override
-    protected ExampleMatcher ofExampleMatcher() {
-        return super.ofExampleMatcher()
-                .withMatcher("orgCode", ExampleMatcher.GenericPropertyMatchers.contains())
-                .withMatcher("orgName", ExampleMatcher.GenericPropertyMatchers.contains());
-    }
-
-    @Override
     public SysOrg updateById(SysOrg org) {
-        SysOrg sysOrg = getOne(org.getId());
+        SysOrg sysOrg = getById(org.getId());
         UserPrincipal principal = getPrincipal();
         if (!principal.isAdministrator() && StringUtils.notEquals(principal.getUserId(), sysOrg.getResponsibleId())) {
             throw new ServiceException("非管理员不能修改");

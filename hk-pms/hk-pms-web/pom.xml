@@ -10,7 +10,7 @@
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-pms</artifactId>
-        <version>2.0.3.RELEASE</version>
+        <version>2.0.5.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -29,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-data-jpa</artifactId>
+            <artifactId>hk-core-data-jdbc</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
@@ -68,14 +68,14 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-        </dependency>-->
-        <dependency>
+        </dependency>
+        <!--<dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.alibaba</groupId>

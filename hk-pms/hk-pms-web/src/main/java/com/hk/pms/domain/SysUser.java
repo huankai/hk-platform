@@ -2,14 +2,13 @@ package com.hk.pms.domain;
 
 import com.hk.business.utils.DictCodeUtils;
 import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jpa.domain.AbstractAuditable;
+import com.hk.core.data.jdbc.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -19,8 +18,7 @@ import java.time.LocalDate;
  * @date: 2018-04-12 11:42
  */
 @Data
-@Entity
-@Table(name = "sys_user")
+@Table(value = "sys_user")
 @EqualsAndHashCode(callSuper = true)
 @SuppressWarnings("serial")
 public class SysUser extends AbstractAuditable {
@@ -42,62 +40,62 @@ public class SysUser extends AbstractAuditable {
     private static final String USER_STATUS_DICT_BASE_ID = "4028c081658f05b301658f0bf9b70005";
 
     @NotEmpty
-    @Column(name = "org_id")
+    @Column(value = "org_id")
     private String orgId;
 
     @NotEmpty
-    @Column(name = "dept_id")
+    @Column(value = "dept_id")
     private String deptId;
 
     @NotEmpty
     @Length(max = 20)
-    @Column(name = "account")
+    @Column(value = "account")
     private String account;
 
     @NotEmpty
     @Length(max = 11)
-    @Column(name = "phone")
+    @Column(value = "phone")
     private String phone;
 
-    @Column(name = "email")
+    @Column(value = "email")
     private String email;
 
     @NotEmpty
     @Length(max = 20)
-    @Column(name = "real_name")
+    @Column(value = "real_name")
     private String realName;
 
     @NotNull
-    @Column(name = "password")
+    @Column(value = "password")
     private String password;
 
     @NotEmpty
     @EnumDict(codeId = USER_TYPE_DICT_BASE_ID)
-    @Column(name = "user_type")
+    @Column(value = "user_type")
     private Byte userType;
 
     @NotNull
-    @Column(name = "is_protect")
+    @Column(value = "is_protect")
     private Boolean isProtect;
 
     @NotNull
-    @Column(name = "sex")
+    @Column(value = "sex")
     @EnumDict(codeId = USER_SEX_DICT_BASE_ID)
     private Byte sex;
 
-    @Column(name = "icon_path")
+    @Column(value = "icon_path")
     private String iconPath;
 
-    @Column(name = "birth")
+    @Column(value = "birth")
     private LocalDate birth;
 
-    @Column(name = "province_id")
+    @Column(value = "province_id")
     private String provinceId;
 
-    @Column(name = "city_id")
+    @Column(value = "city_id")
     private String cityId;
 
-    @Column(name = "user_status")
+    @Column(value = "user_status")
     @EnumDict(codeId = USER_STATUS_DICT_BASE_ID)
     private Byte userStatus;
 
