@@ -17,7 +17,6 @@ import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.authentication.session.CreateSessionAuthenticationStrategy;
 import com.hk.oauth2.http.HttpClient;
-import com.hk.oauth2.logout.ConsumerTokenLogoutHandler;
 import com.hk.oauth2.logout.DefaultSingleLogoutServiceMessageHandler;
 import com.hk.oauth2.logout.SingleLogoutHandler;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
@@ -75,7 +74,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
     /**
      * 手机号验证 Bean,在没有开启手机号验证时,不会注入该Bean
      *
-     * @see SecurityAuthenticationAutoConfiguration.SmsAutoConfiguration
+     * @see SecurityAuthenticationAutoConfiguration
      */
     private ValidateCodeProcessor validateCodeProcessor;
 
@@ -261,11 +260,11 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 .maxSessionsPreventsLogin(login.isMaxSessionsPreventsLogin())
                 .and()
                 .and()
-                .logout().clearAuthentication(true)
+                .logout()
+                .clearAuthentication(true)
                 .logoutUrl(login.getLogoutUrl())
                 .invalidateHttpSession(true)
-                .addLogoutHandler(new ConsumerTokenLogoutHandler(consumerTokenServices))
-                .addLogoutHandler(new SingleLogoutHandler(new DefaultSingleLogoutServiceMessageHandler(httpClient, tokenRegistry)))
+                .addLogoutHandler(new SingleLogoutHandler(new DefaultSingleLogoutServiceMessageHandler(httpClient, tokenRegistry, consumerTokenServices)))
                 .addLogoutHandler(new EquipmentLogoutHandler(login.getLogoutSuccessUrl()))
                 .and()
                 // 使用 zuul登陆地址
