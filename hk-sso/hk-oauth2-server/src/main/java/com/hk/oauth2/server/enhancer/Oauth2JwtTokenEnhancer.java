@@ -4,7 +4,7 @@ import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.util.EnumDisplayUtils;
 import com.hk.commons.util.JsonUtils;
 import com.hk.core.authentication.api.ClientAppInfo;
-import com.hk.core.authentication.security.SecurityUserPrincipal;
+import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.oauth2.server.entity.SysApp;
 import com.hk.oauth2.server.entity.SysPermission;
 import com.hk.oauth2.server.entity.SysRole;
@@ -12,7 +12,7 @@ import com.hk.oauth2.server.service.RoleService;
 import com.hk.oauth2.server.service.SysAppService;
 import com.hk.oauth2.server.service.SysPermissionService;
 import com.hk.platform.commons.enums.SexEnum;
-import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -29,11 +29,9 @@ import java.util.stream.Collectors;
  * @author kevin
  * @date 2018-08-01 14:44
  */
-@Log4j2
+@Slf4j
 @Component
 public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
-
-//    private static final Logger LOGGER = LoggerFactory.getLogger(SSOJwtTokenEnhancer.class);
 
     private RoleService roleService;
 
@@ -58,7 +56,7 @@ public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
-        SecurityUserPrincipal principal = SecurityUserPrincipal.class.cast(authentication.getPrincipal());
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         String clientId = authentication.getOAuth2Request().getClientId();
         DefaultOAuth2AccessToken defaultOAuth2AccessToken = (DefaultOAuth2AccessToken) accessToken;
         Map<String, Object> additionalInformation = defaultOAuth2AccessToken.getAdditionalInformation();

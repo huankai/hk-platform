@@ -1,7 +1,7 @@
 package com.hk.platform.config;
 
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
-import com.hk.core.authentication.security.handler.logout.RedirectLogoutHandler;
+import com.hk.core.authentication.security.handler.logout.EquipmentLogoutHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.pms.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,7 +89,7 @@ public class PlatformSecurityAutoConfiguration extends WebSecurityConfigurerAdap
                 .logoutUrl(browser.getLogoutUrl())
                 .invalidateHttpSession(true)
                 .addLogoutHandler(new SecurityContextLogoutHandler())
-                .addLogoutHandler(new RedirectLogoutHandler(browser.getLogoutSuccessUrl()))
+                .addLogoutHandler(new EquipmentLogoutHandler(browser.getLogoutSuccessUrl()))
                 .and()
                 .authorizeRequests().expressionHandler(new AdminAccessWebSecurityExpressionHandler())// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
                 .anyRequest().authenticated();

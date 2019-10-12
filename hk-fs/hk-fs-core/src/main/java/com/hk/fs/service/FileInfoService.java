@@ -6,9 +6,12 @@ import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.fs.domain.FileInfo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author kevin
@@ -33,15 +36,13 @@ public interface FileInfoService extends JpaBaseService<FileInfo, String> {
     BigDecimal GB_MAX_SIZE = B_MAX_SIZE.pow(4);
 
     /**
-     * 上传文件
+     * 多上传文件
      *
-     * @param group    文件所属组
-     * @param in       文件
-     * @param fileSize 文件大小
-     * @param fileName 文件名
+     * @param group        文件所属组
+     * @param multiFileMap 文件
      * @return {@link FileInfo}
      */
-    FileInfo uploadFile(String group, InputStream in, long fileSize, String fileName);
+    List<FileInfo> uploadFile(String group, MultiValueMap<String, MultipartFile> multiFileMap) throws IOException;
 
     /**
      * 获取文件全路径

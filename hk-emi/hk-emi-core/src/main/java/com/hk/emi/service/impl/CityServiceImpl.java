@@ -1,18 +1,6 @@
 package com.hk.emi.service.impl;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.stereotype.Service;
-
 import com.hk.commons.poi.excel.model.ErrorLog;
 import com.hk.commons.poi.excel.model.ReadParam;
 import com.hk.commons.poi.excel.model.ReadResult;
@@ -23,20 +11,31 @@ import com.hk.commons.poi.excel.write.WriteableExcel;
 import com.hk.commons.poi.excel.write.XSSFWriteableExcel;
 import com.hk.commons.util.BeanUtils;
 import com.hk.commons.util.StringUtils;
-import com.hk.core.data.jdbc.repository.JdbcRepository;
-import com.hk.core.service.jdbc.impl.JdbcServiceImpl;
+import com.hk.core.data.jpa.repository.BaseJpaRepository;
+import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.emi.domain.City;
 import com.hk.emi.mappers.CityExcelVoMapper;
-import com.hk.emi.repository.jdbc.CityRepository;
+import com.hk.emi.repository.jpa.CityRepository;
 import com.hk.emi.service.CityService;
 import com.hk.emi.vo.CityExcelVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 /**
  * @author kevin
  */
 @Service
 @CacheConfig(cacheNames = "City")
-public class CityServiceImpl extends JdbcServiceImpl<City, String> implements CityService {
+public class CityServiceImpl extends JpaServiceImpl<City, String> implements CityService {
 
     private final CityRepository cityRepository;
 
@@ -53,7 +52,7 @@ public class CityServiceImpl extends JdbcServiceImpl<City, String> implements Ci
     }
 
     @Override
-    protected JdbcRepository<City, String> getBaseRepository() {
+    protected BaseJpaRepository<City, String> getBaseRepository() {
         return cityRepository;
     }
 
@@ -118,5 +117,10 @@ public class CityServiceImpl extends JdbcServiceImpl<City, String> implements Ci
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         writeAbleExcel.write(param, outputStream);
         return outputStream.toByteArray();
+    }
+
+    @Override
+    public List<City> findByCityType(byte cityType) {
+        return cityRepository.findByCityType(cityType);
     }
 }

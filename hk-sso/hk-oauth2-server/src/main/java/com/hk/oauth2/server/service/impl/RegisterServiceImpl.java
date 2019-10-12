@@ -3,8 +3,8 @@ package com.hk.oauth2.server.service.impl;
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
 import com.hk.core.service.exception.ServiceException;
-import com.hk.mail.api.domain.EmailMessage;
 import com.hk.mail.api.feign.EmailFeign;
+import com.hk.mail.api.request.EmailMessageRequest;
 import com.hk.oauth2.server.entity.SysUser;
 import com.hk.oauth2.server.service.RegisterService;
 import com.hk.oauth2.server.service.UserService;
@@ -51,7 +51,7 @@ public class RegisterServiceImpl implements RegisterService {
         user.setPassword(passwordEncoder.encode(password));
         SysUser sysUser = userService.insert(user);//TODO 数据库表中的必须字段没有设置
 
-        emailFeign.asyncSend(EmailMessage.builder()
+        emailFeign.asyncSend(EmailMessageRequest.builder()
                 .subject("账号注册")
                 .text("尊敬的用户：您收到此邮件是因为你在 XXX 平台注册了账号，请点击 <a href='" + HOST + "/email/register-3/"
                         + encodeToString(sysUser.getId())

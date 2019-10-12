@@ -55,7 +55,7 @@ public class CityController extends BaseController {
      */
     @GetMapping(path = "{id}", name = "city-get")
     public JsonResult<City> get(@PathVariable String id) {
-        return JsonResult.success(cityService.getById(id));
+        return JsonResult.success(cityService.getOne(id));
     }
 
     /**
@@ -117,6 +117,6 @@ public class CityController extends BaseController {
     @GetMapping(path = "excel/export")
     @PreAuthorize("hasRole('" + ADMIN + "')")
     public ResponseEntity<InputStreamResource> excelExport(City city) {
-        return Webs.toDownloadResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
+        return Webs.toResponseEntity("城市数据.xlsx", cityService.exportExcelData(city));
     }
 }

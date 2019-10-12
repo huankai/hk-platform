@@ -90,7 +90,7 @@
             <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
-        <AsyncLogger name="org.apereo" level="info" additivity="false" includeLocation="true">
+        <AsyncLogger name="org.apereo" level="debug" additivity="false" includeLocation="true">
             <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
@@ -98,7 +98,7 @@
             <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
-        <AsyncLogger name="org.apache" level="error" additivity="false">
+        <AsyncLogger name="org.apache" level="debug" additivity="false">
             <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
@@ -207,7 +207,7 @@
             <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
-        <AsyncLogger name="org.apache.http" level="off" additivity="false">
+        <AsyncLogger name="org.apache.http" level="debug" additivity="false">
             <AppenderRef ref="casConsole"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
@@ -221,7 +221,7 @@
             <AppenderRef ref="casAudit"/>
             <AppenderRef ref="casFile"/>
         </AsyncLogger>
-        <AsyncRoot level="error">
+        <AsyncRoot level="debug">
             <AppenderRef ref="casConsole"/>
         </AsyncRoot>
     </Loggers>

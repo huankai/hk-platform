@@ -23,7 +23,7 @@ public class ExcelTemplateController {
      */
     @RequestMapping(path = "down")
     public ResponseEntity<InputStreamResource> excelTemplate(@RequestParam("name") String name) {
-        return Webs.toDownloadResponseEntity(name, (byte[]) null);
+        return Webs.toResponseEntity(name, (byte[]) null);
 
     }
 }

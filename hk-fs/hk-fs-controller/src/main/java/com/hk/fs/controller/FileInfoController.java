@@ -9,9 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author kevin
@@ -42,17 +43,15 @@ public class FileInfoController {
     /**
      * 文件上传
      *
-     * @param file file
+     * @param group group
+     * @param request request
      * @return JsonResult
      * @throws IOException IOException
      */
     @PostMapping(path = "upload")
-    public JsonResult<?> upload(String group, @RequestParam("file") MultipartFile file) throws IOException {
-        if (file.isEmpty()) {
-            return JsonResult.badRequest("文件不能为空");
-        }
-        FileInfo fileInfo = fileInfoService.uploadFile(group, file.getInputStream(), file.getSize(), file.getOriginalFilename());
-        return new JsonResult<>(JsonResult.Status.SUCCESS, "文件上传成功", fileInfo.getId());
+    public JsonResult<?> upload(String group,MultipartHttpServletRequest request) throws IOException {
+        List<FileInfo> fileInfoList = fileInfoService.uploadFile(group, request.getMultiFileMap());
+        return new JsonResult<>(JsonResult.Status.SUCCESS, "文件上传成功", fileInfoList);
     }
 
     /**
@@ -64,8 +63,8 @@ public class FileInfoController {
     @GetMapping(path = "down/{id}")
     public ResponseEntity<InputStreamResource> downFile(@PathVariable String id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
-        return Webs.toDownloadResponseEntity(fileInfo.getFileName(), StringUtils.createResource(
-                fileInfoService.getFullPath(fileInfo.getGroupName(), fileInfo.getFilePath())));
+        return Webs.toResponseEntity(fileInfo.getFileName(), StringUtils.createResource(
+                fileInfoService.getFullPath(fileInfo.getBucketName(), fileInfo.getFilePath())));
     }
 
     /**
@@ -77,8 +76,8 @@ public class FileInfoController {
     @GetMapping(path = "/view/{id}")
     public ResponseEntity<InputStreamResource> viewImage(@PathVariable String id) {
         FileInfo fileInfo = fileInfoService.getOne(id);
-        return Webs.toImageViewResponseEntity(StringUtils.createResource(
-                fileInfoService.getFullPath(fileInfo.getGroupName(), fileInfo.getFilePath())));
+        return Webs.toResponseEntity(StringUtils.createResource(
+                fileInfoService.getFullPath(fileInfo.getBucketName(), fileInfo.getFilePath())));
     }
 
     /**

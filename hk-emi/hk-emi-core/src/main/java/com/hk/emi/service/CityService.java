@@ -1,7 +1,7 @@
 package com.hk.emi.service;
 
 import com.hk.commons.poi.excel.model.ErrorLog;
-import com.hk.core.service.jdbc.JdbcBaseService;
+import com.hk.core.service.jpa.JpaBaseService;
 import com.hk.emi.domain.City;
 import com.hk.emi.vo.CityExcelVo;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author kevin
  * @date 2018-07-17 16:49
  */
-public interface CityService extends JdbcBaseService<City, String> {
+public interface CityService extends JpaBaseService<City, String> {
 
     /**
      * 查询下级City
@@ -37,4 +37,11 @@ public interface CityService extends JdbcBaseService<City, String> {
      * @return Excel byte[] 数据
      */
     byte[] exportExcelData(City city);
+
+    /**
+     * 根据类型查询城市
+     *
+     * @param cityType 城市等级类型
+     */
+    List<City> findByCityType(byte cityType);
 }

@@ -9,7 +9,7 @@
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-sso</artifactId>
-        <version>2.1.2.RELEASE</version>
+        <version>2.1.3.RELEASE</version>
     </parent>
 
     <dependencies>
@@ -41,11 +41,7 @@
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
-            <artifactId>hk-core-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.hk</groupId>
-            <artifactId>hk-core-authentication-security-oauth2</artifactId>
+            <artifactId>hk-core-authentication-security-oauth2-server</artifactId>
         </dependency>
         <dependency>
             <groupId>com.hk</groupId>
@@ -63,18 +59,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-pool2</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
         <dependency>
@@ -105,7 +91,6 @@
         <dependency>
             <groupId>com.hk</groupId>
             <artifactId>hk-core-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!--

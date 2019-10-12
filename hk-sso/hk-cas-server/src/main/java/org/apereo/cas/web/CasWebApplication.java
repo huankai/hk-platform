@@ -1,7 +1,5 @@
 package org.apereo.cas.web;
 
-import java.util.Map;
-
 import org.apereo.cas.CasEmbeddedContainerUtils;
 import org.springframework.boot.Banner;
 import org.springframework.boot.actuate.autoconfigure.MetricsDropwizardAutoConfiguration;
@@ -22,6 +20,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.util.Map;
 
 
 @EnableDiscoveryClient

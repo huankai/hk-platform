@@ -51,7 +51,7 @@ public class BaseCodeController extends BaseController {
      */
     @GetMapping(path = "{id}", name = "basecode-get")
     public JsonResult<BaseCode> get(@PathVariable String id) {
-        return JsonResult.success(baseCodeService.getById(id));
+        return JsonResult.success(baseCodeService.getOne(id));
     }
 
     /**

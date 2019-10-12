@@ -1,13 +1,14 @@
 package com.hk.emi.domain;
 
 import com.hk.commons.validator.constraints.EnumDict;
-import com.hk.core.data.jdbc.domain.AbstractAuditable;
+import com.hk.core.data.jpa.domain.AbstractAuditable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.data.relational.core.mapping.Column;
-import org.springframework.data.relational.core.mapping.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -18,7 +19,8 @@ import javax.validation.constraints.NotNull;
  * @date 2017年12月24日下午8:14:32
  */
 @Data
-@Table(value = "emi_city")
+@Entity
+@Table(name = "emi_city")
 @SuppressWarnings("serial")
 @EqualsAndHashCode(callSuper = true)
 public class City extends AbstractAuditable {
@@ -28,12 +30,12 @@ public class City extends AbstractAuditable {
     /**
      * 行政代码
      */
-    @Column(value = "code")
+    @Column(name = "code")
     @NotEmpty
     @Length(max = 20)
     private String code;
 
-    @Column(value = "parent_id")
+    @Column(name = "parent_id")
     @NotEmpty
     private String parentId;
 
@@ -46,7 +48,7 @@ public class City extends AbstractAuditable {
      * 3:区或县,
      * </pre>
      */
-    @Column(value = "city_type")
+    @Column(name = "city_type")
     @NotNull
     @EnumDict(codeId = CITY_TYPE_DICT_ID)
     private Byte cityType;
@@ -54,45 +56,45 @@ public class City extends AbstractAuditable {
     /**
      * 全称
      */
-    @Column(value = "full_name")
+    @Column(name = "full_name")
     @NotEmpty
     @Length(max = 20)
     private String fullName;
 
-    @Column(value = "area_code")
+    @Column(name = "area_code")
     private String areaCode;
 
     /**
      * 简名
      */
-    @Column(value = "short_name")
+    @Column(name = "short_name")
     private String shortName;
 
-    @Column(value = "merger_name")
+    @Column(name = "merger_name")
     private String mergerName;
 
     /**
      * 邮编
      */
-    @Column(value = "post_office")
+    @Column(name = "post_office")
     private String postOffice;
 
     /**
      * 拼音
      */
-    @Column(value = "pinyin")
+    @Column(name = "pinyin")
     private String pinyin;
 
-    @Column(value = "longitude")
+    @Column(name = "longitude")
     private Double longitude;
 
-    @Column(value = "latitude")
+    @Column(name = "latitude")
     private Double latitude;
 
     /**
      * 描述
      */
-    @Column(value = "description")
+    @Column(name = "description")
     private String description;
 
 }

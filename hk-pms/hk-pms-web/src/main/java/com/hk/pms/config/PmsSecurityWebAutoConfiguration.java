@@ -4,13 +4,19 @@ import com.hk.business.validator.dict.FeignDictCodeServiceImpl;
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
 import com.hk.commons.validator.DictService;
-import com.hk.core.authentication.oauth2.matcher.NoBearerMatcher;
+import com.hk.core.authentication.api.PermitMatcher;
+import com.hk.core.authentication.oauth2.matcher.NoPermitMatcher;
+import com.hk.core.authentication.oauth2.session.Oauth2UrlLogoutSuccessHandler;
+import com.hk.core.authentication.oauth2.session.SessionMappingStorage;
+import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
+import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.SecurityAuthenticationAutoConfiguration;
 import com.hk.core.autoconfigure.authentication.security.oauth2.OAuth2ClientAuthenticationConfigurer;
 import com.hk.emi.api.feign.SysCodeFeignClient;
 import com.hk.platform.commons.role.RoleNamed;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -29,6 +35,7 @@ import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticat
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.savedrequest.RequestCache;
 
 import java.util.Set;
@@ -48,7 +55,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     private ApplicationContext applicationContext;
 
     /**
-     * @see
+     *
      */
     @Value("${server.error.path:${error.path:/error}}")
     private String errorPath;
@@ -56,22 +63,29 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
     /**
      * @see SecurityAuthenticationAutoConfiguration#requestCache()
      */
-    @Autowired(required = false)
     private RequestCache requestCache;
+
+    @Autowired
+    private SessionMappingStorage sessionMappingStorage;
 
     @Bean
     public DictService dictService(SysCodeFeignClient codeFeignClient) {
         return new FeignDictCodeServiceImpl(codeFeignClient);
     }
 
-    public PmsSecurityWebAutoConfiguration(AuthenticationProperties properties, ApplicationContext applicationContext) {
+    public PmsSecurityWebAutoConfiguration(AuthenticationProperties properties, ObjectProvider<RequestCache> requestCaches,
+                                           ApplicationContext applicationContext) {
         this.properties = properties;
+        this.requestCache = requestCaches.getIfAvailable();
         this.applicationContext = applicationContext;
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        AuthenticationProperties.LoginProperties browser = properties.getLogin();
+        AuthenticationProperties.LoginProperties login = properties.getLogin();
+        OAuth2SsoProperties ssoProperties = applicationContext.getBean(OAuth2SsoProperties.class);
+        // TODO 添加单点退出拦截器
+        http.addFilterBefore(new SingleSignOutFilter(new SingleSignOutHandler(login.getLogoutUrl(), sessionMappingStorage)), LogoutFilter.class);
         if (null != requestCache) {//默认使用的是 HttpSessionRequestCache
             http.requestCache().requestCache(requestCache);
         }
@@ -81,11 +95,10 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .logoutUrl(browser.getLogoutUrl())
-                .logoutSuccessUrl(browser.getLogoutSuccessUrl())
-
+                .logoutUrl(login.getLogoutUrl())
+                .logoutSuccessHandler(new Oauth2UrlLogoutSuccessHandler(login.getLogoutSuccessUrl()))
                 .and()
-                .requestMatcher(NoBearerMatcher.INSTANCE);
+                .requestMatcher(new NoPermitMatcher(login.getPermitMatchers()));
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler()); // admin 角色的用户、admin权限、保护的用户拥有所有访问权限
 
@@ -101,9 +114,9 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
 //                        return (O) new AdminAccessWebSecurityExpressionHandler();
 //                    }
 //                });
-        Set<AuthenticationProperties.PermitMatcher> permitAllMatchers = browser.getPermitMatchers();
+        Set<PermitMatcher> permitAllMatchers = login.getPermitMatchers();
         if (CollectionUtils.isNotEmpty(permitAllMatchers)) {
-            for (AuthenticationProperties.PermitMatcher permitMatcher : permitAllMatchers) {
+            for (PermitMatcher permitMatcher : permitAllMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
                     urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
                 } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {
@@ -117,7 +130,7 @@ public class PmsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapte
                 .anyRequest().authenticated();
 
         //通过源码分析，好像没有找到怎么个性化设置  OAuth2ClientAuthenticationProcessingFilter 对象一些参数值，所以这里注册一个
-        http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(applicationContext.getBean(OAuth2SsoProperties.class))));
+        http.apply(new OAuth2ClientAuthenticationConfigurer(oauth2SsoFilter(ssoProperties)));
     }
 
     private OAuth2ClientAuthenticationProcessingFilter oauth2SsoFilter(OAuth2SsoProperties ssoProperties) {

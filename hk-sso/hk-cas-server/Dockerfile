@@ -1,12 +1,15 @@
-FROM docker.io/java:8-jre-alpine
+FROM anapsix/alpine-java
 
 #指定作者
 MAINTAINER huangkai huankai@139.com
 
 # 定义变量，会在环境变量中
-ENV SERVER_NAME=hk-cas-server-2.1.2.RELEASE.jar
+ENV SERVER_NAME=hk-cas-server-2.1.3.RELEASE.jar
 
 COPY target/$SERVER_NAME /app/$SERVER_NAME
+
+# 指定用户，可以是用户名，也可以是用户id
+USER 1000
 
 # 指定工作目录
 WORKDIR /app

@@ -16,15 +16,15 @@ spring:
       server:
         native:
           search-locations:
-            - "file:///D:/worksplace/hk/src/hk-config/platform-config"
-#          - "file:///Users/huangkai/worksplace/hk-config/platform-config"
+            - "file:///F:/worksplace/kevin/hk-config/platform-config"
+#            - "file:///Users/huangkai/worksplace/hk-config/platform-config"
 #        git:
 #          uri: https://github.com/huankai/hk-config.git
 #          search-paths:
 ##           会在此目录下查询配置文件
 #          - "platform-config"
 ##           clone 分支
-#          default-label: "2.1.2.RELEASE"
+#          default-label: "2.1.3.RELEASE"
 ##           clone 的项目保存在指定的目录中
 #          basedir: "/config-basedir" 
 

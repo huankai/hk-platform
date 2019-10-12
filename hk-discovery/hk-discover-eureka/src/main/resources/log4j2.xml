@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?><Configuration status="off">
     <properties>
-        <property name="LOG_HOME">${sys:user.home}/logs/eureka-web</property>
+        <property name="LOG_HOME">${sys:user.dir}/logs</property>
     </properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %c{1.} %M() @%L - %msg%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1.} %M() @%L - %msg%n"/>
         </Console>
-
         <RollingFile name="myRollingFile" fileName="${LOG_HOME}/eureka.log"
                      filePattern="${LOG_HOME}/$${date:yyyy-MM}/log-%d{yyyy-MM-dd}-%i.log.gz">
-            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %c{1.} %M() @%L - %msg%n"/>
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1.} %M() @%L - %msg%n"/>
             <Policies>
-                <SizeBasedTriggeringPolicy size="200MB"/>
+                <SizeBasedTriggeringPolicy size="1GB"/>
             </Policies>
         </RollingFile>
     </Appenders>
@@ -21,6 +20,6 @@
             <AppenderRef ref="console"/>
             <AppenderRef ref="myRollingFile"/>
         </Root>
-        <Logger name="com.hk" additivity="true" level="INFO"/>
+        <Logger name="com.hk" additivity="true" level="debug"/>
     </Loggers>
 </Configuration>

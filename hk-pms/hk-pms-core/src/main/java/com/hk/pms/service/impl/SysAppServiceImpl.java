@@ -1,19 +1,19 @@
 package com.hk.pms.service.impl;
 
 
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.stereotype.Service;
+
 import com.hk.commons.util.AssertUtils;
 import com.hk.commons.util.ByteConstants;
 import com.hk.core.cache.service.impl.EnableJdbcCacheServiceImpl;
 import com.hk.core.data.jdbc.repository.JdbcRepository;
 import com.hk.pms.domain.SysApp;
 import com.hk.pms.repository.jdbc.SysAppRepository;
-import com.hk.pms.service.OauthClientDetailsService;
 import com.hk.pms.service.SysAppService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * @author kevin
@@ -31,8 +31,8 @@ public class SysAppServiceImpl extends EnableJdbcCacheServiceImpl<SysApp, String
 //    @Autowired
 //    private ClientRegistrationService clientRegistrationService;
 
-    @Autowired
-    private OauthClientDetailsService oauthClientDetailsService;
+//    @Autowired
+//    private OauthClientDetailsService oauthClientDetailsService;
 
     @Autowired
     public SysAppServiceImpl(SysAppRepository sysAppRepository) {

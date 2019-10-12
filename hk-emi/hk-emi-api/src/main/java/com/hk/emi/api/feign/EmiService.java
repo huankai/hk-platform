@@ -8,6 +8,6 @@ interface EmiService {
 
     String SERVICE_NAME = "hk-emi-web";
 
-    String CONTEXT_PATH = "/";
+    String CONTEXT_PATH = "/emi";
 
 }

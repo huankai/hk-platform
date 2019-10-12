@@ -7,9 +7,10 @@ import com.hk.fs.properties.FileServer;
 import com.hk.fs.service.FileInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author kevin
@@ -44,13 +45,13 @@ public class FileInfoRestController {
      * 上传文件
      *
      * @param groupName 组名
-     * @param file      文件
+     * @param request   文件
      * @return {@link FileInfo}
      * @throws IOException
      */
     @PostMapping(path = "/upload/multipart")
-    public FileInfo upload(@RequestParam(value = "group", required = false) String groupName,
-                           @RequestParam("file") MultipartFile file) throws IOException {
-        return fileInfoService.uploadFile(groupName, file.getInputStream(), file.getSize(), file.getOriginalFilename());
+    public List<FileInfo> upload(@RequestParam(value = "group", required = false) String groupName,
+                                 MultipartHttpServletRequest request) throws IOException {
+        return fileInfoService.uploadFile(groupName, request.getMultiFileMap());
     }
 }

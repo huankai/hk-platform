@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Configuration status="off">
     <properties>
-        <property name="LOG_HOME">${sys:user.home}/logs/flow-web</property>
+        <property name="LOG_HOME">${sys:user.dir}/logs</property>
     </properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level [%X{X-B3-TraceId},%X{X-B3-SpanId},%X{X-B3-ParentSpanId},%X{X-Span-Export}] %c{1.} %M() @%L - %msg%n"/>
         </Console>
-        <RollingFile name="myRollingFile" fileName="${LOG_HOME}/logs/flow.log"
+        <RollingFile name="myRollingFile" fileName="${LOG_HOME}/flow.log"
                      filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/log-%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %-5level %class{36} %L %M - %msg%xEx%n"/>
             <Policies>

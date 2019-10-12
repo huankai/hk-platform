@@ -33,6 +33,4 @@ public class LoginController extends BaseController {
         modelMap.put("smsEnabled", authenticationProperties.getSms().isEnabled());
         return "login";
     }
-
-
 }

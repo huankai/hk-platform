@@ -2,6 +2,7 @@ package com.hk.app.config;
 
 import com.hk.commons.util.ArrayUtils;
 import com.hk.commons.util.CollectionUtils;
+import com.hk.core.authentication.api.PermitMatcher;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -50,9 +51,9 @@ public class ResourceSecurityWebAutoConfiguration extends ResourceServerConfigur
         AuthenticationProperties.LoginProperties loginProperties = properties.getLogin();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler());// admin 角色的用户、admin权限、保护的用户拥有所有访问权限
-        Set<AuthenticationProperties.PermitMatcher> permitMatchers = loginProperties.getPermitMatchers();
+        Set<PermitMatcher> permitMatchers = loginProperties.getPermitMatchers();
         if (CollectionUtils.isNotEmpty(permitMatchers)) {
-            for (AuthenticationProperties.PermitMatcher permitMatcher : permitMatchers) {
+            for (PermitMatcher permitMatcher : permitMatchers) {
                 if (ArrayUtils.isNotEmpty(permitMatcher.getPermissions())) {
                     urlRegistry.antMatchers(permitMatcher.getMethod(), permitMatcher.getUris()).hasAnyAuthority(permitMatcher.getPermissions());
                 } else if (ArrayUtils.isNotEmpty(permitMatcher.getRoles())) {
