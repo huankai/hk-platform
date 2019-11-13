@@ -1,6 +1,6 @@
 package com.hk.oauth2.server.controller;
 
-import com.hk.core.autoconfigure.weixin.WechatMpProperties;
+import com.hk.core.autoconfigure.weixin.WeiXinMpProperties;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class WechatQrCodeLoginController {
     private WxMpService wxMpService;
 
     @Autowired
-    private WechatMpProperties wechatProperties;
+    private WeiXinMpProperties weiXinMpProperties;
 
     /**
      * 二维码登陆地址
@@ -32,8 +32,8 @@ public class WechatQrCodeLoginController {
      */
     @GetMapping(path = "login")
     public void wechatLogin(HttpServletResponse response) throws IOException {
-        if (wechatProperties.isEnabled() && null != wxMpService) {
-            WechatMpProperties.Authentication authentication = wechatProperties.getAuthentication();
+        if (weiXinMpProperties.isEnabled() && null != wxMpService) {
+            WeiXinMpProperties.Authentication authentication = weiXinMpProperties.getAuthentication();
             final String callbackUrl = String.format("%s%s", authentication.getCallHost(), authentication.getCallbackUrl());
             String connectUrl = wxMpService.buildQrConnectUrl(callbackUrl, "snsapi_login",
                     authentication.getState());

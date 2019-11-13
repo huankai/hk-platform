@@ -12,7 +12,7 @@ import com.hk.core.authentication.security.handler.logout.EquipmentLogoutHandler
 import com.hk.core.autoconfigure.alipay.AlipayProperties;
 import com.hk.core.autoconfigure.authentication.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.*;
-import com.hk.core.autoconfigure.weixin.WechatMpProperties;
+import com.hk.core.autoconfigure.weixin.WeiXinMpProperties;
 import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.authentication.session.CreateSessionAuthenticationStrategy;
@@ -58,12 +58,12 @@ import org.springframework.security.web.authentication.session.SessionFixationPr
 @Order(1)
 @Configuration
 @EnableWebSecurity
-@EnableConfigurationProperties(value = {WechatMpProperties.class, AlipayProperties.class, AuthenticationProperties.class})
+@EnableConfigurationProperties(value = {WeiXinMpProperties.class, AlipayProperties.class, AuthenticationProperties.class})
 public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties authenticationProperties;
 
-    private WechatMpProperties wechatProperties;
+    private WeiXinMpProperties weiXinMpProperties;
 
     private WxMpService wxMpService;
 
@@ -86,14 +86,14 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
     public Oauth2SecurityWebAutoConfiguration(AuthenticationProperties authenticationProperties,
                                               AlipayProperties alipayProperties,
-                                              WechatMpProperties wechatProperties,
+                                              WeiXinMpProperties weiXinMpProperties,
                                               ObjectProvider<WxMpService> wxMpServices,
                                               ObjectProvider<AlipayClient> alipayClients,
                                               ApplicationContext applicationContext,
                                               @Qualifier("smsValidateCodeProcessor") ObjectProvider<ValidateCodeProcessor> validateCodeProcessors) {
         this.authenticationProperties = authenticationProperties;
         this.alipayProperties = alipayProperties;
-        this.wechatProperties = wechatProperties;
+        this.weiXinMpProperties = weiXinMpProperties;
         this.wxMpService = wxMpServices.getIfAvailable();
         this.alipayClient = alipayClients.getIfAvailable();
         this.applicationContext = applicationContext;
@@ -197,14 +197,14 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
      * @throws Exception Exception
      */
     private void configureWeChat(HttpSecurity http) throws Exception {
-        if (wechatProperties.isEnabled()) {
+        if (weiXinMpProperties.isEnabled()) {
             if (null == wxMpService) {
                 throw new NullPointerException("wechat is enabled ,But wxMpService is null.");
             }
             if (null == wechatPostAuthenticationHandler) {
                 throw new NullPointerException("wechat is enabled ,But wechatUserPrincipalService is null");
             }
-            http.apply(new WechatAuthenticationSecurityConfigurer(wxMpService, wechatProperties.getAuthentication(),
+            http.apply(new WeiXinAuthenticationSecurityConfigurer(wxMpService, weiXinMpProperties.getAuthentication(),
                     wechatPostAuthenticationHandler));
         }
     }
