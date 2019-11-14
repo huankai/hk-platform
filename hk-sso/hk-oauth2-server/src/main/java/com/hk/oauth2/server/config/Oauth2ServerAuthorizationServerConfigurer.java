@@ -8,6 +8,7 @@ import com.hk.oauth2.provider.ClientDetailsCheckService;
 import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
 import com.hk.oauth2.provider.token.CompositeAuthenticationKeyGenerator;
 import com.hk.oauth2.provider.token.CustomTokenServices;
+import com.hk.oauth2.provider.token.store.CustomRedisTokenStore;
 import com.hk.oauth2.server.enhancer.Oauth2JwtTokenEnhancer;
 import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
 import com.hk.oauth2.server.service.impl.CustomJdbcClientDetailsService;
@@ -35,7 +36,6 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 
 import javax.servlet.http.HttpServletResponse;
@@ -169,7 +169,7 @@ public class Oauth2ServerAuthorizationServerConfigurer extends AuthorizationServ
      */
     private TokenStore tokenStore() {
         //使用 redis store
-        RedisTokenStore tokenStore = new RedisTokenStore(connectionFactory);
+        CustomRedisTokenStore tokenStore = new CustomRedisTokenStore(connectionFactory);
         tokenStore.setAuthenticationKeyGenerator(new CompositeAuthenticationKeyGenerator());
         return tokenStore;
     }

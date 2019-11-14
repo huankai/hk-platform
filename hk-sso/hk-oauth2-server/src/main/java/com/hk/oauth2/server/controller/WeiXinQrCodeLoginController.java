@@ -15,8 +15,8 @@ import java.io.IOException;
  * @date 2018年2月7日下午1:56:15
  */
 @Controller
-@RequestMapping("wechat")
-public class WechatQrCodeLoginController {
+@RequestMapping("wx")
+public class WeiXinQrCodeLoginController {
 
     @Autowired(required = false)
     private WxMpService wxMpService;
@@ -31,7 +31,7 @@ public class WechatQrCodeLoginController {
      * @throws IOException
      */
     @GetMapping(path = "login")
-    public void wechatLogin(HttpServletResponse response) throws IOException {
+    public void weiXinQrCodeLogin(HttpServletResponse response) throws IOException {
         if (weiXinMpProperties.isEnabled() && null != wxMpService) {
             WeiXinMpProperties.Authentication authentication = weiXinMpProperties.getAuthentication();
             final String callbackUrl = String.format("%s%s", authentication.getCallHost(), authentication.getCallbackUrl());

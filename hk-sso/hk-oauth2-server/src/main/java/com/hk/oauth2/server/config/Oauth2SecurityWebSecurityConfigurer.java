@@ -20,6 +20,7 @@ import com.hk.oauth2.http.HttpClient;
 import com.hk.oauth2.logout.DefaultSingleLogoutServiceMessageHandler;
 import com.hk.oauth2.logout.SingleLogoutHandler;
 import com.hk.oauth2.server.service.impl.SSOUserDetailServiceImpl;
+import com.hk.oauth2.server.web.authentication.CustomLoginUrlAuthenticationEntryPoint;
 import com.hk.oauth2.web.authentication.PhoneAuthenticationSuccessHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
@@ -59,7 +60,7 @@ import org.springframework.security.web.authentication.session.SessionFixationPr
 @Configuration
 @EnableWebSecurity
 @EnableConfigurationProperties(value = {WeiXinMpProperties.class, AlipayProperties.class, AuthenticationProperties.class})
-public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter {
+public class Oauth2SecurityWebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     private AuthenticationProperties authenticationProperties;
 
@@ -84,13 +85,13 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
 
     private ApplicationContext applicationContext;
 
-    public Oauth2SecurityWebAutoConfiguration(AuthenticationProperties authenticationProperties,
-                                              AlipayProperties alipayProperties,
-                                              WeiXinMpProperties weiXinMpProperties,
-                                              ObjectProvider<WxMpService> wxMpServices,
-                                              ObjectProvider<AlipayClient> alipayClients,
-                                              ApplicationContext applicationContext,
-                                              @Qualifier("smsValidateCodeProcessor") ObjectProvider<ValidateCodeProcessor> validateCodeProcessors) {
+    public Oauth2SecurityWebSecurityConfigurer(AuthenticationProperties authenticationProperties,
+                                               AlipayProperties alipayProperties,
+                                               WeiXinMpProperties weiXinMpProperties,
+                                               ObjectProvider<WxMpService> wxMpServices,
+                                               ObjectProvider<AlipayClient> alipayClients,
+                                               ApplicationContext applicationContext,
+                                               @Qualifier("smsValidateCodeProcessor") ObjectProvider<ValidateCodeProcessor> validateCodeProcessors) {
         this.authenticationProperties = authenticationProperties;
         this.alipayProperties = alipayProperties;
         this.weiXinMpProperties = weiXinMpProperties;
@@ -239,6 +240,10 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry urlRegistry = http.authorizeRequests()
                 .expressionHandler(new AdminAccessWebSecurityExpressionHandler());
         HttpSecurityUtils.buildPermitMatchers(urlRegistry, login.getPermitMatchers());
+        CustomLoginUrlAuthenticationEntryPoint authenticationEntryPoint = new CustomLoginUrlAuthenticationEntryPoint(login.getLoginUrl());
+        authenticationEntryPoint.setWeiXinMpProperties(weiXinMpProperties);
+        authenticationEntryPoint.setWxMpService(wxMpService);
+        authenticationEntryPoint.setAlipayProperties(alipayProperties);
         http
                 .csrf().disable()
                 .formLogin()
@@ -249,7 +254,8 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 .failureUrl(login.getFailureUrl()) // 登陆失败地址，这个地址 Spring 会自动配置为不需要认证就可以访问
                 .defaultSuccessUrl(login.getLoginSuccessUrl())
                 .and()
-                .rememberMe().disable()//禁用remember-me功能
+                .rememberMe()
+                .disable()//禁用remember-me功能
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .enableSessionUrlRewriting(false)
@@ -259,6 +265,9 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 .expiredUrl(login.getSessionInvalidUrl())
                 .maxSessionsPreventsLogin(login.isMaxSessionsPreventsLogin())
                 .and()
+                .and()
+                .exceptionHandling() //异常处理
+                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .logout()
                 .clearAuthentication(true)
@@ -294,7 +303,7 @@ public class Oauth2SecurityWebAutoConfiguration extends WebSecurityConfigurerAda
                 "/email/register/**",// 邮箱号注册
                 "/error", // 错误页面
                 "/actuator/health",  // 健康检查
-                "/wechat/login", // 微信二维码登陆
+                "/wx/login", // 微信二维码登陆
                 StaticResourceLocation.FAVICON.name()); // ico
     }
 
