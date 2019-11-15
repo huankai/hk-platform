@@ -90,7 +90,7 @@ spring:
         # 网络接口名，如果配置了 ip,则使用 ip
         #        network-interface:
         weight: 1
-        server-addr: 182.61.40.18:8848
+        server-addr: 119.23.31.32:8848
         namespace: d182d859-f466-4708-91cf-014eccf1a398
       ############################################################################ spring cloud stream 配置
       #    stream:
