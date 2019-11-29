@@ -18,5 +18,6 @@
         <module>hk-fs</module>
         <module>hk-platform-business</module>
         <module>hk-quartz-ms</module>
+        <module>hk-pay</module>
     </modules>
 </project>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="off">
+    <properties>
+        <property name="LOG_HOME">${sys:user.home}/logs</property>
+    </properties>
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1.} %M() @%L - %msg%n"/>
+        </Console>
+
+        <RollingFile name="myRollingFile" fileName="${LOG_HOME}/pay-web.log"
+                     filePattern="${LOG_HOME}/$${date:yyyy-MM}/log-%d{yyyy-MM-dd}-%i.log.gz">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %c{1.} %M() @%L - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1GB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!-- OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+        <AsyncRoot level="ERROR">
+            <AppenderRef ref="console"/>
+            <AppenderRef ref="myRollingFile"/>
+        </AsyncRoot>
+        <AsyncLogger name="com.hk.pay" additivity="true" level="DEBUG"/>
+        <AsyncLogger name="org.hibernate.SQL" additivity="true" level="DEBUG"/>
+    </Loggers>
+</Configuration>

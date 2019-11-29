@@ -1,0 +1,80 @@
+server:
+  port: 7200
+  servlet:
+    context-path: /pay
+    session:
+      cookie:
+        http-only: true
+spring:
+  servlet:
+    multipart:
+      enabled: false
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+      - org.springframework.boot.autoconfigure.jdbc.JndiDataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.transaction.jta.JtaAutoConfiguration
+      - org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAutoConfiguration
+      - org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
+      - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
+  mvc:
+    throw-exception-if-no-handler-found: true
+    formcontent:
+      filter:
+        enabled: false
+  resources:
+    add-mappings: true
+  messages:
+    basename: messages,com/hk/core/i18n/messages,org/springframework/security/messages
+    encoding: utf-8
+    cache-duration: -1ms
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+  datasource:
+    name: hikari
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/hk_pay?useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password:
+    hikari:
+      maximum-pool-size: 50
+      max-lifetime: 600000
+      minimum-idle: 10
+      connection-timeout: 30000
+      read-only: false
+      connection-test-query: SELECT 1
+  ################################################################### redis
+  cache:
+    type: redis
+  redis:
+    host: 127.0.0.1
+    password:
+    port: 6379
+    database: 2
+    timeout: 2m
+    lettuce:
+      pool:
+        min-idle: 10
+        max-idle: 20
+        max-active: 1000
+        max-wait: 2m
+######################################################### mybatis 配置
+mybatis:
+  mapper-locations: classpath*:mybatis/mappers/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.log4j2.Log4j2Impl
+######################################################### mybatis pageHelper 配置
+pagehelper:
+  reasonable: false
+  support-methods-arguments: true
+  params: count=countSql
+######################################################### log4j2 配置
+logging:
+  config: 'classpath:log4j2.xml'
