@@ -1,7 +1,6 @@
 package com.hk.oauth2.server.config;
 
 import com.alipay.api.AlipayClient;
-import com.alipay.api.response.AlipayUserInfoShareResponse;
 import com.hk.commons.util.StringUtils;
 import com.hk.core.authentication.api.PostAuthenticationHandler;
 import com.hk.core.authentication.api.UserPrincipal;
@@ -145,7 +144,7 @@ public class Oauth2SecurityWebSecurityConfigurer extends WebSecurityConfigurerAd
      */
     @Autowired(required = false)
     @Qualifier(value = "alipayPostAuthenticationHandler")
-    private PostAuthenticationHandler<UserPrincipal, AlipayUserInfoShareResponse> alipayPostAuthenticationHandler;
+    private PostAuthenticationHandler<UserPrincipal, String> alipayPostAuthenticationHandler;
 
     /**
      * 微信验证处理，当开启了微信认证时，必须注入此 Bean
@@ -221,7 +220,7 @@ public class Oauth2SecurityWebSecurityConfigurer extends WebSecurityConfigurerAd
                 throw new NullPointerException("alipay is enabled ,But alipayClient is null.");
             }
             http.apply(new AlipayAuthenticationSecurityConfigurer(alipayClient, alipayProperties.getCallbackUrl(),
-                    alipayProperties.getState(), alipayPostAuthenticationHandler));
+                    alipayProperties.getState(),alipayProperties.getScope(), alipayPostAuthenticationHandler));
         }
     }
 

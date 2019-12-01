@@ -319,7 +319,7 @@ alipay:
   app-id: ""
   call-host: ""
   callback-url: ""
-  public-key: ""
+  alipay-public-key: ""
   private-key: ""
 ######################################################### logging 配置
 logging:
