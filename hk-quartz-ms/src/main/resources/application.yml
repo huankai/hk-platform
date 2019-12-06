@@ -49,6 +49,6 @@ spring:
 logging:
   level:
     root: error
-    com.hk: debug
+    com.hk.quartz: debug
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace

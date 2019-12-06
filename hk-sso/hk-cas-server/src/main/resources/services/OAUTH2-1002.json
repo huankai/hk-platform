@@ -1,8 +1,0 @@
-{
-  "@class": "org.apereo.cas.support.oauth.services.OAuthRegisteredService",
-  "serviceId": "^(https|http|imaps)://.*",
-  "name": "OAUTH2 service",
-  "id": 1002,
-  "description": "Oauth2 protocols.",
-  "evaluationOrder": 10001
-}

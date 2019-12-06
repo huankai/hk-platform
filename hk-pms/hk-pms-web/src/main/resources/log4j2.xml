@@ -77,7 +77,7 @@
                 它是 子Logger 是否继承 父Logger 的 输出源（appender） 的标志位。具体说，默认情况下子Logger会继承父Logger的appender，也就是说子Logger会在父Logger的appender里输出。
                 若是additivity设为false，则子Logger只会在自己的appender里输出，而不会在父Logger的appender里输出
          -->
-        <Logger name="com.hk" additivity="true" level="INFO"/>
+        <Logger name="com.hk.pms" additivity="true" level="INFO"/>
         <Logger name="org.springframework.security" additivity="true" level="DEBUG"/>
         <Logger name="org.springframework.jdbc.core.JdbcTemplate" additivity="true" level="DEBUG"/>
         <Logger name="org.springframework.jdbc.core.StatementCreatorUtils" additivity="true" level="TRACE"/>

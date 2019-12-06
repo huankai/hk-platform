@@ -5,7 +5,7 @@ import com.hk.core.authentication.api.PostAuthenticationHandler;
 import com.hk.core.authentication.api.UserPrincipal;
 import com.hk.oauth2.server.entity.SysUser;
 import com.hk.oauth2.server.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,11 +16,11 @@ import java.util.Optional;
  * @author huangkai
  * @date 2019-05-11 23:04
  */
+@RequiredArgsConstructor
 @Service(value = "smsPostAuthenticationHandler")
 public class SmsPostAuthenticationHandler implements PostAuthenticationHandler<UserPrincipal, String> {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @Override
     public UserPrincipal handler(String phone) {
@@ -39,7 +39,7 @@ public class SmsPostAuthenticationHandler implements PostAuthenticationHandler<U
         principal.setPhone(phone);
         principal.setAccount(user.getAccount());
         principal.setSex(user.getSex());
-        principal.setDeptId(user.getDeptId());
+//        principal.setDeptId(user.getDeptId());
         principal.setIconPath(user.getIconPath());
         principal.setOrgId(user.getOrgId());
         principal.setUserType(user.getUserType());

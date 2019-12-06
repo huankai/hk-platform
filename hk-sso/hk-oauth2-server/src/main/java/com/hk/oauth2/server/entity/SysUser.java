@@ -20,8 +20,8 @@ import java.time.LocalDate;
 @SuppressWarnings("serial")
 public class SysUser extends AbstractSnowflakeAuditable {
 
-    @Column(name = "dept_id")
-    private Long deptId;
+//    @Column(name = "dept_id")
+//    private Long deptId;
 
     @Column(name = "org_id")
     private Long orgId;
@@ -44,8 +44,8 @@ public class SysUser extends AbstractSnowflakeAuditable {
     @Column(name = "user_type")
     private Byte userType;
 
-    @Column(name = "is_protect")
-    private Boolean isProtect;
+//    @Column(name = "is_protect")
+//    private Boolean isProtect;
 
     @Column(name = "sex")
     private Byte sex;
@@ -59,10 +59,10 @@ public class SysUser extends AbstractSnowflakeAuditable {
     @Column(name = "user_status")
     private Byte userStatus;
 
-    @Column(name = "province_id")
-    private Long provinceId;
-
-    @Column(name = "city_id")
-    private Long cityId;
+//    @Column(name = "province_id")
+//    private Long provinceId;
+//
+//    @Column(name = "city_id")
+//    private Long cityId;
 
 }

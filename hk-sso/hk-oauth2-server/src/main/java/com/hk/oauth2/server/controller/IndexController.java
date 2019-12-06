@@ -1,7 +1,6 @@
 package com.hk.oauth2.server.controller;
 
 import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
-import com.hk.platform.commons.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,7 @@ import java.util.List;
  * @date 2018-08-06 10:38
  */
 @Controller
-public class IndexController extends BaseController {
+public class IndexController /*extends BaseController */{
 
     @Autowired
     private SessionRegistry sessionRegistry;
@@ -30,7 +29,6 @@ public class IndexController extends BaseController {
         List<Object> allPrincipals = sessionRegistry.getAllPrincipals();
         modelMap.put("loginUserCount", allPrincipals.size());
 //        if (getPrincipal().isAdministrator()) {
-////            oauth2cl
 ////            SysApp param = new SysApp();
 ////            param.setAppStatus(ByteConstants.ONE);
 ////            List<SysApp> appList = appService.findAll(param, Order.asc("local_app"),

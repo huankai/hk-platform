@@ -6,7 +6,7 @@ import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.oauth2.server.entity.SysPermission;
 import com.hk.oauth2.server.repository.jpa.SysPermissionRepository;
 import com.hk.oauth2.server.service.SysPermissionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -18,14 +18,10 @@ import java.util.Set;
  * @date 2018-08-03 08:59
  */
 @Service
+@RequiredArgsConstructor
 public class SysPermissionServiceImpl extends JpaServiceImpl<SysPermission, Long> implements SysPermissionService {
 
     private final SysPermissionRepository permissionRepository;
-
-    @Autowired
-    public SysPermissionServiceImpl(SysPermissionRepository permissionRepository) {
-        this.permissionRepository = permissionRepository;
-    }
 
     @Override
     public List<SysPermission> findByAppIdAndRoleIds(Long appId, Set<Long> roleIds) {

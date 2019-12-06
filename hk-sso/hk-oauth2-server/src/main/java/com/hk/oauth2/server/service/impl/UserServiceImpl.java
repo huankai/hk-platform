@@ -6,7 +6,7 @@ import com.hk.core.service.jpa.impl.JpaServiceImpl;
 import com.hk.oauth2.server.entity.SysUser;
 import com.hk.oauth2.server.repository.jpa.UserRepository;
 import com.hk.oauth2.server.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,17 +18,12 @@ import java.util.Optional;
  * @date 2018-07-31 12:54
  */
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl extends JpaServiceImpl<SysUser, Long> implements UserService {
 
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     protected BaseJpaRepository<SysUser, Long> getBaseRepository() {
@@ -66,9 +61,9 @@ public class UserServiceImpl extends JpaServiceImpl<SysUser, Long> implements Us
     @Override
     public SysUser registerUser(SysUser user) {
         return super.insert(user, sysUser -> {
-            if (null == sysUser.getIsProtect()) {
-                sysUser.setIsProtect(false);
-            }
+//            if (null == sysUser.getIsProtect()) {
+//                sysUser.setIsProtect(false);
+//            }
             return sysUser;
         });
     }

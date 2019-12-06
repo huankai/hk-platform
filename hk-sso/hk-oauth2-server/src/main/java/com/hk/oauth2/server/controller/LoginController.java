@@ -1,8 +1,7 @@
 package com.hk.oauth2.server.controller;
 
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
-import com.hk.platform.commons.web.BaseController;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hk.core.autoconfigure.authentication.AuthenticationProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @date 2018年8月6日上午9:28:03
  */
 @Controller
-public class LoginController extends BaseController {
+@RequiredArgsConstructor
+public class LoginController {
 
-    @Autowired
-    private AuthenticationProperties authenticationProperties;
+    private final AuthenticationProperties authenticationProperties;
 
     /**
      * 登陆
@@ -27,9 +26,9 @@ public class LoginController extends BaseController {
      */
     @GetMapping(path = "login")
     public String login(ModelMap modelMap) {
-        if (isAuthenticated()) {
-            return "redirect:/";
-        }
+//        if (isAuthenticated()) {
+//            return "redirect:/";
+//        }
         modelMap.put("smsEnabled", authenticationProperties.getSms().isEnabled());
         return "login";
     }

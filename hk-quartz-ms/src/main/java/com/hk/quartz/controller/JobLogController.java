@@ -3,7 +3,6 @@ package com.hk.quartz.controller;
 import com.hk.commons.JsonResult;
 import com.hk.core.jdbc.query.ConditionQueryModel;
 import com.hk.core.page.QueryPage;
-import com.hk.core.query.QueryModel;
 import com.hk.quartz.entity.QuartzJobLog;
 import com.hk.quartz.service.JobLogService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class JobLogController {
 
     private final JobLogService jobLogService;
 
-    @PostMapping("page")
+    @PostMapping("list")
     public JsonResult<QueryPage<QuartzJobLog>> queryForPage(@RequestBody ConditionQueryModel query) {
         return JsonResult.success(jobLogService.queryForPage(query));
     }

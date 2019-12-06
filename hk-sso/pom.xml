@@ -5,15 +5,14 @@
     <artifactId>hk-sso</artifactId>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>hk-cas-server</module>
-        <module>hk-oauth2-server</module>
-    </modules>
-
     <parent>
         <groupId>com.hk</groupId>
         <artifactId>hk-platform</artifactId>
-        <version>2.1.5.RELEASE</version>
+        <version>2.1.8.RELEASE</version>
     </parent>
+
+    <modules>
+        <module>hk-oauth2-server</module>
+    </modules>
 
 </project>

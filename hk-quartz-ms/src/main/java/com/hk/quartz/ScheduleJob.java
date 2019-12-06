@@ -41,9 +41,9 @@ public class ScheduleJob extends QuartzJobBean {
                 log.info("任务准备执行，任务ID：{}", quartzJob.getId());
                 try {
                     ((TaskExecutor) bean).execute(quartzJob.getParams());
-                    quartzJobLog.setSuccess(true);
+                    quartzJobLog.setIsSuccess(true);
                 } catch (Exception e) {
-                    quartzJobLog.setSuccess(false);
+                    quartzJobLog.setIsSuccess(false);
                     quartzJobLog.setMessage(e.getMessage());
                     log.error("任务执行失败，任务ID：{},异常信息:{}", quartzJob.getId(), e.getMessage());
                     throw e;

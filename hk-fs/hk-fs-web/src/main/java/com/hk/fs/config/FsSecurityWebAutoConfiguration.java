@@ -9,7 +9,7 @@ import com.hk.core.authentication.oauth2.session.SingleSignOutFilter;
 import com.hk.core.authentication.oauth2.session.SingleSignOutHandler;
 import com.hk.core.authentication.security.expression.AdminAccessWebSecurityExpressionHandler;
 import com.hk.core.authentication.security.savedrequest.GateWayHttpSessionRequestCache;
-import com.hk.core.autoconfigure.authentication.security.AuthenticationProperties;
+import com.hk.core.autoconfigure.authentication.AuthenticationProperties;
 import com.hk.core.autoconfigure.authentication.security.HttpSecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
@@ -74,10 +74,11 @@ public class FsSecurityWebAutoConfiguration extends WebSecurityConfigurerAdapter
                 })*/;
         Set<PermitMatcher> permitMatchers = login.getPermitMatchers();
         HttpSecurityUtils.buildPermitMatchers(urlRegistry, permitMatchers);
+        urlRegistry.anyRequest().authenticated();
     }
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/static/**", "/favicon.ico", properties.getDefaultFailureUrl());
+        web.ignoring().antMatchers("/static/**", "/favicon.ico", properties.getOauth2().getOauth2FailureUrl());
     }
 }

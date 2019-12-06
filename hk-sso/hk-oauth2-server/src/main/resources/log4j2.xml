@@ -18,11 +18,11 @@
     </Appenders>
     <Loggers>
         <!-- OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
-        <Root level="ERROR">
+        <AsyncRoot level="ERROR">
             <AppenderRef ref="console"/>
             <AppenderRef ref="myRollingFile"/>
-        </Root>
-        <Logger name="com.hk" additivity="true" level="INFO"/>
-        <Logger name="org.hibernate.SQL" additivity="true" level="DEBUG"/>
+        </AsyncRoot>
+        <AsyncLogger name="com.hk.oauth2.server" additivity="true" level="DEBUG"/>
+        <AsyncLogger name="org.hibernate.SQL" additivity="true" level="DEBUG"/>
     </Loggers>
 </Configuration>

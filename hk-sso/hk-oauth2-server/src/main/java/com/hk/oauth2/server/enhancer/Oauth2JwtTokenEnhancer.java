@@ -1,7 +1,6 @@
 package com.hk.oauth2.server.enhancer;
 
 import com.hk.commons.util.CollectionUtils;
-import com.hk.commons.util.EnumDisplayUtils;
 import com.hk.commons.util.JsonUtils;
 import com.hk.core.authentication.api.ClientAppInfo;
 import com.hk.core.authentication.api.UserPrincipal;
@@ -11,9 +10,8 @@ import com.hk.oauth2.server.entity.SysRole;
 import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
 import com.hk.oauth2.server.service.RoleService;
 import com.hk.oauth2.server.service.SysPermissionService;
-import com.hk.platform.commons.enums.SexEnum;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -31,28 +29,14 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
 
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    private SysPermissionService permissionService;
+    private final SysPermissionService permissionService;
 
-    private Oauth2ClientDetailsService oauth2ClientDetailsService;
-
-    @Autowired
-    public void setRoleService(RoleService roleService) {
-        this.roleService = roleService;
-    }
-
-    @Autowired
-    public void setPermissionService(SysPermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
-
-    @Autowired
-    public void setSysAppService(Oauth2ClientDetailsService oauth2ClientDetailsService) {
-        this.oauth2ClientDetailsService = oauth2ClientDetailsService;
-    }
+    private final Oauth2ClientDetailsService oauth2ClientDetailsService;
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
@@ -67,7 +51,7 @@ public class Oauth2JwtTokenEnhancer implements TokenEnhancer {
         info.put("realName", principal.getRealName());
         info.put("userType", principal.getUserType());
         info.put("sex", principal.getSex());
-        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex()));
+//        info.put("sexChinese", EnumDisplayUtils.getDisplayText(SexEnum.class, principal.getSex()));
 //        if (!sysApp.getLocalApp()) {
 //            Map<String, Object> infoMap = new HashMap<>(additionalInformation);
 //            infoMap.putAll(info);

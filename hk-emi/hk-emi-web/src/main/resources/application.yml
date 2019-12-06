@@ -93,17 +93,7 @@ spring:
         # ip:
         weight: 1
         server-addr: 182.61.40.18:8848
-        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe
-  ########################################################################### spring boot admin 配置
-  boot:
-    admin:
-      client:
-        url: "http://182.61.40.18:8780"
-        username: user
-        password: user#1350
-        instance:
-          prefer-ip: false
-          service-url: "http://127.0.0.1:${server.port}${server.servlet.context-path}"
+        namespace: d182d859-f466-4708-91cf-014eccf1a398
   ########################################################################### zipkin 配置
   zipkin:
     base-url: http://182.61.40.18:9411

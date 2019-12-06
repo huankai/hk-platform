@@ -10,5 +10,5 @@ spring:
         enabled: true
         file-extension: yml
         shared-dataids: nacos-discover-common.yml
-        server-addr: 182.61.40.18:8848
-        namespace: eae427cd-ecb0-49fd-b3f1-999a0d68d2fe
+        server-addr: 119.23.31.32:8848
+        namespace: d182d859-f466-4708-91cf-014eccf1a398

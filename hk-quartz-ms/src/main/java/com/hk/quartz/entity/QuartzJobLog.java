@@ -28,7 +28,7 @@ public class QuartzJobLog extends AbstractSnowflakeIdPersistable {
     /**
      * 是否成功
      */
-    private Boolean success;
+    private Boolean isSuccess;
 
     /**
      * 消息

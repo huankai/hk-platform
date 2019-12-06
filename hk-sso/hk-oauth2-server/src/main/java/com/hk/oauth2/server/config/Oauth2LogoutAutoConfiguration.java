@@ -1,7 +1,7 @@
 package com.hk.oauth2.server.config;
 
+import com.hk.oauth2.AccessTokenRegistry;
 import com.hk.oauth2.InvalidHttpSessionListener;
-import com.hk.oauth2.SessionTokenRegistry;
 import com.hk.oauth2.TokenRegistry;
 import com.hk.oauth2.http.HttpClient;
 import com.hk.oauth2.http.SimpleHttpClientFactoryBean;
@@ -30,7 +30,7 @@ public class Oauth2LogoutAutoConfiguration {
 
     @Bean
     public TokenRegistry tokenRegistry() {
-        return new SessionTokenRegistry();
+        return new AccessTokenRegistry();
     }
 
     @Bean
