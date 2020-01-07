@@ -1,9 +1,9 @@
 package com.hk.oauth2.server.config;
 
 import com.hk.commons.JsonResult;
+import com.hk.core.authentication.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import com.hk.core.web.Webs;
 import com.hk.oauth2.TokenRegistry;
-import com.hk.oauth2.exception.Oauth2DefaultWebResponseExceptionTranslator;
 import com.hk.oauth2.provider.ClientDetailsCheckService;
 import com.hk.oauth2.provider.code.RedisAuthorizationCodeServices;
 import com.hk.oauth2.provider.token.CompositeAuthenticationKeyGenerator;
