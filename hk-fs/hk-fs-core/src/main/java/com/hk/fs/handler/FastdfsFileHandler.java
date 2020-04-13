@@ -44,8 +44,13 @@ public class FastdfsFileHandler implements FileHandler {
     }
 
     @Override
-    public void deleteByPath(String bucketName, String filePath) {
-        appendFileStorageClient.deleteFile(obtainGroupName(bucketName), filePath);
+    public boolean deleteByPath(String bucketName, String filePath) {
+        try {
+            appendFileStorageClient.deleteFile(obtainGroupName(bucketName), filePath);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

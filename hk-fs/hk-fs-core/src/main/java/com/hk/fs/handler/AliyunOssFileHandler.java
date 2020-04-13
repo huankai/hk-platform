@@ -1,6 +1,8 @@
 package com.hk.fs.handler;
 
+import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSSClient;
+import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.OSSObject;
 import com.hk.commons.util.StringUtils;
 import com.hk.fs.domain.AliyunOssBucket;
@@ -51,10 +53,13 @@ public class AliyunOssFileHandler implements FileHandler {
     }
 
     @Override
-    public void deleteByPath(String bucketName, String filePath) {
+    public boolean deleteByPath(String bucketName, String filePath) {
         OSSClient ossClient = aliyunOssBucketService.getOSSClientByBucketName(bucketName);
         try {
             ossClient.deleteObject(obtainBucketName(bucketName), filePath);
+            return true;
+        } catch (OSSException | ClientException e) {
+            return false;
         } finally {
             ossClient.shutdown();
         }

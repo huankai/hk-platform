@@ -41,7 +41,7 @@ public interface FileHandler {
      * @param bucketName bucketName
      * @param filePath   filePath
      */
-    void deleteByPath(String bucketName, String filePath);
+    boolean deleteByPath(String bucketName, String filePath);
 
     /**
      * 获取文件全路径
