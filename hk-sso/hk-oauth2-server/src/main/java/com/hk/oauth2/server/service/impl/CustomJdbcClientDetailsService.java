@@ -1,7 +1,7 @@
 package com.hk.oauth2.server.service.impl;
 
 import com.hk.commons.util.ByteConstants;
-import com.hk.oauth2.exception.Oauth2ClientStatusException;
+import com.hk.core.authentication.oauth2.exception.Oauth2ClientStatusException;
 import com.hk.oauth2.provider.ClientDetailsCheckService;
 import com.hk.oauth2.server.entity.Oauth2ClientDetails;
 import com.hk.oauth2.server.service.Oauth2ClientDetailsService;
